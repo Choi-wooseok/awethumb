@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/websocket   
+    http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+<!-- 	<websocket:handlers> -->
+<!-- 	    <websocket:mapping handler="test01" path="/test01.do" />	handler에 아이디 값이 와야 한다. -->
+<!-- 	    <websocket:mapping handler="test02" path="/test02.do" /> -->
+<!-- 		<websocket:handshake-interceptors> -->
+<!-- 	    	<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" /> -->
+<!-- 	    </websocket:handshake-interceptors> -->
+<!-- 	</websocket:handlers> -->
+	
+<!-- 	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean"> -->
+<!--         <property name="maxTextMessageBufferSize" value="8192"/> -->
+<!--         <property name="maxBinaryMessageBufferSize" value="819200"/> -->
+<!--     </bean> -->
+</beans>

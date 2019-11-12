@@ -25,11 +25,20 @@ hs_err_pid*
 ### Java-Web ###
 ## ignoring target file
 target/
+log/
 
 .project
 
 .classpath
 
+Servers/
+
+
+
 .settings/
 
 .history/
+
+/.metadata/
+/.recommenders/
+

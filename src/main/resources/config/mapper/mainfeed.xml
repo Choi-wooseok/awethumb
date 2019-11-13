@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awethumb.repository.dao.MainFeedDAO">
+<!-- post_no -->
+<!-- project_no -->
+<!-- post_content -->
+<!-- x_coord -->
+<!-- y_coord -->
+<!-- width -->
+<!-- hight -->
+<!-- post_public_enabled -->
+<!-- hashtag_no -->
+	<select id="selectMainFeed" resultType="Board">
+		select b.*, u.user_nickname
+		  from board_tb b
+		 inner join project_tb p
+		    on b.project_no = p.project_no
+		 inner join user_tb u
+		    on u.user_no = p.user_no
+		 order by b.post_no desc
+	</select>
+<!-- 	<select id="selectOneMainFeed" parameterType="int" resultType="MainFeed"> -->
+<!-- 		select * -->
+<!-- 		  from board_tb -->
+<!-- 		 where no = #{no}  -->
+<!-- 	</select> -->
+<!-- 	<insert id="insertMainFeed" parameterType="MainFeed"> -->
+<!-- 		insert into board_tb ( -->
+<!-- 			no, title, writer, content -->
+<!-- 		) values ( -->
+<!-- 			seq_MainFeed_no.nextval, #{title}, #{writer}, #{content} -->
+<!-- 		) -->
+<!-- 	</insert> -->
+<!-- 	<update id="updateViewCnt" parameterType="int"> -->
+<!-- 		update board_tb  -->
+<!-- 		   set view_cnt = view_cnt + 1 -->
+<!-- 		 where no = #{no} -->
+<!-- 	</update> -->
+<!-- 	<update id="updateMainFeed" parameterType="MainFeed"> -->
+<!-- 		update board_tb  -->
+<!-- 		   set title = #{title},  -->
+<!-- 		       content = #{content} -->
+<!-- 		 where no = #{no} -->
+<!-- 	</update> -->
+<!-- 	<delete id="deleteMainFeed" parameterType="int"> -->
+<!-- 		delete  -->
+<!-- 		  from board_tb  -->
+<!-- 		 where no = #{no} -->
+<!-- 	</delete> -->
+	
+ 	<!-- 댓글 파트 ============================================= --> 
+<!-- 	<select id="selectComment" parameterType="int" resultType="Comment"> -->
+<!-- 	    select * -->
+<!-- 	      from tb_comment -->
+<!-- 	     where no = #{no} -->
+<!-- 	     order by comment_no  -->
+<!-- 	</select>	 -->
+	
+<!-- 	<insert id="insertComment" parameterType="Comment"> -->
+<!-- 		insert into tb_comment( -->
+<!-- 			comment_no, no, writer, content -->
+<!-- 		) values ( -->
+<!-- 			comment_no_seq.nextVal, #{no}, #{writer}, #{content} -->
+<!-- 		) -->
+<!-- 	</insert>	 -->
+			
+<!-- 	<delete id="deleteComment" parameterType="int"> -->
+<!-- 	    delete  -->
+<!-- 	      from tb_comment -->
+<!-- 	     where comment_no = #{commentNo} -->
+<!-- 	</delete>	 -->
+	
+<!-- 	<update id="updateComment" parameterType="comment"> -->
+<!-- 	    update tb_comment -->
+<!-- 	       set content = #{content} -->
+<!-- 	     where comment_no = #{commentNo} -->
+<!-- 	</update> -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

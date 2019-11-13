@@ -16,5 +16,4 @@ public class UserServiceImpl implements UserService {
 	public UserVO getUser(String userId) {
 		return dao.selectUser(userId);
 	}
-	
 }

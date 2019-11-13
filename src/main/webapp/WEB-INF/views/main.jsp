@@ -10,5 +10,6 @@
 <body>
 <h2>hi</h2>
 <a href=" <c:url value="user.do"/> ">유저</a>
+<a href=" <c:url value="/admin/adminMain.do" /> ">관리자메인</a>
 </body>
 </html>

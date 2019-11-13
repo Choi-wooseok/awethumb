@@ -1,0 +1,16 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+h1 { text-align:center; margin-top:150px;}
+
+.msrItems {
+    background: #f7f7f7;
+    margin:30px auto;
+    max-width:960px;
+}
+.msrItem {
+    border-radius:5px
+}

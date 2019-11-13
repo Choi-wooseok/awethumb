@@ -1,7 +1,7 @@
 package com.awethumb.user.service;
 
-import com.awethumb.repository.vo.User;
+import com.awethumb.repository.vo.UserVO;
 
 public interface UserService {
-	public User getUser();
+	UserVO getUser(String userId);
 }

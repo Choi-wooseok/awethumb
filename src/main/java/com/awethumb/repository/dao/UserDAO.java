@@ -1,7 +1,7 @@
 package com.awethumb.repository.dao;
 
-import com.awethumb.repository.vo.User;
+import com.awethumb.repository.vo.UserVO;
 
 public interface UserDAO {
-	public User selectUser();
+	UserVO selectUser(String userId);
 }

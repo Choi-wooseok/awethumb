@@ -25,9 +25,12 @@
 	    	</bean> 
     	</mvc:message-converters>
     </mvc:annotation-driven>
-    <mvc:resources location="/WEB-INF/css/" mapping="/css/**" />
-    <mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
-    <mvc:resources location="/WEB-INF/images/" mapping="/images/**" />
+    
+   <!-- WEB의 정적 파일등의 페이지 처리 위해 사용  -->
+   <mvc:default-servlet-handler />
+    <mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**" />
+    <mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**" />
+    <mvc:resources location="/WEB-INF/resources/images/" mapping="/images/**" />
     <!-- 인증처리 인터셉터 -->
 <!--     <mvc:interceptors> -->
 <!--     	<mvc:interceptor> -->
@@ -40,8 +43,7 @@
     
     
     
-    <!-- WEB의 정적 파일등의 페이지 처리 위해 사용  -->
-    <mvc:default-servlet-handler/>
+   
                            
     <!-- jsp 페이지로 이동 시 참고 -->
     <mvc:view-resolvers>

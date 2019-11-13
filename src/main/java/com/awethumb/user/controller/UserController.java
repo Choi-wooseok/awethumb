@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.awethumb.repository.vo.UserVO;
 import com.awethumb.user.service.UserService;
 
 @Controller
@@ -14,8 +15,8 @@ public class UserController {
 	UserService service;
 	
 	@RequestMapping("/user.do")
-	public void user(Model model) {
-		model.addAttribute("user", service.getUser());
+	public void user(Model model, UserVO user) {
+		model.addAttribute("user", service.getUser(user.getUserId()));
 	}
 	
 }

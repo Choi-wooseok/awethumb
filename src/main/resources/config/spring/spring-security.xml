@@ -15,24 +15,24 @@
 
 	
 
-<!-- 	<bean id="bcryptPasswordEncoder"  -->
-<!-- 		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
+	<bean id="bcryptPasswordEncoder" 
+		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	  
-<!-- 	<security:http>  -->
-<!-- 		<security:csrf disabled="true" /> -->
+	<security:http> 
+		<security:csrf disabled="true" />
 <!-- 		<security:intercept-url pattern="/security/all.do" access="permitAll" /> -->
 <!-- 		<security:intercept-url pattern="/security/user.do" access="hasRole('ROLE_U')" /> -->
-<!-- 		<security:intercept-url pattern="/security/admin.do" access="hasRole('ROLE_S')" /> -->
-<!-- 		<security:form-login login-page="/security/login-form.do" username-parameter="userId"  -->
-<!-- 		                     authentication-success-handler-ref="loginSuccessHandler" /> -->
-<!-- 		<security:logout logout-url="/security/logout.do"  -->
-<!-- 						 logout-success-url="/security/main.do" -->
-<!-- 		                 invalidate-session="true"  -->
-<!-- 		                 delete-cookies="JSESSIONID" /> -->
-<!-- 	</security:http>					 -->
-<!-- 	<security:authentication-manager> -->
-<!-- 		<security:authentication-provider user-service-ref="myBatisUserDetailsService"> -->
-<!-- 			<security:password-encoder ref="bcryptPasswordEncoder" /> -->
-<!-- 		</security:authentication-provider> -->
-<!-- 	</security:authentication-manager> -->
+		<security:intercept-url pattern="/security/admin.do" access="hasRole('ROLE_S')" />
+		<security:form-login login-page="/security/login-form.do" username-parameter="userId" 
+		                     authentication-success-handler-ref="loginSuccessHandler" />
+		<security:logout logout-url="/security/logout.do" 
+						 logout-success-url="/main.do"
+		                 invalidate-session="true" 
+		                 delete-cookies="JSESSIONID" />
+	</security:http>					
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="myBatisUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans>

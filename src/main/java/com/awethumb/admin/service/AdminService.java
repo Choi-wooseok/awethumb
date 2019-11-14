@@ -7,4 +7,5 @@ import com.awethumb.repository.vo.Report;
 public interface AdminService {
 
 	public List<Report> getReport();
+	
 }

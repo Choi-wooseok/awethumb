@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/security 
-						http://www.springframework.org/schema/security/spring-security.xsd
-						http://www.springframework.org/schema/context
-						http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/beans 
-						http://www.springframework.org/schema/beans/spring-beans.xsd">
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:security="http://www.springframework.org/schema/security"
+		xsi:schemaLocation="http://www.springframework.org/schema/security 
+							http://www.springframework.org/schema/security/spring-security.xsd
+							http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	
-
 	
 
 	<bean id="bcryptPasswordEncoder" 
 		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	  
+
+	<bean id="loginSuccessHandler" class="com.awethumb.security.LoginSuccessHandler" />	  
+	
+	<bean id="myBatisUserDetailsService" class="com.awethumb.security.MyBatisUserDetailsService" />	  
 	<security:http> 
 		<security:csrf disabled="true" />
-<!-- 		<security:intercept-url pattern="/security/all.do" access="permitAll" /> -->
+<!-- 		<security:intercept-url pattern="/**" access="permitAll" /> -->
 <!-- 		<security:intercept-url pattern="/security/user.do" access="hasRole('ROLE_U')" /> -->
-		<security:intercept-url pattern="/security/admin.do" access="hasRole('ROLE_S')" />
-		<security:form-login login-page="/security/login-form.do" username-parameter="userId" 
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_A')" />
+		<security:form-login login-page="/user/login_main.do" username-parameter="userId" 
+							 password-parameter="userPass"  
 		                     authentication-success-handler-ref="loginSuccessHandler" />
-		<security:logout logout-url="/security/logout.do" 
-						 logout-success-url="/main.do"
+		<security:logout logout-url="/user/logout.do" 
+						 logout-success-url="/login_main.do"
 		                 invalidate-session="true" 
 		                 delete-cookies="JSESSIONID" />
 	</security:http>					

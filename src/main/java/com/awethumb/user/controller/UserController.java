@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.user.service.UserService;
 
-@Controller
+@Controller("com.awethumb.user.controller.UserController")
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	UserService service;
 	
-	@RequestMapping("/user.do")
-	public void user(Model model, UserVO user) {
-		model.addAttribute("user", service.getUser(user.getUserId()));
-	}
+	@RequestMapping("/login_main.do")
+	public void loginMain() {}
+	
+
 	
 }

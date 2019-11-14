@@ -12,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-@Component("loginSuccessHandler")
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
@@ -22,9 +21,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		Collection<? extends GrantedAuthority> list = authentication.getAuthorities();
 		for (GrantedAuthority auth : list) {
 			System.out.println(auth.getAuthority());
+			if ("ROLE_A".equals(auth.getAuthority())) {
+				response.sendRedirect(request.getContextPath() + "/admin/adminMain.do");
+				return;
+			}
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/main.do");
+		response.sendRedirect(request.getContextPath() + "/feed/feed.do");
 	}
 
 }

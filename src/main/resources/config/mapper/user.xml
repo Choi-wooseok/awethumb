@@ -2,11 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.UserDAO">
+<resultMap type="UserVO" id="userMap">
+	<id property="userId" column="user_id" />
+	<result property="userNo" column="user_no" />
+	<result property="userId" column="user_id" />
+	<result property="userPass" column="user_pass" />
+	<result property="userNickname" column="user_nickname" />
+	<result property="categoryList" column="category_list" />
+	<collection property="authList" resultMap="authMap" />
+	
+</resultMap>
 
-<select id="selectUser" resultType="UserVO">
-	select *
-	  from user_tb
-	 where id = 'han'
+<resultMap type="Auth" id="authMap">
+	<result property="userId" column="user_id" />
+	<result property="authType" column="auth_type" />
+</resultMap>
+
+<select id="selectUser" resultMap="userMap" parameterType="string" flushCache="true" useCache="true">
+	SELECT mem.user_id, user_pass, user_nickname, user_name, category_list, auth_type
+		  FROM user_tb mem LEFT OUTER JOIN auth_tb auth 
+		                            on mem.user_id = auth.user_id
+		 WHERE mem.user_id = #{userId}
+	
 </select>
     
 </mapper>

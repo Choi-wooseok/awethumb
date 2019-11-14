@@ -19,7 +19,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("feed.do")
 	public void feedKong(Model model) {
 		model.addAttribute("list", service.selectFeedBoard());
-		int a = 2; // 더미
+		int a = 1; // 더미
 		model.addAttribute("clist", service.selectFeedBoardComment(a));
 		
 		int aa = 3; // 더미

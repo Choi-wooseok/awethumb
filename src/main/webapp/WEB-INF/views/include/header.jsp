@@ -1,0 +1,34 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<header>
+    <div>
+        <div class="layout_left">
+            <a href="#" class="title"><span>AweThumb</span></a>  
+            <span class="search">
+                <form action="">
+                    <input id="search" type="text" />
+                    <label for="search"><i class="fas fa-search"></i></label>
+                </form>
+            </span>   
+        </div>
+
+        <div class="layout_right">
+            <span class="user layout_left">
+                <img src="/images/test_user.jpg" alt="">
+            </span>
+            <a href="#">공찬희</a>
+
+            <div class="optBtn">
+                <button>
+                    <i class="far fa-user"></i>
+                </button>
+                <button>
+                    <i class="far fa-compass"></i>
+                </button>
+                <button>
+                    <i class="far fa-bell"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>

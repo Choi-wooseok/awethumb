@@ -10,8 +10,5 @@ public class MainController {
 	
 	@RequestMapping("/main.do")
 	public void main() {}
-	@RequestMapping("/test/login_main.do")
-	public String login_main() {
-		return "login_main";
-	}
+	
 }

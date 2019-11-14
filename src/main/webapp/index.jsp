@@ -8,7 +8,7 @@
 </head>
 <body>
 <script>
-	location.href="${pageContext.request.contextPath}/main.do";
+	location.href="${pageContext.request.contextPath}/mainfeed/mainfeed.do";
 </script>
 </body>
 </html>

@@ -11,13 +11,15 @@
 <!-- hight -->
 <!-- post_public_enabled -->
 <!-- hashtag_no -->
-	<select id="selectMainFeed" resultType="Board">
-		select b.*, u.user_nickname
+	<select id="selectMainFeed" resultType="MainFeed">
+		select b.*, u.user_nickname, h.hashtag_content
 		  from board_tb b
 		 inner join project_tb p
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
+		  left outer join hashtag_tb h
+		 	on b.post_no = h.post_no
 		 order by b.post_no desc
 	</select>
 <!-- 	<select id="selectOneMainFeed" parameterType="int" resultType="MainFeed"> -->
@@ -50,13 +52,18 @@
 <!-- 	</delete> -->
 	
  	<!-- 댓글 파트 ============================================= --> 
-<!-- 	<select id="selectComment" parameterType="int" resultType="Comment"> -->
-<!-- 	    select * -->
-<!-- 	      from tb_comment -->
-<!-- 	     where no = #{no} -->
-<!-- 	     order by comment_no  -->
-<!-- 	</select>	 -->
+	<select id="selectComment" parameterType="int" resultType="Comment">
+	    select *
+	      from comment_tb
+	     where post_no = #{postNo}
+	     order by cmt_no 
+	</select>	
 	
+	<select id="commentCount" parameterType="int" resultType="int">
+		select count(*)
+		  from comment_tb
+		 where post_no = #{postNo}
+	</select>
 <!-- 	<insert id="insertComment" parameterType="Comment"> -->
 <!-- 		insert into tb_comment( -->
 <!-- 			comment_no, no, writer, content -->

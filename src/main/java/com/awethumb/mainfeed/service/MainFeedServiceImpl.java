@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.MainFeedDAO;
 import com.awethumb.repository.vo.Board;
+import com.awethumb.repository.vo.Comment;
 
 @Service
 public class MainFeedServiceImpl implements MainFeedService {
@@ -16,6 +17,14 @@ public class MainFeedServiceImpl implements MainFeedService {
 	
 	public List<Board> listMainFeed() {
 		return dao.selectMainFeed();
+	}
+	
+	public List<Comment> listComment(int postNo) {
+		return dao.selectComment(postNo);
+	}
+	
+	public int commentCount(int postNo) {
+		return dao.commentCount(postNo);
 	}
 	
 //	public Board detailBoard(int no) {
@@ -52,10 +61,6 @@ public class MainFeedServiceImpl implements MainFeedService {
 //	public List<Comment> commentUpdate(Comment comment) {
 //		dao.updateComment(comment);
 //		return dao.selectComment(comment.getNo());
-//	}
-//	
-//	public List<Comment> commentList(int no) {
-//		return dao.selectComment(no);
 //	}
 
 }

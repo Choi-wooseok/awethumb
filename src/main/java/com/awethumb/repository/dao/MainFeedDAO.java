@@ -12,6 +12,7 @@ package com.awethumb.repository.dao;
 import java.util.List;
 
 import com.awethumb.repository.vo.Board;
+import com.awethumb.repository.vo.Comment;
 
 public interface MainFeedDAO {
 	List<Board> selectMainFeed();
@@ -22,7 +23,8 @@ public interface MainFeedDAO {
 //	int deleteBoard(int no);
 	
 	/* 댓글 파트 시작 ========================================= */
-//	List<Comment> selectComment(int no);
+	List<Comment> selectComment(int postNo);
+	int commentCount(int postNo);
 //	void insertComment(Comment comment);
 //	void deleteComment(int commentNo);
 //	void updateComment(Comment comment);

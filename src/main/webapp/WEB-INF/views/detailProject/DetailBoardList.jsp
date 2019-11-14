@@ -1,34 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    
-    <!-- metaTag.html Include 이후 -->
-    <!-- basic Css 삭제 -->
-    <!-- jquery 삭제 -->
-    <!-- web Font 삭제 -->
-    <!-- font icon 삭제 -->
-
-    <!-- Basic Css -->
-    <link rel="stylesheet" href="./../css/reset.css">
-    <link rel="stylesheet" type="text/css" media="screen and (min-width:1281px)" href="./../css/pc.css">
-    <link rel="stylesheet" type="text/css" media="screen and (min-width:768px) and (max-width:1280px)" href="/css/tablet.css">
-    <link rel="stylesheet" type="text/css" media="screen and (max-width:767px)" href="/css/mobile.css">
-    <link rel="stylesheet" href="./../css/common.css">
-    <!-- Jquery -->
-    <script type="text/javascript" src="./../js/jquery.js"></script>
-    <!-- web font -->
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <!-- font icon -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" 
-        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    
+    <%@ include file="/WEB-INF/views/include/cssScript.jsp"%>  
         
     <!-- grid Css -->
-    <link rel="stylesheet" href="./../js/grid/gridstack.css">
-    <link rel="stylesheet" href="./../css/test.css">
+    <link rel="stylesheet" href="<c:url value='/js/grid/gridstack.css' /> ">
 
     <!-- summernote Plugin -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.css" rel="stylesheet">
@@ -233,6 +215,9 @@
             $(".optionF").removeClass("block");
         })      
     </script>
+
+</body>
+</html>
 
 </body>
 </html>

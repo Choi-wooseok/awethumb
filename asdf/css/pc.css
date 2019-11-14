@@ -76,7 +76,7 @@ header > div > div:nth-child(2) {
 }
 .user > img {
     position: relative;
-    top: -1px;
+    top:-1px;
     width: 100%;
     height: 100%;
 }
@@ -91,7 +91,6 @@ header > div > div:nth-child(2) {
 }
 .optBtn > button {
     margin: 0 3px;
-    padding: 10px;
     border: none;
     background-color: transparent;
     color: #666;
@@ -105,7 +104,7 @@ header > div > div:nth-child(2) {
 } 
 .options {
     width: 1090px;
-    line-height: 65px;
+    height: 65px;
     box-sizing: border-box;
     padding: 0 10px;
     overflow: hidden;
@@ -142,7 +141,6 @@ section#index {
     background-image: url("./../images/main_bg.jpg");
     background-position: center;
     background-size: cover;
-    /* filter: blur(4px); */
 }
 .login {
     position: absolute;
@@ -302,6 +300,10 @@ section#mypage {
 /* -------------------------------- */
 /* mypageDetail Css */
 /* -------------------------------- */
+.min_layout {
+    background-color: black;
+}
+
 .bgWrap {
     width: 100%;
     height: 100%;
@@ -323,7 +325,132 @@ section > div.content {
     box-sizing: border-box;
     padding: 95px 0 35px 0;
 }
+.modalInsertWrap {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #00000085;
+}
+.modalInsertWrap > form {
+    width: 100%;
+    height: 100%;
+ }
+.insertFormWrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%); 
+    background-color: #fff;
+    border-radius: 4px;
+}
+.block {
+    display: block !important;
+}
+.insertTitle {
+    line-height: 45px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    border-bottom: 2px solid #6dd5bc;
+    font-weight: 900;
+}
+.insertTitle > button {
+    border: none;
+    background-color: transparent;
+    float: right;
+    width: 45px;
+    height: 45px;
+}
+.insertCont {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+}
+.insertCont label {
+    display: block;
+    margin-bottom: 8px;
+}
+.insertCont input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 5px 8px;
+    box-sizing: border-box;
+}
+.note-view,
+.note-statusbar {
+    display: none !important;
+}
+.btnWrap {
+    width: 100%;
+    text-align: center;
+}
+#okBtn {
+    border: none;
+    /* border: 1px solid #a9a9a9; */
+    background-color: transparent;
+    width: 120px;
+    height: 35px;
+    margin-bottom: 15px;
+}
+#okBtn:hover {
+    border: 1px solid #6dd5bc;
+    background-color: #6dd5bc;
+}
+.optionModalBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    display: none;
+}
+.grid-stack-item-content:hover .optionModalBtn {
+    display: block;
+}
 
+.optionModalWrap {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000085;
+    z-index:100;
+    display: none;
+}
+
+.optionModalWrap > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);
+    width: 360px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.optionModalWrap > div > div {
+    width: 100%;
+    line-height: 48px;
+    border-bottom: 1px solid #a9a9a9;
+    text-align: center;
+    font-size: 14px;
+}
+.optionModalWrap > div > div:hover {
+    background-color: #6dd5bc;
+}
+.report {
+    color: red;
+}
+.followcancel {
+    color:
+}
 
 /* -------------------------------- */
 /* myProject Css */

@@ -5,7 +5,8 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+   <%@ include file="/WEB-INF/views/include/adminInclude.jsp" %>
+<%--   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="Dashboard">
@@ -25,8 +26,7 @@
   <!-- Custom styles for this template -->
   <link href="<c:url value='/admin/css/style.css'/>" rel="stylesheet">
   <link href="<c:url value='/admin/css/style-responsive.css' />" rel="stylesheet">
-  <script src="<c:url value='/admin/lib/chart-master/Chart.js'/>"></script>
-
+  <script src="<c:url value='/admin/lib/chart-master/Chart.js'/>"></script> --%>
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -261,6 +261,17 @@
               <span>대시보드</span>
               </a>
           </li>
+          <!-- 신고,회원관련 메뉴 -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>회원 관리</span>
+              </a>
+            <ul class="sub">
+              <li><a href="<c:url value='/admin/reportList.do'/>">불량회원 신고현황</a></li>
+              <li><a href="buttons.html">회원 관리</a></li>
+            </ul>
+          </li>         
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-desktop"></i>

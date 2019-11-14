@@ -8,4 +8,9 @@ public class AdminController {
 	
 	@RequestMapping("/adminMain.do")
 	public void adminMain() {};
+	
+	@RequestMapping("/reportList.do")
+	public void reportList() {};
+	
+	
 }

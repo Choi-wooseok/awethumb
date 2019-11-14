@@ -2,10 +2,10 @@ package com.awethumb.feed.service;
 
 import java.util.List;
 
-import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.feedBoard;
 
 public interface feedService {
-	List<Board> selectFeedBoard();
+	List<feedBoard> selectFeedBoard();
 	List<Comment> selectFeedBoardComment(int postNo);
 }

@@ -91,13 +91,13 @@
 						</div>
 						<div>
 							<span>userName</span>
-							<button type="button" id="myBoard">
+							<button type="button" class="myBoard">
 								<i class="fas fa-ellipsis-h"></i>
 							</button>
 						</div>
 					</div>
 
-					<!-- 이미지 없을 경우 해당 div 삭제 -->
+					이미지 없을 경우 해당 div 삭제
 					<div id="feedImgWrap">
 						<img id="feedImg" src="./../images/test_img1.jpg" alt="">
 						<div class="hoverWrap">
@@ -113,7 +113,7 @@
 					<div class="feedPlay">
 						<div>
 
-							<!-- 댓글 반복 -->
+							댓글 반복
 							<div class="commentList">
 								<div class="commentUserImg">
 									<img src="./../images/test_user.jpg" alt="">
@@ -136,15 +136,15 @@
 					</div>
 				</div>
 				
-				<c:forEach var="list" items="${list}">
+				<c:forEach var="bl" items="${boardlist}">
 				<div class="feedList">
 					<div class="feedInfo">
 						<div class="feedUserImg">
 							<img src="./../images/test_user.jpg" alt="">
 						</div>
 						<div>
-							<span>userName</span>
-							<button type="button" id="myBoard">
+							<span>${bl.userNickName}</span>
+							<button type="button" class="myBoard">
 								<i class="fas fa-ellipsis-h"></i>
 							</button>
 						</div>
@@ -155,7 +155,7 @@
 						<div class="hoverWrap">
 							<div>
 								<button class="like">
-									<i class="far fa-heart"></i> <span>4</span>
+									<i class="far fa-heart"></i><span>4</span>
 								</button>
 							</div>
 						</div>
@@ -164,7 +164,7 @@
 					<!--  이미지없고 텍스트만 -->
 					<div class="feedText">
 						<div>
-							게시판 내용 : ${list.postContent}
+							게시판 내용 : ${bl.postContent}
 						</div>
 					</div>
 					<div class="feedPlay">
@@ -172,12 +172,13 @@
 							<!-- 댓글 반복 -->
 							<c:forEach var="c" items="${clist}">
 								<div class="commentList">
-									<c:if test="${c.postNo eq list.postNo}">
+									<c:if test="${c.postNo eq bl.postNo}">
 										<div class="commentList">
 											<div class="commentUserImg">
 												<img src="./../images/test_user.jpg" alt="">
 											</div>
-											<div class="commentWrap">${c.cmtContent}</div>
+											<div class="commentWrap">${c.cmtContent}
+											작성일자 : ${c.cmtRegDt}</div>
 										</div>
 									</c:if>
 								</div>
@@ -191,6 +192,21 @@
 				</div>
 				</c:forEach>
 			</div>
+				<!-- boardModal -->
+				<div id="modalBoard" class="board">
+					<!-- boardModal content -->
+					<div class="board-modal">
+						<h4>
+							<button id="report" type="button">
+								신 고<i class="fas fa-angry"></i>
+							</button>
+						</h4>
+						<h4>
+							<a href="bb.html"><button id="share">퍼가기</button></a>
+						</h4>
+						<h4 class="boardClose">취 소</h4>
+					</div>
+				</div>
 
 			<div class="feedSide">
 				<div>최신 글 등록</div>
@@ -301,21 +317,7 @@
 			</div>
 
 		</div>
-		<!-- boardModal -->
-		<div id="modalBoard" class="board">
-			<!-- boardModal content -->
-			<div class="board-modal">
-				<h4>
-					<button id="report" type="button">
-						신 고<i class="fas fa-angry"></i>
-					</button>
-				</h4>
-				<h4>
-					<a href="bb.html"><button id="share">퍼가기</button></a>
-				</h4>
-				<h4 class="boardClose">취 소</h4>
-			</div>
-		</div>
+		
 	</section>
 
 	<script src="<c:url value="/js/feed.js" />"></script>

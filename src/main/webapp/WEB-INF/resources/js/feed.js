@@ -23,20 +23,13 @@ $(document).ready(function() {
 	}
 })
 
-let boardModal = document.getElementById('modalBoard');
-let btn = document.getElementById("myBoard");
-let bc = document.getElementsByClassName("boardClose")[0];
-btn.onclick = function() {
-	boardModal.style.display = "block";
-}
-bc.onclick = function() {
-	boardModal.style.display = "none";
-}
-window.onclick = function(e) {
-	if (e.target == boardModal) {
-		boardModal.style.display = "none";
-	}
-}
+$(".myBoard").click(() => {
+    $("#modalBoard").css("display","block");
+});
+$(".boardClose").click(() => {
+    $("#modalBoard").css("display","none");
+    // $("#modalBoard").addClass("aaaa");
+});
 
 
 

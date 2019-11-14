@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.mainfeed.service.MainFeedService;
+import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 
 @Controller("com.awethumb.mainfeed.controller.mainfeed")
@@ -18,8 +20,13 @@ public class MainFeedController {
 	private MainFeedService service;
 	
 	@RequestMapping("/mainfeed.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
-	public void mainFeedList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
-		model.addAttribute("list", service.listMainFeed());
+	public void mainFeed() {
+		
+	}
+	@RequestMapping("/mainfeedList.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
+	@ResponseBody
+	public List<Board> mainFeedList(@RequestParam(value="pageNo", defaultValue="1") int pageNo) {
+		return service.listMainFeed();
 	}
 	
 //	@RequestMapping("/comment_list.do")

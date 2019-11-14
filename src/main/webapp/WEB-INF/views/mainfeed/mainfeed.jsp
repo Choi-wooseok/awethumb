@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="./../css/mainfeed.css">
 <!-- Jquery -->
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/MainFeed.js"></script>
+
 <script
 	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <!-- web font -->
@@ -41,290 +41,23 @@
 	crossorigin="anonymous">
 
 <!-- grid -->
-<script src="./../js/brick/brick.min.js"></script>
-<link rel="stylesheet" href="./../js/brick/brick.css">
+<script src="<c:url value='/js/brick/brick.min.js' />"></script>
+<link rel="stylesheet" href="<c:url value='/js/brick/brick.css' />">
 
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 	<section id="feeds">
-	<a href="#" id="mainfeed-scroll" style="display: none;"><span></span></a>
-		<div class="feedsWrap msrItems">
+		<a href="#" id="mainfeed-scroll" style="display: none;"><span></span></a>
+		<div class="feedsWrap msrItems" id="feedsWrap">
 			<!-- 반복 -->
-			<div class="feedsList msrItem">
-				<div>
-					<div class="feedsInfo">
-						<div class="feedUserImg">
-							<img src="./../images/test_user.jpg" alt="">
-						</div>
-						<div>
-							<c:forEach var="list" items="${list}">
-								<a href="#">${list.userNickname}</a>
-							</c:forEach>
-							<button type="button">
-								<i class="fas fa-ellipsis-h"></i>
-							</button>
-						</div>
-					</div>
-
-					<!-- 이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-					<div class="feedsImgWrap">
-						<a href="#"> <img src="./../images/main_bg.jpg" alt="">
-						</a>
-					</div>
-
-					<div class="feedsPlay">
-					<c:forEach var="list" items="${list}">
-						<div class="feedsContWrap">${list.postContent}</div>
-						<div class="hashTag">
-							<a href="#">${list.hashtagContent}</a>
-						</div>
-					</c:forEach>
-						<div class="playInfo">
-							댓글 <span>100</span>개
-							<button>
-								<i class="far fa-heart"></i> <span>10</span>
-							</button>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<!-- 여기까지 반복 -->
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_user.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img1.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_user.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img4.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_user.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-
-<!-- 			<div class="feedsList msrItem"> -->
-<!-- 				<div> -->
-<!-- 					<div class="feedsInfo"> -->
-<!-- 						<div class="feedUserImg"> -->
-<!-- 							<img src="./../images/test_user.jpg" alt=""> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="#">userName</a> -->
-<!-- 							<button type="button"> -->
-<!-- 								<i class="fas fa-ellipsis-h"></i> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					이미지가 있다면 해당 div가 유지, 없으면 안보이게 -->
-<!-- 					<div class="feedsImgWrap"> -->
-<!-- 						<a href="#"> <img src="./../images/test_img3.jpg" alt=""> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="feedsPlay"> -->
-<!-- 						<div class="feedsContWrap">눈꽃육회 먹으러 갑시다 !!!</div> -->
-<!-- 						<div class="hashTag"> -->
-<!-- 							<a href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> <a -->
-<!-- 								href="#">#가필드</a> <a href="#">#가필드</a> <a href="#">#가필드</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="playInfo"> -->
-<!-- 							댓글 <span>100</span>개 -->
-<!-- 							<button> -->
-<!-- 								<i class="far fa-heart"></i> <span>10</span> -->
-<!-- 							</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 				</div> -->
-<!-- 			</div> -->
 		</div>
+		<!-- 여기까지 반복 -->
 	</section>
 
 	<script>
+	let pageContextURI = '${pageContext.request.contextPath}';
 		//init
 		$('.msrItems').msrItems({
 			'colums' : 3, //columns number
@@ -340,6 +73,6 @@
 			clearTimeout(time);
 		})
 	</script>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
 </body>
 </html>

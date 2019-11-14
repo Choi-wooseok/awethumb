@@ -25,7 +25,7 @@
 							 password-parameter="userPass"  
 		                     authentication-success-handler-ref="loginSuccessHandler" />
 		<security:logout logout-url="/user/logout.do" 
-						 logout-success-url="/login_main.do"
+						 logout-success-url="/user/login_main.do"
 		                 invalidate-session="true" 
 		                 delete-cookies="JSESSIONID" />
 	</security:http>					

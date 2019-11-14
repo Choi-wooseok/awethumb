@@ -1,5 +1,9 @@
 package com.awethumb.repository.dao;
 
-public interface AdminDAO {
+import java.util.List;
 
+import com.awethumb.repository.vo.Report;
+
+public interface AdminDAO {
+	List<Report> selectReport();
 }

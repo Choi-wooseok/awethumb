@@ -306,25 +306,40 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <table>
+      
+        <table class="table table-bordered table-hover mt">
         	<thead>
-        		<tr>
-        			<th>유저아이디</th>
-	        		<th>신고사유</th>
-	        		<th>신고날짜</th>
-	        		<th>신고 발생글</th>
+        		<tr class="row">
+        			<th class="col-md-1">유저아이디</th>
+	        		<th class="col-md-4">신고사유</th>
+	        		<th class="col-md-2">신고날짜</th>
+	        		<th class="col-md-3">신고 발생글</th>
+	        		<th class="col-md-2"><button type="button" class="btn btn-default">일괄정지</button><button type="button" class="btn btn-default">일괄삭제</button></th>
 	        	</tr>
         	</thead>
         	<tbody>
-        		<tr>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
+        		<c:forEach var="i" begin="0" end="9">
+        		<tr class="row">
+        			<td class="col-md-1">쾌우석</td>
+        			<td class="col-md-4">가필드모드</td>
+        			<td class="col-md-2">2019-11-13</td>
+        			<td class="col-md-3">제목은 15글자만 나오고...</td>
+        			<td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td>
         		</tr>
+        		</c:forEach>
+        		
         	</tbody>
-        	
-        </table>        
+        </table>
+        <hr>
+        <div class="test-center">
+        	<ul class="pagination">
+        		<li><a href="#">1</a></li>
+        		<li><a href="#">2</a></li>
+        		<li><a href="#">3</a></li>
+        		<li><a href="#">4</a></li>
+        		<li><a href="#">5</a></li>
+        	</ul>
+        </div>
         
       </section>
     </section>

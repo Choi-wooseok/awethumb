@@ -39,19 +39,15 @@
 <!--     		<mvc:exclude-mapping path="/mvc/09interceptor/login*.do"/> -->
 <!--     		<bean class="kr.co.mlec.mvc._09interceptor.AuthInterceptor" /> -->
 <!--     	</mvc:interceptor> -->
-    	
 <!--     </mvc:interceptors> -->
-    
-    
-    
-   
                            
     <!-- jsp 페이지로 이동 시 참고 -->
     <mvc:view-resolvers>
     	<mvc:jsp prefix="/WEB-INF/views/" suffix=".jsp"/>
     </mvc:view-resolvers>                      
     
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     	<property name="maxUploadSize" value="10485760" />
     </bean> 
     

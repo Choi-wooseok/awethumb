@@ -37,3 +37,7 @@ window.onclick = function(e) {
 		boardModal.style.display = "none";
 	}
 }
+
+
+
+// comment

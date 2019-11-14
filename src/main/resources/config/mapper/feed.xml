@@ -7,7 +7,14 @@
 		select *
 		  from board_tb
 	</select>
-	    
+	
+	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">
+		select *
+		  from comment_tb
+		 where post_no = #{postNo}
+		 order by cmt_reg_dt
+	</select>
+	
 </mapper>
 
 

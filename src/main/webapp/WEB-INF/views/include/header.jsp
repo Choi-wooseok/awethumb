@@ -14,7 +14,7 @@
 
         <div class="layout_right">
             <span class="user layout_left">
-                <img src="/images/test_user.jpg" alt="">
+                <img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
             </span>
             <a href="#">공찬희</a>
 

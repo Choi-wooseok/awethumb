@@ -22,9 +22,11 @@
 	                <input type="password" name="userPass" id="pass" placeholder="password" />
 	                <button>Login</button>
 	            </form>
-	            <p class="loginText">회원가입을 원하시면 <a href="#">여기</a>를 눌러주세요.</p>
+	            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
 	        </div>
 	    </section>
- 
+ 	<%@ include file="/WEB-INF/views/user/user_join.jsp"%>   
+ 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
+ 	
 </body>
 </html>

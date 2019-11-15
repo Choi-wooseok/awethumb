@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	let maxSize = 598;
-	let boxSize = $("#feedImgWrap")
-	let image = $("#feedImg");
+	let maxSize = 300;
+	let boxSize = $("#boxSize");
+	let image = $("#image");
 	let imgHeight = image.height;
 	let imgWidth = image.width;
 	if (imgWidth > maxSize && imgHeight > maxSize) {
@@ -23,14 +23,42 @@ $(document).ready(function() {
 	}
 })
 
-$(".myBoard").click(() => {
-    $("#modalBoard").css("display","block");
+let chkUserId = false;
+let chkUserNickname = false;
+
+$("#modalOpen").click(() => {
+	$(".modal").css("display","block");
 });
-$(".boardClose").click(() => {
-    $("#modalBoard").css("display","none");
-    // $("#modalBoard").addClass("aaaa");
+$("#modalClose").click(() => {
+	$(".modal").css("display","none");
 });
 
+$("#userIdChk").click(() => {
+	chkUser('userId', $("#userId").val(), "이미 등록된 유저 아이디 입니다.", chkUserId);
+});
 
+$("#userNicknameChk").click(() => {
+	chkUser('userNickname', $("#userNickname").val(), "이미 등록된 유저 닉네임 입니다.", chkUserNickname);
+});
+
+function chkUser(chkType, chkValue, validateMsg, flag) {
+	$.ajax({
+		url: 'chk_user.do',
+		method: 'post',
+		data: JSON.stringify({chkType, chkValue}),
+		contentType: 'application/json; charset=UTF-8',
+		success: result => {
+			console.log(result);
+			if (result == 1) {
+				alert(validateMsg);
+				flag = false;
+				return;
+			}
+			alert("사용 가능합니다.");
+			flag = true;
+			console.log(chkUserId);
+		}
+	});
+}
 
 // comment

@@ -5,9 +5,12 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" type="text/css" media="screen and (min-width:768px) and (max-width:1280px)" href="${pageContext.request.contextPath}/css/tablet.css">
     <link rel="stylesheet" type="text/css" media="screen and (max-width:767px)" href="${pageContext.request.contextPath}/css/mobile.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/waitMe.css">
     <!-- Jquery -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/waitMe.js"></script>
+    <script src="${pageContext.request.contextPath}/js/common.js"></script>
     <!-- web font -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <!-- font icon -->

@@ -16,7 +16,7 @@
 <resultMap type="Auth" id="authMap">
 	<result property="userId" column="user_id" />
 	<result property="authType" column="auth_type" />
-</resultMap>
+</resultMap>	
 
 <select id="selectUser" resultMap="userMap" parameterType="string" flushCache="true" useCache="true">
 	SELECT mem.user_id, user_pass, user_nickname, user_name, category_list, auth_type

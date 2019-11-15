@@ -21,3 +21,5 @@
   <link href="<c:url value='/admin/css/style.css'/>" rel="stylesheet">
   <link href="<c:url value='/admin/css/style-responsive.css' />" rel="stylesheet">
   <script src="<c:url value='/admin/lib/chart-master/Chart.js'/>"></script>
+  <!-- w3 css -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">

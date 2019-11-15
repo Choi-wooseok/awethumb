@@ -7,6 +7,11 @@
 <%@ include file="/WEB-INF/views/include/adminInclude.jsp" %>
 <meta charset="UTF-8">
 <title>불량회원 신고현황</title>
+<style>
+	.menu {
+		display: none;
+	}
+</style>
 </head>
 <body>
 	<section id="container">
@@ -306,8 +311,48 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-      
-        <table class="table table-bordered table-hover mt">
+				<!-- Tapped 모달창 시작 -->
+				<div id="detail-block" class="w3-modal">
+					<div class="w3-modal-content w3-card-4 w3-animate-zoom">
+						<header class="w3-container w3-blue">
+							<span
+								onclick="document.getElementById('detail-block').style.display='none'"
+								class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+							<h2>상세보기 & 회원정지</h2>
+						</header>
+
+						<div class="w3-bar w3-border-bottom">
+							<button class="tablink w3-bar-item w3-button"
+								onclick="openMenu(event, 'Detail')">상세글보기</button>
+							<button class="tablink w3-bar-item w3-button"
+								onclick="openMenu(event, 'Block')">이용정지</button>
+						</div>
+
+						<div id="Detail" class="w3-container menu">
+							<h1>Detail</h1>
+<!-- 							<p>London is the most populous menu in the United Kingdom, -->
+<!-- 								with a metropolitan area of over 9 million inhabitants.</p> -->
+<!-- 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, -->
+<!-- 								sed do eiusmod tempor incididunt ut labore et dolore magna -->
+<!-- 								aliqua. Ut enim ad minim veniam, quis nostrud exercitation -->
+<!-- 								ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> -->
+						</div>
+
+						<div id="Block" class="w3-container menu">
+							<h1>Block</h1>
+<!-- 							<p>Paris is the capital of France.</p> -->
+<!-- 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+						</div>
+
+						<div class="w3-container w3-light-grey w3-padding">
+							<button class="w3-button w3-right w3-white w3-border"
+								onclick="document.getElementById('detail-block').style.display='none'">닫기</button>
+						</div>
+					</div>
+				</div>
+				<!-- Tapped 모달 끝 -->
+
+				<table class="table table-bordered table-hover mt">
         	<thead>
         		<tr class="row">
         			<th class="col-md-1">유저아이디</th>
@@ -318,15 +363,6 @@
 	        	</tr>
         	</thead>
         	<tbody id="tbo">
-<%--         		<c:forEach var="i" begin="0" end="9"> --%>
-<!--         		<tr class="row"> -->
-<!--         			<td class="col-md-1">쾌우석</td> -->
-<!--         			<td class="col-md-4">가필드모드</td> -->
-<!--         			<td class="col-md-2">2019-11-13</td> -->
-<!--         			<td class="col-md-3">제목은 15글자만 나오고...</td> -->
-<!--         			<td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td> -->
-<!--         		</tr> -->
-<%--         		</c:forEach> --%>
         		
         	</tbody>
         </table>
@@ -439,12 +475,49 @@
 			    <td class="col-md-4">\${r.reportReason}</td>
 			    <td class="col-md-2">\${time}</td>
 			    <td class="col-md-3">\${r.reportTitle}</td>
-			    <td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td>
-			    <td>${time}</td>
+			    <td class="col-md-2">
+          <button type="button" class="btn btn-default btn-detail" id="detail\${r.reportNo}">내용보기
+          </button><button type="button" class="btn btn-default btn-blockk" id="block\${r.reportNo}">이용정지</button></td>
 		    </tr>`		
 		);
 	});
 }
+/* 각각의 디테일 버튼이 클릭되면 함수 실행 */
+$(".btn-detail").on('click', function() {
+
+  reply_click($(this).attr("id"));
+  
+});
+
+function reply_click(id){
+	let reportNo = id.slice(6);
+    view_detail(reportNo);
+}
+
+function view_detail(reportNo){
+  $("#detail-block").css("display", "block");
+}
+
+
+
+document.getElementsByClassName("tablink")[0].click();
+
+function openMenu(evt, menuName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("menu");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+    tablinks[i].classList.remove("w3-light-grey");
+  }
+  document.getElementById(menuName).style.display = "block";
+  evt.currentTarget.classList.add("w3-light-grey");
+}
+
+
+
   
   </script>
   <script type="application/javascript">
@@ -489,6 +562,6 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
   </script>
-
+  
 </body>
 </html>

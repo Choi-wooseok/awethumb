@@ -7,7 +7,7 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="./../css/reset.css">
-    <link rel="stylesheet" type="text/css" media="screen and (min-width:1281px)" href="/css/pc.css">
+    <link rel="stylesheet" type="text/css" media="screen and (min-width:1281px)" href="./../css/pc.css">
     <link rel="stylesheet" type="text/css" media="screen and (min-width:768px) and (max-width:1280px)" href="/css/tablet.css">
     <link rel="stylesheet" type="text/css" media="screen and (max-width:767px)" href="/css/mobile.css">
     <link rel="stylesheet" href="./../css/common.css">
@@ -28,7 +28,7 @@
                 <div id="boxSize">
                     <img id="image" src="./../images/test_img3.jpg" alt="">
                 </div>
-                <div>
+                <div id="rightBox">
                     <div class="ModaluserInfo">
                         <div class="commentUser">
                             <img src="./../images/test_user.jpg" alt="">
@@ -58,7 +58,12 @@
                                 </div>
                             </div>
 
+                        
+                    </div>
 
+                    <div class="insertComment">
+                        <input type="text" />
+                        <button>등록</button>
                     </div>
                 </div>
             </div>
@@ -69,9 +74,10 @@
     <script>
         let maxSize = 600;
         let image = document.getElementById("image");
-        let boxSize = document.getElementById("boxSize")
+        let boxSize = document.getElementById("boxSize");
         let imgHeight = image.height;
         let imgWidth = image.width;
+        let rightBox = document.getElementById("rightBox");
         $(document).ready(function() {
             if (imgWidth > maxSize && imgHeight > maxSize) {
                 if (imgWidth > imgHeight) {
@@ -81,8 +87,7 @@
                 } else {
                     boxSize.style.width = "auto";
                     boxSize.style.height = maxSize+"px";
-                    image.style.height = "100%";
-                }
+                    image.style.height = "100%";                }
             } else if (imgWidth > maxSize && imgHeight < maxSize) {
                 boxSize.style.width = maxSize+"px";
                 image.style.width =  "100%";
@@ -90,6 +95,7 @@
                 box.Size.style.height = maxSize+"px";
                 image.style.height = "100%";
             }
+            rightBox.style.height = boxSize.style.height;
         })
 
         const modal = document.querySelector(".modal");
@@ -109,6 +115,8 @@
             event.stopPropagation();
             return false;
         });
+
+
     </script>
 </body>
 </html>

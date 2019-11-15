@@ -3,14 +3,35 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.AdminDAO">
 
-<!-- 신고목록 셀렉 처리안된거-->
-<select id="selectReportN" resultType="Report">
+<!-- 신고목록 셀렉 처리안된거부터 셀렉하고 밑에다가 처리된거 끌어오는 쿼리-->
+<select id="selectReport" resultType="Report">
 	select *
 	  from report_tb
-  	 where report_status = 'N'
-  order by report_no desc
+  order by report_status ASC, report_no DESC;
 </select>
-<!-- 신고목록 셀렉 처리된거-->
+
+<!-- 유저 아이디 셀렉 -->
+<select id="selectUserId" parameterType="int" resultType="String">
+	select user_id
+	  from user_tb
+	 where user_no = #{userNo}
+</select>
+
+<!-- 신고사유 셀렉 -->
+<select id="selectReportReason" parameterType="int" resultType="String">
+	select block_reason
+	  from block_reason_tb
+	 where block_code = #{blockCode}
+</select>
+
+<!-- 포스트넘버로 포스트 내용 셀렉 -->
+<select id="selectPostContent" parameterType="int" resultType="String">
+	select post_content
+	  from board_tb
+	 where post_no = #{postNo}
+</select>
+
+<!-- 신고목록 셀렉 처리된거 -->
 <select id="selectReportY" resultType="Report">
 	select *
 	  from report_tb

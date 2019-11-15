@@ -4,7 +4,6 @@ import java.util.Date;
 
 import lombok.Data;
 
-
 @Data
 public class Report {
 	 // 신고 번호 
@@ -27,4 +26,15 @@ public class Report {
 
     // 신고 내용 
     private String reportContent;
+    
+	/* 출력의 편의를 위해 만들어진 변수들 */
+    
+    // 유저 아이디
+    private String userId;
+    
+    // 신고 사유
+    private String reportReason;
+    
+    // 신고 제목 포스트 내용 앞에 20글자만 짤라서..
+    private String reportTitle; 
 }

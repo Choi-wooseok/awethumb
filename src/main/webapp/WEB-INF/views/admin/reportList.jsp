@@ -317,16 +317,16 @@
 	        		<th class="col-md-2"><button type="button" class="btn btn-default">일괄정지</button><button type="button" class="btn btn-default">일괄삭제</button></th>
 	        	</tr>
         	</thead>
-        	<tbody>
-        		<c:forEach var="i" begin="0" end="9">
-        		<tr class="row">
-        			<td class="col-md-1">쾌우석</td>
-        			<td class="col-md-4">가필드모드</td>
-        			<td class="col-md-2">2019-11-13</td>
-        			<td class="col-md-3">제목은 15글자만 나오고...</td>
-        			<td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td>
-        		</tr>
-        		</c:forEach>
+        	<tbody id="tbo">
+<%--         		<c:forEach var="i" begin="0" end="9"> --%>
+<!--         		<tr class="row"> -->
+<!--         			<td class="col-md-1">쾌우석</td> -->
+<!--         			<td class="col-md-4">가필드모드</td> -->
+<!--         			<td class="col-md-2">2019-11-13</td> -->
+<!--         			<td class="col-md-3">제목은 15글자만 나오고...</td> -->
+<!--         			<td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td> -->
+<!--         		</tr> -->
+<%--         		</c:forEach> --%>
         		
         	</tbody>
         </table>
@@ -402,6 +402,50 @@
 
       return false;
     });
+  </script>
+  <script>
+  /* 로딩시 실행되는 스크립트 */
+  $(() => {
+  	
+	  	function reportListAjax() {
+		$.getJSON({
+			url: "reportListAjax.do",
+			success: list => makeReportList(list)
+		});
+		}
+		
+	// 로딩시 목록 호출
+	reportListAjax();
+  	
+  })
+  
+  function toPad(val) {
+		return val < 10 ? "0" + val : val;
+  }
+  
+  function makeReportList(list) {
+	
+	$.each(list, (i, r) => {
+		var date = new Date(r.reportDt);
+		var time = date.getFullYear() + "-" 
+		         + (date.getMonth() + 1) + "-" 
+		         + date.getDate() + " "
+		         + toPad(date.getHours()) + ":"
+		         + toPad(date.getMinutes()) + ":"
+		         + toPad(date.getSeconds());
+		$("#tbo").append(
+		    `<tr id="row${r.reportNo}" class="row">
+			    <td class="col-md-1">\${r.userId}</td>
+			    <td class="col-md-4">\${r.reportReason}</td>
+			    <td class="col-md-2">\${time}</td>
+			    <td class="col-md-3">\${r.reportTitle}</td>
+			    <td class="col-md-2"><button type="button" class="btn btn-default">내용보기</button><button type="button" class="btn btn-default">이용정지</button></td>
+			    <td>${time}</td>
+		    </tr>`		
+		);
+	});
+}
+  
   </script>
   <script type="application/javascript">
     $(document).ready(function() {

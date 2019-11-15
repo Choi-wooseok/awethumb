@@ -24,8 +24,20 @@ public class AdminController {
 	
 	@RequestMapping("/reportListAjax.do")
 	@ResponseBody
-	public List<Report> reportListAjax(int no) {
-		return service.getReport();
+	public List<Report> reportListAjax() {
+		List<Report> rList = service.getReport();
+		/* 스크립트 단에서 편리한 출력을 위해 리스트에 데이터를 가공해서 주입. */
+		for(Report r : rList) {
+			r.setUserId(service.selectUserId(r.getUserNo()));
+			r.setReportReason(service.selectReportReason(r.getBlockCode()));
+			if(r.getBlockCode() == 5) {
+				r.setReportReason(r.getReportContent());
+			}
+			String rt = service.selectPostContent(r.getPostNo());
+			rt = (rt.length() > 20) ? rt.substring(0, 19) : rt;
+			r.setReportTitle(rt);
+		}
+		return rList;
 	}
 	
 	

@@ -18,6 +18,23 @@ public class AdminServiceImpl implements AdminService{
 	public List<Report> getReport() {
 		return dao.selectReport();
 	}
+
+	@Override
+	public String selectUserId(int userNo) {
+		return dao.selectUserId(userNo);
+	}
+
+	@Override
+	public String selectReportReason(int blockCode) {
+		return dao.selectReportReason(blockCode);
+	}
+
+	@Override
+	public String selectPostContent(int postNo) {
+		return dao.selectPostContent(postNo);
+	}
+	
+	
 	
 	
 }

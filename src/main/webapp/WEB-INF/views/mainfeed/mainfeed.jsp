@@ -11,12 +11,6 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <%@ include file="/WEB-INF/views/include/cssScript.jsp"%>
 
-<!-- metaTag.html Include ì´í -->
-<!-- basic Css ì­ì  -->
-<!-- jquery ì­ì  -->
-<!-- web Font ì­ì  -->
-<!-- font icon ì­ì  -->
-
 <!-- Basic Css -->
 <link rel="stylesheet" href="./../css/reset.css">
 <link rel="stylesheet" type="text/css"
@@ -51,9 +45,8 @@
 	<section id="feeds">
 		<a href="#" id="mainfeed-scroll" style="display: none;"><span></span></a>
 		<div class="feedsWrap msrItems" id="feedsWrap">
-			<!-- 반복 -->
+			<!-- 반복을 통한 list출력 -->
 		</div>
-		<!-- 여기까지 반복 -->
 	</section>
 
 	<script>

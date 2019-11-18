@@ -2,31 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.MainFeedDAO">
-<!-- post_no -->
-<!-- project_no -->
-<!-- post_content -->
-<!-- x_coord -->
-<!-- y_coord -->
-<!-- width -->
-<!-- hight -->
-<!-- post_public_enabled -->
-<!-- hashtag_no -->
+	<resultMap id="mainFeedMap" type="MainFeed">
+		<id property="postNo" column="post_no"/>
+		<result column="post_no" property="postNo" /> 
+		<result column="project_no" property="projectNo" /> 
+		<result column="post_content" property="postContent" /> 
+		<result column="x_coord" property="xCoord" /> 
+		<result column="y_coord" property="yCoord" /> 
+		<result column="width" property="width" /> 
+		<result column="hight" property="hight" /> 
+		<result column="post_public_enabled" property="postPublicEnabled" /> 
+		<result column="hashtag_no" property="hashtagNo" /> 
+		<result column="user_nickname" property="userNickname" /> 
+		<result column="hashtag_content" property="hashtagContent" /> 
+		<result column="comment_count" property="commentCount" /> 
+		<result column="like_count" property="likeCount" /> 
+		<collection property="commentList" resultMap="commentMap"/>
+	</resultMap>
+	<resultMap id="commentMap" type="Comment">
+		<result column="cmt_no" property="cmtNo" /> 
+		<result column="cmt_content" property="cmtContent" /> 
+		<result column="cmt_reg_dt" property="cmtRegDt" />
+		<result column="user_no" property="userNo" />
+		<result column="post_no" property="postNo" />
+	</resultMap>
 	<select id="selectMainFeed" resultType="MainFeed">
-		select b.*, u.user_nickname, h.hashtag_content
+	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
+		select b.*, u.user_nickname, h.hashtag_content, 
+			(select count(c.cmt_no)
+		   	   FROM comment_tb c
+		  	  WHERE c.post_no = b.post_no
+			) as comment_count, 
+			(select count(l.post_and_cmt_no)
+			   from like_tb l
+		  	  where code_value = 1
+			 	and b.post_no = l.post_and_cmt_no) as like_count
 		  from board_tb b
 		 inner join project_tb p
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
 		  left outer join hashtag_tb h
-		 	on b.post_no = h.post_no
+		 	 on b.post_no = h.post_no
 		 order by b.post_no desc
 	</select>
-<!-- 	<select id="selectOneMainFeed" parameterType="int" resultType="MainFeed"> -->
-<!-- 		select * -->
-<!-- 		  from board_tb -->
-<!-- 		 where no = #{no}  -->
-<!-- 	</select> -->
+	
+	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap">
+		select b.*, c.*
+		  from board_tb b
+		  left outer join comment_tb c
+		    on b.post_no = c.post_no
+		 where b.post_no = #{postNo}
+	</select>
 <!-- 	<insert id="insertMainFeed" parameterType="MainFeed"> -->
 <!-- 		insert into board_tb ( -->
 <!-- 			no, title, writer, content -->

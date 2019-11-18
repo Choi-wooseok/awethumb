@@ -1,6 +1,22 @@
 /**
  * 
  */
+//	// 모달창 클래스 토글 기능
+//    function hideModal() {
+//        modal.classList.toggle("hidden");
+//    }
+//    // 취소 버튼 클릭시 모달창 닫힘
+//    mBtn.addEventListener("click", hideModal)
+//    // 모달창 밖에 클릭시 모달창 닫힘
+//    document.querySelector(".modal_overlay").addEventListener("click", hideModal)
+//
+//    // 모달창이 띄어졌을 시 스크롤 방지
+//    $(".modal").on('scroll touchmove mousewheel', function (event) {
+//        event.preventDefault();
+//        event.stopPropagation();
+//        return false;
+//    });
+
 // back to top
 	   $(document).ready(function(){ 
 		
@@ -48,19 +64,23 @@
 						</div>
 
 						<div class="feedsImgWrap">
-							<a href="#"> <img src="${pageContextURI}/images/main_bg.jpg" alt="">
+							<a href="${pageContextURI}/mainfeed/detailmainfeed?postNo=${c.postNo}"> <img src="${pageContextURI}/images/main_bg.jpg" alt="">
 							</a>
 						</div>
 
-						<div class="feedsPlay">
+						<div class="feedsPlay" id="feedsPlay${c.postNo}">
 							<div class="feedsContWrap">${c.postContent}</div>
-							<div class="hashTag">
+							`)
+							if (`${c.hashtagContent}` != 'null') {
+								$(`#feedsPlay${c.postNo}`).append(`<div class="hashTag">
 								<a href="#">${c.hashtagContent}</a>
-							</div>
+								</div>`)
+							}
+							$(`#feedsPlay${c.postNo}`).append(`
 							<div class="playInfo">
-								댓글 <span>100</span>개
+								댓글 <span>${c.commentCount}</span>개
 								<button>
-									<i class="far fa-heart"></i> <span>10</span>
+									<i class="far fa-heart"></i> <span>${c.likeCount}</span>
 								</button>
 							</div>
 						</div>

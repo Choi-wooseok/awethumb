@@ -23,6 +23,20 @@
 		 order by cmt_reg_dt
 	</select>
 	
+	<insert id="insertBoardComment" parameterType="Comment">
+		INSERT INTO comment_tb (
+		cmt_content, user_no, post_no
+		)values( 
+		#{cmtContent}, #{userNo}, #{postNo}
+		);
+	</insert>
+	
+	<select id="boardSize" resultType="int">
+		SELECT COUNT(*)
+		  FROM board_tb
+	</select>
+	
+	
 </mapper>
 
 

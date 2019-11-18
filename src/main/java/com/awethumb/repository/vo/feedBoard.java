@@ -30,6 +30,9 @@ public class feedBoard {
     
     // 게시글 조회수
     private int viewCnt;
+    
+    // 더미
+    private int xCoord;
 
     
 }

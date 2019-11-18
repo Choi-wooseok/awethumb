@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/mypage/mypage.css"/>
 </head>
 <body>
+	<sec:authentication property="principal.user" var="u"/>
+
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -39,8 +42,8 @@
                         <div style="text-align: right; margin: 0px;">
                             <i class="fas fa-user-cog u_modal_btn"></i>
                         </div>
-                        <h1>NickName</h1>
-                        <p>userEmail@naver.com</p>
+                        <h1>${u.userNickname}</h1>
+                        <p>${u.userName}</p>
                         <div>
                             <span>
                             	Project
@@ -154,13 +157,13 @@
                     <div>
                         <aside>닉네임</aside>
                         <div>
-                            <input class="si" type="text">
+                            <input class="si" type="text" value="${u.userNickname}">
                         </div>
                     </div>
                     <div>
                         <aside>이름</aside>
                         <div>
-                            <input class="si" type="text">
+                            <input class="si" type="text" value="${u.userName}">
                         </div>
                     </div>
                     <div>

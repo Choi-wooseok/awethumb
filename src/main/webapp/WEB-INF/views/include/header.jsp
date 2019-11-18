@@ -16,7 +16,7 @@
             <span class="user layout_left">
                 <img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
             </span>
-            <a href="#">공찬희</a>
+            <a href="${pageContext.request.contextPath}/mypage/main.do">공찬희</a>
 
             <div class="optBtn">
                 <button>

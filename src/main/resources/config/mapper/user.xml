@@ -6,6 +6,7 @@
 	<id property="userId" column="user_id" />
 	<result property="userNo" column="user_no" />
 	<result property="userId" column="user_id" />
+	<result property="userName" column="user_name" />
 	<result property="userPass" column="user_pass" />
 	<result property="userNickname" column="user_nickname" />
 	<result property="categoryList" column="category_list" />
@@ -19,7 +20,7 @@
 </resultMap>	
 
 <select id="selectUser" resultMap="userMap" parameterType="string" flushCache="true" useCache="true">
-	SELECT mem.user_id, user_pass, user_nickname, user_name, category_list, auth_type
+	SELECT mem.user_id, user_pass, user_nickname, mem.user_name, category_list, auth_type
 		  FROM user_tb mem LEFT OUTER JOIN auth_tb auth 
 		                            on mem.user_id = auth.user_id
 		 WHERE mem.user_id = #{userId}

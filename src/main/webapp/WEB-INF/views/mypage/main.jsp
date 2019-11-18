@@ -166,15 +166,17 @@
                     <div>
                         <aside>카테고리</aside>
                         <div class="cc">
-                            <button type="button" class="cb">
-                                연애<i class="cb_i fas fa-plus"></i>
-                            </button>
+                        	<c:forEach var="c" items="${categories}">
+	                           <button type="button" class="cb" data-no="${c.categoryNo}">
+	                               	${c.categoryTitle}<i class="cb_i fas fa-plus"></i>
+	                           </button>
+                        	</c:forEach>
                         </div>
                     </div>
                     <div>
                         <aside>
                             <button class="change_pass" type="button">
-                                비밀번호 변경
+                                	비밀번호 변경
                                 <i class="fas fa-chevron-down"></i>
                             </button>
                         </aside>
@@ -240,7 +242,7 @@
                                 </div>
                                 <div class="f_mod_btn_con">
                                     <button class="sub_btn" type="button">
-                                            구독
+                                            	구독
                                             <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -266,7 +268,7 @@
                                 </div>
                                 <div class="f_mod_btn_con">
                                     <button class="sub_btn" type="button">
-                                            구독
+                                           	 구독
                                             <i class="fas fa-plus"></i>
                                     </button>
                                 </div>

@@ -24,12 +24,22 @@
 	     DBCP2 »ç¿ë
 		 https://commons.apache.org/proper/commons-dbcp/configuration.html
 	 -->	                     
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-		destroy-method="close"
+		<bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"
       	p:driverClassName="${mysql.jdbc.driver}"
         p:url="${mysql.jdbc.url}"
         p:username="${mysql.jdbc.username}" 
-        p:password="${mysql.jdbc.password}" />
+        p:password="${mysql.jdbc.password}"
+	   />
+      
+    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  "/>
+            </bean>
+        </property>
+    </bean>
 	                                                                                           
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

@@ -36,5 +36,11 @@ public class Report {
     private String reportReason;
     
     // 신고 제목 포스트 내용 앞에 20글자만 짤라서..
-    private String reportTitle; 
+    private String reportTitle;
+    
+    // 각종 추가 정보를 뽑아내기 위한 Vo
+    private UserVO userVO;
+    private Comment comment;
+    private UserVO commentUser;
+    private Board board;
 }

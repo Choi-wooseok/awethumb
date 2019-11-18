@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.AdminDAO;
+import com.awethumb.repository.vo.Board;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Report;
+import com.awethumb.repository.vo.UserVO;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -33,6 +36,32 @@ public class AdminServiceImpl implements AdminService{
 	public String selectPostContent(int postNo) {
 		return dao.selectPostContent(postNo);
 	}
+	@Override
+	public Report selectOneReport(int reportNo) {
+		return dao.selectOneReport(reportNo);
+	}
+
+	@Override
+	public Comment selectOneComment(Report report) {
+		return dao.selectOneComment(report);
+	}
+
+	@Override
+	public UserVO selectOneUser(Report report) {
+		return dao.selectOneUser(report);
+	}
+
+	@Override
+	public Board selectOneBoard(Report report) {
+		return dao.selectOneBoard(report);
+	}
+
+	@Override
+	public UserVO selectOneUserByComment(Comment comment) {
+		return dao.selectOneUserByComment(comment);
+	}
+	
+	
 	
 	
 	

@@ -314,10 +314,10 @@
 				<!-- Tapped 모달창 시작 -->
 				<div id="detail-block" class="w3-modal">
 					<div class="w3-modal-content w3-card-4 w3-animate-zoom">
-						<header class="w3-container w3-blue">
+						<header class="w3-container w3-teal">
 							<span
 								onclick="document.getElementById('detail-block').style.display='none'"
-								class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+								class="w3-button w3-teal w3-xlarge w3-display-topright">&times;</span>
 							<h2>상세보기 & 회원정지</h2>
 						</header>
 
@@ -329,13 +329,7 @@
 						</div>
 
 						<div id="Detail" class="w3-container menu">
-							<h1>Detail</h1>
-<!-- 							<p>London is the most populous menu in the United Kingdom, -->
-<!-- 								with a metropolitan area of over 9 million inhabitants.</p> -->
-<!-- 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, -->
-<!-- 								sed do eiusmod tempor incididunt ut labore et dolore magna -->
-<!-- 								aliqua. Ut enim ad minim veniam, quis nostrud exercitation -->
-<!-- 								ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> -->
+							
 						</div>
 
 						<div id="Block" class="w3-container menu">
@@ -476,26 +470,61 @@
 			    <td class="col-md-2">\${time}</td>
 			    <td class="col-md-3">\${r.reportTitle}</td>
 			    <td class="col-md-2">
-          <button type="button" class="btn btn-default btn-detail" id="detail\${r.reportNo}">내용보기
-          </button><button type="button" class="btn btn-default btn-blockk" id="block\${r.reportNo}">이용정지</button></td>
+          <button type="button" class="btn btn-default btn-detail-dc" id="detail\${r.reportNo}">내용보기
+          </button><button type="button" class="btn btn-default btn-block-dc" id="block\${r.reportNo}">이용정지</button></td>
 		    </tr>`		
 		);
 	});
 }
 /* 각각의 디테일 버튼이 클릭되면 함수 실행 */
-$(".btn-detail").on('click', function() {
-
+$(document).on("click", ".btn-detail-dc", function() {
+// 	console.log("ㄲㅈ");
   reply_click($(this).attr("id"));
   
 });
-
 function reply_click(id){
+	console.log('콜백된 그 id :',id);
 	let reportNo = id.slice(6);
+	console.log('슬라이스된 리포트 넘버 :', reportNo);
     view_detail(reportNo);
 }
 
 function view_detail(reportNo){
   $("#detail-block").css("display", "block");
+  console.log('뷰디테일에서', reportNo);
+  originPostAjax(reportNo);
+}
+
+function originPostAjax(reportNo){
+
+  console.log('에이젝스 시작전', reportNo);
+	$.ajax({
+		url: "originPostAjax.do",
+		type: "GET",
+		data: {reportNo: reportNo},
+		dataType: "json",
+		success: function(result){
+			if(result.comment){
+				$("#Detail").html(
+				`
+				<h4>댓글 글쓴이 : \${result.commentUser.userNickname}</h4>
+				<h4>댓글 글쓴이Id : \${result.commentUser.userId}</h4>
+				<h4>댓글내용 : \${result.comment.cmtContent}</h4>
+				`
+				
+				);
+			} else {
+				$("#Detail").html(
+					`
+					<h4>글쓴이 : \${result.userVO.userNickname}</h4>
+					<h4>글쓴이Id : \${result.userVO.userId}</h4>
+					<h4>내용 : \${result.board.postContent}</h4>
+					`
+					
+					);
+			}
+		}
+		});
 }
 
 

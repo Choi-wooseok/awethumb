@@ -41,7 +41,7 @@
 
 <!-- 신고하기 -->
 <insert id="insertReport" parameterType="Report">
-	insert into tb_report (
+	insert into report_tb (
 		block_code, post_no, user_no, cmt_no, report_content
 	) values (
 		#{blockCode}, #{postNo}, #{userNo}, #{cmtNo}, #{reportContent}
@@ -50,10 +50,43 @@
 
 <!-- 신고 상태 업데이트 -->
 <update id="updateReport" parameterType="int">
-	update tb_report
+	update report_tb
 	   set report_status = 'Y'
 	 where report_no = #{reportNo}
 </update>
+
+<!-- 리포트넘버로 1개 리포트셀렉 -->
+<select id="selectOneReport" parameterType="int" resultType="Report">
+	select *
+	  from report_tb
+	 where report_no = #{reportNo}
+</select>
+
+<!-- 지금부터 코멘트와 유저와 포스트 객체를 매칭하는걸로 하나씩 뽑아오는 쿼리를 시작한다. -->
+<!-- 코멘트 VO뽑기 -->
+<select id="selectOneComment" parameterType="Report" resultType="Comment">
+	select *
+	  from comment_tb
+	 where cmt_no = #{cmtNo}
+</select>
+<!-- User Vo뽑기 -->
+<select id="selectOneUser" parameterType="Report" resultType="UserVO">
+	select *
+	  from user_tb
+	 where user_no = #{userNo}
+</select>
+<!-- Board 뽑기 -->
+<select id="selectOneBoard" parameterType="Report" resultType="Board">
+	select *
+	  from board_tb
+	 where post_no = #{postNo}
+</select>
+<!-- 코멘트를 넣어서, 유저no을 이용해 유저ID를 셀렉 -->
+<select id="selectOneUserByComment" parameterType="Comment" resultType="UserVO">
+	select *
+	  from user_tb
+	 where user_no = #{userNo}
+</select>
 
 <!-- 	<select id="selectBoard" resultType="Board"> -->
 <!-- 		select * -->

@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <style>
 .board {
 	display: none;
@@ -79,7 +81,7 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
-	<header></header>
+	<header><c:import url="/WEB-INF/views/include/header.jsp"></c:import></header>
 	<section id="feed">
 		<div class="feedContWrap">
 			<div class="feedWrap">
@@ -96,8 +98,6 @@
 							</button>
 						</div>
 					</div>
-
-					이미지 없을 경우 해당 div 삭제
 					<div id="feedImgWrap">
 						<img id="feedImg" src="./../images/test_img1.jpg" alt="">
 						<div class="hoverWrap">
@@ -129,7 +129,7 @@
 							</div>
 
 						</div>
-						<div class="insertComment">
+						<div id="insertComment">
 							<input type="text" />
 							<button>등록</button>
 						</div>
@@ -165,29 +165,23 @@
 					<div class="feedText">
 						<div>
 							게시판 내용 : ${bl.postContent}
+							게시판 번호 : ${bl.postNo}
 						</div>
 					</div>
+					<!-- 댓글 -->
+					<input type="hidden" name="postNo" class="postNo" id="postNo" value="${bl.postNo}" />
 					<div class="feedPlay">
 						<div>
-							<!-- 댓글 반복 -->
-							<c:forEach var="c" items="${clist}">
-								<div class="commentList">
-									<c:if test="${c.postNo eq bl.postNo}">
-										<div class="commentList">
-											<div class="commentUserImg">
-												<img src="./../images/test_user.jpg" alt="">
-											</div>
-											<div class="commentWrap">${c.cmtContent}
-											작성일자 : ${c.cmtRegDt}</div>
-										</div>
-									</c:if>
-								</div>
-							</c:forEach>
+							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
+						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
+						
+						<input type="hidden" class="userNo" value="1" />
 						<div class="insertComment">
-							<input type="text" />
-							<button>등록</button>
+							<input class="commentWriter${bl.postNo}" type="text" />
+							<button >등록</button>
 						</div>
+						</form>
 					</div>
 				</div>
 				</c:forEach>
@@ -319,7 +313,7 @@
 		</div>
 		
 	</section>
-
+	
 	<script src="<c:url value="/js/feed.js" />"></script>
 
 

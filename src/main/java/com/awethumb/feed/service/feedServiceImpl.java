@@ -19,4 +19,7 @@ public class feedServiceImpl implements feedService {
 	public List<Comment> selectFeedBoardComment(int postNo){
 		return dao.selectFeedBoardComment(postNo);
 	}
+	public List<Comment> insertBoardComment(Comment comment){
+		return dao.insertBoardComment(comment);
+	}
 }

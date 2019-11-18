@@ -24,4 +24,10 @@ public class Project {
 
     // 카테고리 번호 
     private int categoryNo;
+    
+    // 프로젝트 종류
+    // 1 -> 진행중인 프로젝트
+    // 2 -> 공유된 프로젝트
+    // 3 -> 저장된 프로젝트
+    private int projectType;
 }

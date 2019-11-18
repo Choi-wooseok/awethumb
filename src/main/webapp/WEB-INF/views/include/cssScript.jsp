@@ -11,6 +11,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/waitMe.js"></script>
     <script src="${pageContext.request.contextPath}/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- web font -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <!-- font icon -->

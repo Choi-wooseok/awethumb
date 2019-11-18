@@ -48,8 +48,12 @@
 	</select>
 	
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap">
-		select b.*, c.*
+		select b.*, c.*, u.*
 		  from board_tb b
+		 inner join project_tb p
+		 	on b.project_no = p.project_no
+		 inner join user_tb u
+		 	on p.user_no = u.user_no
 		  left outer join comment_tb c
 		    on b.post_no = c.post_no
 		 where b.post_no = #{postNo}

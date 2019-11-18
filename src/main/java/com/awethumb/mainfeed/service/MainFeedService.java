@@ -7,7 +7,7 @@ import com.awethumb.repository.vo.MainFeed;
 public interface MainFeedService {
 	List<MainFeed> listMainFeed();
 	
-	MainFeed detailMainFeed(int postNo);
+	List<MainFeed> detailMainFeed(int postNo);
 	
 //	댓글 ------------------------------------
 //	List<Comment> listComment(int postNo);

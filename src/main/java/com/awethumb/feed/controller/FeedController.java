@@ -24,7 +24,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		int aa = 3; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
 		
-		model.addAttribute("bs", service.boardSize());
 		
 	}
 	
@@ -38,9 +37,9 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	
 	@RequestMapping("boardCommentInsert.do")
 	@ResponseBody
-	public void insertBoardComment(@RequestBody Comment comment){
-		System.out.println("aaa" + comment.getCmtContent());
-		service.insertBoardComment(comment);
+	public List<Comment> insertBoardComment(@RequestBody Comment comment){
+		System.out.println("댓글" + comment.getCmtContent());
+		return service.insertBoardComment(comment);
 	}
 	
 }

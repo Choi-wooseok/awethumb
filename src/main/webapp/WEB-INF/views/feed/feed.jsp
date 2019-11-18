@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <style>
 .board {
 	display: none;
@@ -171,14 +172,14 @@
 					<input type="hidden" name="postNo" class="postNo" id="postNo" value="${bl.postNo}" />
 					<div class="feedPlay">
 						<div>
-							<div id="boardCommentList"></div>
+							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
-						<form class="insertComment" method="post" action="boardCommentInsert.do">
+						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
 						
 						<input type="hidden" class="userNo" value="1" />
 						<div class="insertComment">
-							<input class="commentWriter" type="text" />
-							<button>등록</button>
+							<input class="commentWriter${bl.postNo}" type="text" />
+							<button >등록</button>
 						</div>
 						</form>
 					</div>

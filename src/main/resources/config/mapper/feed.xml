@@ -31,11 +31,6 @@
 		);
 	</insert>
 	
-	<select id="boardSize" resultType="int">
-		SELECT COUNT(*)
-		  FROM board_tb
-	</select>
-	
 	
 </mapper>
 

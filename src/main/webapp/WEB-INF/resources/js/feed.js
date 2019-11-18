@@ -21,6 +21,59 @@ $(document).ready(function() {
 		boxSize.style.height = maxSize + "px";
 		image.style.height = "100%";
 	}
+	let postNo = document.querySelectorAll(".postNo");
+	for (let a of postNo){
+		let postnum = a.value;
+		$(".insertComment" + postnum).submit(() => {
+			console.log("con : " + $(".commentWriter"+ postnum).val());
+			$.post({
+				url: "boardCommentInsert.do",
+				dataType: "json",
+				contentType: 'application/json',
+				data: JSON.stringify({postNo: postnum, cmtContent: $(".commentWriter"+ postnum).val(), userNo : $(".userNo").val()}),
+				success: (list) => boardCommentListAjax(list)
+			});
+			$(".commentWriter"+ postnum).val("");
+			return false;
+		});
+		commentListAjax();
+		function commentListAjax() {
+			console.log("postN : " + postnum);
+			$.getJSON({
+				url: "boardCommentList.do",
+				data: {postNo: postnum},
+//				async: false,
+				success: list => boardCommentListAjax(list)
+			});
+		}
+		function boardCommentListAjax(list) {
+			$bcla = $(`<div class="commentList"></div>`);
+			$.each(list, (i	, c) => {
+				if(c.postNo == postnum){
+					console.log("postNo : " + postnum);
+					$bcla.append(
+							`
+								<div class="commentUserImg">
+									<img src="./../images/test_user.jpg" alt="">
+								</div>
+								<div class="commentWrap">내용 : ${c.cmtContent}
+								작성일자 : ${c.cmtRegDt} js체크용
+								게시판번호 : ${c.postNo}
+								</div>
+							`		
+					);
+					console.log("들어옴");
+				}
+				else {
+					$bcla.append("댓글이 없습니다.");
+					return;
+				}
+			});
+			$("#boardCommentList" + postnum).html($bcla);
+		};
+//		$("#boardCommentList").html('');
+		
+	} //for
 })
 
 $(".myBoard").click(() => {
@@ -86,63 +139,67 @@ $(".boardClose").click(() => {
 //	$("#boardCommentList").html($bcla);
 //	return;
 //};
-let postNo = document.querySelectorAll("#postNo");
-console.log("postNo^^ㅣ발 : " + postNo);
-commentListAjax();
-function commentListAjax() {
-	$.getJSON({
-		url: "boardCommentList.do",
-		data: {postNo},
-		async: false,
-		success: list => boardCommentListAjax(list)
-		
-	});
-}
-function boardCommentListAjax(list) {
-	$bcla = $(`<div class="commentList"></div>`);
-	postNo.forEach(function(val, i ) {
-	    if(c.postNo == postNo){
-	    	$bcla.append(
-	    	`<div class="commentList">
-				<div class="commentUserImg">
-					<img src="./../images/test_user.jpg" alt="">
-				</div>
-				<div class="commentWrap">${c.cmtContent}
-				작성일자 : ${c.cmtRegDt} js체크용
-				게시판번호 : ${c.postNo}
-				</div>
-			</div>`	
-	    	);
-			return;
-	    }
-	});
-	$("#boardCommentList").html($bcla);
-	return;
-}
-//	$.each(list, (i	, c) => {
-//		if(c.postNo == postNo){
-//			$bcla.append(
-//					`<div class="commentList">
-//						<div class="commentUserImg">
-//							<img src="./../images/test_user.jpg" alt="">
-//						</div>
-//						<div class="commentWrap">${c.cmtContent}
-//						작성일자 : ${c.cmtRegDt} js체크용
-//						게시판번호 : ${c.postNo}
-//						</div>
-//					</div>`		
-//			);
-//			return;
-//		}
-//		else {
-//			$bcla.append("댓글이 없습니다.");
-//			return;
-//		}
-//	});
-//	$("#boardCommentList").html($bcla);
-//	return;
-//};
+//let postNo = document.querySelectorAll(".postNo");
+//for (let a of postNo){
+//	let postnum = a.value;
+//	commentListAjax();
+//	function commentListAjax() {
+//		console.log("postN : " + postnum);
+//		$.getJSON({
+//			url: "boardCommentList.do",
+//			data: {postNo: postnum},
+////			async: false,
+//			success: list => boardCommentListAjax(list)
+//		});
+//	}
+//	function boardCommentListAjax(list) {
+//		$bcla = $(`<div class="commentList"></div>`);
+//		$.each(list, (i	, c) => {
+//			if(c.postNo == postnum){
+//				console.log("postNo : " + postnum);
+//				$bcla.append(
+//						`<div class="commentList">
+//							<div class="commentUserImg">
+//								<img src="./../images/test_user.jpg" alt="">
+//							</div>
+//							<div class="commentWrap">내용 : ${c.cmtContent}
+//							작성일자 : ${c.cmtRegDt} js체크용
+//							게시판번호 : ${c.postNo}
+//							</div>
+//						</div>`		
+//				);
+//				console.log("들어오잖아 아,,,,,");
+//			}
+//			else {
+//				$bcla.append("댓글이 없습니다.");
+//				return;
+//			}
+//			$("#boardCommentList").html($bcla);
+//		});
+//		$("#boardCommentList").html($bcla);
+//	};
+//} //for
 
+
+//postNo.forEach(function(val, i ) {
+//    if(c.postNo === postnum){
+//    	console.log("postNo : " + postnum);
+//    	$bcla.append(
+//    	`<div class="commentList">
+//			<div class="commentUserImg">
+//				<img src="./../images/test_user.jpg" alt="">
+//			</div>
+//			<div class="commentWrap">${c.cmtContent}
+//			작성일자 : ${c.cmtRegDt} js체크용
+//			게시판번호 : ${c.postNo}
+//			</div>
+//		</div>`	
+//    	);
+//		return;
+//    }
+//});
+//$("#boardCommentList").html($bcla);
+//return;
 
 
 

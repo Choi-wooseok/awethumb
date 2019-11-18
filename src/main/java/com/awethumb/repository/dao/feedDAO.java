@@ -10,7 +10,6 @@ public interface feedDAO {
 
 	List<Comment> selectFeedBoardComment(int postNo);
 	
-	void insertBoardComment(Comment comment);
+	List<Comment> insertBoardComment(Comment comment);
 	
-	int boardSize();
 }

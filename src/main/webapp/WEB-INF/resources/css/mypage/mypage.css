@@ -194,3 +194,6 @@ li {
     justify-content: flex-end;
     align-items: center;
 }
+.cb > .fa-plus {
+	color: #cccccc
+}

@@ -6,4 +6,19 @@
 		select *
 		  from category_tb
 	</select>
+	
+	<select id="selectOneUser" resultType="UserVO">
+		select *
+		  from user_tb
+		 where user_no = #{userNo}
+	</select>
+	
+	<update id="updateUser" parameterType="UserVO">
+		update user_tb
+		   set user_nickname = #{userNickname},
+		       user_name = #{userName},
+		       category_list = #{categoryList}
+		 where user_no = #{userNo}
+		   
+	</update>
 </mapper>

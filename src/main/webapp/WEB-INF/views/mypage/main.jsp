@@ -24,7 +24,6 @@
 </head>
 <body>
 	<sec:authentication property="principal.user" var="u"/>
-
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -141,7 +140,9 @@
         <div class="u_mod_ol modal_overlay"></div>
         <div class="modal_content_container">
             <div class="modal_content">
-                <form class="user_setting mod_form">
+                <form class="user_setting mod_form" method="post" action="update.do">
+                	<input name="userNo" hidden="hidden" value="${u.userNo}">
+                	<input name="categoryList" hidden="hidden" value="" />
                     <div>
                         <aside>
                             <button type="button" class="img_btn">
@@ -149,7 +150,7 @@
                             </button>
                         </aside>
                         <div>
-                            <h1>Nickname</h1>
+                            <h1>${u.userNickname}</h1>
                             <p class="img_info">* 프로필 사진을 변경하기 위해 사진을 클릭하세요.</p>
                             <input type="file" style="display: none;">
                         </div>
@@ -157,13 +158,13 @@
                     <div>
                         <aside>닉네임</aside>
                         <div>
-                            <input class="si" type="text" value="${u.userNickname}">
+                            <input class="si" type="text" name="userNickname" value="${u.userNickname}">
                         </div>
                     </div>
                     <div>
                         <aside>이름</aside>
                         <div>
-                            <input class="si" type="text" value="${u.userName}">
+                            <input class="si" type="text" name="userName" value="${u.userName}">
                         </div>
                     </div>
                     <div>
@@ -296,7 +297,21 @@
             slidesToScroll: 1,
         });
     </script>
-
+    
+    <script>
+//     	$(".profile_sub").click((e)=>{
+// 		    e.preventDefault();
+//     		Swal.fire({
+// 				  icon: 'error',
+// 				  title: '닉네임 중복',
+// 				  text: '이미 사용중인 닉네임입니다.',
+// 		  	})    		
+//     	})
+    </script>
+    <script>
+    	const cList = ${u.categoryList};
+    </script>
+      
     <!-- 유저 수정 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mypage/usermod.js"></script>
 

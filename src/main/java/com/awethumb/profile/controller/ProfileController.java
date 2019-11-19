@@ -4,14 +4,16 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.profile.service.ProfileService;
+import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserVO;
 
 @Controller("com.awethumb.mypage.controller.ProfileController")
@@ -43,5 +45,23 @@ public class ProfileController {
 	public String update(UserVO user) {
 		service.updateUser(user);
 		return "redirect:main.do";
+	}
+	
+	@RequestMapping("/checksub.do")
+	@ResponseBody
+	public int checkSub(@RequestBody Subscribe sub) {
+		return service.checkSub(sub);
+	}
+	
+	@RequestMapping("/deletesub.do")
+	@ResponseBody
+	public void deleteSub(@RequestBody Subscribe sub) {
+		service.deleteSub(sub);
+	}
+	
+	@RequestMapping("/insertsub.do")
+	@ResponseBody
+	public void insertSub(@RequestBody Subscribe sub) {
+		service.insertSub(sub);
 	}
 }

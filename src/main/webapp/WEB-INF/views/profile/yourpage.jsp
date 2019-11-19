@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
 <body>
+	<sec:authentication property="principal.user" var="su"/>
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -37,9 +38,7 @@
                         <div class="imgHover"></div>
                     </div>
                     <div class="userInfo">
-                        <div style="text-align: right; margin: 0px;">
-                            <i class="fas fa-user-cog u_modal_btn"></i>
-                        </div>
+                        <div style="text-align: right; margin: 0px;"></div>
                         <h1>${u.userNickname}</h1>
                         <p>${u.userName}</p>
                         <div>
@@ -49,24 +48,24 @@
                             </span>
                             <div class="line"></div>
                             <span>
-                                Following
-                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
+                                Followers
+                                <span class="cnt f_cnt follower_cnt" data-type="Followers">${u.followerCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
-                                Followers
-                                <span class="cnt f_cnt" data-type="Followers">${u.followerCnt}</span>
+                                Following
+                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
                             </span>
                         </div>
-                        <div>
-                            <button class="sub_btn" type="button">
-                                   	 구독
-                                    <i class="fas fa-plus"></i>
-                            </button>
-                            <button class="unsub_btn" type="button">
-                                                                                 구독중
-                                    <i class="fas fa-check"></i>
-                            </button>
+                        <div class="sub_btn_container">
+                        	<button class="unsub_btn sBtn myHidden" type="button">
+                       			구독중
+                    			<i class="fas fa-check"></i>
+                    		</button>
+                    		<button class="sub_btn sBtn" type="button">
+                                                                        구독
+                    			<i class="fas fa-plus"></i>
+                    		</button>
                         </div>
                     </div>
                 </div>
@@ -84,10 +83,6 @@
                     <span>Progress Project</span>
                     <!-- <span>Shared Project</span> -->
                     <!-- <span>Saved Project</span> -->
-                    <div class="add_proj " >
-                        <div>추가</div>
-                        <i class="fas fa-plus proj_mod_btn" data-proj-type="1"></i>
-                    </div>
                 </div>
                 <p>진행중인 프로젝트</p>
                 <div class="mpjcont">
@@ -203,6 +198,57 @@
             slidesToShow: 1,
             slidesToScroll: 1,
         });
+    </script>
+    
+    <script>
+    	// 구독여부 확인하는 스크립트
+    	let follwerCnt = ${u.followerCnt};
+    	const subUserNo = ${su.userNo};
+    	const oppUserNo = ${u.userNo};
+    	const $sBtn = $(".sBtn");
+    	$.ajax({
+    		url: "checksub.do",
+    		type: "POST",
+			contentType: "application/json",
+    		data: JSON.stringify({
+    			subUserNo,
+    			oppUserNo
+    		})
+    	}).done((e) => {
+    		if(e == 1) $sBtn.toggleClass("myHidden");
+    	})
+    	
+    	// 구독 취소
+    	$(".unsub_btn").click(() => {
+    		$.ajax({
+        		url: "deletesub.do",
+        		type: "POST",
+    			contentType: "application/json",
+        		data: JSON.stringify({
+        			subUserNo,
+        			oppUserNo
+        		})
+        	}).done(() => {
+        		$sBtn.toggleClass("myHidden");
+        		$(".follower_cnt").text(--follwerCnt);
+        	})
+    	})
+    	
+    	// 구독
+    	$(".sub_btn").click(() => {
+    		$.ajax({
+        		url: "insertsub.do",
+        		type: "POST",
+    			contentType: "application/json",
+        		data: JSON.stringify({
+        			subUserNo,
+        			oppUserNo
+        		})
+        	}).done(() => {
+        		$sBtn.toggleClass("myHidden");
+        		$(".follower_cnt").text(++follwerCnt);
+        	})
+    	})
     </script>
     
       

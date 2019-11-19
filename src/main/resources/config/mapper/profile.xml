@@ -11,11 +11,11 @@
 		select *
 		  from user_tb u,
 		  	   (SELECT count(*) following_cnt FROM user_tb a
-		          LEFT OUTER JOIN subscribe_tb b
+		          INNER JOIN subscribe_tb b
 		            ON a.user_no = b.sub_user_no
 		         WHERE a.user_nickname = #{userNickname}) s,
 		  	   (SELECT count(*) follower_cnt FROM user_tb a
-		          LEFT OUTER JOIN subscribe_tb b
+		          INNER JOIN subscribe_tb b
 		            ON a.user_no = b.opp_user_no
 		         WHERE a.user_nickname = #{userNickname}) o
 		 where u.user_nickname = #{userNickname}
@@ -29,4 +29,21 @@
 		 where user_no = #{userNo}
 	</update>
 	
+	<select id="selectSubscribe" parameterType="Subscribe" resultType="int">
+		select count(*)
+		  from subscribe_tb
+		 where sub_user_no = #{subUserNo}
+		   and opp_user_no = #{oppUserNo}
+	</select>
+	
+	<delete id="deleteSubscribe" parameterType="Subscribe">
+		delete from subscribe_tb
+		 where sub_user_no = #{subUserNo}
+		   and opp_user_no = #{oppUserNo}
+	</delete>
+	
+	<insert id="insertSubscribe" parameterType="Subscribe">
+		insert into subscribe_tb (sub_user_no, opp_user_no)
+		values (#{subUserNo}, #{oppUserNo})
+	</insert>
 </mapper>

@@ -20,10 +20,9 @@
     <link href="https://fonts.googleapis.com/css?family=Passion+One&display=swap" rel="stylesheet">
 
 	<!-- mypage.css -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/mypage/mypage.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
 <body>
-	<sec:authentication property="principal.user" var="u"/>
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -135,94 +134,6 @@
         </div>
     </div>
 
-    <!-- 정보 수정 모달창 -->
-    <div class="u_mod modal hidden">
-        <div class="u_mod_ol modal_overlay"></div>
-        <div class="modal_content_container">
-            <div class="modal_content">
-                <form class="user_setting mod_form" method="post" action="update.do">
-                	<input name="userNo" hidden="hidden" value="${u.userNo}">
-                	<input name="categoryList" hidden="hidden" value="" />
-                    <div>
-                        <aside>
-                            <button type="button" class="img_btn">
-                                <img src="./../images/test_user.jpg">
-                            </button>
-                        </aside>
-                        <div>
-                            <h1>${u.userNickname}</h1>
-                            <p class="img_info">* 프로필 사진을 변경하기 위해 사진을 클릭하세요.</p>
-                            <input type="file" style="display: none;">
-                        </div>
-                    </div>
-                    <div>
-                        <aside>닉네임</aside>
-                        <div>
-                            <input class="si" type="text" name="userNickname" value="${u.userNickname}">
-                        </div>
-                    </div>
-                    <div>
-                        <aside>이름</aside>
-                        <div>
-                            <input class="si" type="text" name="userName" value="${u.userName}">
-                        </div>
-                    </div>
-                    <div>
-                        <aside>카테고리</aside>
-                        <div class="cc">
-                        	<c:forEach var="c" items="${categories}">
-	                           <button type="button" class="cb" data-no="${c.categoryNo}">
-	                               	${c.categoryTitle}<i class="cb_i fas fa-plus"></i>
-	                           </button>
-                        	</c:forEach>
-                        </div>
-                    </div>
-                    <div>
-                        <aside>
-                            <button class="change_pass" type="button">
-                                	비밀번호 변경
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </aside>
-                    </div>
-                    <!-- 비밀번호 변경 -->
-                    <div class="pw" data-pw="off"></div>
-                    <button class="profile_sub">제출</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- 프로젝트 추가 모달창 -->
-    <div class="proj_mod modal hidden">
-        <div class="proj_mod_ol modal_overlay"></div>
-        <div class="modal_content_container">
-            <div class="proj_mod_con modal_content">
-                <h2 class="proj_name mod_name"></h2>
-                <form class="add_proj_form mod_form">
-                    <input name="projectType" hidden="hidden"/>
-                    <div>
-                        <aside>프로젝트 썸네일</aside>
-                        <div>
-                            <input type="file" name="projectFile">
-                        </div>
-                    </div>
-                    <div>
-                        <aside>프로젝트 타이틀</aside>
-                        <div>
-                            <input type="text" name="projectTitle">
-                        </div>
-                    </div>
-                    <div>
-                        <aside>비밀 프로젝트</aside>
-                        <div>
-                            <input type="checkbox" name="projectPublicEnabled" value="Y">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- 팔로잉 모달창 -->
     <div class="f_mod modal hidden">
@@ -288,38 +199,15 @@
 
     <!-- 슬라이드 -->
     <script>
-        $(document).ready(function() {
-            $("header").load("./header.html");
-        });
-
         $('.myprojectSlide').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
         });
     </script>
     
-    <script>
-//     	$(".profile_sub").click((e)=>{
-// 		    e.preventDefault();
-//     		Swal.fire({
-// 				  icon: 'error',
-// 				  title: '닉네임 중복',
-// 				  text: '이미 사용중인 닉네임입니다.',
-// 		  	})    		
-//     	})
-    </script>
-    <script>
-    	const cList = ${u.categoryList};
-    </script>
       
-    <!-- 유저 수정 모달 -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mypage/usermod.js"></script>
-
-    <!-- 프로젝트 추가 모달 -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mypage/projmod.js"></script>
-
     <!-- 팔로잉 모달 -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mypage/followmod.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/followmod.js"></script>
 
 </body>
 </html>

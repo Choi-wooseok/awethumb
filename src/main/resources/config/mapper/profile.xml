@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.awethumb.repository.dao.MypageDAO">
+<mapper namespace="com.awethumb.repository.dao.ProfileDAO">
 	<select id="selectCategories" resultType="Category">
 		select *
 		  from category_tb
 	</select>
 	
-	<select id="selectOneUser" resultType="UserVO">
+	<select id="selectOneUser" parameterType="String" resultType="UserVO">
 		select *
 		  from user_tb
-		 where user_no = #{userNo}
+		 where user_nickname = #{userNickname}
 	</select>
 	
 	<update id="updateUser" parameterType="UserVO">
@@ -19,6 +19,6 @@
 		       user_name = #{userName},
 		       category_list = #{categoryList}
 		 where user_no = #{userNo}
-		   
 	</update>
+	
 </mapper>

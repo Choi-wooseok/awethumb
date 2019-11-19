@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <header>
-	<sec:authentication property="principal.user" var="u"/>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="u"/>
+	</sec:authorize>
     <div>
         <div class="layout_left">
             <a href="#" class="title"><span>AweThumb</span></a>  

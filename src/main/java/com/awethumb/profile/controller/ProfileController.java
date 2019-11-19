@@ -28,16 +28,21 @@ public class ProfileController {
 		UserVO user = service.selectOneUser(userNickname);
 		
 		mav.addObject("u", user);
-
-		String sessionId = p.getName();
-		// 세션 등록정보와 들어가려는 페이지의 주인이 일치할 경우 마이페이지로 이동
-		if (sessionId.equals(user.getUserId())) {
-			mav.addObject("categories", service.getCategories());
-			mav.setViewName("profile/mypage");
-			return mav;
+		
+		try {
+			String sessionId = p.getName();
+			// 세션 등록정보와 들어가려는 페이지의 주인이 일치할 경우 마이페이지로 이동
+			if (sessionId.equals(user.getUserId())) {
+				mav.addObject("categories", service.getCategories());
+				mav.setViewName("profile/mypage");
+			} else {
+				// 아닐 경우 남의 페이지로 이동
+				mav.setViewName("profile/yourpage");
+			}
+		} catch (Exception e){
+			// 세션에 유저 정보가 없을 시에도 이동
+			mav.setViewName("profile/yourpage");
 		}
-		// 아닐 경우 남의 페이지로 이동
-		mav.setViewName("profile/yourpage");
 		return mav;
 	}
 	

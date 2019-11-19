@@ -23,7 +23,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
 <body>
-	<sec:authentication property="principal.user" var="su"/>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="su"/>
+	</sec:authorize>
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -204,6 +206,7 @@
     	// 구독여부 확인하는 스크립트
     	let follwerCnt = ${u.followerCnt};
     	const subUserNo = ${su.userNo};
+//     	console.log(subUserNo);
     	const oppUserNo = ${u.userNo};
     	const $sBtn = $(".sBtn");
     	$.ajax({

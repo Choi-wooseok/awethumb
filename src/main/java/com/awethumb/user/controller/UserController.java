@@ -33,4 +33,16 @@ public class UserController {
 		return service.chkUser(map);
 	}
 	
+	@RequestMapping("/user_regist.do")
+	@ResponseBody
+	public void registUser(UserVO user) {
+		service.registUser(user);
+	}
+	
+	@RequestMapping("/regist_finish_user.do")
+	public String registFinishUser(UserVO user) {
+		service.registFinishUser(user);
+		return "user/user_join_finish";
+	}
+	
 }

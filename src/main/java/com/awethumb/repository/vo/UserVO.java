@@ -13,4 +13,5 @@ public class UserVO {
 	private String userName;
 	private String categoryList;
 	private List<Auth> authList;
+	private String userEmailKey;
 }

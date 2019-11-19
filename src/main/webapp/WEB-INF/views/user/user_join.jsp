@@ -52,7 +52,6 @@
 				    				        </div>
 				    				        
 	    				        <div class="signin-cont cont" id="join2">
-	    				        
 					                    	<c:forEach var="category" items="${categoryList}">
 					                    		<div class="thewar">
 						                    		<input type="checkbox" name="categoryList" class="inpt2" required="required" value="${category.categoryNo}">

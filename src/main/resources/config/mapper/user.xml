@@ -42,15 +42,27 @@
 	 </where> 
 </select>
 
-<insert id="insertUser" parameterType="UserVO">
-	insert into user_tb(user_id, user_pass, user_nickname, user_name, category_list)
-	values (#{userId}, #{userPass}, #{userNickname}, #{userName}, #{categoryList})
+<insert id="registUser" parameterType="UserVO">
+	insert into user_tb(user_id, user_pass, user_nickname, user_name, category_list, user_email_key)
+	values (#{userId}, #{userPass}, #{userNickname}, #{userName}, #{categoryList}, #{userEmailKey})
 </insert>
 
-<insert id="insertAuth" parameterType="Auth">
+<insert id="registAuth" parameterType="Auth">
 	insert into auth_tb(user_id, auth_type)
 	values (#{userId}, #{authType})
 </insert>
+
+<update id="registFinishUser" parameterType="UserVO">
+	update user_tb
+	   set user_email_key = 'Y'
+	 where user_id = #{userId} and user_email_key = #{userEmailKey}   
+</update>
+
+<update id="registFinishAuth" parameterType="Auth">
+	update auth_tb
+	   set auth_type = #{authType}
+	 where user_id = #{userId}
+</update>
 
     
 </mapper>

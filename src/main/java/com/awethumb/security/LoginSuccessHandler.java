@@ -24,9 +24,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			if ("ROLE_A".equals(auth.getAuthority())) {
 				response.sendRedirect(request.getContextPath() + "/admin/adminMain.do");
 				return;
+			} else if ("ROLE_R".equals(auth.getAuthority())) {
+				response.sendRedirect(request.getContextPath() + "/user/logout.do");
+				return;
 			}
 		}
-		
+		// /user/logout.do
 		response.sendRedirect(request.getContextPath() + "/feed/feed.do");
 	}
 

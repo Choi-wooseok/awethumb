@@ -50,12 +50,12 @@
                             <div class="line"></div>
                             <span>
                                 Following
-                                <span class="cnt f_cnt" data-type="Following">114</span>
+                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
                                 Followers
-                                <span class="cnt f_cnt" data-type="Followers">314</span>
+                                <span class="cnt f_cnt" data-type="Followers">${u.followerCnt}</span>
                             </span>
                         </div>
                         <div>

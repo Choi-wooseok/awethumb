@@ -14,4 +14,7 @@ public class UserVO {
 	private String categoryList;
 	private List<Auth> authList;
 	private String userEmailKey;
+	private int projectCnt;
+	private int followingCnt;
+	private int followerCnt;
 }

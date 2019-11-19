@@ -9,8 +9,16 @@
 	
 	<select id="selectOneUser" parameterType="String" resultType="UserVO">
 		select *
-		  from user_tb
-		 where user_nickname = #{userNickname}
+		  from user_tb u,
+		  	   (SELECT count(*) following_cnt FROM user_tb a
+		          LEFT OUTER JOIN subscribe_tb b
+		            ON a.user_no = b.sub_user_no
+		         WHERE a.user_nickname = #{userNickname}) s,
+		  	   (SELECT count(*) follower_cnt FROM user_tb a
+		          LEFT OUTER JOIN subscribe_tb b
+		            ON a.user_no = b.opp_user_no
+		         WHERE a.user_nickname = #{userNickname}) o
+		 where u.user_nickname = #{userNickname}
 	</select>
 	
 	<update id="updateUser" parameterType="UserVO">

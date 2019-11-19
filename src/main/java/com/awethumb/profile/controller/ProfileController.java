@@ -24,6 +24,9 @@ public class ProfileController {
 	public ModelAndView mypage(@PathVariable String userNickname, Principal p) {
 		ModelAndView mav = new ModelAndView();
 		UserVO user = service.selectOneUser(userNickname);
+		
+		mav.addObject("u", user);
+
 		String sessionId = p.getName();
 		// 세션 등록정보와 들어가려는 페이지의 주인이 일치할 경우 마이페이지로 이동
 		if (sessionId.equals(user.getUserId())) {
@@ -32,7 +35,6 @@ public class ProfileController {
 			return mav;
 		}
 		// 아닐 경우 남의 페이지로 이동
-		mav.addObject("u", user);
 		mav.setViewName("profile/yourpage");
 		return mav;
 	}

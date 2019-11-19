@@ -23,7 +23,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
 <body>
-	<sec:authentication property="principal.user" var="u"/>
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -51,23 +50,13 @@
                             <div class="line"></div>
                             <span>
                                 Following
-                                <span class="cnt f_cnt" data-type="Following">114</span>
+                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
                                 Followers
-                                <span class="cnt f_cnt" data-type="Followers">314</span>
+                                <span class="cnt f_cnt" data-type="Followers">${u.followerCnt}</span>
                             </span>
-                        </div>
-                        <div>
-                            <button class="sub_btn" type="button">
-                                   	 구독
-                                    <i class="fas fa-plus"></i>
-                            </button>
-                            <button class="unsub_btn" type="button">
-                                                                                 구독중
-                                    <i class="fas fa-check"></i>
-                            </button>
                         </div>
                     </div>
                 </div>

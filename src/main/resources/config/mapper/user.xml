@@ -20,7 +20,7 @@
 </resultMap>	
 
 <select id="selectUser" resultMap="userMap" parameterType="string" flushCache="true" useCache="true">
-	SELECT mem.user_id, user_pass, user_nickname, mem.user_name, category_list, auth_type
+	SELECT mem.user_no, mem.user_id, user_pass, user_nickname, mem.user_name, category_list, auth_type
 		  FROM user_tb mem LEFT OUTER JOIN auth_tb auth 
 		                            on mem.user_id = auth.user_id
 		 WHERE mem.user_id = #{userId}

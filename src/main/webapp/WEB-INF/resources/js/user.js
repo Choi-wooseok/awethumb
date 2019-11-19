@@ -251,6 +251,7 @@ $("#crForm").submit(() => {
     	})
     	return false;
     }
+    
     let categoryResult = "";
     categoryResult += $(categoryList).eq(0).val();
     
@@ -266,15 +267,17 @@ $("#crForm").submit(() => {
 		url: "user_regist.do",
 		data: objList,
 		success: result => {
-			// 작업해야 할 것 : 앞에 화면으로 돌아가는 거 막기, Controller에서 db insert(auth도 같이 insert - transaction)
 			visibleSelector("#join3", "#join1", "#join2");
 			visibleActiveSignup("#activeSignup3", "#activeSignup2", "#activeSignup1");
+			
+			// 이전 화면 돌아가기 클릭 이벤트 제거
+			$("#activeSignup1").off("click");
+			$("#activeSignup2").off("click");
+			$("#joinDefaultChk").off("click");
 		}
 	});
 	
-	
     return false;
-	
 	
 });
 

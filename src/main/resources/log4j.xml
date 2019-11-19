@@ -29,11 +29,7 @@
  
     <!-- Root Logger -->
     <root>
-<<<<<<< HEAD
-        <priority value="error" />
-=======
         <priority value="warn" />
->>>>>>> 9972738012a3786712d154c3cb43d38f1915bec1
         <appender-ref ref="console" />
     </root>
     

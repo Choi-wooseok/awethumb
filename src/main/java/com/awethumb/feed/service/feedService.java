@@ -9,4 +9,5 @@ public interface feedService {
 	List<feedBoard> selectFeedBoard();
 	List<Comment> selectFeedBoardComment(int postNo);
 	List<Comment> insertBoardComment(Comment comment);
+	List<Integer> selectCmtNo();
 }

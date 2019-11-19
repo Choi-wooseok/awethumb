@@ -29,9 +29,39 @@
 	background-color: rgba(0, 0, 0, 0.4);
 	/* Black w/ opacity */
 }
+.commentboard {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
 /* Modal Content/Box */
 .board-modal {
+	background-color: #fefefe;
+	margin: 15% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 3px solid #888;
+	width: 20%;
+	height: 150px;
+	/* Could be more or less, depending on screen size */
+}
+.comment-modal {
 	background-color: #fefefe;
 	margin: 15% auto;
 	/* 15% from the top and centered */
@@ -60,6 +90,14 @@
 	text-align: center;
 	border-bottom: 1px solid #e5e5e5;
 }
+.comment-modal {
+	line-height: 50px;
+}
+
+.comment-modal h4 {
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+}
 
 #report {
 	color: red;
@@ -72,11 +110,33 @@
 	background: transparent;
 }
 
-#myBoard {
+.myBoard {
 	border: none;
 	background: transparent;
 	float: right;
 }
+#commentModal {
+	border: none;
+	background: transparent;
+	float: right;
+}
+.commentModalClose {
+	font-weight: bold;
+}
+.commentModalClose:hover, 
+.commentModalClose:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+#commentModal{  
+ 	display:none;  
+} 
+.commentList:hover #commentModal{  
+	display:block;  
+} 
+
+
 </style>
 </head>
 <body>
@@ -86,56 +146,6 @@
 		<div class="feedContWrap">
 			<div class="feedWrap">
 				<!-- 리스트 반복 -->
-				<div class="feedList">
-					<div class="feedInfo">
-						<div class="feedUserImg">
-							<img src="./../images/test_user.jpg" alt="">
-						</div>
-						<div>
-							<span>userName</span>
-							<button type="button" class="myBoard">
-								<i class="fas fa-ellipsis-h"></i>
-							</button>
-						</div>
-					</div>
-					<div id="feedImgWrap">
-						<img id="feedImg" src="./../images/test_img1.jpg" alt="">
-						<div class="hoverWrap">
-							<div>
-								<button class="like">
-									<i class="far fa-heart"></i> <span>4</span>
-								</button>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="feedPlay">
-						<div>
-
-							댓글 반복
-							<div class="commentList">
-								<div class="commentUserImg">
-									<img src="./../images/test_user.jpg" alt="">
-								</div>
-								<div class="commentWrap">좋아요 누르고 갑니다.</div>
-							</div>
-
-							<div class="commentList">
-								<div class="commentUserImg">
-									<img src="./../images/test_user.jpg" alt="">
-								</div>
-								<div class="commentWrap">묻고 더블로 가 !</div>
-							</div>
-
-						</div>
-						<div id="insertComment">
-							<input type="text" />
-							<button>등록</button>
-						</div>
-					</div>
-				</div>
-				
 				<c:forEach var="bl" items="${boardlist}">
 				<div class="feedList">
 					<div class="feedInfo">
@@ -144,7 +154,7 @@
 						</div>
 						<div>
 							<span>${bl.userNickName}</span>
-							<button type="button" class="myBoard">
+							<button type="button" class="myBoard${bl.postNo}">
 								<i class="fas fa-ellipsis-h"></i>
 							</button>
 						</div>
@@ -174,8 +184,7 @@
 						<div>
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
-						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
-						
+							<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
 						<input type="hidden" class="userNo" value="1" />
 						<div class="insertComment">
 							<input class="commentWriter${bl.postNo}" type="text" />
@@ -183,25 +192,63 @@
 						</div>
 						</form>
 					</div>
+					<!--  modal -->
+					<!-- boardModal -->
+					<div id="modalBoard${bl.postNo}" class="board">
+						<!-- boardModal content -->
+						<div class="board-modal">
+							<h4>
+								<button id="report" type="button">
+									${pn}신 고<i class="fas fa-angry"></i>
+								</button>
+							</h4>
+							<h4>
+								<a href="#"><button id="share">퍼가기</button></a>
+							</h4>
+							<h4 class="boardClose${bl.postNo}">취 소${bl.postNo}</h4>
+						</div>
+					</div>
+<%-- 					<c:if test="${cmtnol empty}"> --%>
+<%-- 					<c:forEach var="c" items="${cmtnol}"> --%>
+<!-- 					<input type="hidden" class="cmtno" value="c"/> -->
+<%-- 					<div id="modalComment${c}" class="commentboard"> --%>
+<!-- 						boardModal content -->
+<!-- 						<div class="comment-modal"> -->
+<!-- 							<h4> -->
+<!-- 								<button id="" type="button"> -->
+<!-- 									수 정 -->
+<!-- 								</button> -->
+<!-- 							</h4> -->
+<!-- 							<h4> -->
+<!-- 								<button id="" type="button"> -->
+<!-- 									삭 제 -->
+<!-- 								</button> -->
+<!-- 							</h4> -->
+<%-- 							<h4 class="commentModalClose${c}">취 소${c}</h4> --%>
+<!-- 						</div> -->
+<!-- 					</div> -->
+<%-- 					</c:forEach> --%>
+<%-- 					</c:if> --%>
+					<!-- modalComment -->
+					<div id="modalComment${bl.postNo}" class="commentboard">
+						<!-- boardModal content -->
+						<div class="comment-modal">
+							<h4>
+								<button id="" type="button">
+									수 정${bl.postNo}
+								</button>
+							</h4>
+							<h4>
+								<button id="" type="button">
+									삭 제${bl.postNo}
+								</button>
+							</h4>
+							<h4 class="commentModalClose">취 소</h4>
+						</div>
+					</div> 
 				</div>
 				</c:forEach>
 			</div>
-				<!-- boardModal -->
-				<div id="modalBoard" class="board">
-					<!-- boardModal content -->
-					<div class="board-modal">
-						<h4>
-							<button id="report" type="button">
-								신 고<i class="fas fa-angry"></i>
-							</button>
-						</h4>
-						<h4>
-							<a href="bb.html"><button id="share">퍼가기</button></a>
-						</h4>
-						<h4 class="boardClose">취 소</h4>
-					</div>
-				</div>
-
 			<div class="feedSide">
 				<div>최신 글 등록</div>
 				<div>

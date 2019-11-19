@@ -23,7 +23,18 @@
 		 order by cmt_reg_dt
 	</select>
 	
-	<insert id="insertBoardComment" parameterType="Comment">
+	<select id="selectPostNo" resultType="int">
+		select post_no
+		  from board_tb
+	</select>
+	
+	<select id="selectCmtNo" parameterType="int" resultType="Comment">
+		select cmt_no
+		  from comment_tb
+		 where post_no = #{postNo}
+	</select>
+	
+	<insert id="insertBoardComment" parameterType="Comment" >
 		INSERT INTO comment_tb (
 		cmt_content, user_no, post_no
 		)values( 
@@ -31,7 +42,7 @@
 		);
 	</insert>
 	
-	
+
 </mapper>
 
 

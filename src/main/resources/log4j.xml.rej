@@ -1,0 +1,10 @@
+diff a/src/main/resources/log4j.xml b/src/main/resources/log4j.xml	(rejected hunks)
+@@ -29,7 +29,7 @@
+  
+     <!-- Root Logger -->
+     <root>
+-        <priority value="info" />
++        <priority value="error" />
+         <appender-ref ref="console" />
+     </root>
+     

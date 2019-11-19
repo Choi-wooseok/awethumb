@@ -18,26 +18,27 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@Autowired // 자동주입
 	private feedService service;
 	
-	@RequestMapping("feed.do")
+	@RequestMapping("/feed.do")
 	public void feedKong(Model model) {
 		model.addAttribute("boardlist", service.selectFeedBoard());
-		int aa = 3; // 더미 이미지 띄우는용
+		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
+		model.addAttribute("cmtnol", service.selectCmtNo());
 		
 		
 	}
 	
 	// 댓글
-	@RequestMapping("boardCommentList.do")
+	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
-	public List<Comment> selectFeedBoardComment(int postNo){
+	public List<Comment> selectComment(int postNo){
 		System.out.println("게시글번호 : " + postNo);
 		return service.selectFeedBoardComment(postNo);
 	}
 	
-	@RequestMapping("boardCommentInsert.do")
+	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
-	public List<Comment> insertBoardComment(@RequestBody Comment comment){
+	public List<Comment> commentInsert(@RequestBody Comment comment){
 		System.out.println("댓글" + comment.getCmtContent());
 		return service.insertBoardComment(comment);
 	}

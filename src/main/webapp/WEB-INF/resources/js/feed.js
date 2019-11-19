@@ -24,43 +24,43 @@ $(document).ready(function() {
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
 		let postnum = a.value;
-		$(".insertComment" + postnum).submit(() => {
-			console.log("con : " + $(".commentWriter"+ postnum).val());
-			$.post({
+		$("#insertComment" + postnum).submit(() => {
+			$.ajax({
 				url: "boardCommentInsert.do",
+				contentType : "application/json", 
+				method:"POST",
+				data: JSON.stringify({postNo: postnum, cmtContent: $(".commentWriter"+ postnum).val(), userNo : $(".userNo").val() }),
 				dataType: "json",
-				contentType: 'application/json',
-				data: JSON.stringify({postNo: postnum, cmtContent: $(".commentWriter"+ postnum).val(), userNo : $(".userNo").val()}),
-				success: (list) => boardCommentListAjax(list)
+				success: list => boardCommentListAjax(list)
 			});
 			$(".commentWriter"+ postnum).val("");
 			return false;
 		});
 		commentListAjax();
 		function commentListAjax() {
-			console.log("postN : " + postnum);
 			$.getJSON({
 				url: "boardCommentList.do",
 				data: {postNo: postnum},
-//				async: false,
 				success: list => boardCommentListAjax(list)
 			});
 		}
 		function boardCommentListAjax(list) {
-			$bcla = $(`<div class="commentList"></div>`);
+			$bcla = $(`<div></div>`);
 			$.each(list, (i	, c) => {
 				if(c.postNo == postnum){
-					console.log("postNo : " + postnum);
 					$bcla.append(
-							`
-								<div class="commentUserImg">
+						   `<div class="commentList">
+							    <div class="commentUserImg">
 									<img src="./../images/test_user.jpg" alt="">
 								</div>
 								<div class="commentWrap">내용 : ${c.cmtContent}
-								작성일자 : ${c.cmtRegDt} js체크용
-								게시판번호 : ${c.postNo}
+									작성일자 : ${c.cmtRegDt}
+									<button type="button" id="commentModal" class="commentModal${c.postNo}">
+										<i class="fas fa-ellipsis-h"></i>
+									</button>
 								</div>
-							`		
+							</div>
+							`
 					);
 					console.log("들어옴");
 				}
@@ -72,134 +72,37 @@ $(document).ready(function() {
 			$("#boardCommentList" + postnum).html($bcla);
 		};
 //		$("#boardCommentList").html('');
+		$(".myBoard" + postnum).click(() => {
+		    $("#modalBoard" + postnum).css("display","block");
+		});
+		$(".boardClose" + postnum).click(() => {
+		    $("#modalBoard" + postnum).css("display","none");
+		});
+		$(document).on("click",".commentModal" + postnum,() => {
+			$("#modalComment" + postnum).css("display","block");
+		});
+		$(".commentModalClose").click(() => {
+			$("#modalComment" + postnum).css("display","none");
+		});
 		
 	} //for
 })
 
-$(".myBoard").click(() => {
-    $("#modalBoard").css("display","block");
-});
-$(".boardClose").click(() => {
-    $("#modalBoard").css("display","none");
-    // $("#modalBoard").addClass("aaaa");
-});
-
-// comment
-//	// 댓글 등록
-//	$("#insertComment").submit(() => {
-//		console.log("insertpostNo : " + postNo); // 1 2 3 4 5
-//		$.post({
-//			url: "boardCommentInsert.do",
-//			dataType: "json",
-//			contentType: 'application/json',
-//			data: JSON.stringify({postNo, cmtContent: $(".commentWriter").val(), userNo : $(".userNo").val()}),
-//			success: (list) => boardCommentListAjax(list)
-//		});
-//		$(".commentWriter").val("");
-//		return false;
-//	});
-//});
-//commentListAjax();
-//function commentListAjax() {
-//	console.log("postNo : " + postNo); // 1 2 3 4 5
-//	$.getJSON({
-//		url: "boardCommentList.do",
-//		data: {postNo},
-//		async: false,
-//		success: list => boardCommentListAjax(list)
-//		
-//	});
-//}
-//function boardCommentListAjax(list) {
-//	$bcla = $(`<div class="commentList"></div>`);
-//	$.each(list, (i	, c) => {
-//		console.log("아ㅡㅡ : " + c.postNo); // 
-//		console.log("아오씨 : " + postNo); // 6 ?
-//		if(c.postNo == postNo){
-//			console.log("들어옴?");
-//			$bcla.append(
-//					`<div class="commentList">
-//						<div class="commentUserImg">
-//							<img src="./../images/test_user.jpg" alt="">
-//						</div>
-//						<div class="commentWrap">${c.cmtContent}
-//						작성일자 : ${c.cmtRegDt} js체크용
-//						게시판번호 : ${c.postNo}
-//						</div>
-//					</div>`		
-//			);
-//			return;
-//		}
-//		else {
-//			console.log("이씨 : " + postNo); // 6 ?
-//			$bcla.append("댓글이 없습니다.");
-//			return;
-//		}
-//	});
-//	$("#boardCommentList").html($bcla);
-//	return;
-//};
-//let postNo = document.querySelectorAll(".postNo");
-//for (let a of postNo){
-//	let postnum = a.value;
-//	commentListAjax();
-//	function commentListAjax() {
-//		console.log("postN : " + postnum);
-//		$.getJSON({
-//			url: "boardCommentList.do",
-//			data: {postNo: postnum},
-////			async: false,
-//			success: list => boardCommentListAjax(list)
-//		});
-//	}
-//	function boardCommentListAjax(list) {
-//		$bcla = $(`<div class="commentList"></div>`);
-//		$.each(list, (i	, c) => {
-//			if(c.postNo == postnum){
-//				console.log("postNo : " + postnum);
-//				$bcla.append(
-//						`<div class="commentList">
-//							<div class="commentUserImg">
-//								<img src="./../images/test_user.jpg" alt="">
-//							</div>
-//							<div class="commentWrap">내용 : ${c.cmtContent}
-//							작성일자 : ${c.cmtRegDt} js체크용
-//							게시판번호 : ${c.postNo}
-//							</div>
-//						</div>`		
-//				);
-//				console.log("들어오잖아 아,,,,,");
-//			}
-//			else {
-//				$bcla.append("댓글이 없습니다.");
-//				return;
-//			}
-//			$("#boardCommentList").html($bcla);
-//		});
-//		$("#boardCommentList").html($bcla);
-//	};
-//} //for
 
 
-//postNo.forEach(function(val, i ) {
-//    if(c.postNo === postnum){
-//    	console.log("postNo : " + postnum);
-//    	$bcla.append(
-//    	`<div class="commentList">
-//			<div class="commentUserImg">
-//				<img src="./../images/test_user.jpg" alt="">
-//			</div>
-//			<div class="commentWrap">${c.cmtContent}
-//			작성일자 : ${c.cmtRegDt} js체크용
-//			게시판번호 : ${c.postNo}
-//			</div>
-//		</div>`	
-//    	);
-//		return;
-//    }
-//});
-//$("#boardCommentList").html($bcla);
-//return;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -50,13 +50,13 @@
                             </span>
                             <div class="line"></div>
                             <span>
-                                Followers
-                                <span class="cnt f_cnt follower_cnt" data-type="Followers">${u.followerCnt}</span>
+                                Following
+                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
-                                Following
-                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
+                                Followers
+                                <span class="cnt f_cnt follower_cnt" data-type="Followers">${u.followerCnt}</span>
                             </span>
                         </div>
                         <div class="sub_btn_container">
@@ -108,25 +108,15 @@
             <div class="myprojectContWrap">
                 <div class="mpjinfo">
                     <span>Shared Project</span>
-                    <div class="add_proj ">
-                        <div>추가</div>
-                        <i class="fas fa-plus proj_mod_btn" data-proj-type="2"></i>
-                    </div>
                 </div>
                 <p>공유중인 프로젝트</p>
-                
             </div>
 
             <div class="myprojectContWrap">
                 <div class="mpjinfo">
                     <span>Saved Project</span>
-                    <div class="add_proj" >
-                        <div>추가</div>
-                        <i class="fas fa-plus  proj_mod_btn" data-proj-type="3"></i>
-                    </div>
                 </div>
                 <p>저장한 프로젝트</p>
-                
             </div>
         </div>
     </div>
@@ -162,7 +152,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="follower_container">
                     <div class="f_mod_names">
                         <h2 class="follower_following_btn">Following</h2>
@@ -206,7 +195,6 @@
     	// 구독여부 확인하는 스크립트
     	let follwerCnt = ${u.followerCnt};
     	const subUserNo = ${su.userNo};
-//     	console.log(subUserNo);
     	const oppUserNo = ${u.userNo};
     	const $sBtn = $(".sBtn");
     	$.ajax({

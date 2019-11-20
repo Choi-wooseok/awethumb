@@ -49,13 +49,13 @@
                             </span>
                             <div class="line"></div>
                             <span>
-                                Followers
-                                <span class="cnt f_cnt" data-type="Followers">${u.followerCnt}</span>
+                                Following
+                                <span class="cnt f_cnt following_count_btn" data-type="Following">${u.followingCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
-                                Following
-                                <span class="cnt f_cnt" data-type="Following">${u.followingCnt}</span>
+                                Followers
+                                <span class="cnt f_cnt follower_count_btn" data-type="Followers">${u.followerCnt}</span>
                             </span>
                         </div>
                     </div>
@@ -223,23 +223,9 @@
                         <h2 style="border-bottom-color: #000000;">Following</h2>
                         <h2 class="following_follower_btn">Follower</h2>
                     </div>
-                    <div>
-                        <ul>
-                            <li>
-                                <div class="f_mod_img_con">
-                                    <img src="./../images/test_user.jpg" class="f_mod_img"/>
-                                </div>
-                                <div class="f_mod_user_con">
-                                    <a class="f_user_nick">following</a>
-                                    <div class="f_user_name">name</div>
-                                </div>
-                                <div class="f_mod_btn_con">
-                                    <button class="sub_btn" type="button">
-                                            	구독
-                                            <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </li>
+                    <div class="f_list_container">
+                        <ul class="following_ul">
+                            
                         </ul>
                     </div>
                 </div>
@@ -249,7 +235,7 @@
                         <h2 class="follower_following_btn">Following</h2>
                         <h2 style="border-bottom-color: #000000;">Follower</h2>
                     </div>
-                    <div>
+                    <div class="f_list_container">
                         <ul>
                             <li>
                                 <div class="f_mod_img_con">
@@ -295,6 +281,9 @@
     </script>
     <script>
     	const cList = "${u.categoryList}";
+    	const userNo = ${u.userNo};
+    	
+    	
     </script>
       
 <!--     유저 수정 모달 -->

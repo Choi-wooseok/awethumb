@@ -3,6 +3,7 @@ package com.awethumb.repository.dao;
 import java.util.List;
 
 import com.awethumb.repository.vo.Category;
+import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserVO;
 
@@ -19,5 +20,7 @@ public interface ProfileDAO {
 	public void deleteSubscribe(Subscribe sub);
 
 	public void insertSubscribe(Subscribe sub);
+
+	public List<UserVO> selectFollowingList(Follow fol);
 
 }

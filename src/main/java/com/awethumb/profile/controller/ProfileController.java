@@ -1,6 +1,7 @@
 package com.awethumb.profile.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.profile.service.ProfileService;
+import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserVO;
 
@@ -68,5 +70,11 @@ public class ProfileController {
 	@ResponseBody
 	public void insertSub(@RequestBody Subscribe sub) {
 		service.insertSub(sub);
+	}
+	
+	@RequestMapping("/getfollowinglist.do")
+	@ResponseBody
+	public List<UserVO> getFollowingList(@RequestBody Follow fol) {
+		return service.getFollowingList(fol);
 	}
 }

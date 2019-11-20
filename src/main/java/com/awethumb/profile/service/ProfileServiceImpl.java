@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.ProfileDAO;
 import com.awethumb.repository.vo.Category;
+import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserVO;
 
@@ -43,5 +44,10 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public void insertSub(Subscribe sub) {
 		dao.insertSubscribe(sub);
+	}
+
+	@Override
+	public List<UserVO> getFollowingList(Follow fol) {
+		return dao.selectFollowingList(fol);
 	}
 }

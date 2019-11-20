@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <header>
 	<sec:authorize access="isAuthenticated()">
-		<sec:authentication property="principal.user" var="u"/>
+		<sec:authentication property="principal.user" var="su"/>
 	</sec:authorize>
     <div>
         <div class="layout_left">
@@ -20,7 +20,7 @@
             <span class="user layout_left">
                 <img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
             </span>
-            <a href="${pageContext.request.contextPath}/profile/${u.userNickname}">공찬희</a>
+            <a href="${pageContext.request.contextPath}/profile/${su.userNickname}">공찬희</a>
 
             <div class="optBtn">
                 <button>

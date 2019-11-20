@@ -56,24 +56,64 @@ function getFollowingListAjax() {
 	})
 	.done((e) => {
 		currentPageNo += countPerPage;
+		
 		for (let user of e){
-			$(".following_ul").append(
-				`<li class="following_li">
-					<div class="f_mod_img_con">
-						<img src="./../images/test_user.jpg" class="f_mod_img"/>
-					</div>
-					<div class="f_mod_user_con">
-						<a class="f_user_nick">${user.userNickname}</a>
-					<div class="f_user_name">${user.userName}</div>
-					</div>
-					<div class="f_mod_btn_con" data-userno="${user.userNo}">
-						<button class="sub_btn" type="button">
-						구독
-						<i class="fas fa-plus"></i>
-						</button>
-					</div>
-				</li>`)
+			const oppUserNo = user.userNo;
+			$.ajax({
+				url: "checksub.do",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({
+					subUserNo,
+					oppUserNo
+				})
+			})
+			.done((e) => {
+				$(".following_ul").append(
+					`<li class="following_li">
+						<div class="f_mod_img_con">
+							<img src="./../images/test_user.jpg" class="f_mod_img"/>
+						</div>
+						<div class="f_mod_user_con">
+							<a class="f_user_nick">${user.userNickname}</a>
+							<div class="f_user_name">${user.userName}</div>
+						</div>
+						<div class="f_mod_btn_con" id="user_${user.userNo}">
+						</div>
+					</li>`)
+				if(e == 1) {
+					$(`#user_${user.userNo}`).append(`
+						<button class="mod_unsub_btn unsub_btn" type="button" data-userNo="${user.userNo}">
+							구독중
+							<i class="fas fa-plus"></i>
+						</button>`)
+				} else{
+					$(`#user_${user.userNo}`).append(`
+						<button class="mod_sub_btn sub_btn" type="button" data-userno="${user.userNo}">
+							구독
+							<i class="fas fa-plus"></i>
+						</button>`)
+				}
+			})
 		}
+		
+		$(document).on("click", ".mod_unsub_btn", (e) => {
+			const oppUserNo = $(e.target).data("userno");
+			$.ajax({
+        		url: "deletesub.do",
+        		type: "POST",
+    			contentType: "application/json",
+        		data: JSON.stringify({
+        			subUserNo,
+        			oppUserNo
+        		})
+        	})
+        	.done(() => {
+        		$(e.target).removeClass("mod_unsub_btn").removeClass("unsub_btn")
+        		           .addClass("mod_sub_btn").addClass("sub_btn")
+        		           .html(`구독<i class="fas fa-plus"></i>`)
+        	})
+		})
 	})
 }
 

@@ -43,7 +43,7 @@
 		 inner join user_tb u
 		    on u.user_no = p.user_no
 		  left outer join hashtag_tb h
-		 	 on b.post_no = h.post_no
+		 	on b.post_no = h.post_no
 		 order by b.post_no desc
 	</select>
 	

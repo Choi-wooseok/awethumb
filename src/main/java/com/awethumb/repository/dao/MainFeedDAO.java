@@ -15,7 +15,7 @@ import com.awethumb.repository.vo.MainFeed;
 
 public interface MainFeedDAO {
 	List<MainFeed> selectMainFeed();
-	List<MainFeed> selectOneMainFeed(int postNo);
+	MainFeed selectOneMainFeed(int postNo);
 //	void updateViewCnt(int no);
 //	void insertBoard(Board board);
 //	void updateBoard(Board board);

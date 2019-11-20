@@ -26,7 +26,7 @@ public class MainFeedServiceImpl implements MainFeedService {
 		return dao.commentCount(postNo);
 	}
 	
-	public List<MainFeed> detailMainFeed(int postNo) {
+	public MainFeed detailMainFeed(int postNo) {
 		return dao.selectOneMainFeed(postNo);
 	}
 //

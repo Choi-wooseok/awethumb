@@ -1,4 +1,5 @@
 // back to top
+
 	   $(document).ready(function(){ 
 		
 		    $(window).scroll(function(){ 
@@ -44,13 +45,15 @@
 							</div>
 						</div>
 
-						<div class="feedsImgWrap ">
-							<a class="detailFeed" href="javascript:;"> <img src="${pageContextURI}/images/main_bg.jpg" alt="">
+						<div class="feedsImgWrap">
+							<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
 							</a>
 						</div>
 
 						<div class="feedsPlay" id="feedsPlay${c.postNo}">
 							<div class="feedsContWrap">${c.postContent}</div>
+							<br>
+						<br>
 							`)
 							if (`${c.hashtagContent}` != 'null') {
 								$(`#feedsPlay${c.postNo}`).append(`<div class="hashTag">
@@ -71,19 +74,24 @@
 		}
 		
 // --------------- detail -------------
-	$(".detailFeed").click(function() {
-		$.getJSON({
+	$(document).on('click', '.detailFeed', (e) => {
+		$.ajax({
 			url: "detailmainfeed.do",
-			data: {postNo},
-			success: result => makeDetailFeed(result)
+			data: {
+				postNo:$(e.target).data("postno")
+			},
+			dataType: "JSON",
+			success: result => {
+				makeDetailFeed(result);
+				setTimeout(function makemodalattribute(){}, 1000);
+			}
 		})
 	});
-	function makeDetailFeed(detailList) {
-		console.log("1", detailList);
+	 
+	function makeDetailFeed(detail) {
 		$feed = $("#detailFeedModal");
-		$.each(detailList, (i, d) => {
 			$feed.append(`
-				<div class="modal hidden">
+				<div class="modal" id="modal${detail.postNo}">
 					<div class="modal_overlay"></div>
 					<div class="modal_content_container">
 						<i class="fas fa-caret-left arw-btn"></i>
@@ -97,32 +105,43 @@
 	                            	<img src="./../images/test_user.jpg" alt="">
 	                        	</div>
 	                        	<div class="userName">
-	                            	<a href="#">${d.userNickname}</a>
+	                            	<a href="#">${detail.userNickname}</a>
 	                            	<button id="myBoard"><i class="fas fa-bars"></i></button>
 	                        	</div>
                     		</div>
                     	`)
-            $.each(d.commentList, (i, c) => {
-            	$feed.append(`
+            $.each(detail.commentList, (i, c) => {
+            	$(`#rightBox`).append(`
             				<div class="comment">
         						<div class="commentList">
 		                			<div class="commentUserImg">
 		                    			<img src="./../images/test_user.jpg" alt="">
 		                			</div>
 		                			<div class="commentWrap">
-		                   				${c.commentContent}
-		                			</div>
-        						</div>
-            				</div>
-            	 `)
+		                			`)
+		                			if (`${c.cmtContent}` != 'null'){
+		                			$(`.commentWrap`).append(`${c.cmtContent}
+				                			</div>
+		        						</div>
+		            				</div>
+		                			`)
+		                			} else {
+		                			$(`.commentWrap`).append(`
+		                				<span>등록된 댓글이 없습니다.</span>
+		                				</div>
+		        						</div>
+		            				</div>
+		                			`)
+		                			}
             })
-            $feed.append(`
+            $(`#rightBox`).append(`
 			            	<div class="insertComment">
 			                    <input type="text" />
 			                    <button>등록</button>
 			                </div>
             			</div>
-            		</div>
+            		</div>`)
+            $(`#modal${detail.postNo}`).append(`
 	            <i class="fas fa-caret-right arw-btn"></i>
 	        </div>
 	    </div>
@@ -135,18 +154,18 @@
 	        </div>
 	    </div>
 			`)
-		})
 	}
 
 // --------- detail modal -----------------
-        $(document).ready(function() {
-        	if (window.location.href.indexOf("detailmainfeed.do") != -1) {
+        function makemodalattribute() {
         	let maxSize = 600;
         	let image = document.getElementById("image");
         	console.log(image);
         	let boxSize = document.getElementById("boxSize");
         	let imgHeight = image.height;
         	let imgWidth = image.width;
+        	console.log(imgHeight);
+        	console.log(imgWidth);
         	let rightBox = document.getElementById("rightBox");
             if (imgWidth > maxSize && imgHeight > maxSize) {
                 if (imgWidth > imgHeight) {
@@ -168,7 +187,7 @@
         
 
         const modal = document.querySelector(".modal");
-        const mBtn = document.querySelector("#detailFeed");
+        const mBtn = document.querySelector(".detailFeed");
         
         // 모달창 클래스 토글 기능
         function hideModal() {
@@ -176,6 +195,7 @@
         }
         // 취소 버튼 클릭시 모달창 닫힘
         mBtn.addEventListener("click", hideModal)
+        
         // 모달창 밖에 클릭시 모달창 닫힘
         document.querySelector(".modal_overlay").addEventListener("click", hideModal)
 
@@ -217,8 +237,7 @@
             boardModal.style.display = "none";
         }
         })
-        	}
-        });
+        };
  // infinity scroll
 		
 // let html = "<div>";

@@ -30,7 +30,7 @@ public class MainFeedController {
 	
 	@GetMapping("/detailmainfeed.do")
 	@ResponseBody
-	public List<MainFeed> mainFeeddetail(int postNo) {
+	public MainFeed mainFeeddetail(int postNo) {
 		return service.detailMainFeed(postNo);
 //		System.out.println("디테일 들어옴");
 	}

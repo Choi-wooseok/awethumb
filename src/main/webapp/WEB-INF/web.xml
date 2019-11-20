@@ -35,7 +35,23 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   
-  
+  <error-page>
+	<error-code>404</error-code>
+	<location>/error/404.do</location>
+  </error-page>
+  <error-page>
+	<error-code>405</error-code>
+	<location>/error/405.do</location>
+  </error-page>
+
+  <error-page>
+	<error-code>500</error-code>
+	<location>/error/500.do</location>
+  </error-page>
+	
+  <error-page>
+	<location>/error/default.do</location>
+  </error-page>
   
   
   

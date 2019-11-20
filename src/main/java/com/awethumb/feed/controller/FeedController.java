@@ -23,7 +23,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		model.addAttribute("boardlist", service.selectFeedBoard());
 		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
-		model.addAttribute("cmtnol", service.selectCmtNo());
 		
 		
 	}
@@ -32,15 +31,25 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
 	public List<Comment> selectComment(int postNo){
-		System.out.println("게시글번호 : " + postNo);
 		return service.selectFeedBoardComment(postNo);
 	}
-	
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
 	public List<Comment> commentInsert(@RequestBody Comment comment){
 		System.out.println("댓글" + comment.getCmtContent());
 		return service.insertBoardComment(comment);
+	}
+	@RequestMapping("/boardCommentDelete.do")
+	@ResponseBody
+	public List<Comment> commentDelete(Comment comment) {
+		System.out.println("댓삭제");
+		return  service.deleteBoardComment(comment);
+	}
+	@RequestMapping("/boardCommentUpdate.do")
+	@ResponseBody
+	public List<Comment> commentUpdate(Comment comment){
+		System.out.println("댓수정");
+		return service.updateBoardComment(comment);
 	}
 	
 }

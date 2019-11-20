@@ -23,6 +23,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
 <body>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="su"/>
+	</sec:authorize>
     <!-- include header -->
     <header>
     	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -282,9 +285,11 @@
     <script>
     	const cList = "${u.categoryList}";
     	const userNo = ${u.userNo};
+    	const subUserNo = ${su.userNo};
     	
     	
     </script>
+    
       
 <!--     유저 수정 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/usermod.js"></script>

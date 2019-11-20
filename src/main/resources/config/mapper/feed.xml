@@ -28,12 +28,6 @@
 		  from board_tb
 	</select>
 	
-	<select id="selectCmtNo" parameterType="int" resultType="Comment">
-		select cmt_no
-		  from comment_tb
-		 where post_no = #{postNo}
-	</select>
-	
 	<insert id="insertBoardComment" parameterType="Comment" >
 		INSERT INTO comment_tb (
 		cmt_content, user_no, post_no
@@ -42,6 +36,17 @@
 		);
 	</insert>
 	
+	<delete id="deleteBoardComment" parameterType="int">
+		DELETE 
+		  FROM comment_tb
+		 WHERE cmt_no = #{cmtNo}
+	</delete>
+	
+	<update id="updateBoardComment" parameterType="Comment">
+		UPDATE comment_tb
+		   SET cmt_content = #{cmtContent}
+		 WHERE cmt_no = #{cmtNo}
+	</update>
 
 </mapper>
 

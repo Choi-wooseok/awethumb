@@ -1,3 +1,4 @@
+let loginUserNo = $(".loginUserNo").val();
 let maxSize = 598;
 let boxSize = document.getElementById("feedImgWrap")
 let image = document.getElementById("feedImg");
@@ -23,19 +24,68 @@ $(document).ready(function() {
 	}
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
-		let postnum = a.value;
+		let postnum = a.value; // 게시글번호받기 걷기
+		// 등록
 		$("#insertComment" + postnum).submit(() => {
 			$.ajax({
 				url: "boardCommentInsert.do",
 				contentType : "application/json", 
 				method:"POST",
-				data: JSON.stringify({postNo: postnum, cmtContent: $(".commentWriter"+ postnum).val(), userNo : $(".userNo").val() }),
+				data: JSON.stringify({
+					postNo: postnum,
+					cmtContent: $(".commentWriter"+ postnum).val(),
+					userNo : loginUserNo
+				}),
 				dataType: "json",
 				success: list => boardCommentListAjax(list)
 			});
 			$(".commentWriter"+ postnum).val("");
 			return false;
 		});
+		// 삭제
+		$("#boardCommentList" + postnum).on("click", "a.delete", (e) => {
+			$("#updateText").css("display","none");
+			$.ajax({
+				url: "boardCommentDelete.do",
+				data: {cmtNo: $(e.target).data("no")},
+				dateType:"json",
+				success: (list) => boardCommentListAjax(list)
+			});
+		});
+		// 수정
+		$("#boardCommentList" + postnum).on("click", "button.cancel", (e) => {
+			$("#updateText").css("display","none");
+		});
+		// 댓글 수정
+		$("#boardCommentList" + postnum).on("click", "button.update", (e) => {
+			let cmtNo = $(e.target).data("no");
+			let cmtCon = $(e.target).data("content");
+			$.ajax({
+				url: "boardCommentUpdate.do",
+				type: "POST",
+				data: {
+					postNo : postnum,
+					cmtContent: $("#contentUpdate").val(), 
+					cmtNo :  cmtNo
+				},
+				dataType: "json",
+				success: list => boardCommentListAjax(list)
+			});
+			
+		}); // 댓글수정폼
+		$("#boardCommentList" + postnum).on("click", "a.modify", (e) => {
+			$("#modalComment" + postnum).css("display","none"); // 모달닫아버리기
+			let cmtNo = $(e.target).data("no");
+			let cmtCon = $(e.target).data("context");
+			$("#commentWrap" +  cmtNo).append(
+					`<div id="updateText">
+						<input type="text" id="contentUpdate" value="${cmtCon}"/>
+						<button class="update" data-no=${cmtNo}>수정</button>
+						<button class="cancel" data-no=${cmtNo}>취소</button>
+					</div>`
+			);
+		}); // 댓글수정폼
+		
 		commentListAjax();
 		function commentListAjax() {
 			$.getJSON({
@@ -44,34 +94,88 @@ $(document).ready(function() {
 				success: list => boardCommentListAjax(list)
 			});
 		}
+		let commentnum = 0;
 		function boardCommentListAjax(list) {
 			$bcla = $(`<div></div>`);
 			$.each(list, (i	, c) => {
+				console.log("로그인유저 : " + loginUserNo);
+				console.log("댓글 쓴 유저 : " + c.userNo);
 				if(c.postNo == postnum){
+					if (loginUserNo == c.userNo){
 					$bcla.append(
-						   `<div class="commentList">
+						   `<div class="commentList${c.cmtNo}" id="commentList">
 							    <div class="commentUserImg">
 									<img src="./../images/test_user.jpg" alt="">
 								</div>
-								<div class="commentWrap">내용 : ${c.cmtContent}
+								<div id="commentWrap${c.cmtNo}" class="commentWrap">
+									로그인성공
+									내용 : ${c.cmtContent}
 									작성일자 : ${c.cmtRegDt}
+									댓글유저번호 : ${c.userNo}?
+									로그인 유저번호: ${loginUserNo}
 									<button type="button" id="commentModal" class="commentModal${c.postNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</div>
 							</div>
-							`
-					);
-					console.log("들어옴");
-				}
-				else {
-					$bcla.append("댓글이 없습니다.");
-					return;
-				}
-			});
+							<div id="modalComment${c.postNo}" class="commentboard">
+								<div class="comment-modal">
+									<h4>
+										<a href="javascript:void(0);"
+										data-no="${c.cmtNo}"
+										data-context="${c.cmtContent}"
+										class="modify">
+										수정 @@ ${c.cmtNo}
+										</a>
+									</h4>
+									<h4>
+										<a href="javascript:void(0);" data-no="${c.cmtNo}" class="delete"> 
+										삭제 @@ ${c.cmtNo}
+										</a>	
+									</h4>
+									<h4 class="commentModalClose">취 소</h4>
+								</div>
+							</div>`
+						);
+					}
+					else {
+						$bcla.append(
+								   `<div class="commentList${c.cmtNo}" id="commentList">
+									    <div class="commentUserImg">
+											<img src="./../images/test_user.jpg" alt="">
+										</div>
+										<div id="commentWrap${c.cmtNo}" class="commentWrap">
+											로그인실패
+											내용 : ${c.cmtContent}
+											작성일자 : ${c.cmtRegDt}
+											댓글유저번호 : ${c.userNo}
+											로그인 유저번호: ${loginUserNo}
+										</div>
+									</div>
+									<div id="modalComment" class="commentboard">
+										<div class="comment-modal">
+											<h4>
+												<a href="javascript:void(0);"
+												data-no="${c.cmtNo}"
+												data-context="${c.cmtContent}"
+												class="modify">
+												수정 @@ ${c.cmtNo}
+												</a>
+											</h4>
+											<h4>
+												<a href="javascript:void(0);" data-no="${c.cmtNo}" class="delete"> 
+												삭제 @@ ${c.cmtNo}
+												</a>	
+											</h4>
+											<h4 class="commentModalClose">취 소</h4>
+										</div>
+									</div>`
+								);
+					} // else
+				}// if
+			}); // each
 			$("#boardCommentList" + postnum).html($bcla);
 		};
-//		$("#boardCommentList").html('');
 		$(".myBoard" + postnum).click(() => {
 		    $("#modalBoard" + postnum).css("display","block");
 		});
@@ -81,19 +185,11 @@ $(document).ready(function() {
 		$(document).on("click",".commentModal" + postnum,() => {
 			$("#modalComment" + postnum).css("display","block");
 		});
-		$(".commentModalClose").click(() => {
+		$(document).on("click",".commentModalClose", () => {
 			$("#modalComment" + postnum).css("display","none");
 		});
-		
 	} //for
 })
-
-
-
-
-
-
-
 
 
 

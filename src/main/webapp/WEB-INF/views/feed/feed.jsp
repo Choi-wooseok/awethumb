@@ -132,7 +132,7 @@
 #commentModal{  
  	display:none;  
 } 
-.commentList:hover #commentModal{  
+#commentList:hover #commentModal{  
 	display:block;  
 } 
 
@@ -184,12 +184,11 @@
 						<div>
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
-							<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
-						<input type="hidden" class="userNo" value="1" />
-						<div class="insertComment">
-							<input class="commentWriter${bl.postNo}" type="text" />
-							<button >등록</button>
-						</div>
+						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
+							<div class="insertComment">
+								<input class="commentWriter${bl.postNo}" type="text" />
+								<button >등록</button>
+							</div>
 						</form>
 					</div>
 					<!--  modal -->
@@ -208,47 +207,12 @@
 							<h4 class="boardClose${bl.postNo}">취 소${bl.postNo}</h4>
 						</div>
 					</div>
-<%-- 					<c:if test="${cmtnol empty}"> --%>
-<%-- 					<c:forEach var="c" items="${cmtnol}"> --%>
-<!-- 					<input type="hidden" class="cmtno" value="c"/> -->
-<%-- 					<div id="modalComment${c}" class="commentboard"> --%>
-<!-- 						boardModal content -->
-<!-- 						<div class="comment-modal"> -->
-<!-- 							<h4> -->
-<!-- 								<button id="" type="button"> -->
-<!-- 									수 정 -->
-<!-- 								</button> -->
-<!-- 							</h4> -->
-<!-- 							<h4> -->
-<!-- 								<button id="" type="button"> -->
-<!-- 									삭 제 -->
-<!-- 								</button> -->
-<!-- 							</h4> -->
-<%-- 							<h4 class="commentModalClose${c}">취 소${c}</h4> --%>
-<!-- 						</div> -->
-<!-- 					</div> -->
-<%-- 					</c:forEach> --%>
-<%-- 					</c:if> --%>
-					<!-- modalComment -->
-					<div id="modalComment${bl.postNo}" class="commentboard">
-						<!-- boardModal content -->
-						<div class="comment-modal">
-							<h4>
-								<button id="" type="button">
-									수 정${bl.postNo}
-								</button>
-							</h4>
-							<h4>
-								<button id="" type="button">
-									삭 제${bl.postNo}
-								</button>
-							</h4>
-							<h4 class="commentModalClose">취 소</h4>
-						</div>
-					</div> 
+					<!-- commentModal -->
+<%-- 					<div id="commentBoardAjax${bl.postNo}"></div> --%>
 				</div>
 				</c:forEach>
 			</div>
+			<input type="hidden" class="loginUserNo" value="1" />
 			<div class="feedSide">
 				<div>최신 글 등록</div>
 				<div>

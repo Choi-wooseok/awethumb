@@ -14,24 +14,45 @@
 		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 	<bean id="loginSuccessHandler" class="com.awethumb.security.LoginSuccessHandler" />	  
+	<bean id="loginFailureHandler" class="com.awethumb.security.LoginFailureHandler" />	  
 	
 	<bean id="myBatisUserDetailsService" class="com.awethumb.security.MyBatisUserDetailsService" />	  
 	<security:http> 
 		<security:csrf disabled="true" />
-<!-- 		<security:intercept-url pattern="/**" access="permitAll" /> -->
 <!-- 		<security:intercept-url pattern="/security/user.do" access="hasRole('ROLE_U')" /> -->
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_A')" />
+<!-- 		<security:intercept-url pattern="/**" access="permitAll" /> -->
 		<security:form-login login-page="/user/login_main.do" username-parameter="userId" 
 							 password-parameter="userPass"  
-		                     authentication-success-handler-ref="loginSuccessHandler" />
+		                     authentication-success-handler-ref="loginSuccessHandler"
+		                     authentication-failure-handler-ref="loginFailureHandler" 
+		/>
 		<security:logout logout-url="/user/logout.do" 
 						 logout-success-url="/user/login_main.do"
 		                 invalidate-session="true" 
 		                 delete-cookies="JSESSIONID" />
+		<security:access-denied-handler
+	    		error-page="/error/403.do"
+		/>
 	</security:http>					
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="myBatisUserDetailsService">
 			<security:password-encoder ref="bcryptPasswordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+
+	
+	<!-- 메세지 관련 관리 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	   <property name="basenames">
+		   <list>
+		       <value>/WEB-INF/messages/spring_security_messages</value>
+		   </list>
+	   </property>
+	   <property name="defaultEncoding" value="UTF-8"/>
+	   <property name="cacheSeconds" value="5"/>
+	</bean>
+	
+	
 </beans>

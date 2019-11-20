@@ -3,6 +3,7 @@ package com.awethumb.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.bridge.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,7 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		System.out.println("userId : " + userId);
-		UserVO user = dao.selectUser(userId);   
+		UserVO user = dao.selectUser(userId);
 		List<SimpleGrantedAuthority> list = new ArrayList<>();
 		for (Auth auth : user.getAuthList()) {
 			list.add(new SimpleGrantedAuthority(auth.getAuthType()));

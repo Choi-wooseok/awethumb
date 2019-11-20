@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 			dao.registUser(user);
 			Auth auth = new Auth();
 			auth.setUserId(user.getUserId());
-			auth.setAuthType("ROLE_R");
+			auth.setAuthType("ROLE_U");
 			dao.registAuth(auth);
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -50,13 +50,8 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	@Transactional
 	public void registFinishUser(UserVO user) {
 		dao.registFinishUser(user);
-		Auth auth = new Auth();
-		auth.setUserId(user.getUserId());
-		auth.setAuthType("ROLE_U");
-		dao.registFinishAuth(auth);
 	}
 	
 }

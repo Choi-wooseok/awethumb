@@ -11,5 +11,4 @@ public interface UserDAO {
 	void registUser(UserVO user);
 	void registAuth(Auth auth);
 	void registFinishUser(UserVO user);
-	void registFinishAuth(Auth auth);
 }

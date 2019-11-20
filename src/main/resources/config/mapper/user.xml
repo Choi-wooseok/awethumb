@@ -10,6 +10,7 @@
 	<result property="userPass" column="user_pass" />
 	<result property="userNickname" column="user_nickname" />
 	<result property="categoryList" column="category_list" />
+	<result property="userEmailKey" column="user_email_key" />
 	<collection property="authList" resultMap="authMap" />
 	
 </resultMap>
@@ -20,7 +21,7 @@
 </resultMap>	
 
 <select id="selectUser" resultMap="userMap" parameterType="string" flushCache="true" useCache="true">
-	SELECT mem.user_no, mem.user_id, user_pass, user_nickname, mem.user_name, category_list, auth_type
+	SELECT mem.user_no, mem.user_id, user_pass, user_nickname, mem.user_name, category_list, user_email_key, auth_type
 		  FROM user_tb mem LEFT OUTER JOIN auth_tb auth 
 		                            on mem.user_id = auth.user_id
 		 WHERE mem.user_id = #{userId}
@@ -58,13 +59,6 @@
 	 where user_id = #{userId} and user_email_key = #{userEmailKey}   
 </update>
 
-<update id="registFinishAuth" parameterType="Auth">
-	update auth_tb
-	   set auth_type = #{authType}
-	 where user_id = #{userId}
-</update>
-
-    
 </mapper>
 
 

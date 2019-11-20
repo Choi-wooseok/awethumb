@@ -1,11 +1,13 @@
 package com.awethumb.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.AdminDAO;
+import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Report;
@@ -60,6 +62,37 @@ public class AdminServiceImpl implements AdminService{
 	public UserVO selectOneUserByComment(Comment comment) {
 		return dao.selectOneUserByComment(comment);
 	}
+
+	@Override
+	public List<Report> insertBlock(Map<String, String> rmap) {
+		dao.insertBlock(rmap);
+		return dao.selectReport();
+	}
+
+	@Override
+	public void updateReportStatus(Map<String, String> rmap) {
+		dao.updateReportStatus(rmap);
+	}
+
+	@Override
+	public List<Block> selectBlock(int userNo) {
+		return dao.selectBlock(userNo);
+	}
+
+	@Override
+	public void denyReportStatus(int reportNo) {
+		dao.denyReportStatus(reportNo);
+	}
+
+	@Override
+	public List<Report> deleteBlock(int userNo) {
+		dao.deleteBlock(userNo);
+		return  dao.selectReport();
+	}
+	
+	
+
+	
 	
 	
 	

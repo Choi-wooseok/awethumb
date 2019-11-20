@@ -27,6 +27,9 @@ public class Report {
     // 신고 내용 
     private String reportContent;
     
+    // 신고 처리 상태
+    private String reportStatus;
+    
 	/* 출력의 편의를 위해 만들어진 변수들 */
     
     // 유저 아이디
@@ -43,4 +46,7 @@ public class Report {
     private Comment comment;
     private UserVO commentUser;
     private Board board;
+    
+    // 유저의 정지상태
+    private String blockEnabled;
 }

@@ -3,6 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.AdminDAO">
 
+
 <!-- 신고목록 셀렉 처리안된거부터 셀렉하고 밑에다가 처리된거 끌어오는 쿼리-->
 <select id="selectReport" resultType="Report">
 	select *
@@ -88,6 +89,52 @@
 	 where user_no = #{userNo}
 </select>
 
+<select id="chkUser" resultType="int" parameterType="hashmap">
+	select count(*)
+	  from user_tb
+	 <where>
+	 	<choose>
+	 		<when test="chkType == 'userId'">
+	 			and user_id = #{chkValue}
+	 		</when>
+	 		<when test="chkType == 'userNickname'">
+	 			and user_nickname = #{chkValue}
+	 		</when>
+	 	</choose>
+	 </where> 
+</select>
+
+
+		<!-- 리포트에 있는 유저넘버를 이용해 block_tb에 그 유저에 대한게 있는지 조사 하는 쿼리 -->
+		<select id="selectBlock" parameterType="int" resultType="Block">
+			select *
+			  from block_tb
+			 where user_no = #{userNo}
+		</select>
+		<!-- 승인거절처리시 리포트넘버만 이용해서 스테이터스값을 Y로 변경 -->
+		<update id="denyReportStatus" parameterType="int">
+			update report_tb
+			   set report_status = 'Y'
+			 where report_no = #{reportNo}
+		</update>
+<!-- 유저 그 기간만큼 정지처리하고, 리포트의 상태값 처리됨으로 변경 -->
+		<!-- 새로운 block insert -->
+		<insert id="insertBlock" parameterType="hashmap">
+			insert into block_tb(user_no, block_code,block_end_dt)
+			values(#{userNo}, #{blockCode}, STR_TO_DATE(#{blockDate}, '%Y-%m-%d'))
+		</insert>
+		<!-- report_tb의 status값을 변경 -->
+		<update id="updateReportStatus" parameterType="hashmap">
+			update report_tb
+			   set report_status = 'Y'
+			 where report_no = #{reportNo}
+		</update>
+		<!-- block delete -->
+		<delete id="deleteBlock" parameterType="hashmap">
+			delete from block_tb
+			where user_no = #{userNo}
+		</delete>
+		<!--  -->
 <!-- 	<select id="selectBoard" resultType="Board"> -->
 <!-- 		select * -->
 <!-- 		  from tb_board -->

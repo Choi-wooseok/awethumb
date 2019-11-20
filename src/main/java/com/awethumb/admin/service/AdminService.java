@@ -1,7 +1,9 @@
 package com.awethumb.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Report;
@@ -9,13 +11,18 @@ import com.awethumb.repository.vo.UserVO;
 
 public interface AdminService {
 
-	public List<Report> getReport();
-	public String selectUserId(int userNo);
-	public String selectReportReason(int blockCode);
-	public String selectPostContent(int postNo);
-	public Report selectOneReport(int reportNo);
-	public Comment selectOneComment(Report report);
-	public UserVO selectOneUser(Report report);
-	public Board selectOneBoard(Report report);
-	public UserVO selectOneUserByComment(Comment comment);
+	List<Report> getReport();
+	String selectUserId(int userNo);
+	String selectReportReason(int blockCode);
+	String selectPostContent(int postNo);
+	Report selectOneReport(int reportNo);
+	Comment selectOneComment(Report report);
+	UserVO selectOneUser(Report report);
+	Board selectOneBoard(Report report);
+	UserVO selectOneUserByComment(Comment comment);
+	List<Report> insertBlock(Map<String, String> rmap);
+	void updateReportStatus(Map<String, String> rmap);
+	List<Block> selectBlock(int userNo);
+	void denyReportStatus(int reportNo);
+	List<Report> deleteBlock(int userNo);
 }

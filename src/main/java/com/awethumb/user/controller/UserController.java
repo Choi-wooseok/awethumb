@@ -2,15 +2,13 @@ package com.awethumb.user.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.awethumb.common.service.CommonService;
 import com.awethumb.repository.vo.UserVO;
@@ -26,11 +24,9 @@ public class UserController {
 	CommonService commService;
 	
 	@RequestMapping("/login_main.do")
-	public void loginMain(Model model, HttpServletRequest req) {
-		System.out.println("222222222222222222222222");
-		System.out.println("errMsg : " + req.getParameter("errMsg"));
+	public void loginMain(Model model) {
+		
 		model.addAttribute("categoryList", commService.selectCategoryList());
-		model.addAttribute("errMsg", req.getParameter("errMsg"));
 	}
 	
 	@RequestMapping("/chk_user.do")
@@ -49,6 +45,12 @@ public class UserController {
 	public String registFinishUser(UserVO user) {
 		service.registFinishUser(user);
 		return "user/user_join_finish";
+	}
+	
+	@RequestMapping("/login_fail.do")
+	public String loginFail(String errCode, RedirectAttributes attr) {
+		attr.addFlashAttribute("errCode", errCode);
+		return "redirect:/user/login_main.do";
 	}
 	
 

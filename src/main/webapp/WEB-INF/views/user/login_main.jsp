@@ -29,10 +29,18 @@
             <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
         </div>
     </section>
-
+	<span><spring:message code="userlogin.fail" /></span>
 	<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
 	<script type="text/javascript">
-		let errMsg = '${errMsg}';
+	let errCode = '${errCode}';
+	console.log("errcode : ",'${errCode}');
+		if ('${errCode}' == 1) {
+			Swal.fire({
+				  icon: 'error',
+				  title: '로그인 실패',
+				  text: '<spring:message code="userlogin.fail" />'
+			})
+		}
 	</script> 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
 

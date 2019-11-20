@@ -314,6 +314,7 @@ if (errMsg.trim() !== '') {
 	})
 }
 
+
 //Swal.fire({
 //	  icon: 'error',
 //	  title: '필수 사항 미입력',

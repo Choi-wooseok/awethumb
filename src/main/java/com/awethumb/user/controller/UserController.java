@@ -2,7 +2,10 @@ package com.awethumb.user.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +26,11 @@ public class UserController {
 	CommonService commService;
 	
 	@RequestMapping("/login_main.do")
-	public void loginMain(Model model) {
+	public void loginMain(Model model, HttpServletRequest req) {
+		System.out.println("222222222222222222222222");
+		System.out.println("errMsg : " + req.getParameter("errMsg"));
 		model.addAttribute("categoryList", commService.selectCategoryList());
+		model.addAttribute("errMsg", req.getParameter("errMsg"));
 	}
 	
 	@RequestMapping("/chk_user.do")

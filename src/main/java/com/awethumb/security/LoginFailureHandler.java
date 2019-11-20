@@ -19,7 +19,12 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		exception.printStackTrace();
+		
+		System.out.println("1111111111111111111111111111111111111111111");
+//		exception.printStackTrace();
+		System.out.println("throw exception : " + exception.getMessage());
+		response.sendRedirect(request.getContextPath() + "/user/login_main.do?errMsg=해당되는 회원 정보를 찾을 수 없습니다. 다시 로그인 해주세요.");
+		
 	}
 
 	

@@ -53,10 +53,10 @@ $("#userIdChk").click(() => {
 $("#userNicknameChk").click(() => {
 	chkUser('userNickname', $("#userNickname").val(), "이미 등록된 유저 닉네임 입니다.", "nickname");
 });
-
+// 아이디 80자 제한 처리 해야 함
 function chkUser(chkType, chkValue, validateMsg, chkIdNick) {
 	if (chkIdNick == "id") {
-		if(chkValue.trim() == '' || !(idPtn.test(chkValue))) {
+		if(chkValue.trim() == '' || !(idPtn.test(chkValue)) || chkValue > 79) {
 			Swal.fire({
 				icon: 'error',
 				title: '유효하지 않은 아이디',
@@ -305,6 +305,14 @@ function visibleSelector(visibleView, ...selVal) {
 $("#closeModal").click(() => {
 	$(".modal").css("display","none");
 });
+
+if (errMsg.trim() !== '') {
+	Swal.fire({
+	  icon: 'error',
+	  title: '회원정보 불일치',
+	  text: errMsg
+	})
+}
 
 //Swal.fire({
 //	  icon: 'error',

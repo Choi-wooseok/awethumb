@@ -24,12 +24,19 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 	UserDAO dao;
 
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		System.out.println("userId : " + userId);
+	public UserDetails loadUserByUsername(String userId) {
 		UserVO user = dao.selectUser(userId);
-		List<SimpleGrantedAuthority> list = new ArrayList<>();
-		for (Auth auth : user.getAuthList()) {
-			list.add(new SimpleGrantedAuthority(auth.getAuthType()));
+		List<SimpleGrantedAuthority> list = null;
+		try {
+			System.out.println("userId : " + userId);
+			list = new ArrayList<>();
+			for (Auth auth : user.getAuthList()) {
+				list.add(new SimpleGrantedAuthority(auth.getAuthType()));
+			}
+			
+		} catch (UsernameNotFoundException e) {
+//			e.getMessage();
+		} catch (Exception e) {
 		}
 		return user == null ? null : new SecurityUser(user, list);
 	} 

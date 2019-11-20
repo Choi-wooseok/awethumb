@@ -12,21 +12,29 @@
         
 </head>
 <body>
-
+	<sec:authorize access="isAuthenticated()">
+		<script>
+			location.href="${pageContext.request.contextPath}/mainfeed/mainfeed.do"
+		</script>
+	</sec:authorize>
 	    <section id="index">
-	        <div class="indexBg"></div>
-	        <div class="login">
-	            <p class="title">AweThumb</p>
-	            <form method='post' action="<c:url value="/login" />" >
-	                <input type="text" name="userId" id="id" placeholder="username" />
-	                <input type="password" name="userPass" id="pass" placeholder="password" />
-	                <button>Login</button>
-	            </form>
-	            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
-	        </div>
-	    </section>
- 	<%@ include file="/WEB-INF/views/user/user_join.jsp"%>   
- 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
- 	
+        <div class="indexBg"></div>
+        <div class="login">
+            <p class="title">AweThumb</p>
+            <form method='post' action="<c:url value="/login" />" >
+                <input type="text" name="userId" id="id" placeholder="username" />
+                <input type="password" name="userPass" id="pass" placeholder="password" />
+                <button>Login</button>
+            </form>
+            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
+        </div>
+    </section>
+
+	<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
+	<script type="text/javascript">
+		let errMsg = '${errMsg}';
+	</script> 
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
+
 </body>
 </html>

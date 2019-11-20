@@ -28,7 +28,7 @@
 		                     authentication-failure-handler-ref="loginFailureHandler" 
 		/>
 		<security:logout logout-url="/user/logout.do" 
-						 logout-success-url="/user/login_main.do"
+						 logout-success-url="/user/login-main.do"
 		                 invalidate-session="true" 
 		                 delete-cookies="JSESSIONID" />
 		<security:access-denied-handler

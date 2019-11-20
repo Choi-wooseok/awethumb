@@ -418,15 +418,27 @@ section > div.content {
 .optionModalBtn {
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 8px;
+    width: 25px;
+    height: 25px;
     background-color: transparent;
     border: none;
     display: none;
 }
-.grid-stack-item-content:hover .optionModalBtn {
+.grid-stack-item-content:hover .optionModalBtn,
+.grid-stack-item-content:hover .detailBtn {
     display: block;
 }
-
+.detailBtn {
+	position: absolute;
+	top: 5px;
+	right: 35px;
+	width: 25px;
+	height: 25px;
+	background-color: transparent;
+	border: none;
+	display: none;
+}
 .optionModalWrap {
     position: fixed;
     width: 100%;
@@ -438,6 +450,7 @@ section > div.content {
     background-color: #00000085;
     z-index:100;
     display: none;
+    cursor: pointer;
 }
 
 .optionModalWrap > div {
@@ -611,9 +624,10 @@ section > div.content {
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #00000035;
+    z-index: 100;
 }
 .modal_overlay {
     background-color: rgba(0,0,0,0.19);
@@ -622,8 +636,10 @@ section > div.content {
     position: absolute;
 }
 .modal_content_container {
-    display: flex;
-    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .arw-btn {
     font-size: 6rem;
@@ -636,27 +652,60 @@ section > div.content {
     position: relative;
     display: table;
 }
-.modal_content > div:first-child {
+.modal_content > #boxSize {
     position: relative;
     display: table-cell;
     vertical-align: middle;
     line-height: 0;
 }
-.modal_content > div:last-child {
+/* #boxSize > img {
+	max-width: 600px;
+	max-height: 600px;
+} */
+.modal_content_container > .fa-caret-left {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -105px;
+}
+.modal_content_container > .fa-caret-right {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -105px;
+}
+.ModaluserInfo > div {
+	float: left
+}
+.userName {
+	box-sizing: border-box;
+	padding-lefT: 15px;
+	line-height: 32px;
+}
+
+.modalContWrap > div:last-child {
     width: 360px;
     min-height: 400px;
     box-sizing: border-box;
+    float: right;
 }
-.modal_content > div:last-child > div.ModaluserInfo {
+.ModaluserInfo {
     width: 100%;
-    display: table;
     box-sizing: border-box;
-    padding: 12px 15px;
+    padding: 9px 15px;
     border-bottom: 1px solid #efefef;
+    overflow: hidden;
 }
 .modal_content > div:last-child > div.ModaluserInfo > div {
     display: table-cell;
     vertical-align: middle;
+}
+.modalCont {
+	width: 100%;
+    max-height: 150px;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 8px;
 }
 .modal_content > div:last-child > div.ModaluserInfo > div:first-child {
     width: 50px;
@@ -684,7 +733,7 @@ section > div.content {
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    padding: 12px 15px 3px 15px;
+    padding: 9px 15px;
     overflow: hidden;
 }
 .commentList::before{
@@ -720,8 +769,22 @@ section > div.content {
     float: left;
     margin-top: 15px;
 }
+.comment {
+	height: calc(100% - 201px);
+	overflow: auto;
+}
 .commentUserImg > img {
     width: 100%;
+}
+#modalClose {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 25px;
+	height: 25px;
+	background-color: transparent;
+	border: none;
+	z-index: 1;
 }
 .commentWrap {
     position: relative;
@@ -733,8 +796,9 @@ section > div.content {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 .insertComment {
-    position: relative;
+    position: absolute;
     width: 100%;
+    bottom: 0;
 }
 .insertComment > input {
     width: 100%;
@@ -993,4 +1057,21 @@ section#feeds {
     float: right;
     border: none;
     background-color: transparent;
+}
+.commentUser {
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+.commentUser > img {
+	width: 100%;
+}
+.modalTitle {
+	width: 100%;
+	height: 50px;
+
+}
+#boxSize {
+	float: left;
 }

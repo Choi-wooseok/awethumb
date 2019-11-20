@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.detailBoard.service.DetailBoardService;
 import com.awethumb.repository.vo.Board;
@@ -21,11 +22,8 @@ public class DetailBoardController {
 	@RequestMapping("detailBoardList.do")
 	public void DetailBoardList(Model model) {
 		List<Board> bList = service.selectBoardList();
-		System.out.println("글목록 갯수 : " + bList.size());
-		
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
-			System.out.println(bList.get(i).getPostNo() + "의 이미지 갯수 :" + fList.size());
 			bList.get(i).setListFile(fList);
 		}
 		model.addAttribute("list", bList);
@@ -35,5 +33,38 @@ public class DetailBoardController {
 	public String insertBoard(Board board) {
 		service.insertBoard(board);
 		return "redirect:detailBoardList.do";
+	}
+
+	@RequestMapping("delete.do")
+	public String deleteBoard(int postNo) {
+		service.deleteBoard(postNo);
+		return "redirect:updateListForm.do";
+	}
+	
+	@RequestMapping("updateListForm.do")
+	public void updateListForm(Model model) {
+		List<Board> bList = service.selectBoardList();
+		for (int i = 0; i < bList.size(); i++) {
+			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
+			bList.get(i).setListFile(fList);
+		}
+		model.addAttribute("list", bList);
+	}
+
+	@RequestMapping("update.do")
+	public String updateBoard(Board board) {
+		service.updateBoard(board);
+		return "redirect:updateListForm.do";
+	}
+	
+	@RequestMapping("updateList.do")
+	public void updateList(int postNo, int x_coord, int y_coord, int width, int hight) {
+		service.updateList(postNo, x_coord, y_coord, width, hight);
+	}
+	
+	@RequestMapping("selectOneBoard.do")
+	@ResponseBody
+	public Board selectOneBoard(int postNo) {
+		return service.selectOneBoard(postNo);
 	}
 }

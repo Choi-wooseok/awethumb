@@ -37,6 +37,33 @@
 		);
 	</select>
 	
+	<delete id="deleteBoard" parameterType="int">
+		delete 
+		from board_tb
+		where post_no = ${postNo}
+	</delete>
+	
+	<select id="selectOneBoard" parameterType="int" resultType="Board">
+		select *
+		from board_tb
+		where post_no = ${postNo}
+	</select>
+	
+	<update id="updateBoard" parameterType="Board">
+		update board_tb
+		set post_content = '${postContent}'
+		where post_no = ${postNo}
+	</update>
+	
+	<update id="updateList" parameterType="Board">
+		update board_tb
+		set
+			x_coord = ${xCoord}, 
+			y_coord = ${yCoord}, 
+			width = ${width}, 
+			hight = ${hight}
+		where post_no = ${postNo};
+	</update>
 </mapper>
 
 

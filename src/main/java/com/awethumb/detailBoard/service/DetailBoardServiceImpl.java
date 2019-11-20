@@ -27,4 +27,26 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public void insertBoard(Board board) {
 		dao.insertBoard(board);
 	}
+	
+	public void deleteBoard(int postNo) {
+		dao.deleteBoard(postNo);
+	}
+	
+	public void updateBoard(Board board) {
+		dao.updateBoard(board);
+	}
+	
+	public void updateList(int postNo, int x_coord, int y_coord, int width, int hight) {
+		Board board = dao.selectOneBoard(postNo);
+		board.setxCoord(x_coord);
+		board.setyCoord(y_coord);
+		board.setWidth(width);
+		board.setHight(hight);
+		dao.updateList(board);
+	}
+	
+	public Board selectOneBoard(int postNo) {
+		return dao.selectOneBoard(postNo);
+	}
+
 }

@@ -7,6 +7,11 @@ import com.awethumb.repository.vo.BoardFile;
 
 public interface DetailBoardDAO {
 	List<Board> selectBoardList();
-	List<BoardFile> selectImgList(int postNo);
 	void insertBoard(Board board);
+	void deleteBoard(int postNo);
+	void updateBoard(Board board);
+	Board selectOneBoard(int postNo);
+	void updateList(Board board);
+	
+	List<BoardFile> selectImgList(int postNo);
 }

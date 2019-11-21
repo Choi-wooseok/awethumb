@@ -30,7 +30,6 @@ function sendFile(file, el) {
 		processData: false,
 		success: function(url) {
 			$(el).summernote('editor.insertImage', url);
-			$('.note-editable').append('<img src="'+url+'"/>');
 		}
     });
 }

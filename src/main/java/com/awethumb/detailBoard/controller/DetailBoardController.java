@@ -2,6 +2,8 @@ package com.awethumb.detailBoard.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -75,10 +77,10 @@ public class DetailBoardController {
 	
 	@PostMapping("imageUpload.do")
     @ResponseBody
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         try {
             BoardFile uploadedFile = FileUploadUtil.store(file);
-            return ResponseEntity.ok().body("images/" + uploadedFile.getBoardFileOrgName());
+            return ResponseEntity.ok().body(request.getContextPath() + "/image/" + uploadedFile.getBoardFileOrgName());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

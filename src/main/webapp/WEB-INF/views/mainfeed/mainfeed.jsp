@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="./../css/mainfeed.css">
 <!-- Jquery -->
 <script type="text/javascript" src="../js/jquery.js"></script>
+<script src="//code.jquery.com/jquery-2.2.2.min.js"></script>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
@@ -33,8 +34,7 @@
 <!-- font icon -->
 
 <!-- grid -->
-<script src="<c:url value='/js/brick/brick.min.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/js/brick/brick.css' />">
+<link rel="stylesheet" href="<c:url value='/js/brick/masonry.css' />">
 
 </head>
 <body>
@@ -48,15 +48,11 @@
 			<div id="detailFeedModal"></div>
 		</section>	
 	</div>
+	<script src="<c:url value='/js/brick/masonry.min.js'/>"></script>
+	<script src="<c:url value='/js/brick/masonry.js' />"></script>
 	<script>
-	let pageContextURI = '${pageContext.request.contextPath}';
-		//init
-		$('.msrItems').msrItems({
-			'colums' : 3, //columns number
-			'margin' : 20
-		//right and bottom margin
-		});
-
+		let pageContextURI = '${pageContext.request.contextPath}';
+		
 		//update columns size on window resize
 		$(window).on('resize', function(e) {
 			time = setTimeout(function() {
@@ -64,6 +60,7 @@
 			}, 200);
 			clearTimeout(time);
 		})
+		
 	</script>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>

@@ -34,6 +34,16 @@ const pageCount = 5;
 	  		 MainfeedMakeAjax();
 	  	 }
 	   });
+	   function masonry() {
+		 //init
+		   $('.msrItems').msrItems({
+				'colums' : 3, //columns number
+				'margin' : 20
+			//right and bottom margin
+			});
+		   
+	   }
+	 
 // -------------- mainfeed 생성 및 페이징 -------------------------
 	   function MainfeedMakeAjax() {
 			$.getJSON({
@@ -42,11 +52,8 @@ const pageCount = 5;
 					pageIndex
 				},
 				success: list => {
-//					if (list.length == 0) {
-//						pageIndex -= pageCount;
-//					} else {
-						makeMainFeedList(list)
-//					}
+					makeMainFeedList(list)
+					setTimeout(() => {masonry()}, 100);
 				}
 				
 			})

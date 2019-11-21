@@ -32,14 +32,11 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 			for (Auth auth : user.getAuthList()) {
 				list.add(new SimpleGrantedAuthority(auth.getAuthType()));
 			}
-			
 		} catch (UsernameNotFoundException e) {
-//			e.getMessage();
+
 		} catch (Exception e) {
 		}
-//		if (!("Y".equals(user.getUserEmailKey()))) {
-//			user = null;
-//		}
+
 		return user == null ? null : new SecurityUser(user, list);
 	} 
 }

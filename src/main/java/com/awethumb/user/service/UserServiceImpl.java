@@ -33,25 +33,31 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Transactional
-	public void registUser(UserVO user) {
+	public int registUser(UserVO user) {
+		int result = 0;
 		try {
 			String rdmKey = mailService.mailSendWithUserKey(user.getUserId(), user.getUserName());
 			user.setUserEmailKey(rdmKey);
 			user.setUserPass(encoder.encode(user.getUserPass()));
-			dao.registUser(user);
+			result += dao.registUser(user);
 			Auth auth = new Auth();
 			auth.setUserId(user.getUserId());
 			auth.setAuthType("ROLE_U");
-			dao.registAuth(auth);
+			result += dao.registAuth(auth);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 	
-	public void registFinishUser(UserVO user) {
-		dao.registFinishUser(user);
+	@Transactional
+	public int registFinishUser(UserVO user) {
+		if (dao.selectEmailAuth(user.getUserId()) != 0) {
+			return dao.registFinishUser(user);
+		};
+		return 0;
 	}
 	
 }

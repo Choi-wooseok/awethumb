@@ -37,13 +37,19 @@ public class UserController {
 	
 	@RequestMapping("/user_regist.do")
 	@ResponseBody
-	public void registUser(UserVO user) {
-		service.registUser(user);
+	public int registUser(@RequestBody UserVO user) {
+		System.out.println("user : " + user);
+		return service.registUser(user);
 	}
 	
 	@RequestMapping("/regist_finish_user.do")
-	public String registFinishUser(UserVO user) {
-		service.registFinishUser(user);
+	public String registFinishUser(UserVO user, Model model) {
+		int result = service.registFinishUser(user);
+		if (result == 1) {
+			model.addAttribute("emailStatus", "회원가입이 완료되었습니다.");
+		} else {
+			model.addAttribute("emailStatus", "이미 이메일 인증이 완료 되었습니다. 로그인 해주세요.");
+		}
 		return "user/user_join_finish";
 	}
 	

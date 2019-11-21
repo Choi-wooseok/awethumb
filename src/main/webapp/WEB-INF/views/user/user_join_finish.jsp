@@ -22,7 +22,7 @@
             <br />
             <br />
             <br />
-            <p class="loginText">회원가입이 완료되었습니다.</p>
+            <p class="loginText">${emailStatus}</p>
             <br />
             <br />
             <br />

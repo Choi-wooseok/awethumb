@@ -49,7 +49,7 @@
 			Swal.fire({
 				  icon: 'error',
 				  title: '로그인 실패',
-				  text: '<spring:message code="userlogin.email.auth" />'
+				  text: '<spring:message code="userlogin.fail" />'
 			})
 		}
 	</script> 

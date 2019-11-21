@@ -56,7 +56,7 @@ $("#userNicknameChk").click(() => {
 // 아이디 80자 제한 처리 해야 함
 function chkUser(chkType, chkValue, validateMsg, chkIdNick) {
 	if (chkIdNick == "id") {
-		if(chkValue.trim() == '' || !(idPtn.test(chkValue)) || chkValue > 79) {
+		if(chkValue.trim() == '' || !(idPtn.test(chkValue)) || chkValue.length > 79) {
 			Swal.fire({
 				icon: 'error',
 				title: '유효하지 않은 아이디',
@@ -77,7 +77,7 @@ function chkUser(chkType, chkValue, validateMsg, chkIdNick) {
 	}
 	$.ajax({
 		url: 'chk_user.do',
-		method: 'post',
+		method: 'POST',
 		data: JSON.stringify({chkType, chkValue}),
 		contentType: 'application/json; charset=UTF-8',
 		success: result => {
@@ -154,7 +154,7 @@ function passChk() {
 	  if(password.length != 0 || passwordRetry.length != 0) {
 		  if(password != passwordRetry) {
 			  $("#passChkVal").css("color", "red");
-			  $("#passChkVal").html("&nbsp;&nbsp;* 비밀번호 불일치");
+			  $("#passChkVal").html("* 비밀번호 불일치");
 			  passFlag = false;  
 		  } else {
 			  $("#passChkVal").css("color", "black");
@@ -174,6 +174,15 @@ $("#crForm").submit(() => {
     		  text: '이메일 형식의 아이디를 입력하세요.',
     	})
         return false;
+    }
+    
+    if(obj.userId.value.length > 79) {
+    	Swal.fire({
+    		icon: 'error',
+    		title: '필수 사항 미입력',
+    		text: '80자 이하의 이메일 주소를 입력해 주세요',
+    	})
+    	return false;
     }
     
     if(!(passPtn.test(obj.userPass.value))) {
@@ -265,8 +274,18 @@ $("#crForm").submit(() => {
     			   categoryList : categoryResult };
 	$.ajax({
 		url: "user_regist.do",
-		data: objList,
+		type: 'POST',
+		data: JSON.stringify(objList),
+		contentType: 'application/json; charset=UTF-8',
 		success: result => {
+			if (result != 2) {
+				Swal.fire({
+		    		icon: 'error',
+		    		title: '시스템 오류',
+		    		text: '시스템 오류로 가입이 되지 않았습니다. 다시 진행해 주세요.'
+		    	})
+		    	return;
+			}
 			visibleSelector("#join3", "#join1", "#join2");
 			visibleActiveSignup("#activeSignup3", "#activeSignup2", "#activeSignup1");
 			
@@ -305,14 +324,6 @@ function visibleSelector(visibleView, ...selVal) {
 $("#closeModal").click(() => {
 	$(".modal").css("display","none");
 });
-
-if (errMsg.trim() !== '') {
-	Swal.fire({
-	  icon: 'error',
-	  title: '회원정보 불일치',
-	  text: errMsg
-	})
-}
 
 
 //Swal.fire({

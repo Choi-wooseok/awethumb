@@ -28,6 +28,13 @@
 	
 </select>
 
+<select id="selectEmailAuth" resultType="int" parameterType="string" flushCache="true" useCache="true">
+	SELECT count(*)
+		  FROM user_tb 
+		 WHERE user_id = #{userId} and user_email_key != 'Y'
+	
+</select>
+
 <select id="chkUser" resultType="int" parameterType="hashmap">
 	select count(*)
 	  from user_tb
@@ -58,6 +65,8 @@
 	   set user_email_key = 'Y'
 	 where user_id = #{userId} and user_email_key = #{userEmailKey}   
 </update>
+
+
 
 </mapper>
 

@@ -4,7 +4,7 @@
     <!-- 모달창 -->
     <div class="modal hidden">
         <div class="modal_content_container">
-            <div class="modal_content" style="display: inline-block; margin: 0 auto; height: 550px; margin-top: 100px; width: 750px;">
+            <div class="modal_content" style="display: inline-block; margin: 0 auto; height: 550px; width: 750px;">
                 <div id="boxSize">
 					<section class="container">
 					<div style="text-align: center; float: right;">

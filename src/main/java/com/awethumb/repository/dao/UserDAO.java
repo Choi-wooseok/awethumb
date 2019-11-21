@@ -8,7 +8,8 @@ import com.awethumb.repository.vo.UserVO;
 public interface UserDAO {
 	UserVO selectUser(String userId);
 	int chkUser(Map<String, Object> map);
-	void registUser(UserVO user);
-	void registAuth(Auth auth);
-	void registFinishUser(UserVO user);
+	int registUser(UserVO user);
+	int registAuth(Auth auth);
+	int registFinishUser(UserVO user);
+	int selectEmailAuth(String userId);
 }

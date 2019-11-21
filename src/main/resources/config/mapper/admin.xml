@@ -134,7 +134,19 @@
 			delete from block_tb
 			where user_no = #{userNo}
 		</delete>
-		<!--  -->
+		
+		<!-- 페이징 관련 시작 -->
+		<!-- selectReportPaging(@Param("pagenum") int pagenum, @Param("contentnum") int contentnum);
+		int reportcount(); -->
+		<select id="selectReportPaging" resultType="Report" parameterType="Criteria">
+			select * from report_tb
+			order by report_status ASC, report_no DESC
+			limit #{page}, #{perPageNum}
+		</select>
+		<select id="reportCount" resultType="int">
+			select count(*) from report_tb
+		</select>
+		
 <!-- 	<select id="selectBoard" resultType="Board"> -->
 <!-- 		select * -->
 <!-- 		  from tb_board -->

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.Report;
 import com.awethumb.repository.vo.UserVO;
 
@@ -25,4 +26,7 @@ public interface AdminService {
 	List<Block> selectBlock(int userNo);
 	void denyReportStatus(int reportNo);
 	List<Report> deleteBlock(int userNo);
+	
+	List<Report> selectReportPaging(Criteria criteria);
+	int reportCount();
 }

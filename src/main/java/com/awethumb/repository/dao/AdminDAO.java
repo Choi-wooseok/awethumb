@@ -6,6 +6,7 @@ import java.util.Map;
 import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.Report;
 import com.awethumb.repository.vo.UserVO;
 
@@ -24,4 +25,8 @@ public interface AdminDAO {
 	List<Block> selectBlock(int userNo);
 	void denyReportStatus(int reportNo);
 	void deleteBlock(int userNo);
+	
+	/* 페이징 관련 */
+	List<Report> selectReportPaging(Criteria criteria);
+	int reportCount();
 }

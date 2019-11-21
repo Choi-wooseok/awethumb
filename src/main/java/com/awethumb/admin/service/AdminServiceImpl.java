@@ -10,6 +10,7 @@ import com.awethumb.repository.dao.AdminDAO;
 import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.Report;
 import com.awethumb.repository.vo.UserVO;
 
@@ -89,6 +90,17 @@ public class AdminServiceImpl implements AdminService{
 		dao.deleteBlock(userNo);
 		return  dao.selectReport();
 	}
+
+	@Override
+	public List<Report> selectReportPaging(Criteria criteria) {
+		return dao.selectReportPaging(criteria);
+	}
+
+	@Override
+	public int reportCount() {
+		return dao.reportCount();
+	}
+	
 	
 	
 

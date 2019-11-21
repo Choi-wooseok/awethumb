@@ -55,4 +55,14 @@ public class ProfileServiceImpl implements ProfileService{
 	public List<UserVO> getFollowerList(Follow fol) {
 		return dao.selectFollowerList(fol);
 	}
+
+	@Override
+	public List<UserVO> getSearchFollowerList(Follow fol) {
+		return dao.selectSearchFollowerList(fol);
+	}
+
+	@Override
+	public List<UserVO> getSearchFollowingList(Follow fol) {
+		return dao.selectSearchFollowingList(fol);
+	}
 }

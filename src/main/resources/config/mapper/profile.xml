@@ -61,4 +61,21 @@
          ORDER BY o.sub_date desc
          LIMIT #{currentPageNo}, #{countPerPage}
 	</select>
+	
+	<select id="selectSearchFollowerList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT sub_user_no, sub_date FROM subscribe_tb WHERE opp_user_no = #{userNo}) o
+         WHERE u.user_no = o.sub_user_no
+           AND u.user_nickname like CONCAT('%',#{searchName},'%')
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<select id="selectSearchFollowingList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT opp_user_no, sub_date FROM subscribe_tb WHERE sub_user_no = #{userNo}) o
+         WHERE u.user_no = o.opp_user_no
+           AND u.user_nickname like CONCAT('%',#{searchName},'%')
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
 </mapper>

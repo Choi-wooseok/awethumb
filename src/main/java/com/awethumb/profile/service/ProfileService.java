@@ -17,4 +17,6 @@ public interface ProfileService {
 	public void insertSub(Subscribe sub);
 	public List<UserVO> getFollowingList(Follow fol);
 	public List<UserVO> getFollowerList(Follow fol);
+	public List<UserVO> getSearchFollowerList(Follow fol);
+	public List<UserVO> getSearchFollowingList(Follow fol);
 }

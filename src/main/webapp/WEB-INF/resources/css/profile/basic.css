@@ -27,7 +27,7 @@
     box-sizing: border-box;
     background-color: #fff;
     width: 600px;
-    height: 500px;
+    height: 552px;
     padding: 40px;
 }
 .mod_form > div{
@@ -201,4 +201,12 @@ li {
 .f_list_container {
 	height: 378px;
 	overflow: auto;
+}
+.f_srch{
+	width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+    margin: 8px 0px;
+    height: 36px;
+    font-size: 16px;
 }

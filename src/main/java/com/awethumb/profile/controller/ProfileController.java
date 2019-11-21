@@ -82,4 +82,14 @@ public class ProfileController {
 	public List<UserVO> getFollowerList(@RequestBody Follow fol) {
 		return service.getFollowerList(fol);
 	}
+	@RequestMapping("/getsearchfollowerlist.do")
+	@ResponseBody
+	public List<UserVO> getSearchFollowerList(@RequestBody Follow fol) {
+		return service.getSearchFollowerList(fol);
+	}
+	@RequestMapping("/getsearchfollowinglist.do")
+	@ResponseBody
+	public List<UserVO> getSearchFollowingList(@RequestBody Follow fol) {
+		return service.getSearchFollowingList(fol);
+	}
 }

@@ -3,10 +3,10 @@ package com.awethumb.repository.dao;
 import java.util.List;
 
 import com.awethumb.repository.vo.Comment;
-import com.awethumb.repository.vo.feedBoard;
+import com.awethumb.repository.vo.FeedBoard;
 
-public interface feedDAO {
-	List<feedBoard> selectFeedBoard(); // 게시판전체
+public interface FeedDAO {
+	List<FeedBoard> selectFeedBoard(); // 게시판전체
 	List<Integer> selectCmtNo(); // 게시판번호받기
 	List<Integer> selectPostNo(); // 게시판번호받기
 	

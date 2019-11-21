@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.awethumb.repository.dao.feedDAO;
+import com.awethumb.repository.dao.FeedDAO;
 import com.awethumb.repository.vo.Comment;
-import com.awethumb.repository.vo.feedBoard;
+import com.awethumb.repository.vo.FeedBoard;
 @Service
-public class feedServiceImpl implements feedService {
+public class FeedServiceImpl implements FeedService {
 	@Autowired
-	private feedDAO dao; 
+	private FeedDAO dao; 
 	
-	public List<feedBoard> selectFeedBoard() {
+	public List<FeedBoard> selectFeedBoard() {
 		return dao.selectFeedBoard();
 	}
 	public List<Comment> selectFeedBoardComment(int postNo){
@@ -25,6 +25,7 @@ public class feedServiceImpl implements feedService {
 	}
 	public List<Comment> deleteBoardComment(Comment comment){
 		dao.deleteBoardComment(comment.getCmtNo());
+		System.out.println("postNo : " + comment.getPostNo());
 		return dao.selectFeedBoardComment(comment.getPostNo());
 	}
 	public List<Comment> updateBoardComment(Comment comment) {

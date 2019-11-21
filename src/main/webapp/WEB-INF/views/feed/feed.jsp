@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <!DOCTYPE html>
@@ -147,6 +147,7 @@
 			<div class="feedWrap">
 				<!-- 리스트 반복 -->
 				<c:forEach var="bl" items="${boardlist}">
+				<input type="hidden" class="loginUserNo" value="1" />
 				<div class="feedList">
 					<div class="feedInfo">
 						<div class="feedUserImg">
@@ -185,7 +186,7 @@
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
 						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
-							<div class="insertComment">
+							<div class="insertComment insertComment2">
 								<input class="commentWriter${bl.postNo}" type="text" />
 								<button >등록</button>
 							</div>
@@ -212,7 +213,7 @@
 				</div>
 				</c:forEach>
 			</div>
-			<input type="hidden" class="loginUserNo" value="1" />
+			
 			<div class="feedSide">
 				<div>최신 글 등록</div>
 				<div>

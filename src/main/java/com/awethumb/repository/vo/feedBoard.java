@@ -3,7 +3,7 @@ package com.awethumb.repository.vo;
 import lombok.Data;
 
 @Data
-public class feedBoard {
+public class FeedBoard {
 	 // 글 번호 
     private int postNo;
 

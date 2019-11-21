@@ -22,7 +22,6 @@ $(document).ready(function() {
 		boxSize.style.height = maxSize + "px";
 		image.style.height = "100%";
 	}
-	$('#pagination').focus();
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
 		let postnum = a.value; // 게시글번호받기 걷기

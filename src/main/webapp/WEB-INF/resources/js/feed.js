@@ -27,7 +27,7 @@ $(document).ready(function() {
 		let postnum = a.value; // 게시글번호받기 걷기
 		$(function () {
 			// 등록
-			$("#insertComment" + postnum).submit((e) => {
+			$("#insertComment" + postnum).submit(() => {
 				$.ajax({
 					url: "boardCommentInsert.do",
 					contentType : "application/json", 

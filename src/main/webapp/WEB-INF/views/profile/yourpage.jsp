@@ -132,23 +132,8 @@
                         <h2 style="border-bottom-color: #000000;">Following</h2>
                         <h2 class="following_follower_btn">Follower</h2>
                     </div>
-                    <div>
-                        <ul>
-                            <li>
-                                <div class="f_mod_img_con">
-                                    <img src="./../images/test_user.jpg" class="f_mod_img"/>
-                                </div>
-                                <div class="f_mod_user_con">
-                                    <a class="f_user_nick">following</a>
-                                    <div class="f_user_name">name</div>
-                                </div>
-                                <div class="f_mod_btn_con">
-                                    <button class="sub_btn" type="button">
-                                            	구독
-                                            <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </li>
+                    <div class="f_list_container following_list_con">
+                        <ul class="following_ul">
                         </ul>
                     </div>
                 </div>
@@ -157,23 +142,8 @@
                         <h2 class="follower_following_btn">Following</h2>
                         <h2 style="border-bottom-color: #000000;">Follower</h2>
                     </div>
-                    <div>
-                        <ul>
-                            <li>
-                                <div class="f_mod_img_con">
-                                    <img src="./../images/test_user.jpg" class="f_mod_img"/>
-                                </div>
-                                <div class="f_mod_user_con">
-                                    <a class="f_user_nick">follower</a>
-                                    <div class="f_user_name">name</div>
-                                </div>
-                                <div class="f_mod_btn_con">
-                                    <button class="sub_btn" type="button">
-                                           	 구독
-                                            <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </li>
+                    <div class="f_list_container follower_list_con">
+                        <ul class="follower_ul">
                         </ul>
                     </div>
                 </div>
@@ -195,15 +165,16 @@
     	// 구독여부 확인하는 스크립트
     	let follwerCnt = ${u.followerCnt};
     	const subUserNo = ${su.userNo};
-    	const oppUserNo = ${u.userNo};
+    	const userNo = ${u.userNo};
     	const $sBtn = $(".sBtn");
+    	
     	$.ajax({
     		url: "checksub.do",
     		type: "POST",
 			contentType: "application/json",
     		data: JSON.stringify({
     			subUserNo,
-    			oppUserNo
+    			oppUserNo : userNo
     		})
     	}).done((e) => {
     		if(e == 1) $sBtn.toggleClass("myHidden");
@@ -217,7 +188,7 @@
     			contentType: "application/json",
         		data: JSON.stringify({
         			subUserNo,
-        			oppUserNo
+        			oppUserNo: userNo
         		})
         	}).done(() => {
         		$sBtn.toggleClass("myHidden");
@@ -233,7 +204,7 @@
     			contentType: "application/json",
         		data: JSON.stringify({
         			subUserNo,
-        			oppUserNo
+        			oppUserNo: userNo
         		})
         	}).done(() => {
         		$sBtn.toggleClass("myHidden");

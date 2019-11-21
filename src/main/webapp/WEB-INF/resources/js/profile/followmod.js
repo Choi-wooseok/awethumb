@@ -61,6 +61,9 @@ function getFollowingListAjax() {
 		followingListCnt = e.length;
 		
 		for (let user of e){
+			// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 스킵한다.
+			if (user.userNo === subUserNo) continue;
+			
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
@@ -117,6 +120,9 @@ function getFollowerListAjax() {
 		followerListCnt = e.length;
 		
 		for (let user of e){
+			// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 스킵한다.
+			if (user.userNo === subUserNo) continue;
+			
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
@@ -176,7 +182,9 @@ function addUnsubEvent() {
 							<i class="fas fa-plus"></i>`
 			$(`#following_user_${oppUserNo}`).html(fBtnEle)
     		$(`#follower_user_${oppUserNo}`).html(fBtnEle)
-    		$(".following_count_btn").text(--followingCnt);
+    		
+    		// 방문자 유저 번호가 페이지 주인 유저의 번호와 같을 때만
+    		if(subUserNo === userNo) $(".following_count_btn").text(--followingCnt);
     	})
 	})
 }
@@ -197,18 +205,22 @@ function addSubEvent() {
 							구독중
 							<i class="fas fa-check"></i>`
 			
-    		// 구독을 했는데 해당 유저의 팔로잉 리스트에 없다면 복사해서 넣어준다.
-			if ($(`#following_user_${oppUserNo}`).length === 0){
-				$(".following_ul").prepend(
-						$(`#follower_user_${oppUserNo}`).parent("li").clone()
-														.children(`#follower_user_${oppUserNo}`)
-														.attr("id", `following_user_${oppUserNo}`)
-														.parent("li")
-				);
-			} 
+			// 방문자 유저 번호가 페이지 주인 유저의 번호와 같을 때만
+			if(subUserNo === userNo){
+				$(".following_count_btn").text(++followingCnt);
+				// 구독을 했는데 해당 유저의 팔로잉 리스트에 없다면 복사해서 넣어준다.
+				if ($(`#following_user_${oppUserNo}`).length === 0){
+					$(".following_ul").prepend(
+							$(`#follower_user_${oppUserNo}`).parent("li").clone()
+							.children(`#follower_user_${oppUserNo}`)
+							.attr("id", `following_user_${oppUserNo}`)
+							.parent("li")
+					);
+				} 
+			}
 			$(`#following_user_${oppUserNo}`).html(fBtnEle);
 			$(`#follower_user_${oppUserNo}`).html(fBtnEle);
-			$(".following_count_btn").text(++followingCnt);
+			
     	})
 	})
 }

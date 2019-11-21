@@ -27,6 +27,6 @@ public interface AdminService {
 	void denyReportStatus(int reportNo);
 	List<Report> deleteBlock(int userNo);
 	
-	List<Report> selectReportPaging(Criteria criteria);
+	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();
 }

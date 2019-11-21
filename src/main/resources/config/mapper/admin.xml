@@ -141,7 +141,7 @@
 		<select id="selectReportPaging" resultType="Report" parameterType="Criteria">
 			select * from report_tb
 			order by report_status ASC, report_no DESC
-			limit #{page}, #{perPageNum}
+			limit #{pageStart}, #{perPageNum}
 		</select>
 		<select id="reportCount" resultType="int">
 			select count(*) from report_tb

@@ -305,14 +305,14 @@
 					</thead>
 				</table>
 			<div class="w3-bar">
-			  <c:if test="${page.prev}">
-			  <a href="javascript:page(${page.getStartPage()-1});" class="w3-button">&laquo;</a>
+			  <c:if test="${pageMaker.prev}">
+			  <a href="javascript:page(${pageMaker.startPage()-1});" class="w3-button">&laquo;</a>
 			  </c:if>
-			  <c:forEach begin="${page.getStartPage()}" end="${page.getEndPage()}" var="idx">
+			  <c:forEach begin="${pageMaker.startPage()}" end="${pageMaker.endPage()}" var="idx">
 			  		<a class="w3-button" href="javascript:page(${idx});">${idx}</a>
 			  </c:forEach>
-			  <c:if test="${page.next}">
-			  	<a class="w3-button" href="javascript:page(${page.getEndPage()+1});">&raquo;</a>
+			  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+			  	<a class="w3-button" href="javascript:page(${pageMaker.endPage()+1});">&raquo;</a>
 			  </c:if>
 			</div>
 			
@@ -320,65 +320,6 @@
 		</section>
 		<!--main content end-->
 		
-		<!-- 페이징 관련 컨텐츠 시작 -->
-		<%--
-<script type="text/javascript">
-    function page(idx){
-        var pagenum = idx;
-        var contentnum = $("#contentnum option:selected").val();                
-        location.href="${pageContext.request.contextPath}/list?pagenum="+pagenum+"&contentnum="+contentnum;    
-    }
-</script>
-</head>
-<body>
-	<select name="contentnum" id="contentnum">
-		<!-- 10개씩 , 20개씩 , 30개씩 사용자가 원하는 만큼 게시글을 볼 수 있도록 작성했으나 , 추후 구현 예정입니다 -->
-		<option value="10">10</option>
-		<option value="20">20</option>
-		<option value="30">30</option>
-	</select>
-	<table>
-		<thead>
-			<tr>
-				<th>tid</th>
-				<th>content</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="k" items="${list}">
-				<tr>
-					<td>${k.tid}</td>
-					<td>${k.content}</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-		
-		<tfoot>
-			<tr>
-				<td colspan="2">
-					<!-- 왼쪽 화살표 --> <c:if test="${page.prev}">
-						<a style="text-decoration: none;"
-							href="javascript:page(${page.getStartPage()-1});">&laquo;</a>
-					</c:if> <!-- 페이지 숫자 표시 --> <c:forEach begin="${page.getStartPage()}"
-						end="${page.getEndPage()}" var="idx">
-						<a style="text-decoration: none;" href="javascript:page(${idx});">${idx}</a>
-					</c:forEach> <!-- 오른쪽 화살표 --> <c:if test="${page.next}">
-						<a style="text-decoration: none;"
-							href="javascript:page(${page.getEndPage()+1});">&raquo;</a>
-					</c:if>
-
-				</td>
-			</tr>
-		</tfoot>
-	</table>
-</body>
-		</html> --%>
-		<!-- 페이징 관련 컨텐츠 끝 -->
-
-
-
-
-
 		<!-- 메인컨텐츠끝 푸터 시작 -->
 		<!--footer start-->
 		<footer class="site-footer">
@@ -442,10 +383,27 @@
 	<script>
   /* 정지,취소,승인등을 처리하기 위해 전역변수 설정 */
   let reportNo;
+  let page = 1;
+  let perPageNum = 10;
+  let list;
+  let pageMaker;
+  let Criteria = { "page" : page, "perPageNum" : perPageNum };
+  
  	function reportListAjax() {
-		$.getJSON({
-			url: "reportListAjax.do",
-			success: list => makeReportList(list)
+		$.ajax({
+// 			url: "reportListAjax.do",
+			url: "reportListAjaxPaging.do",
+        	method : 'GET',
+// 			success: list => makeReportList(list)
+			success: function(result){
+				list = result.rList;
+        		pageMaker = result.pageMaker;
+            	data : Criteria,
+            	success : function(result){
+            		list = result.rList;
+            		pageMaker = result.pageMaker;
+            		makeReportList(list);
+			}
 		});
 	}
   /* 로딩시 실행되는 스크립트 */
@@ -454,6 +412,7 @@
 		
 	// 로딩시 목록 호출
 	reportListAjax();
+	
 	
 	// 로딩시 정지셀렉터에 현재 날짜 자동 부여
 	$("input[name=date-selector]").val(new Date().toISOString().substring(0, 10));
@@ -493,10 +452,21 @@
 }
 /*페이징 관련 함수*/
 
+/* 그냥 편하게 한번 풀어보자면. 시작했을때 기초로딩 0, 10으로 로딩하면 되고,
+
+2번 누르면 2번에 해당하는 10개. 3번 누르면 3번에 해당하는 10개. 만약 어디선가 10개를 20개로 선택하면 perPageNum인가 그걸 바꿔주면 됨.
+
+즉 에이젝스로 자바로 넘겨야하는 정보가, 몇번의 페이지 번호를 눌렀는가? 그리고 현재 셋팅된 페이지당 보여줄 글수가 몇인가? 이 2가지 정보를 자바로 넘겨야함.
+		
+그리고 이게 바로 Criteria cri가 되는 거임. 그럼 뭐야? json 형태로 넘기던가, 아니면 자바에서 Criteria라는 VO로 바로 인식해버리는 방식으로 ajax를 쏘면 됨. */
+		
+
+
 function page(idx){
-        var pagenum = idx;
-        var contentnum = $("#contentnum option:selected").val();                
-        location.href="\${pageContext.request.contextPath}/list?pagenum="+pagenum+"&contentnum="+contentnum;    
+    page = idx;    
+	Criteria["page"] = page;
+    Criteria["perPageNum"] = perPageNum; /* 나중에 셀렉박스.val로 바꾸셈 */
+    reportListAjax();
     }
 
 /* 각각의 디테일 버튼이 클릭되면 함수 실행 */

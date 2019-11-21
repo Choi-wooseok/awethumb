@@ -48,5 +48,9 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public Board selectOneBoard(int postNo) {
 		return dao.selectOneBoard(postNo);
 	}
+	
+	public BoardFile selectOneBoardSys(String sysname) {
+		return dao.selectOneBoardSys(sysname);
+	}
 
 }

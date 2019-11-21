@@ -226,9 +226,8 @@
                         <h2 style="border-bottom-color: #000000;">Following</h2>
                         <h2 class="following_follower_btn">Follower</h2>
                     </div>
-                    <div class="f_list_container">
+                    <div class="f_list_container following_list_con">
                         <ul class="following_ul">
-                            
                         </ul>
                     </div>
                 </div>
@@ -238,23 +237,8 @@
                         <h2 class="follower_following_btn">Following</h2>
                         <h2 style="border-bottom-color: #000000;">Follower</h2>
                     </div>
-                    <div class="f_list_container">
-                        <ul>
-                            <li>
-                                <div class="f_mod_img_con">
-                                    <img src="./../images/test_user.jpg" class="f_mod_img"/>
-                                </div>
-                                <div class="f_mod_user_con">
-                                    <a class="f_user_nick">follower</a>
-                                    <div class="f_user_name">name</div>
-                                </div>
-                                <div class="f_mod_btn_con">
-                                    <button class="sub_btn" type="button">
-                                           	 구독
-                                            <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </li>
+                    <div class="f_list_container follower_list_con">
+                        <ul class="follower_ul">
                         </ul>
                     </div>
                 </div>
@@ -273,21 +257,10 @@
 	</script>
     
     <script>
-//     	$(".profile_sub").click((e)=>{
-// 		    e.preventDefault();
-//     		Swal.fire({
-// 				  icon: 'error',
-// 				  title: '닉네임 중복',
-// 				  text: '이미 사용중인 닉네임입니다.',
-// 		  	})    		
-//     	})
-    </script>
-    <script>
+    	let followingCnt = ${u.followingCnt};
     	const cList = "${u.categoryList}";
     	const userNo = ${u.userNo};
     	const subUserNo = ${su.userNo};
-    	
-    	
     </script>
     
       

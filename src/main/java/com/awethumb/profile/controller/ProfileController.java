@@ -77,4 +77,9 @@ public class ProfileController {
 	public List<UserVO> getFollowingList(@RequestBody Follow fol) {
 		return service.getFollowingList(fol);
 	}
+	@RequestMapping("/getfollowerlist.do")
+	@ResponseBody
+	public List<UserVO> getFollowerList(@RequestBody Follow fol) {
+		return service.getFollowerList(fol);
+	}
 }

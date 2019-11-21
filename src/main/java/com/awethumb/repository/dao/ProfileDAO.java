@@ -23,4 +23,6 @@ public interface ProfileDAO {
 
 	public List<UserVO> selectFollowingList(Follow fol);
 
+	public List<UserVO> selectFollowerList(Follow fol);
+
 }

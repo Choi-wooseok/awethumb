@@ -28,7 +28,6 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 		UserVO user = dao.selectUser(userId);
 		List<SimpleGrantedAuthority> list = null;
 		try {
-			System.out.println("userId : " + userId);
 			list = new ArrayList<>();
 			for (Auth auth : user.getAuthList()) {
 				list.add(new SimpleGrantedAuthority(auth.getAuthType()));
@@ -38,6 +37,9 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 //			e.getMessage();
 		} catch (Exception e) {
 		}
+//		if (!("Y".equals(user.getUserEmailKey()))) {
+//			user = null;
+//		}
 		return user == null ? null : new SecurityUser(user, list);
 	} 
 }

@@ -45,6 +45,13 @@
 				  text: '<spring:message code="userlogin.email.auth" />'
 			})
 		}
+		else if ('${errCode}' == 3) {
+			Swal.fire({
+				  icon: 'error',
+				  title: '로그인 실패',
+				  text: '<spring:message code="userlogin.email.auth" />'
+			})
+		}
 	</script> 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
 

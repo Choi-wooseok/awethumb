@@ -23,12 +23,14 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		
-		System.out.println("1111111111111111111111111111111111111111111");
-//		exception.printStackTrace();
-		System.out.println("throw exception : " + exception.getMessage());
-		response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=1");
-		
+		if("비밀번호가 맞지 않습니다.".equals(exception.getMessage())) {
+			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=1");
+			return;
+		} else if("이메일 인증 후에 로그인 가능합니다.".equals(exception.getMessage())) {
+			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=2");
+			return;
+		} 
+		response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=3");
 	}
 
 	

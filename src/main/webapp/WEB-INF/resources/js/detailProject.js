@@ -13,8 +13,6 @@ $(document).ready(function() {
 			}
 		}
     });
-    
-    
 });
 
 function sendFile(file, el) {
@@ -105,6 +103,7 @@ $(".detailBtn").click((e) => {
 						w : $("#image").width(),
 						h : $("#image").height()
 					})
+					$('.single-item').slick();
 				}, 100)
 			);
 		}
@@ -128,9 +127,7 @@ function viewBoardAjax(board) {
 	    </div>
 	</div>
 	<div class="modalContWrap">
-		<div id="boxSize">
-			<img id="image" src="./../images/test_img3.jpg" alt="">
-	    </div>
+		<div id="boxSize" class="single-item"></div>
 	    <div id="rightBox">
 			<div class="modalCont">
 				${board.postContent}
@@ -162,8 +159,16 @@ function viewBoardAjax(board) {
 	</div>
 	`
 	);
+	
+	if ($(".modalCont > p").children("img").length != 0) {
+		$("#boxSize").html(
+			$(".modalCont > p").children("img")
+		)
+	}
 	$("#modalClose").click(() => {
 		$(".modal").removeClass("block");
+		$("#boxSize").html(``);
+		/*$("#boxSize").removeClass("imgWrap");*/
 	})
 }
 
@@ -196,3 +201,4 @@ function imgReSize({w, h}) {
    		$("#rightBox").height()-$(".modalCont").height()-66
     )
 }
+

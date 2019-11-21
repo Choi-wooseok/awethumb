@@ -9,13 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <%@ include file="/WEB-INF/views/include/cssScript.jsp"%>  
         
-	<!-- grid Css -->
+	<!-- grid Plugin -->
     <link rel="stylesheet" href="<c:url value='/js/grid/gridstack.css' /> ">
 
 	<!-- summernote Plugin -->
   	<link rel="stylesheet" href="<c:url value='/js/summernote/summernote-lite.css' /> ">
     <script src="<c:url value='/js/summernote/summernote-lite.js' />"></script>
-
+	
+	<!-- slide Plugin -->
+  	<link rel="stylesheet" href="<c:url value='/js/slide/slick.css' /> ">
+  	<link rel="stylesheet" href="<c:url value='/js/slide/slick-theme.css' /> ">    
+    <script src="<c:url value='/js/slide/slick.js' />"></script>
+	
 
 </head>
 <body>

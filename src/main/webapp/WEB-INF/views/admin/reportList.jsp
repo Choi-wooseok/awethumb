@@ -304,17 +304,6 @@
 						</tr>
 					</thead>
 				</table>
-			<div class="w3-bar">
-			  <c:if test="${pageMaker.prev}">
-			  <a href="javascript:page(${pageMaker.startPage()-1});" class="w3-button">&laquo;</a>
-			  </c:if>
-			  <c:forEach begin="${pageMaker.startPage()}" end="${pageMaker.endPage()}" var="idx">
-			  		<a class="w3-button" href="javascript:page(${idx});">${idx}</a>
-			  </c:forEach>
-			  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-			  	<a class="w3-button" href="javascript:page(${pageMaker.endPage()+1});">&raquo;</a>
-			  </c:if>
-			</div>
 			
 			</section>
 		</section>
@@ -395,14 +384,12 @@
 			url: "reportListAjaxPaging.do",
         	method : 'GET',
 // 			success: list => makeReportList(list)
+            data : Criteria,
 			success: function(result){
 				list = result.rList;
         		pageMaker = result.pageMaker;
-            	data : Criteria,
-            	success : function(result){
-            		list = result.rList;
-            		pageMaker = result.pageMaker;
-            		makeReportList(list);
+        		console.log('list :', list, 'pageMaker :', pageMaker);
+            	makeReportList(list, pageMaker);
 			}
 		});
 	}
@@ -423,7 +410,7 @@
 		return val < 10 ? "0" + val : val;
   }
   
-  function makeReportList(list) {
+  function makeReportList(list, pageMaker) {
 	let $tbr = $("<tbody></tbody>");
 	$.each(list, (i, r) => {
 		var date = new Date(r.reportDt);
@@ -446,23 +433,39 @@
           </button></td>
 		    </tr>`);
 	});
-	
+	//페이지네이션 만드는 작업.
+	let $pag = $("<div></div>").addClass("w3-bar");
+	if(pageMaker.prev){
+		$pag.append(`<a href="javascript:paging(${pageMaker.startPage-1});" class="w3-button">&laquo;</a>`);
+	}
+	for(let i = pageMaker.startPage; i < pageMaker.endPage; i++){
+		$pag.append(`<a class="w3-button" href="javascript:paging(\${i});">\${i}</a>`);
+	}
+	if(pageMaker.next && pageMaker.endPage > 0){
+		$pag.append(`<a class="w3-button" href="javascript:paging(${pageMaker.endPage+1});">&raquo;</a>`);
+	}
+	<!-- 페이지네이션, 페이징, html부분 -->
+		/* 	<div class="w3-bar">
+			  <c:if test="${pageMaker.prev}">
+			  <a href="javascript:paging(${pageMaker.startPage-1});" class="w3-button">&laquo;</a>
+			  </c:if>
+			  <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+			  		<a class="w3-button" href="javascript:paging(${idx});">${idx}</a>
+			  </c:forEach>
+			  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+			  	<a class="w3-button" href="javascript:paging(${pageMaker.endPage+1});">&raquo;</a>
+			  </c:if>
+			</div> */
 	$("#tbo > tbody").remove();
 	$("#tbo").append($tbr);
+	$(".w3-bar").remove();
+	$("#tbo").after($pag);
+	
 }
 /*페이징 관련 함수*/
 
-/* 그냥 편하게 한번 풀어보자면. 시작했을때 기초로딩 0, 10으로 로딩하면 되고,
 
-2번 누르면 2번에 해당하는 10개. 3번 누르면 3번에 해당하는 10개. 만약 어디선가 10개를 20개로 선택하면 perPageNum인가 그걸 바꿔주면 됨.
-
-즉 에이젝스로 자바로 넘겨야하는 정보가, 몇번의 페이지 번호를 눌렀는가? 그리고 현재 셋팅된 페이지당 보여줄 글수가 몇인가? 이 2가지 정보를 자바로 넘겨야함.
-		
-그리고 이게 바로 Criteria cri가 되는 거임. 그럼 뭐야? json 형태로 넘기던가, 아니면 자바에서 Criteria라는 VO로 바로 인식해버리는 방식으로 ajax를 쏘면 됨. */
-		
-
-
-function page(idx){
+function paging(idx){
     page = idx;    
 	Criteria["page"] = page;
     Criteria["perPageNum"] = perPageNum; /* 나중에 셀렉박스.val로 바꾸셈 */

@@ -92,8 +92,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Report> selectReportPaging(Criteria criteria) {
-		return dao.selectReportPaging(criteria);
+	public List<Report> selectReportPaging(Criteria cri) {
+		return dao.selectReportPaging(cri);
 	}
 
 	@Override

@@ -14,4 +14,5 @@ public interface DetailBoardDAO {
 	void updateList(Board board);
 	
 	List<BoardFile> selectImgList(int postNo);
+	BoardFile selectOneBoardSys(String sysname);
 }

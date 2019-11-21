@@ -3,9 +3,37 @@ $(document).ready(function() {
         height: 300,
         minHeight: null,
         maxHeight: null,
-        focus: true
+        focus: true,
+        // 서머노트 이미지 업로드시 필요
+		callbacks: {
+			onImageUpload: function(files, editor, welEditable) {
+				for (var i = files.length - 1; i >= 0; i--) {
+					sendFile(files[i], this);
+				}
+			}
+		}
     });
+    
+    
 });
+
+function sendFile(file, el) {
+	var form_data = new FormData();
+	form_data.append('file', file);
+	$.ajax({
+		data: form_data,
+		type: "POST",
+		url: 'imageUpload.do',
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(url) {
+			$(el).summernote('editor.insertImage', url);
+			$('.note-editable').append('<img src="'+url+'"/>');
+		}
+    });
+}
 
 $(function () {
     $('.grid-stack').gridstack({

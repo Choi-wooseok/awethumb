@@ -121,7 +121,6 @@
         </div>
     </div>
 
-
     <!-- 팔로잉 모달창 -->
     <div class="f_mod modal hidden">
         <div class="f_mod_ol modal_overlay"></div>
@@ -132,8 +131,13 @@
                         <h2 style="border-bottom-color: #000000;">Following</h2>
                         <h2 class="following_follower_btn">Follower</h2>
                     </div>
+                    <div class="f_srch_con">
+                    	<input class="f_srch following_srch" type="text" placeholder="유저 검색">
+                    </div>
                     <div class="f_list_container following_list_con">
                         <ul class="following_ul">
+                        </ul>
+                        <ul class="srch_following_ul">
                         </ul>
                     </div>
                 </div>
@@ -142,8 +146,13 @@
                         <h2 class="follower_following_btn">Following</h2>
                         <h2 style="border-bottom-color: #000000;">Follower</h2>
                     </div>
+                    <div class="f_srch_con">
+                    	<input class="f_srch follower_srch" type="text" placeholder="유저 검색">
+                    </div>
                     <div class="f_list_container follower_list_con">
                         <ul class="follower_ul">
+                        </ul>
+                        <ul class="srch_follower_ul">
                         </ul>
                     </div>
                 </div>

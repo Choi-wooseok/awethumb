@@ -3,14 +3,19 @@ package com.awethumb.detailBoard.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.awethumb.detailBoard.service.DetailBoardService;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.util.FileUploadUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
 @RequestMapping("/detailProject")
@@ -67,4 +72,35 @@ public class DetailBoardController {
 	public Board selectOneBoard(int postNo) {
 		return service.selectOneBoard(postNo);
 	}
+	
+	@PostMapping("imageUpload.do")
+    @ResponseBody
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        try {
+            BoardFile uploadedFile = FileUploadUtil.store(file);
+            return ResponseEntity.ok().body("images/" + uploadedFile.getBoardFileOrgName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+	
+	/*
+	 * @GetMapping("/image/{sysname}")
+	 * 
+	 * @ResponseBody public ResponseEntity<?> serveFile(@PathVariable String
+	 * sysname) { try { System.out.println("sysname = " + sysname); BoardFile
+	 * uploadedFile = service.selectOneBoardSys(sysname); String fileName =
+	 * uploadedFile.getBoardFileOrgName();
+	 * 
+	 * HttpHeaders headers = new HttpHeaders();
+	 * headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new
+	 * String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+	 * 
+	 * return ResponseEntity.ok().headers(headers).body(uploadedFile);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); return
+	 * ResponseEntity.badRequest().build(); } }
+	 */
+	
 }

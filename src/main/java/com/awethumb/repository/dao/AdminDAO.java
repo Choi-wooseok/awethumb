@@ -27,6 +27,7 @@ public interface AdminDAO {
 	void deleteBlock(int userNo);
 	
 	/* 페이징 관련 */
-	List<Report> selectReportPaging(Criteria criteria);
+	@SuppressWarnings("unchecked")
+	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();
 }

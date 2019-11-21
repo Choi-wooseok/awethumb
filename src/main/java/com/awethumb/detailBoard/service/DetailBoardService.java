@@ -14,4 +14,7 @@ public interface DetailBoardService {
 	Board selectOneBoard(int postNo);
 	
 	List<BoardFile> selectImgList(int postNo);
+	
+	// image
+	BoardFile selectOneBoardSys(String sysname);
 }

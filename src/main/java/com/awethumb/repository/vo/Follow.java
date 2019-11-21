@@ -6,6 +6,6 @@ import lombok.Data;
 public class Follow {
 	private int userNo;
 	
-	private int countPerPage = 2;
+	private int countPerPage = 6;
 	private int currentPageNo;
 }

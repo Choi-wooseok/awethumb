@@ -6,7 +6,9 @@ const $fCnt = $(".f_cnt");
 const $followingCon = $(".following_container")
 let currentFollowingPageNo = 0;
 let currentFollowerPageNo = 0;
-const countPerPage = 2;
+let followerListCnt;
+let followingListCnt;
+const countPerPage = 6;
 
 // 모달창 클래스 토글 기능
 function hideFModal() {
@@ -56,6 +58,7 @@ function getFollowingListAjax() {
 	})
 	.done((e) => {
 		currentFollowingPageNo += countPerPage;
+		followingListCnt = e.length;
 		
 		for (let user of e){
 			const oppUserNo = user.userNo;
@@ -111,6 +114,7 @@ function getFollowerListAjax() {
 	})
 	.done((e) => {
 		currentFollowerPageNo += countPerPage;
+		followerListCnt = e.length;
 		
 		for (let user of e){
 			const oppUserNo = user.userNo;
@@ -216,6 +220,19 @@ addSubEvent();
 getFollowingListAjax()
 getFollowerListAjax()
 
-
-
+// 팔로우 인피니트 스크롤
+$(".follower_list_con").scroll(function() {
+    if ($(".follower_list_con").scrollTop() == $(".follower_ul").height() - $(".follower_list_con").height()) {
+    	if (followerListCnt === countPerPage){
+    		getFollowerListAjax();
+    	}
+    }
+});
+$(".following_list_con").scroll(function() {
+	if ($(".following_list_con").scrollTop() == $(".following_ul").height() - $(".following_list_con").height()) {
+		if (followingListCnt === countPerPage){
+			getFollowingListAjax();
+		}
+	}
+});
 

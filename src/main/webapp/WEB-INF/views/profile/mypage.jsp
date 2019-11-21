@@ -226,7 +226,7 @@
                         <h2 style="border-bottom-color: #000000;">Following</h2>
                         <h2 class="following_follower_btn">Follower</h2>
                     </div>
-                    <div class="f_list_container">
+                    <div class="f_list_container following_list_con">
                         <ul class="following_ul">
                         </ul>
                     </div>
@@ -237,7 +237,7 @@
                         <h2 class="follower_following_btn">Following</h2>
                         <h2 style="border-bottom-color: #000000;">Follower</h2>
                     </div>
-                    <div class="f_list_container">
+                    <div class="f_list_container follower_list_con">
                         <ul class="follower_ul">
                         </ul>
                     </div>

@@ -78,8 +78,8 @@
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
-                <value>messages.common_message</value>
-                <value>messages.spring_security_message</value>
+                <value>message.common_message</value>
+                <value>message.spring_security_message</value>
             </list>
         </property>
         <property name="defaultEncoding" value="UTF-8" />

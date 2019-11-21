@@ -45,7 +45,7 @@ $(document).ready(function() {
 			});
 			// 삭제
 			$("#boardCommentList" + postnum).on("click", "a.delete", (e) => {
-				$("#updateText").css("display","none");
+				$(".updateText").css("display","none");
 				$.ajax({
 					url: "boardCommentDelete.do",
 					data: {
@@ -56,13 +56,12 @@ $(document).ready(function() {
 					success: (list) => boardCommentListAjax(list)
 				});
 			});
-			// 수정
+			// 수정취소
 			$("#boardCommentList" + postnum).on("click", "button.cancel", (e) => {
 				$("#updateText").css("display","none");
 			});
 			// 댓글 수정
 			$("#boardCommentList" + postnum).on("click", "button.update", (e) => {
-				e.stopPropagation();
 				let cmtNo = $(e.target).data("no");
 				let cmtCon = $(e.target).data("content");
 				$.ajax({
@@ -79,11 +78,10 @@ $(document).ready(function() {
 				
 			});
 			$("#boardCommentList" + postnum).on("click", "a.modify", (e) => {
-				$("#modalComment" + postnum).css("display","none"); // 모달닫아버리기
 				let cmtNo = $(e.target).data("no");
 				let cmtCon = $(e.target).data("context");
 				$("#commentWrap" +  cmtNo).append(
-						`<div id="updateText">
+						`<div id="updateText" class="updateText">
 							<input type="text" id="contentUpdate" value="${cmtCon}"/>
 							<button class="update" data-no=${cmtNo}>수정</button>
 							<button class="cancel" data-no=${cmtNo}>취소</button>
@@ -118,12 +116,12 @@ $(document).ready(function() {
 									댓글번호 : ${c.cmtNo}
 									<button type="button" id="commentModal"
 									 class="commentModal${c.cmtNo}"
-									 data-no="${c.cmtNo}">
+									 data-commentNo="${c.cmtNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</div>
 							</div>
-							<div id="modalComment" class="commentboard">
+							<div id="modalComment${c.cmtNo}" class="commentboard">
 								<div class="comment-modal">
 									<h4>
 										<a href="javascript:;"
@@ -171,17 +169,16 @@ $(document).ready(function() {
 		$(".boardClose" + postnum).click(() => {
 		    $("#modalBoard" + postnum).css("display","none");
 		});
-		let cno = document.querySelectorAll(".no");
+		let cno = document.querySelectorAll(".commentNo");
 		for (let cn of cno){
-			let cmtNo1 = cn.value;
-			console.log("댓번 : " + cmtNo1)
-			$(document).on( "click",".commentModal" + cmtNo1, (e) => {
-				let abc = $(e.target).data("no");
-				console.log("a : " + abc);
-				if(cmtNo1 == abc){
-					$(document).on("click",".commentModal" + postnum,() => {
-						$("#modalComment" + abc).css("display","block");
-					});
+			let cmtNo = cn.value;
+			console.log("댓번 : " + cmtNo)
+			$(document).on( "click",".commentModal" + cmtNo, (e) => {
+				let abc = $(e.target).parent("button").data("commentno");
+				console.log("abc : ", abc);
+				if(cmtNo == abc){
+					console.log("in")
+					$("#modalComment" + abc).css("display","block");
 					$(document).on("click",".commentModalClose", () => {
 						$("#modalComment" + abc).css("display","none");
 					});
@@ -190,9 +187,6 @@ $(document).ready(function() {
 		} // for
 	} //for
 })
-
-
-
 
 
 

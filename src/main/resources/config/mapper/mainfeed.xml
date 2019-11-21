@@ -26,7 +26,7 @@
 		<result column="user_no" property="userNo" />
 		<result column="post_no" property="postNo" />
 	</resultMap>
-	<select id="selectMainFeed" resultType="MainFeed">
+	<select id="selectMainFeed" parameterType="FeedPage" resultType="MainFeed">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
 		select b.*, u.user_nickname, h.hashtag_content, 
 			(select count(c.cmt_no)
@@ -45,6 +45,7 @@
 		  left outer join hashtag_tb h
 		 	on b.post_no = h.post_no
 		 order by b.post_no desc
+		 limit #{pageIndex} , #{pageCount} 
 	</select>
 	
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap">

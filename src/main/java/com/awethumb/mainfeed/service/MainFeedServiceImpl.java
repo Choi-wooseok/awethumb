@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.MainFeedDAO;
+import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
 
 @Service
@@ -14,8 +15,8 @@ public class MainFeedServiceImpl implements MainFeedService {
 	@Autowired
 	private MainFeedDAO dao;
 	
-	public List<MainFeed> listMainFeed() {
-		return dao.selectMainFeed();
+	public List<MainFeed> listMainFeed(FeedPage pageCount) {
+		return dao.selectMainFeed(pageCount);
 	}
 	
 //	public List<Comment> listComment(int postNo) {

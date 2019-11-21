@@ -39,15 +39,15 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-
-	<section id="feeds">
-		<a href="#" id="mainfeed-scroll" style="display: none;"><span></span></a>
-		<div class="feedsWrap msrItems" id="feedsWrap">
-			<!-- 반복을 통한 list출력 -->
-		</div>
-		<div id="detailFeedModal"></div>
-	</section>
-
+	<div class="waitme-container">
+		<section id="feeds">
+			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
+			<div class="feedsWrap msrItems" id="feedsWrap">
+				<!-- 반복을 통한 list출력 -->
+			</div>
+			<div id="detailFeedModal"></div>
+		</section>	
+	</div>
 	<script>
 	let pageContextURI = '${pageContext.request.contextPath}';
 		//init

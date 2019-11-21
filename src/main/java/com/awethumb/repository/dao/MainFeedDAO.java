@@ -11,10 +11,11 @@ package com.awethumb.repository.dao;
 
 import java.util.List;
 
+import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
 
 public interface MainFeedDAO {
-	List<MainFeed> selectMainFeed();
+	List<MainFeed> selectMainFeed(FeedPage pageCount);
 	MainFeed selectOneMainFeed(int postNo);
 //	void updateViewCnt(int no);
 //	void insertBoard(Board board);

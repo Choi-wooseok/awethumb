@@ -1,3 +1,6 @@
+let pageIndex = 0;
+const pageCount = 5;
+
 // back to top
 
 	   $(document).ready(function(){ 
@@ -13,18 +16,37 @@
 		        $("html, body").animate({ scrollTop: 0 }, 600); 
 		        return false; 
 		    	}); 
-		    
-		    
 		    MainfeedMakeAjax();
 		});
 	   
-// -------------- mainfeed 생성 -------------------------
-	   
+// infinity scroll
+	
+	   $(window).on('scroll', function() {
+	  	 let scrollHeight = $(document).height();
+	  	 let scrollPosition = $(window).height() + $(window).scrollTop();
+	  	
+	  	 $("#scrollHeight").text(scrollHeight);
+	  	 $("#scrollPosition").text(scrollPosition);
+	  	 $("#bottom").text(scrollHeight - scrollPosition);
+	
+	  	 if (scrollPosition > scrollHeight - 300) {
+	  		 pageIndex += pageCount;
+	  		 MainfeedMakeAjax();
+	  	 }
+	   });
+// -------------- mainfeed 생성 및 페이징 -------------------------
 	   function MainfeedMakeAjax() {
 			$.getJSON({
 				url: "mainfeedList.do",
-				success: list =>  {
-					makeMainFeedList(list)
+				data: {
+					pageIndex
+				},
+				success: list => {
+//					if (list.length == 0) {
+//						pageIndex -= pageCount;
+//					} else {
+						makeMainFeedList(list)
+//					}
 				}
 				
 			})
@@ -83,37 +105,51 @@
 			dataType: "JSON",
 			success: result => {
 				makeDetailFeed(result);
-				setTimeout(function makemodalattribute(){}, 1000);
+				setTimeout(() => {
+					makemodalattribute({
+						w: $("#image").width(),
+						h: $("#image").height()
+					})
+				}, 100);
 			}
 		})
+//		let postNum = $(e.target).data("postno");
+//		$("#modal" + postNum).css('display', 'block');
 	});
 	 
 	function makeDetailFeed(detail) {
 		$feed = $("#detailFeedModal");
-			$feed.append(`
+			$feed.html(`
 				<div class="modal" id="modal${detail.postNo}">
-					<div class="modal_overlay"></div>
 					<div class="modal_content_container">
-						<i class="fas fa-caret-left arw-btn"></i>
 						<div class="modal_content">
-						<div id="boxSize">
-	                    	<img id="image" src="./../images/test_img3.jpg" alt="">
-						</div>
-						<div id="rightBox">
-	                    	<div class="ModaluserInfo">
-	                        	<div class="commentUser">
-	                            	<img src="./../images/test_user.jpg" alt="">
-	                        	</div>
-	                        	<div class="userName">
-	                            	<a href="#">${detail.userNickname}</a>
-	                            	<button id="myBoard"><i class="fas fa-bars"></i></button>
-	                        	</div>
-                    		</div>
-                    	`)
+		                	<div class="modalTitle" >
+								<button class="modalClose" id="modalClose">
+									<i class="fas fa-times" data-postnum="${detail.postNo}"></i>
+								</button>	
+		                		<div class="ModaluserInfo">
+									<div class="commentUser">
+										<img src="./../images/test_user.jpg" alt="">
+									</div>
+							        <div class="userName">
+							            <a href="#">userName</a>
+							            <button id="myBoard"><i class="fas fa-bars"></i></button>
+							        </div>
+								</div>
+							</div>
+							<div class="modalContWrap">
+								<div id="boxSize">
+									<img id="image" src="./../images/test_img3.jpg" alt="">
+							    </div>
+								<div id="rightBox">
+									<div class="modalCont">
+										${detail.postContent}
+									</div>
+	                    	`)
             $.each(detail.commentList, (i, c) => {
             	$(`#rightBox`).append(`
-            				<div class="comment">
-        						<div class="commentList">
+            						<div class="comment">
+        								<div class="commentList">
 		                			<div class="commentUserImg">
 		                    			<img src="./../images/test_user.jpg" alt="">
 		                			</div>
@@ -121,16 +157,16 @@
 		                			`)
 		                			if (`${c.cmtContent}` != 'null'){
 		                			$(`.commentWrap`).append(`${c.cmtContent}
-				                			</div>
-		        						</div>
-		            				</div>
+		                			</div>
+        						</div>
+            				</div>
 		                			`)
 		                			} else {
 		                			$(`.commentWrap`).append(`
 		                				<span>등록된 댓글이 없습니다.</span>
-		                				</div>
-		        						</div>
-		            				</div>
+	                				</div>
+        						</div>
+            				</div>
 		                			`)
 		                			}
             })
@@ -140,11 +176,16 @@
 			                    <button>등록</button>
 			                </div>
             			</div>
-            		</div>`)
+            		</div>
+        		</div>
+            		`)
+    		$(`.modal_content_container`).append(`
+    				<i class="fas fa-caret-left arw-btn"></i>
+    				<i class="fas fa-caret-right arw-btn"></i>
+    		`)
             $(`#modal${detail.postNo}`).append(`
-	            <i class="fas fa-caret-right arw-btn"></i>
+	            </div>
 	        </div>
-	    </div>
 
 	    <div id="modalBoard" class="board">
 	        <div class="board-modal">
@@ -153,60 +194,61 @@
 	            <h4 class="boardClose">취 소 </h4>
 	        </div>
 	    </div>
-			`)
+			`);
 	}
+	// x버튼 클릭시 모달창 닫힘
+	$(document).on('click', '.modalClose', (e) => {
+		let postNum = $(e.target).data("postnum");
+		$("#modal" + postNum).css('display', 'none');
+	})
+	
+//	모달창 밖 클릭 시 모달창 종료
+//	window.onclick = function (e) {
+//		let modal = document.querySelector('#detailFeedModal');
+//            if (e.target == modal) {
+//            	modal.style.display = "none";
+//            }
+//        }
+
 
 // --------- detail modal -----------------
-        function makemodalattribute() {
-        	let maxSize = 600;
-        	let image = document.getElementById("image");
-        	console.log(image);
+        function makemodalattribute({w, h}) {
+        	let maxSize = 550;
         	let boxSize = document.getElementById("boxSize");
-        	let imgHeight = image.height;
-        	let imgWidth = image.width;
-        	console.log(imgHeight);
-        	console.log(imgWidth);
         	let rightBox = document.getElementById("rightBox");
-            if (imgWidth > maxSize && imgHeight > maxSize) {
-                if (imgWidth > imgHeight) {
+            if (w > maxSize && h > maxSize) {
+                if (w > h) {
                     boxSize.style.width = maxSize+"px";
                     boxSize.style.height = "auto";
                     image.style.width = "100%";
                 } else {
                     boxSize.style.width = "auto";
                     boxSize.style.height = maxSize+"px";
-                    image.style.height = "100%";                }
-            } else if (imgWidth > maxSize && imgHeight < maxSize) {
+                    image.style.height = "100%";                
+                }
+            } else if (w > maxSize && h < maxSize) {
                 boxSize.style.width = maxSize+"px";
                 image.style.width =  "100%";
-            } else if (imgWidth < maxSize && imgHeight > maxSize) {
+            } else if (w < maxSize && h > maxSize) {
                 box.Size.style.height = maxSize+"px";
                 image.style.height = "100%";
             }
             rightBox.style.height = boxSize.style.height;
         
-
-        const modal = document.querySelector(".modal");
-        const mBtn = document.querySelector(".detailFeed");
-        
-        // 모달창 클래스 토글 기능
-        function hideModal() {
-            modal.classList.toggle("hidden");
-        }
-        // 취소 버튼 클릭시 모달창 닫힘
-        mBtn.addEventListener("click", hideModal)
-        
-        // 모달창 밖에 클릭시 모달창 닫힘
-        document.querySelector(".modal_overlay").addEventListener("click", hideModal)
-
+            $(".comment").height(
+           		$("#rightBox").height()-$(".modalCont").height()-66
+            )
+         // makemodalattribute() 끝
+		
         // 모달창이 띄워졌을 시 스크롤 방지
-        $(".modal").on('scroll touchmove mousewheel', function(event) {
+        $("#detailFeedModal").on('scroll touchmove mousewheel', function(event) {
             event.preventDefault();
             event.stopPropagation();
             return false;
+        });
         
-     // board
-        // Get the modal
+//     // board
+//        // Get the modal
         var boardModal = document.getElementById('modalBoard');
 
         // Get the button that opens the modal
@@ -216,14 +258,14 @@
         var bc = document.getElementsByClassName("boardClose")[0];
 
         // When the user clicks on the button, open the modal
-        btn.onclick = function () {
-            boardModal.style.display = "block";
-        }
+        $("#myBoard").click(() => {
+        	boardModal.style.display = "block";
+        }) 
 
         // When the user clicks on <span> (x), close the modal
-        bc.onclick = function () {
+        $(".boardClose").click(() => {
             boardModal.style.display = "none";
-        }
+        })
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function (event) {
@@ -236,61 +278,4 @@
         function doReport() {
             boardModal.style.display = "none";
         }
-        })
-        };
- // infinity scroll
-		
-// let html = "<div>";
-// for (let i = 0; i < list.length; i++) {
-// let tList = list[i];
-// let a = document.createElement("span");
-// a.innerHTML = "";
-//				
-// if ('${sessionScope.user.userNo}' == tList.userNo ||
-// '${sessionScope.user.userGrade}' == 3){
-// a.innerHTML =
-// `<form method="post"
-// action="${pageContext.request.contextPath}/team/teamBoardDelete.do" />
-// <button onclick="return confirmDel();" style="margin-top:-100px; cursor:
-// pointer; float: right; background: none; border: none">
-// <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
-// </button>
-// <input type="hidden" name="teamBoardNo" value="\${tList.teamBoardNo}"/>
-// <input type="hidden" name="projectNo" value="\${tList.projectNo}"/>
-// <input type="hidden" name="teamNo" value="\${tList.teamNo}"/>
-// </form>`
-// };
-// html += `<ul class="board_cws">
-// <li style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-// height: 35px; padding-top: 10px;">
-// <a
-// href="${pageContext.request.contextPath}/team/teamBoardDetail.do?teamBoardNo=\${tList.teamBoardNo}"
-// style="font-size: 35px; ">
-// \${tList.teamBoardTitle}</a></li>
-// <br>
-// <li><h6 style="margin: 0 auto">작성자: \${tList.userId}</h6></li>
-// <li><h6 style="margin: 0 auto">작성일: \${tList.teamBoardRegDt}</h6></li>
-// \${a.innerHTML}
-// </ul>
-// <br><br><br>
-//			 		
-// `;
-// }
-// html += "</div>";
-// teamList.innerHTML += html;
-//			
-// }
-//		
-// $(window).on('scroll', function() {
-// let scrollHeight = $(document).height();
-// let scrollPosition = $(window).height() + $(window).scrollTop();
-//
-// $("#scrollHeight").text(scrollHeight);
-// $("#scrollPosition").text(scrollPosition);
-// $("#bottom").text(scrollHeight - scrollPosition);
-//
-// if (scrollPosition > scrollHeight - 300) {
-// page++;
-// teamListAjax();
-// }
-// });
+        }

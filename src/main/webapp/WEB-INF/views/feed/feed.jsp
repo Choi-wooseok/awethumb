@@ -142,12 +142,16 @@
 <body>
 	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
 	<header><c:import url="/WEB-INF/views/include/header.jsp"></c:import></header>
+	<div id="waitme-container" class="waitme-container">
 	<section id="feed">
 		<div class="feedContWrap">
 			<div class="feedWrap">
+				<c:forEach var="cn" items="${cmtno}">
+				<input type="hidden" value="${cn}" class="commentNo"/>
+				</c:forEach>
 				<!-- 리스트 반복 -->
 				<c:forEach var="bl" items="${boardlist}">
-				<input type="hidden" class="loginUserNo" value="1" />
+				<input type="hidden" class="loginUserNo" value="3" />
 				<div class="feedList">
 					<div class="feedInfo">
 						<div class="feedUserImg">
@@ -325,7 +329,7 @@
 		</div>
 		
 	</section>
-	
+	</div>
 	<script src="<c:url value="/js/feed.js" />"></script>
 
 

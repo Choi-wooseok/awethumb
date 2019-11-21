@@ -45,7 +45,6 @@ $(document).ready(function() {
 			});
 			// 삭제
 			$("#boardCommentList" + postnum).on("click", "a.delete", (e) => {
-				alert('$(e.target).data("no")');
 				$("#updateText").css("display","none");
 				$.ajax({
 					url: "boardCommentDelete.do",
@@ -103,8 +102,6 @@ $(document).ready(function() {
 		function boardCommentListAjax(list) {
 			$bcla = $(`<div></div>`);
 			$.each(list, (i	, c) => {
-				console.log("로그인유저 : " + loginUserNo);
-				console.log("댓글 쓴 유저 : " + c.userNo);
 				if(c.postNo == postnum){
 					if (loginUserNo == c.userNo){
 					$bcla.append(
@@ -116,25 +113,28 @@ $(document).ready(function() {
 									로그인성공
 									내용 : ${c.cmtContent}
 									작성일자 : ${c.cmtRegDt}
-									댓글유저번호 : ${c.userNo}?
+									댓글유저번호 : ${c.userNo}
 									로그인 유저번호: ${loginUserNo}
-									<button type="button" id="commentModal" class="commentModal${c.postNo}">
+									댓글번호 : ${c.cmtNo}
+									<button type="button" id="commentModal"
+									 class="commentModal${c.cmtNo}"
+									 data-no="${c.cmtNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</div>
 							</div>
-							<div id="modalComment${c.postNo}" class="commentboard">
+							<div id="modalComment" class="commentboard">
 								<div class="comment-modal">
 									<h4>
-										<a href="javascript:void(0);"
+										<a href="javascript:;"
 										data-no="${c.cmtNo}"
 										data-context="${c.cmtContent}"
 										class="modify">
-										수정 @@ ${c.cmtNo}
+										수정 @@ ${c.cmtNo} g
 										</a>
 									</h4>
 									<h4>
-										<a href="javascript:void(0);" data-no="${c.cmtNo}" class="delete"> 
+										<a href="javascript:;" data-no="${c.cmtNo}" class="delete"> 
 										삭제 @@ ${c.cmtNo}
 										</a>	
 									</h4>
@@ -142,6 +142,7 @@ $(document).ready(function() {
 								</div>
 							</div>`
 						);
+					abc = c.cmtNo;
 					}
 					else {
 						$bcla.append(
@@ -156,28 +157,11 @@ $(document).ready(function() {
 											댓글유저번호 : ${c.userNo}
 											로그인 유저번호: ${loginUserNo}
 										</div>
-									</div>
-									<div id="modalComment" class="commentboard">
-										<div class="comment-modal">
-											<h4>
-												<a href="javascript:void(0);"
-												data-no="${c.cmtNo}"
-												data-context="${c.cmtContent}"
-												class="modify">
-												수정 @@ ${c.cmtNo}
-												</a>
-											</h4>
-											<h4>
-												<a href="javascript:void(0);" data-no="${c.cmtNo}" class="delete"> 
-												삭제 @@ ${c.cmtNo}
-												</a>	
-											</h4>
-											<h4 class="commentModalClose">취 소</h4>
-										</div>
 									</div>`
 								);
 					} // else
 				}// if
+					
 			}); // each
 			$("#boardCommentList" + postnum).html($bcla);
 		};
@@ -187,15 +171,25 @@ $(document).ready(function() {
 		$(".boardClose" + postnum).click(() => {
 		    $("#modalBoard" + postnum).css("display","none");
 		});
-		$(document).on("click",".commentModal" + postnum,() => {
-			$("#modalComment" + postnum).css("display","block");
-		});
-		$(document).on("click",".commentModalClose", () => {
-			$("#modalComment" + postnum).css("display","none");
-		});
+		let cno = document.querySelectorAll(".no");
+		for (let cn of cno){
+			let cmtNo1 = cn.value;
+			console.log("댓번 : " + cmtNo1)
+			$(document).on( "click",".commentModal" + cmtNo1, (e) => {
+				let abc = $(e.target).data("no");
+				console.log("a : " + abc);
+				if(cmtNo1 == abc){
+					$(document).on("click",".commentModal" + postnum,() => {
+						$("#modalComment" + abc).css("display","block");
+					});
+					$(document).on("click",".commentModalClose", () => {
+						$("#modalComment" + abc).css("display","none");
+					});
+				} // if
+			});
+		} // for
 	} //for
 })
-
 
 
 

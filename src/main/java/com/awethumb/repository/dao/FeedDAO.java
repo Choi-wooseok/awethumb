@@ -7,8 +7,7 @@ import com.awethumb.repository.vo.FeedBoard;
 
 public interface FeedDAO {
 	List<FeedBoard> selectFeedBoard(); // 게시판전체
-	List<Integer> selectCmtNo(); // 게시판번호받기
-	List<Integer> selectPostNo(); // 게시판번호받기
+	List<Integer> selectCmtNo(); // 댓글번호받기
 	
 
 	List<Comment> selectFeedBoardComment(int postNo); // 게시판번호에 따른 댓글

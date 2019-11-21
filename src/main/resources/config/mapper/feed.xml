@@ -23,9 +23,9 @@
 		 order by cmt_reg_dt
 	</select>
 	
-	<select id="selectPostNo" resultType="int">
-		select post_no
-		  from board_tb
+	<select id="selectCmtNo" resultType="int">
+		SELECT cmt_no
+ 		  FROM comment_tb
 	</select>
 	
 	<insert id="insertBoardComment" parameterType="Comment" >

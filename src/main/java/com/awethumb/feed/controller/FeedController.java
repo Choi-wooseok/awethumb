@@ -24,6 +24,9 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
 		
+		model.addAttribute("cmtno", service.selectCmtNo()); //댓글번호
+		
+		
 	}
 	
 	// 댓글
@@ -34,7 +37,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	}
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
-	public List<Comment> commentInsert(Comment comment){
+	public List<Comment> commentInsert(@RequestBody Comment comment){
 		System.out.println("댓글등록" + comment.getCmtContent());
 		return service.insertBoardComment(comment);
 	}

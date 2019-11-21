@@ -132,7 +132,7 @@ public class PageMaker {
 		this.page = page;
 	}
 
-	public int getPerPagenum() {
+	public int getPerPageNum() {
 		return perPageNum;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.awethumb.repository.vo.Category;
 import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
 public interface ProfileService {
@@ -19,4 +20,5 @@ public interface ProfileService {
 	public List<UserVO> getFollowerList(Follow fol);
 	public List<UserVO> getSearchFollowerList(Follow fol);
 	public List<UserVO> getSearchFollowingList(Follow fol);
+	public void updateUserFile(UserFile uf);
 }

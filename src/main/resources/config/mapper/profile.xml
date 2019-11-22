@@ -78,4 +78,23 @@
          ORDER BY o.sub_date desc
          LIMIT #{currentPageNo}, #{countPerPage}
 	</select>
+	
+	<select id="selectUserFile" parameterType="int" resultType="int">
+		SELECT COUNT(*) 
+		  FROM user_file_tb 
+		 WHERE user_no = #{userNo};
+	</select>
+	<insert id="insertUserFile" parameterType="UserFile">
+		insert into user_file_tb (user_no, user_file_sys_name, user_file_org_name, user_file_path, user_file_size, user_file_exe)
+		values (#{userNo}, #{userFileSysName}, #{userFileOrgName}, #{userFilePath}, #{userFileSize}, #{userFileExe})
+	</insert>
+	<update id="updateUserFile" parameterType="UserFile">
+		update user_file_tb
+		   set user_file_sys_name = #{userFileSysName},
+		       user_file_org_name = #{userFileOrgName},
+		       user_file_path = #{userFilePath},
+		       user_file_size = #{userFileSize},
+		       user_file_exe = #{userFileExe}
+		 where user_no = #{userNo}   
+	</update>
 </mapper>

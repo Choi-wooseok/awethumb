@@ -29,6 +29,7 @@
     width: 600px;
     height: 552px;
     padding: 40px;
+    min-width: 600px;
 }
 .mod_form > div{
     display: flex;

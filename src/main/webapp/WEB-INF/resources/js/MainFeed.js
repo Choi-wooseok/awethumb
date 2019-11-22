@@ -108,7 +108,7 @@ const pageCount = 5;
 					</div>
 				`);
 			});
-			masonry();
+			setTimeout(() => {masonry()}, 100);
 			 // Make jQuery object from HTML string
 
 		    // Append new blocks to container

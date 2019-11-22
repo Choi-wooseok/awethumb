@@ -11,31 +11,31 @@ import org.springframework.web.multipart.MultipartFile;
 import com.awethumb.repository.vo.BoardFile;
 
 public class FileUploadUtil {
-	public static BoardFile store(MultipartFile file) throws Exception {
+	public static BoardFile store(MultipartFile file, int postNo) throws Exception {
 		try {
 			if (file.isEmpty()) {
 				throw new Exception("Failed to store empty file " + file.getOriginalFilename());
 			}
-			
-			System.out.println();
-
 			BoardFile f = new BoardFile();
-			f.setBoardFileSysName(UUID.randomUUID().toString());
+			
+			String sysName = UUID.randomUUID().toString();
+
+			f.setBoardFileSysName(sysName);
 			f.setBoardFileOrgName(file.getOriginalFilename());
 			f.setBoardFileSize(file.getSize());
 			f.setBoardFileExe(file.getContentType());
+			f.setBoardFilePath("/awethumb/image/");
+			f.setPostNo(postNo);
 			
-			file.transferTo(new File("c:/java/upload/" + file.getOriginalFilename()));
+			String type = f.getBoardFileOrgName().split("\\.")[1];
+			file.transferTo(new File("c:/java/upload/" + sysName + "." + type));
 			
-//			f.setPostNo(postNo);
-//			f.setBoardFilePath();
-			
-			System.out.println();
-			System.out.println(file.getSize());
-			System.out.println(file.getName());
-			System.out.println(file.getOriginalFilename());
-			System.out.println(file.getContentType());
-			System.out.println(file.getResource());
+			System.out.println(f.getPostNo());
+			System.out.println(f.getBoardFileSize());
+			System.out.println(f.getBoardFileSysName());
+			System.out.println(f.getBoardFileOrgName());
+			System.out.println(f.getBoardFileRegDt());
+			System.out.println(f.getBoardFilePath());
 
 
 			return f;

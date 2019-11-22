@@ -17,4 +17,7 @@ public interface DetailBoardService {
 	
 	// image
 	BoardFile selectOneBoardSys(String sysname);
+	void insertImage(BoardFile boardFile);
+	int postNoSelect();
+	
 }

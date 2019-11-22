@@ -58,7 +58,6 @@ $("#posUpdateBtn").click(() => {
 		let posY = $(e).data("gs-y");
 		let posW = $(e).data("gs-width");
 		let posH = $(e).data("gs-height");
-		console.log(posNo + " : " + posX, posY, posW, posH);
 		$.post({
 			url: "updateList.do",
 			data: {
@@ -67,6 +66,9 @@ $("#posUpdateBtn").click(() => {
 				y_coord: posY,
 				width : posW,
 				hight : posH
+			},
+			success: () => {
+				window.location.href="/awethumb/detailProject/detailBoardList.do"
 			}
 		});
 	})

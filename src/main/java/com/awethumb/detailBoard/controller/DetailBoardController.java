@@ -41,6 +41,21 @@ public class DetailBoardController {
 		service.insertBoard(board);
 		return "redirect:detailBoardList.do";
 	}
+	
+	@PostMapping("imageUpload.do")
+    @ResponseBody
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+        try {
+        	int postNo = service.postNoSelect();
+        	System.out.println("postNo = " + postNo);
+            BoardFile uploadedFile = FileUploadUtil.store(file, postNo);
+            service.insertImage(uploadedFile);
+            return ResponseEntity.ok().body(req.getContextPath() + "/image/" + uploadedFile.getBoardFileSysName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 	@RequestMapping("delete.do")
 	public String deleteBoard(int postNo) {
@@ -65,6 +80,7 @@ public class DetailBoardController {
 	}
 	
 	@RequestMapping("updateList.do")
+	@ResponseBody
 	public void updateList(int postNo, int x_coord, int y_coord, int width, int hight) {
 		service.updateList(postNo, x_coord, y_coord, width, hight);
 	}
@@ -74,35 +90,5 @@ public class DetailBoardController {
 	public Board selectOneBoard(int postNo) {
 		return service.selectOneBoard(postNo);
 	}
-	
-	@PostMapping("imageUpload.do")
-    @ResponseBody
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        try {
-            BoardFile uploadedFile = FileUploadUtil.store(file);
-            return ResponseEntity.ok().body(request.getContextPath() + "/image/" + uploadedFile.getBoardFileOrgName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
-    }
-	
-	/*
-	 * @GetMapping("/image/{sysname}")
-	 * 
-	 * @ResponseBody public ResponseEntity<?> serveFile(@PathVariable String
-	 * sysname) { try { System.out.println("sysname = " + sysname); BoardFile
-	 * uploadedFile = service.selectOneBoardSys(sysname); String fileName =
-	 * uploadedFile.getBoardFileOrgName();
-	 * 
-	 * HttpHeaders headers = new HttpHeaders();
-	 * headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new
-	 * String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
-	 * 
-	 * return ResponseEntity.ok().headers(headers).body(uploadedFile);
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); return
-	 * ResponseEntity.badRequest().build(); } }
-	 */
 	
 }

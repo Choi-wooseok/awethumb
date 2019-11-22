@@ -15,4 +15,6 @@ public interface DetailBoardDAO {
 	
 	List<BoardFile> selectImgList(int postNo);
 	BoardFile selectOneBoardSys(String sysname);
+	void insertImage(BoardFile boardFile);
+	int postNoSelect();
 }

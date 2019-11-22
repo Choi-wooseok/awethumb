@@ -64,6 +64,23 @@
 			hight = ${hight}
 		where post_no = ${postNo};
 	</update>
+	
+	<insert id="insertImage" parameterType="BoardFile">
+		insert into board_file_tb (
+			board_file_sys_name, board_file_org_name, board_file_path, 
+			board_file_size, board_file_exe, post_no
+		) values (
+			'${boardFileSysName}', '${boardFileOrgName}', '${boardFilePath}', 
+			${boardFileSize}, '${boardFileExe}', ${postNo}
+		);
+	</insert>
+	
+	<select id="postNoSelect" resultType="int">
+		select post_no 
+		from board_tb 
+		order by post_no 
+		desc limit 1;
+	</select>
 </mapper>
 
 

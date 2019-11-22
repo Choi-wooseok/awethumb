@@ -1,11 +1,14 @@
 let pageIndex = 0;
 const pageCount = 5;
+let scrollTop = 0;
 
 // back to top
 
 	   $(document).ready(function(){ 
+		   console.log("시작")
 		
 		    $(window).scroll(function(){ 
+		    	console.log("씨밯")
 		        if ($(this).scrollTop() > 100) { 
 		            $('#mainfeed-scroll').fadeIn(); 
 		        } else { 
@@ -22,14 +25,10 @@ const pageCount = 5;
 // infinity scroll
 	
 	   $(window).on('scroll', function() {
-	  	 let scrollHeight = $(document).height();
-	  	 let scrollPosition = $(window).height() + $(window).scrollTop();
-	  	
-	  	 $("#scrollHeight").text(scrollHeight);
-	  	 $("#scrollPosition").text(scrollPosition);
-	  	 $("#bottom").text(scrollHeight - scrollPosition);
+	  	 
+	  	 scrollTop = $(window).scrollTop();
 	  
-	  	 if (scrollPosition > scrollHeight - 300) {
+	  	 if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 	  		 pageIndex += pageCount;
 	  		 MainfeedMakeAjax();
 	  	 }
@@ -57,8 +56,10 @@ const pageCount = 5;
 				success: list => {
 					if(list.length == 0) {
 						$(window).off('scroll');
+						return;
 					}
 					makeMainFeedList(list);
+
 //					setTimeout(() => {masonry()}, 100);
 //					masonry();
 				}
@@ -108,7 +109,10 @@ const pageCount = 5;
 					</div>
 				`);
 			});
-			setTimeout(() => {masonry()}, 100);
+			console.log($(window).scrollTop());
+			setTimeout(() => {masonry(); 
+			console.log($(window).scrollTop());
+			$(window).scrollTop(scrollTop)}, 100);
 			 // Make jQuery object from HTML string
 
 		    // Append new blocks to container

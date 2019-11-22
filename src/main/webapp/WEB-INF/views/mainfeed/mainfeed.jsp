@@ -25,7 +25,6 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
-<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> -->
 <!-- web font -->
 <link
@@ -47,7 +46,6 @@
 				</div>
 				<div id="detailFeedModal"></div>
 			</section>	
-		<script src="<c:url value='/js/brick/masonry.min.js'/>"></script>
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
 		<script>
 			let pageContextURI = '${pageContext.request.contextPath}';

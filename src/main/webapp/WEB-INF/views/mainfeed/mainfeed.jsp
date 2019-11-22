@@ -25,7 +25,7 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
-
+<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> -->
 <!-- web font -->
 <link
@@ -38,31 +38,30 @@
 
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<div class="waitme-container">
-		<section id="feeds">
-			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
-			<div class="feedsWrap msrItems" id="feedsWrap">
-				<!-- 반복을 통한 list출력 -->
-			</div>
-			<div id="detailFeedModal"></div>
-		</section>	
+		<%@ include file="/WEB-INF/views/include/header.jsp"%>
+			<section id="feeds">
+				<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
+				<div class="feedsWrap msrItems" id="feedsWrap">
+					<!-- 반복을 통한 list출력 -->
+				</div>
+				<div id="detailFeedModal"></div>
+			</section>	
+		<script src="<c:url value='/js/brick/masonry.min.js'/>"></script>
+		<script src="<c:url value='/js/brick/masonry.js' />"></script>
+		<script>
+			let pageContextURI = '${pageContext.request.contextPath}';
+			
+			   //update columns size on window resize
+				$(window).on('resize', function(e) {
+					time = setTimeout(function() {
+						$('.msrItems').msrItems('refresh');
+					}, 200);
+					clearTimeout(time);
+				})
+		</script>
+		
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
 	</div>
-	<script src="<c:url value='/js/brick/masonry.min.js'/>"></script>
-	<script src="<c:url value='/js/brick/masonry.js' />"></script>
-	<script>
-		let pageContextURI = '${pageContext.request.contextPath}';
-		
-		//update columns size on window resize
-		$(window).on('resize', function(e) {
-			time = setTimeout(function() {
-				$('.msrItems').msrItems('refresh');
-			}, 200);
-			clearTimeout(time);
-		})
-		
-	</script>
-	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
 </body>
 </html>

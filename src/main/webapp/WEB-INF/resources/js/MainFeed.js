@@ -28,12 +28,14 @@ const pageCount = 5;
 	  	 $("#scrollHeight").text(scrollHeight);
 	  	 $("#scrollPosition").text(scrollPosition);
 	  	 $("#bottom").text(scrollHeight - scrollPosition);
-	
+	  
 	  	 if (scrollPosition > scrollHeight - 300) {
 	  		 pageIndex += pageCount;
 	  		 MainfeedMakeAjax();
 	  	 }
 	   });
+	   
+// masonry 형식 만들기 ----------------------------------------- 
 	   function masonry() {
 		 //init
 		   $('.msrItems').msrItems({
@@ -43,8 +45,9 @@ const pageCount = 5;
 			});
 		   
 	   }
+	   
 	 
-// -------------- mainfeed 생성 및 페이징 -------------------------
+// mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax() {
 			$.getJSON({
 				url: "mainfeedList.do",
@@ -52,12 +55,17 @@ const pageCount = 5;
 					pageIndex
 				},
 				success: list => {
-					makeMainFeedList(list)
-					setTimeout(() => {masonry()}, 100);
+					if(list.length == 0) {
+						$(window).off('scroll');
+					}
+					makeMainFeedList(list);
+//					setTimeout(() => {masonry()}, 100);
+//					masonry();
 				}
-				
 			})
+//			masonry();
 		}
+	   
 		function makeMainFeedList(list) {
 			$.each(list, (i, c) => {
 				$("#feedsWrap").append(`
@@ -100,6 +108,15 @@ const pageCount = 5;
 					</div>
 				`);
 			});
+			masonry();
+			 // Make jQuery object from HTML string
+
+		    // Append new blocks to container
+
+		    // Have Masonry position new blocks
+			
+//		    $('#feedsWrap').masonry( 'appended', $moreBlocks );  
+//			setTimeout(() => {masonry()}, 100);
 		}
 		
 // --------------- detail -------------

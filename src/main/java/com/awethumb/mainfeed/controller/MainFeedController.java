@@ -20,8 +20,7 @@ public class MainFeedController {
 	private MainFeedService service;
 	
 	@RequestMapping("/mainfeed.do")
-	public void mainFeed() {
-	}
+	public void mainFeed() {}
 	
 	@RequestMapping("/mainfeedList.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
 	@ResponseBody  // jsp를 호출하는게 아닌 데이터만 호출 : ajax를 호출할때 

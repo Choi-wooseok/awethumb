@@ -429,17 +429,20 @@
 			    <td class="col-md-2">\${time}</td>
 			    <td class="col-md-3">\${r.reportTitle}</td>
 			    <td class="col-md-2">
-          <button type="button" class="w3-btn btn-detail-dc w3-round-medium w3-teal" id="detail\${r.reportNo}">내용보기 & 이용정지
+          <button type="button" class="w3-btn btn-detail-dc w3-round-medium" id="detail\${r.reportNo}" style="background-color:#6dd5bc; color: white;
+        	    font-weight: 500;">내용보기 & 이용정지
           </button></td>
 		    </tr>`);
 	});
 	//페이지네이션 만드는 작업.
-	let $pag = $("<div></div>").addClass("w3-bar");
+	let $pag = $("<div></div>").addClass("w3-bar").addClass("pagination-dc");
+	console.log('리스트', list);
+	console.log('페이지메이커', pageMaker);
 	if(pageMaker.prev){
 		$pag.append(`<a href="javascript:paging(${pageMaker.startPage-1});" class="w3-button">&laquo;</a>`);
 	}
-	for(let i = pageMaker.startPage; i < pageMaker.endPage; i++){
-		$pag.append(`<a class="w3-button" href="javascript:paging(\${i});">\${i}</a>`);
+	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
+		$pag.append(`<a class="w3-button" href="javascript:paging(\${i});" data-page="\${i}">\${i}</a>`);
 	}
 	if(pageMaker.next && pageMaker.endPage > 0){
 		$pag.append(`<a class="w3-button" href="javascript:paging(${pageMaker.endPage+1});">&raquo;</a>`);
@@ -458,9 +461,20 @@
 			</div> */
 	$("#tbo > tbody").remove();
 	$("#tbo").append($tbr);
-	$(".w3-bar").remove();
+	$(".pagination-dc").remove();
 	$("#tbo").after($pag);
+// 	#main-content > section > div.w3-bar.pagination-dc > a:nth-child(1)
+
+	console.log('현재페이지', pageMaker.cri.page);
 	
+	
+	let page = $('#main-content > section > div.w3-bar.pagination-dc > a')
+	
+	for (let p of page) {
+		if($(p).data('page') == pageMaker.cri.page) {
+			$(p).addClass("w3-green");
+		}
+	}	
 }
 /*페이징 관련 함수*/
 
@@ -537,14 +551,14 @@ function originPostAjax(reportNo){
 document.getElementsByClassName("tablink")[0].click();
 
 function openMenu(evt, menuName) {
-  var i, x, tablinks;
+  var j, x, tablinks;
   x = document.getElementsByClassName("menu");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
+  for (j = 0; j < x.length; j++) {
+    x[j].style.display = "none";
   }
   tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].classList.remove("w3-light-grey");
+  for (j = 0; j < x.length; j++) {
+    tablinks[j].classList.remove("w3-light-grey");
   }
   document.getElementById(menuName).style.display = "block";
   evt.currentTarget.classList.add("w3-light-grey");
@@ -603,7 +617,6 @@ $(document).on("click", "#cancel-block", function() {
   
   </script>
 	<script type="application/javascript">
-		
 		
     $(document).ready(function() {
       $("#date-popover").popover({

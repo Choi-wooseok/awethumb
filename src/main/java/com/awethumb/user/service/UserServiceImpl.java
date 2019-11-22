@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awethumb.repository.dao.UserDAO;
 import com.awethumb.repository.vo.Auth;
 import com.awethumb.repository.vo.UserVO;
+import com.awethumb.util.CommUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
 	public int registUser(UserVO user) {
 		int result = 0;
 		try {
-			String rdmKey = mailService.mailSendWithUserKey(user.getUserId(), user.getUserName());
+			
+			String rdmKey = CommUtil.randomKeyByPassword(); 
 			user.setUserEmailKey(rdmKey);
 			user.setUserPass(encoder.encode(user.getUserPass()));
 			result += dao.registUser(user);
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
 			auth.setUserId(user.getUserId());
 			auth.setAuthType("ROLE_U");
 			result += dao.registAuth(auth);
+			mailService.mailSendWithUserKey(user.getUserId(), user.getUserName(), rdmKey);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

@@ -26,7 +26,7 @@
 <body>
     <!-- include header -->
     <header></header>
-
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
     <section>
         <div class="bgWrap">
             <img src="<c:url value='/images/main_bg.jpg' />" alt="#">

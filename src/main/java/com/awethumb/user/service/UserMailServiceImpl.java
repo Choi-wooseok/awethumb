@@ -24,14 +24,13 @@ public class UserMailServiceImpl implements UserMailServlce {
 	
 	// 메일 인증 메소드
 	@Override
-	public String mailSendWithUserKey(String eMail, String userId) throws MessagingException {
+	public void mailSendWithUserKey(String eMail, String userId, String rdmKey) throws MessagingException {
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    String contextPath = attr.getRequest().getContextPath(); 
-		String key = CommUtil.randomKeyByPassword();
 		MimeMessage mail = mailSender.createMimeMessage();
 		String htmlStr = "<form method='post' action='http://203.236.209.150:8000" +  contextPath + "/user/regist_finish_user.do'>"
 					   + "<input type='hidden' name='userId' value='" + eMail + "'/>" 
-					   + "<input type='hidden' name='userEmailKey' value='" + key +  "'/>" 
+					   + "<input type='hidden' name='userEmailKey' value='" + rdmKey +  "'/>" 
 					   + "<h2>안녕하세요 :p awethumb 입니다!</h2><br><br>" 
 					   + "<h3>" + userId + "님</h3>" + "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : " 
 					   + "<input type='submit' value='인증하기' /></p>"
@@ -40,7 +39,6 @@ public class UserMailServiceImpl implements UserMailServlce {
 		mail.setText(htmlStr, "utf-8", "html");
 		mail.addRecipient(RecipientType.TO, new InternetAddress(eMail));
 		mailSender.send(mail);
-		return key;
 		
 	}
 }

@@ -25,6 +25,7 @@
                 <input type="text" name="userId" id="id" placeholder="username" />
                 <input type="password" name="userPass" id="pass" placeholder="password" />
                 <button>Login</button>
+<!-- 	            <button type="button">Google Login</button> -->
             </form>
             <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
         </div>

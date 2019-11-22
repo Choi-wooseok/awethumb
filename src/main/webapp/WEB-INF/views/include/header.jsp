@@ -7,7 +7,7 @@
 	</sec:authorize>
     <div>
         <div class="layout_left">
-            <a href="#" class="title"><span>AweThumb</span></a>  
+            <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title"><span>AweThumb</span></a>  
             <span class="search">
                 <form action="">
                     <input id="search" type="text" />
@@ -24,13 +24,20 @@
 
             <div class="optBtn">
                 <button>
-                    <i class="far fa-user"></i>
+                	<a href="${pageContext.request.contextPath}/user/logout.do">
+	                    <i class="far fa-user">
+	                    </i>
+                    </a>
                 </button>
                 <button>
-                    <i class="far fa-compass"></i>
+                	<a href="${pageContext.request.contextPath}/feed/feed.do">
+                    	<i class="far fa-compass"></i>
+                    </a>	
                 </button>
                 <button>
-                    <i class="far fa-bell"></i>
+                	<a href="${pageContext.request.contextPath}/detailProject/detailBoardList.do">
+                    	<i class="far fa-bell"></i>
+                    </a>	
                 </button>
             </div>
         </div>

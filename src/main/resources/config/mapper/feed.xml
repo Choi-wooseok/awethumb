@@ -23,10 +23,28 @@
 		 order by cmt_reg_dt
 	</select>
 	
-	<select id="selectCmtNo" resultType="int">
-		SELECT cmt_no
- 		  FROM comment_tb
+	<select id="selectOneComment" parameterType="int" resultType="Comment">
+		select *
+		  from comment_tb
+		 where cmt_no = #{cmtNo} 
 	</select>
+	
+	<select id="selectCmtNo" parameterType="int" resultType="int">
+		SELECT cmt_no
+		  FROM comment_tb
+		 WHERE post_no = #{postNo} 
+	</select>
+	
+	<select id="commentTime" parameterType="int" resultType="int">
+		SELECT TIMESTAMPDIFF(
+				minute,
+				 (select cmt_reg_dt
+				    FROM comment_tb
+				   WHERE cmt_no = ${cmtNo}),
+				   NOW()
+				);
+	</select>
+	
 	
 	<insert id="insertBoardComment" parameterType="Comment" >
 		INSERT INTO comment_tb (

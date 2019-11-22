@@ -103,11 +103,17 @@
 	color: red;
 	border: none;
 	background: transparent;
+	font-size: 16px;
+	font: inherit;
+	font-weight: bold;
 }
 
 #share {
 	border: none;
 	background: transparent;
+	font-size: 16px;
+	font: inherit;
+	font-weight: bold;
 }
 
 .myBoard {
@@ -134,9 +140,43 @@
 } 
 #commentList:hover #commentModal{  
 	display:block;  
-} 
+}
+.update{
+	border: none;
+	background-color: transparent;
+}
+.cancel{
+	border: none;
+	background-color: transparent;
+}
+.modify{
+	border: none;
+	background-color: transparent;
+	font-size: 16px;
+	font: inherit;
+	font-weight: bold;
+}
+.delete{
+	border: none;
+	background-color: transparent;
+	font-size: 16px;
+	font: inherit;
+	font-weight: bold;
+}
+#boardCancel{
+	font-size: 16px;
+	font: inherit;
+	font-weight: bold;
+}
 
-
+#contentUpdate {
+   	margin-top: 10px;
+    width: 100%;
+    line-height: 35px;
+    box-sizing: border-box;
+    padding: 0 80px 0 15px;
+    border: 0.5px solid #e5e5e5;
+}
 </style>
 </head>
 <body>
@@ -151,7 +191,7 @@
 				</c:forEach>
 				<!-- 리스트 반복 -->
 				<c:forEach var="bl" items="${boardlist}">
-				<input type="hidden" class="loginUserNo" value="3" />
+				<input type="hidden" class="loginUserNo" value="1" />
 				<div class="feedList">
 					<div class="feedInfo">
 						<div class="feedUserImg">
@@ -186,13 +226,13 @@
 					<!-- 댓글 -->
 					<input type="hidden" name="postNo" class="postNo" id="postNo" value="${bl.postNo}" />
 					<div class="feedPlay">
-						<div>
+						<div id="commentList">
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
 						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
 							<div class="insertComment insertComment2">
-								<input class="commentWriter${bl.postNo}" type="text" />
-								<button >등록</button>
+								<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" />
+								<button id="commentInsertBtn">등록</button>
 							</div>
 						</form>
 					</div>
@@ -209,7 +249,7 @@
 							<h4>
 								<a href="#"><button id="share">퍼가기</button></a>
 							</h4>
-							<h4 class="boardClose${bl.postNo}">취 소${bl.postNo}</h4>
+							<h4 id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</h4>
 						</div>
 					</div>
 					<!-- commentModal -->

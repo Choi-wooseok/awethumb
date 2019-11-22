@@ -32,8 +32,25 @@ public class FeedServiceImpl implements FeedService {
 		dao.updateBoardComment(comment);
 		return dao.selectFeedBoardComment(comment.getPostNo());
 	}
-	public List<Integer> selectCmtNo(){
-		return dao.selectCmtNo();
+	public List<Integer> selectCmtNo(int postNo){
+		return dao.selectCmtNo(postNo);
+	}
+	public int commentTime(int cmtNo) {
+		return dao.commentTime(cmtNo);
+	}
+	public Comment selectOneComment(int cmtNo) {
+		return dao.selectOneComment(cmtNo);
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+

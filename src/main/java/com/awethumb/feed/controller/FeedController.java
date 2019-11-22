@@ -1,5 +1,6 @@
 package com.awethumb.feed.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
 		
-		model.addAttribute("cmtno", service.selectCmtNo()); //댓글번호
 		
 		
 	}
@@ -33,7 +33,59 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
 	public List<Comment> selectComment(int postNo){
-		return service.selectFeedBoardComment(postNo);
+		List<Comment> comList = new ArrayList<>();
+		List<Integer> cmtno = service.selectCmtNo(postNo);
+		for(int a : cmtno) {
+			Comment cm = service.selectOneComment(a);
+			int cmtReg = service.commentTime(a);
+			// 날짜계산
+			int mi ;
+			int ho ;
+			int day;
+			int week;
+			int month;
+			int year;
+		
+			if(cmtReg < 60 ) {
+				mi = cmtReg;
+				cm.setCmtRegDt(Integer.toString(mi) + "분 전");
+			}
+			else if(cmtReg > 60 && cmtReg < 3600) {
+				ho = cmtReg / 60;
+				cm.setCmtRegDt(Integer.toString(ho) + "시간 전");
+			}
+			else if (cmtReg > 1440) {
+				day = cmtReg / 1440;
+				cm.setCmtRegDt(Integer.toString(day) + "일 전");
+			}
+			else if (cmtReg > 10080) {
+				week = cmtReg / 10080;
+				cm.setCmtRegDt(Integer.toString(week) + "주 전");
+			}
+			else if (cmtReg > 40320) {
+				month = cmtReg / 40320;
+				cm.setCmtRegDt(Integer.toString(month) + "달 전");
+			}
+			else if (cmtReg > 525600 ) {
+				year = cmtReg / 525600;
+				cm.setCmtRegDt(Integer.toString(year) + "년 전");
+			}
+			
+			
+			comList.add(cm);
+		}
+		for(Comment a : comList) {
+			System.out.println("----------------------");
+			System.out.println("댓번호 :" + a.getCmtNo());
+			System.out.println("댓내용 : " + a.getCmtContent());
+			System.out.println("날짜 : " + a.getCmtRegDt());
+			System.out.println("----------------------");
+		}
+		
+		
+		
+		
+		return comList;
 	}
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody

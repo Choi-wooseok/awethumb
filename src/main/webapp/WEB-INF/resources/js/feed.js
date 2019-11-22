@@ -1,27 +1,4 @@
 let loginUserNo = $(".loginUserNo").val();
-let maxSize = 598;
-let boxSize = document.getElementById("feedImgWrap")
-let image = document.getElementById("feedImg");
-let imgHeight = image.height;
-let imgWidth = image.width;
-$(document).ready(function() {
-	if (imgWidth > maxSize && imgHeight > maxSize) {
-		if (imgWidth > imgHeight) {
-			boxSize.style.width = maxSize + "px";
-			boxSize.style.height = "auto";
-			image.style.width = "100%";
-		} else {
-			boxSize.style.width = "auto";
-			boxSize.style.height = maxSize + "px";
-			image.style.height = "100%";
-		}
-	} else if (imgWidth > maxSize && imgHeight < maxSize) {
-		boxSize.style.width = maxSize + "px";
-		image.style.width = "100%";
-	} else if (imgWidth < maxSize && imgHeight > maxSize) {
-		boxSize.style.height = maxSize + "px";
-		image.style.height = "100%";
-	}
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
 		let postnum = a.value; // 게시글번호받기 걷기
@@ -41,10 +18,11 @@ $(document).ready(function() {
 					success: list => boardCommentListAjax(list)
 				});
 				$(".commentWriter"+ postnum).val("");
+				window.location.href + ("#commentList")
 				return false;
 			});
 			// 삭제
-			$("#boardCommentList" + postnum).on("click", "a.delete", (e) => {
+			$("#boardCommentList" + postnum).on("click", "button.delete", (e) => {
 				$(".updateText").css("display","none");
 				$.ajax({
 					url: "boardCommentDelete.do",
@@ -77,7 +55,8 @@ $(document).ready(function() {
 				});
 				
 			});
-			$("#boardCommentList" + postnum).on("click", "a.modify", (e) => {
+			$("#boardCommentList" + postnum).on("click", "button.modify", (e) => {
+				$(".commentboard").css("display","none");
 				let cmtNo = $(e.target).data("no");
 				let cmtCon = $(e.target).data("context");
 				$("#commentWrap" +  cmtNo).append(
@@ -109,8 +88,8 @@ $(document).ready(function() {
 								</div>
 								<div id="commentWrap${c.cmtNo}" class="commentWrap">
 									로그인성공
-									내용 : ${c.cmtContent}
-									작성일자 : ${c.cmtRegDt}
+									<span style="color:red;">내용 : ${c.cmtContent}</span>
+									<span style="color:blue;">작성일자 : ${c.cmtRegDt}</span>
 									댓글유저번호 : ${c.userNo}
 									로그인 유저번호: ${loginUserNo}
 									댓글번호 : ${c.cmtNo}
@@ -124,17 +103,19 @@ $(document).ready(function() {
 							<div id="modalComment${c.cmtNo}" class="commentboard">
 								<div class="comment-modal">
 									<h4>
-										<a href="javascript:;"
+										<button
 										data-no="${c.cmtNo}"
 										data-context="${c.cmtContent}"
 										class="modify">
-										수정 @@ ${c.cmtNo} g
-										</a>
+										수정 - 댓글번호 :  ${c.cmtNo} 
+										</button>
 									</h4>
 									<h4>
-										<a href="javascript:;" data-no="${c.cmtNo}" class="delete"> 
-										삭제 @@ ${c.cmtNo}
-										</a>	
+										<button
+										 data-no="${c.cmtNo}"
+										 class="delete"> 
+										삭제  - 댓글번호 :  ${c.cmtNo}
+										</button>	
 									</h4>
 									<h4 class="commentModalClose">취 소</h4>
 								</div>
@@ -172,10 +153,8 @@ $(document).ready(function() {
 		let cno = document.querySelectorAll(".commentNo");
 		for (let cn of cno){
 			let cmtNo = cn.value;
-			console.log("댓번 : " + cmtNo)
 			$(document).on( "click",".commentModal" + cmtNo, (e) => {
 				let abc = $(e.target).parent("button").data("commentno");
-				console.log("abc : ", abc);
 				if(cmtNo == abc){
 					console.log("in")
 					$("#modalComment" + abc).css("display","block");
@@ -185,8 +164,18 @@ $(document).ready(function() {
 				} // if
 			});
 		} // for
+		function divreload(postNo){
+		      $("#commentInsertBtn").click(() => {
+		    	  alert("클릭댐");
+		    	  window.location.href + ("#commentList")
+		      });
+		      alert("새로고침함");
+		}
+//		function refresh(href) {
+//			jQuery('#commentList').load(href);
+////			alert("새로고침함");
+//			}
 	} //for
-})
 
 
 

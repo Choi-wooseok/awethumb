@@ -14,6 +14,7 @@ public interface FeedService {
 	List<Integer> selectCmtNo(int postNo);
 	int commentTime(int cmtNo);
 	Comment selectOneComment(int cmtNo);
+	List<Integer> selectCommentNo();
 
 
 }

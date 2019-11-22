@@ -16,6 +16,9 @@ public class FeedServiceImpl implements FeedService {
 	public List<FeedBoard> selectFeedBoard() {
 		return dao.selectFeedBoard();
 	}
+	
+	
+	// 댓글
 	public List<Comment> selectFeedBoardComment(int postNo){
 		return dao.selectFeedBoardComment(postNo);
 	}
@@ -41,7 +44,9 @@ public class FeedServiceImpl implements FeedService {
 	public Comment selectOneComment(int cmtNo) {
 		return dao.selectOneComment(cmtNo);
 	}
-	
+	public List<Integer> selectCommentNo(){
+		return dao.selectCommentNo();
+	}
 }
 
 

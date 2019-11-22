@@ -29,6 +29,11 @@
 		 where cmt_no = #{cmtNo} 
 	</select>
 	
+	<select id="selectCommentNo" resultType="int">
+		SELECT cmt_no
+		  FROM comment_tb
+	</select>
+	
 	<select id="selectCmtNo" parameterType="int" resultType="int">
 		SELECT cmt_no
 		  FROM comment_tb

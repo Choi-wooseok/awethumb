@@ -18,7 +18,6 @@ let loginUserNo = $(".loginUserNo").val();
 					success: list => boardCommentListAjax(list)
 				});
 				$(".commentWriter"+ postnum).val("");
-				window.location.href + ("#commentList")
 				return false;
 			});
 			// 삭제
@@ -156,7 +155,6 @@ let loginUserNo = $(".loginUserNo").val();
 			$(document).on( "click",".commentModal" + cmtNo, (e) => {
 				let abc = $(e.target).parent("button").data("commentno");
 				if(cmtNo == abc){
-					console.log("in")
 					$("#modalComment" + abc).css("display","block");
 					$(document).on("click",".commentModalClose", () => {
 						$("#modalComment" + abc).css("display","none");
@@ -164,13 +162,13 @@ let loginUserNo = $(".loginUserNo").val();
 				} // if
 			});
 		} // for
-		function divreload(postNo){
-		      $("#commentInsertBtn").click(() => {
-		    	  alert("클릭댐");
-		    	  window.location.href + ("#commentList")
-		      });
-		      alert("새로고침함");
-		}
+//		function divreload(postNo){
+//		      $("#commentInsertBtn").click(() => {
+//		    	  alert("클릭댐");
+//		    	  window.location.href + ("#commentList")
+//		      });
+//		      alert("새로고침함");
+//		}
 //		function refresh(href) {
 //			jQuery('#commentList').load(href);
 ////			alert("새로고침함");

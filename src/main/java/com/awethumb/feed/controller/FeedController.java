@@ -25,8 +25,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
 		
-		
-		
+		model.addAttribute("cmtno", service.selectCommentNo() ); //댓글번호받기
 	}
 	
 	// 댓글
@@ -39,12 +38,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 			Comment cm = service.selectOneComment(a);
 			int cmtReg = service.commentTime(a);
 			// 날짜계산
-			int mi ;
-			int ho ;
-			int day;
-			int week;
-			int month;
-			int year;
+			int mi, ho, day, week ,month, year ;
 		
 			if(cmtReg < 60 ) {
 				mi = cmtReg;
@@ -70,20 +64,8 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 				year = cmtReg / 525600;
 				cm.setCmtRegDt(Integer.toString(year) + "년 전");
 			}
-			
-			
 			comList.add(cm);
 		}
-		for(Comment a : comList) {
-			System.out.println("----------------------");
-			System.out.println("댓번호 :" + a.getCmtNo());
-			System.out.println("댓내용 : " + a.getCmtContent());
-			System.out.println("날짜 : " + a.getCmtRegDt());
-			System.out.println("----------------------");
-		}
-		
-		
-		
 		
 		return comList;
 	}
@@ -105,6 +87,9 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		System.out.println("댓수정");
 		return service.updateBoardComment(comment);
 	}
+	
+	
+
 	
 }
 

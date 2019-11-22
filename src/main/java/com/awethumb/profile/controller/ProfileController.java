@@ -51,7 +51,7 @@ public class ProfileController {
 	@PostMapping("/update.do")
 	public String update(UserVO user) {
 		service.updateUser(user);
-		return "redirect:main.do";
+		return "redirect:" + user.getUserNickname();
 	}
 	
 	@RequestMapping("/checksub.do")

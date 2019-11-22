@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -20,9 +22,12 @@ public class UserFile {
     private String userFilePath;
 
     // 회원 파일 크기 
-    private String userFileSize;
+    private long userFileSize;
 
     // 회원 파일 확장자 
     private String userFileExe;
+    
+    // 회원 파일
+    private MultipartFile userFile;
 
 }

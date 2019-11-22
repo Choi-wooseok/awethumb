@@ -1,8 +1,13 @@
 package com.awethumb.profile.controller;
 
+import java.io.File;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.profile.service.ProfileService;
 import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
 @Controller("com.awethumb.mypage.controller.ProfileController")
@@ -92,4 +99,29 @@ public class ProfileController {
 	public List<UserVO> getSearchFollowingList(@RequestBody Follow fol) {
 		return service.getSearchFollowingList(fol);
 	}
+	
+	// 프로필 이미지 업로드
+	@RequestMapping("/updateprofileimg.do")
+	@ResponseBody
+	public void updateProfileImg(UserFile uf) throws Exception {
+		MultipartFile mf = uf.getUserFile();
+		long size = mf.getSize(); // 파일 사이즈
+		String orgName = mf.getOriginalFilename(); // 파일 이름
+		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+		
+		// 경로 설정
+		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
+		String path = "c:/java/upload/profile" + sdf.format(new Date()); // 파일 경로
+		
+		uf.setUserFileSize(size);
+		uf.setUserFileOrgName(orgName);
+		uf.setUserFileExe(ext);
+		uf.setUserFileSysName(sysName);
+		uf.setUserFilePath(path);
+		
+		mf.transferTo(new File(path + sysName));
+		
+		service.updateUserFile(uf);
+	}	
 }

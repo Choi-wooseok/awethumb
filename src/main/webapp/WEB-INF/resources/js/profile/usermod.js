@@ -79,6 +79,24 @@ $(".profile_sub").click((e) => {
 	$("input[name=categoryList]").val(sCList.substring(0, sCList.length - 1));
 })
 
+// 프로필 이미지 클릭시 
+$(".profile_img_btn").click(() =>{
+	$(".profile_img_in").click();
+})
+// 프로필 이미지가 입력됐을 시 파일 업로드
+$(".profile_img_in").change(()=>{
+	const formData = new FormData($(".profile_img_form")[0]);
+	$.ajax({
+        cache : false,
+        url : "updateprofileimg.do",
+        dataType: 'text',
+        processData: false,
+        contentType: false,
+        type : 'POST', 
+        data : formData
+    })
+    .done(() => {})
+})
 
 
 

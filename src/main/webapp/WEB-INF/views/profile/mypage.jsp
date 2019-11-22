@@ -132,12 +132,17 @@
         <div class="u_mod_ol modal_overlay"></div>
         <div class="modal_content_container">
             <div class="modal_content">
+                <!-- 프로필 사진 전송 ajax를 위한 form -->
+                <form class="myHidden profile_img_form" action="updateprofileimg.do" method="post" enctype="multipart/form-data">
+                	<input name="userNo" value="${u.userNo}">
+                	<input class="profile_img_in" type="file" name="userFile">
+                </form>
                 <form class="user_setting mod_form" method="post" action="update.do">
                 	<input name="userNo" hidden="hidden" value="${u.userNo}">
                 	<input name="categoryList" hidden="hidden" value="" />
                     <div>
                         <aside>
-                            <button type="button" class="img_btn">
+                            <button type="button" class="profile_img_btn img_btn">
                                 <img src="./../images/test_user.jpg">
                             </button>
                         </aside>
@@ -254,8 +259,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- 슬라이드 -->
     <script>

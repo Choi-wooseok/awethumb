@@ -9,6 +9,7 @@ import com.awethumb.repository.dao.ProfileDAO;
 import com.awethumb.repository.vo.Category;
 import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
 @Service
@@ -64,5 +65,12 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public List<UserVO> getSearchFollowingList(Follow fol) {
 		return dao.selectSearchFollowingList(fol);
+	}
+
+	@Override
+	public void updateUserFile(UserFile uf) {
+		if(dao.selectUserFile(uf.getUserNo()) == 0) dao.insertUserFile(uf);
+		else dao.updateUserFile(uf);
+		
 	}
 }

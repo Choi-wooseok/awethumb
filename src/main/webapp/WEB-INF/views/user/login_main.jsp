@@ -12,49 +12,51 @@
         
 </head>
 <body>
-	<sec:authorize access="isAuthenticated()">
-		<script>
-			location.href="${pageContext.request.contextPath}/mainfeed/mainfeed.do"
-		</script>
-	</sec:authorize>
-	    <section id="index">
-        <div class="indexBg"></div>
-        <div class="login">
-            <p class="title">AweThumb</p>
-            <form method='post' action="<c:url value="/login" />" >
-                <input type="text" name="userId" id="id" placeholder="username" />
-                <input type="password" name="userPass" id="pass" placeholder="password" />
-                <button>Login</button>
-<!-- 	            <button type="button">Google Login</button> -->
-            </form>
-            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
-        </div>
-    </section>
-	<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
-	<script type="text/javascript">
-		if ('${errCode}' == 1) {
-			Swal.fire({
-				  icon: 'error',
-				  title: '로그인 실패',
-				  text: '<spring:message code="userlogin.fail" />'
-			})
-		}
-		else if ('${errCode}' == 2) {
-			Swal.fire({
-				  icon: 'error',
-				  title: '로그인 실패',
-				  text: '<spring:message code="userlogin.email.auth" />'
-			})
-		}
-		else if ('${errCode}' == 3) {
-			Swal.fire({
-				  icon: 'error',
-				  title: '로그인 실패',
-				  text: '<spring:message code="userlogin.fail" />'
-			})
-		}
-	</script> 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
-
+	<div class="waitme-container">
+		<sec:authorize access="isAuthenticated()">
+			<script>
+				location.href="${pageContext.request.contextPath}/mainfeed/mainfeed.do"
+			</script>
+		</sec:authorize>
+		    <section id="index">
+	        <div class="indexBg"></div>
+	        <div class="login">
+	            <p class="title">AweThumb</p>
+	            <form method='post' action="<c:url value="/login" />" >
+	                <input type="text" name="userId" id="id" placeholder="username" />
+	                <input type="password" name="userPass" id="pass" placeholder="password" />
+	                <button>Login</button>
+	                <button>Google Login</button>
+	<!-- 	            <button type="button">Google Login</button> -->
+	            </form>
+	            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
+	        </div>
+	    </section>
+		<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
+		<script type="text/javascript">
+			if ('${errCode}' == 1) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.fail" />'
+				})
+			}
+			else if ('${errCode}' == 2) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.email.auth" />'
+				})
+			}
+			else if ('${errCode}' == 3) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.fail" />'
+				})
+			}
+		</script> 
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
+	</div>
 </body>
 </html>

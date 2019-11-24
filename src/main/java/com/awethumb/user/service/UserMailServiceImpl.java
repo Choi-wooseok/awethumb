@@ -28,7 +28,7 @@ public class UserMailServiceImpl implements UserMailServlce {
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    String contextPath = attr.getRequest().getContextPath(); 
 		MimeMessage mail = mailSender.createMimeMessage();
-		String htmlStr = "<form method='post' action='http://203.236.209.150:8000" +  contextPath + "/user/regist_finish_user.do'>"
+		String htmlStr = "<form method='post' action='http://183.102.244.165:8000" +  contextPath + "/user/regist_finish_user.do'>"
 					   + "<input type='hidden' name='userId' value='" + eMail + "'/>" 
 					   + "<input type='hidden' name='userEmailKey' value='" + rdmKey +  "'/>" 
 					   + "<h2>안녕하세요 :p awethumb 입니다!</h2><br><br>" 

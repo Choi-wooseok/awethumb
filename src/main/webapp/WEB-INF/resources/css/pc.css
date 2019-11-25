@@ -1024,6 +1024,7 @@ section#feed {
 	right: 5px;
 }
 .board,
+.cmtModalDetail,
 .commentboard {
 	display: none;
 	position: fixed;

@@ -36,7 +36,7 @@ header > div > div:nth-child(2) {
     box-sizing: border-box;
     padding: 0 15px;
     float: left;
-    margin-left: 25px;
+    margin: 18px 25px;
     letter-spacing: 1px;
 }
 .search > form {
@@ -76,7 +76,7 @@ header > div > div:nth-child(2) {
 }
 .user > img {
     position: relative;
-    top:-1px;
+    /* top:-1px; */
     width: 100%;
     height: 100%;
 }
@@ -328,9 +328,13 @@ section#mypage {
     width: 100%;
 }
 .pjtTitle {
+	display: block;
+	height: 65px;
     padding-lefT: 5px;
     font-size: 18px;
     font-weight: 900;
+    line-height: 65px;
+    float: left;
 }
 section > div.content {
     position: relative;
@@ -468,6 +472,14 @@ section > div.content {
     border-bottom: 1px solid #a9a9a9;
     text-align: center;
     font-size: 14px;
+}
+.optionModalWrap > div > div > a {
+	width: 100%;
+	height: 100%;
+	display: block;
+	text-decoration: none;
+	color: #000;
+	font-size: 14px;
 }
 .optionModalWrap > div > div:hover {
     background-color: #6dd5bc;
@@ -805,7 +817,7 @@ section > div.content {
     width: 100%;
     line-height: 50px;
     box-sizing: border-box;
-    padding: 0 80px 0 15px;
+    padding: 0 95px 0 15px;
     border: none;
     border-top: 1px solid #efefef;
 }
@@ -817,6 +829,7 @@ section > div.content {
     height: 100%;
     border: none;
     background-color: transparent;
+    border-left: 1px solid #efefef;
 }
 .insertComment > button:hover {
     color:#6dd5bc;
@@ -911,7 +924,6 @@ section#feed {
 }
 .feedPlay > div:first-child {
     box-sizing: border-box;
-    padding: 15px;
     max-height: 300px;
     overflow: auto;
 }
@@ -966,27 +978,123 @@ section#feed {
     width: 219px !important;
 }
 .feedUserName > a {
-    text-decoration: none;
-    color: #333;
+   text-decoration: none;
+   color: #333;
+   float: left;
+   display: block;
+   height: 32px;
+   line-height: 32px;
+   max-width: 170px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 .feedUserName > span {
     display: block;
     font-size: 12px;
     margin-top: 3px;
 }
+.feedInfo > div:last-child > span {
+	display: block;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    max-width: 470px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .feedSideUserList > .feedInfo:hover {
     background-color: #6dd5bc25;
 }
+.feedUserName > span {
+	float: right !important;
+}
 .feedSide2 {
     position: fixed;
-    top: 435px;
+    top: 420px;
     left: 960px;
     width: 300px;
     height: 280px;
     background-color: #fff;
 }
-
-
+#commentModal {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+.board,
+.commentboard {
+	display: none;
+	position: fixed;
+ 	z-index: 100;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+.board-modal,
+.comment-modal {
+	background-color: #fefefe;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 360px;
+	border-radius: 4px;
+}
+#commentModal{  
+ 	display:none;  
+} 
+#commentList:hover #commentModal{  
+	display:block; 
+	border: none;
+	background-color: transparent; 
+}
+.board-modal > div,
+.board-modal > div > button,
+.comment-modal > div,
+.comment-modal > div > button {
+	line-height: 48px;
+	background-color: transparent;
+	border: none;
+	text-align: center;
+	font-size: 14px;
+}
+.board-modal > div:hover,
+.comment-modal > div:hover {
+	background-color: #6dd5bc;
+	cursor: pointer;
+}
+.board-modal > div, 
+.comment-modal > div {
+	border-bottom: 1px solid #efefef;
+}
+.board-modal > div:last-child,
+.comment-modal > div:last-child {
+	border-bottom: none;
+}
+.updateText > input {
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+    padding: 7px 8px;
+}
+.updateText > div {
+	text-align: center;
+	margin-top:5px;
+}
+.updateText > div > button {
+	box-sizing: border-box;
+	padding: 5px 13px;
+	border: none;
+	background-color: transparent;
+}
+.updateText > div > button:hover {
+	color: #6dd5bc;
+}
 
 /* -------------------------------- */
 /* Feeds 3-Line Page Css */
@@ -1102,4 +1210,10 @@ section#feeds {
 .imgWrap {
 	width: 550px !important;
 	height: 550px !important;
+}
+.feedText {
+	background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    box-sizing: border-box;
+    padding: 15px
 }

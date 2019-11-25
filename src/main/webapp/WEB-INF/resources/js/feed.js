@@ -61,8 +61,10 @@ let loginUserNo = $(".loginUserNo").val();
 				$("#commentWrap" +  cmtNo).append(
 						`<div id="updateText" class="updateText">
 							<input type="text" id="contentUpdate" value="${cmtCon}"/>
-							<button class="update" data-no=${cmtNo}>수정</button>
-							<button class="cancel" data-no=${cmtNo}>취소</button>
+							<div>
+								<button class="update" data-no=${cmtNo}>수정</button>
+								<button class="cancel" data-no=${cmtNo}>취소</button>
+							</div>
 						</div>`
 				);
 			}); // 댓글수정폼
@@ -101,22 +103,22 @@ let loginUserNo = $(".loginUserNo").val();
 							</div>
 							<div id="modalComment${c.cmtNo}" class="commentboard">
 								<div class="comment-modal">
-									<h4>
+									<div>
 										<button
 										data-no="${c.cmtNo}"
 										data-context="${c.cmtContent}"
 										class="modify">
 										수정 - 댓글번호 :  ${c.cmtNo} 
 										</button>
-									</h4>
-									<h4>
+									</div>
+									<div>
 										<button
 										 data-no="${c.cmtNo}"
 										 class="delete"> 
 										삭제  - 댓글번호 :  ${c.cmtNo}
 										</button>	
-									</h4>
-									<h4 class="commentModalClose">취 소</h4>
+									</div>
+									<div class="commentModalClose">취 소</div>
 								</div>
 							</div>`
 						);

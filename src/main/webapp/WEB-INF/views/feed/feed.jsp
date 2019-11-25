@@ -8,176 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
-<style>
-.board {
-	display: none;
-	/* Hidden by default */
-	position: fixed;
-	/* Stay in place */
-	z-index: 1;
-	/* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
-.commentboard {
-	display: none;
-	/* Hidden by default */
-	position: fixed;
-	/* Stay in place */
-	z-index: 1;
-	/* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.board-modal {
-	background-color: #fefefe;
-	margin: 15% auto;
-	/* 15% from the top and centered */
-	padding: 20px;
-	border: 3px solid #888;
-	width: 20%;
-	height: 150px;
-	/* Could be more or less, depending on screen size */
-}
-.comment-modal {
-	background-color: #fefefe;
-	margin: 15% auto;
-	/* 15% from the top and centered */
-	padding: 20px;
-	border: 3px solid #888;
-	width: 20%;
-	height: 150px;
-	/* Could be more or less, depending on screen size */
-}
-/* The Close Button */
-.boardClose {
-	font-weight: bold;
-}
-
-.boardClose:hover, .boardClose:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.board-modal {
-	line-height: 50px;
-}
-
-.board-modal h4 {
-	text-align: center;
-	border-bottom: 1px solid #e5e5e5;
-}
-.comment-modal {
-	line-height: 50px;
-}
-
-.comment-modal h4 {
-	text-align: center;
-	border-bottom: 1px solid #e5e5e5;
-}
-
-#report {
-	color: red;
-	border: none;
-	background: transparent;
-	font-size: 16px;
-	font: inherit;
-	font-weight: bold;
-}
-
-#share {
-	border: none;
-	background: transparent;
-	font-size: 16px;
-	font: inherit;
-	font-weight: bold;
-}
-
-.myBoard {
-	border: none;
-	background: transparent;
-	float: right;
-}
-#commentModal {
-	border: none;
-	background: transparent;
-	float: right;
-}
-.commentModalClose {
-	font-weight: bold;
-}
-.commentModalClose:hover, 
-.commentModalClose:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-#commentModal{  
- 	display:none;  
-} 
-#commentList:hover #commentModal{  
-	display:block;  
-}
-.update{
-	border: none;
-	background-color: transparent;
-}
-.cancel{
-	border: none;
-	background-color: transparent;
-}
-.modify{
-	border: none;
-	background-color: transparent;
-	font-size: 16px;
-	font: inherit;
-	font-weight: bold;
-}
-.delete{
-	border: none;
-	background-color: transparent;
-	font-size: 16px;
-	font: inherit;
-	font-weight: bold;
-}
-#boardCancel{
-	font-size: 16px;
-	font: inherit;
-	font-weight: bold;
-}
-
-#contentUpdate {
-   	margin-top: 10px;
-    width: 100%;
-    line-height: 35px;
-    box-sizing: border-box;
-    padding: 0 80px 0 15px;
-    border: 0.5px solid #e5e5e5;
-}
-</style>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
@@ -241,15 +71,14 @@
 					<div id="modalBoard${bl.postNo}" class="board">
 						<!-- boardModal content -->
 						<div class="board-modal">
-							<h4>
-								<button id="report" type="button">
-									${pn}신 고<i class="fas fa-angry"></i>
-								</button>
-							</h4>
-							<h4>
-								<a href="#"><button id="share">퍼가기</button></a>
-							</h4>
-							<h4 id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</h4>
+							<div>
+								<button id="report" class="report" type="button">
+									부적절한 컨텐츠 신고								</button>
+							</div>
+							<div>
+								<button id="share">퍼가기</button>
+							</div>
+							<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div>
 						</div>
 					</div>
 					<!-- commentModal -->

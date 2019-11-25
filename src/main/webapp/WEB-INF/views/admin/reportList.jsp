@@ -439,13 +439,13 @@
 	console.log('리스트', list);
 	console.log('페이지메이커', pageMaker);
 	if(pageMaker.prev){
-		$pag.append(`<a href="javascript:paging(${pageMaker.startPage-1});" class="w3-button">&laquo;</a>`);
+		$pag.append(`<a href="javascript:paging(\${pageMaker.startPage}-1);" class="w3-button">&laquo;</a>`);
 	}
 	for(let i = pageMaker.startPage; i <= pageMaker.endPage; i++){
 		$pag.append(`<a class="w3-button" href="javascript:paging(\${i});" data-page="\${i}">\${i}</a>`);
 	}
 	if(pageMaker.next && pageMaker.endPage > 0){
-		$pag.append(`<a class="w3-button" href="javascript:paging(${pageMaker.endPage+1});">&raquo;</a>`);
+		$pag.append(`<a class="w3-button" href="javascript:paging(\${pageMaker.endPage}+1);">&raquo;</a>`);
 	}
 	<!-- 페이지네이션, 페이징, html부분 -->
 		/* 	<div class="w3-bar">

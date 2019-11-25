@@ -160,7 +160,7 @@ let scrollTop = 0;
 										<img src="./../images/test_user.jpg" alt="">
 									</div>
 							        <div class="userName">
-							            <a href="#">userName</a>
+							            <a href="#">${detail.userNickname}</a>
 							            <button id="myBoard"><i class="fas fa-bars"></i></button>
 							        </div>
 								</div>
@@ -184,7 +184,16 @@ let scrollTop = 0;
 		                			<div class="commentWrap">
 		                			`)
 		                			if (`${c.cmtContent}` != 'null'){
-		                			$(`.commentWrap`).append(`${c.cmtContent}
+		                			$(`.commentWrap`).append(`
+		                			${c.cmtUserNickname}
+		                			<button class="commentModal">
+		                				<i class="fas fa-ellipsis-h"></i>
+		                			</button>
+		                			<span>
+		                				<br>
+		                				${c.cmtContent}
+		                				<span class="cmtDt">${c.cmtRegDt}</span>
+		                			</span>
 		                			</div>
         						</div>
             				</div>
@@ -217,11 +226,18 @@ let scrollTop = 0;
 
 	    <div id="modalBoard" class="board">
 	        <div class="board-modal">
-	            <h4> <button id="report" type="button" onclick="doReport()">신 고<i class="fas fa-angry"></i></button></h4>
-	            <h4> <a href="bb.html"><button id="share">퍼가기</button></a></h4>
-	            <h4 class="boardClose">취 소 </h4>
+	            <div> <button id="report" class="report" type="button">신 고</button></div>
+	            <div> <button id="share">퍼가기</button></div>
+	            <div class="boardClose">취 소 </div>
 	        </div>
 	    </div>
+        <div id="cmtModalDetail" class="cmtModalDetail">
+            <div class="comment-modal">
+        		<div> <button id="cmtUpdateBtn" type="button">수정</button></div>
+        		<div> <button id="cmtDeleteBtn">삭제</button></div>
+        		<div class="detailModalClose">취 소 </div>
+    		</div>
+		</div>
 			`);
 	}
 	// x버튼 클릭시 모달창 닫힘
@@ -274,9 +290,29 @@ let scrollTop = 0;
             event.stopPropagation();
             return false;
         });
+//      <div id="cmtModalDetail" class="cmtModalDetail">
+//          <div class="comment-modal">
+//        		<h4> <button id="report" type="button" onclick="doReport()">수정<i class="fas fa-angry"></i></button></h4>
+//        		<h4> <a href="bb.html"><button id="share">삭제</button></a></h4>
+//        		<h4 class="modalClose">취 소 </h4>
+//    		</div>
+//		</div>
         
-//     // board
-//        // Get the modal
+        // 댓글부분 모달창 띄우기 / 끄기
+        let cmtModalDetail = document.getElementById('cmtModalDetail')
+        $(".commentModal").click(() => {
+        	cmtModalDetail.style.display = "block";
+        })
+        $(".detailModalClose").click(() => {
+        	cmtModalDetail.style.display = "none";
+        })
+        window.onclick = function (e) {
+            if (e.target == cmtModalDetail) {
+            	cmtModalDetail.style.display = "none";
+            }
+        }
+        
+        // Get the modal
         var boardModal = document.getElementById('modalBoard');
 
         // Get the button that opens the modal

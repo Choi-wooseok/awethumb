@@ -37,8 +37,8 @@
 
 </head>
 <body>
-	<div class="waitme-container">
 		<%@ include file="/WEB-INF/views/include/header.jsp"%>
+				<div class="waitme-container">
 			<section id="feeds">
 				<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 				<div class="feedsWrap msrItems" id="feedsWrap">
@@ -46,6 +46,7 @@
 				</div>
 				<div id="detailFeedModal"></div>
 			</section>	
+				</div>
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
 		<script>
 			let pageContextURI = '${pageContext.request.contextPath}';
@@ -60,6 +61,6 @@
 		</script>
 		
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
-	</div>
+	
 </body>
 </html>

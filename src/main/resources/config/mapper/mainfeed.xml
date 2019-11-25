@@ -20,6 +20,7 @@
 		<collection property="commentList" resultMap="commentMap"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
+		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
 		<result column="cmt_no" property="cmtNo" /> 
 		<result column="cmt_content" property="cmtContent" /> 
 		<result column="cmt_reg_dt" property="cmtRegDt" />
@@ -49,7 +50,9 @@
 	</select>
 	
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap">
-		select b.*, c.*, u.*
+		select b.*, c.*, u.*, (select u.user_nickname
+								 from user_tb u
+								where u.user_no = c.user_no) as cmt_user_nickname
 		  from board_tb b
 		 inner join project_tb p
 		 	on b.project_no = p.project_no

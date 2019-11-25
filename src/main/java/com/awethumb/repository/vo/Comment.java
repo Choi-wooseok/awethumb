@@ -9,4 +9,5 @@ public class Comment {
 	String cmtRegDt; // 댓글 작성일자
 	int userNo; // 유저번호
 	int postNo; // 글번호
+	String cmtUserNickname; // 댓글 유저닉네임
 }

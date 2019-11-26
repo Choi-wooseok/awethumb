@@ -105,6 +105,7 @@ public class ProfileController {
 	@ResponseBody
 	public void updateProfileImg(UserFile uf) throws Exception {
 		MultipartFile mf = uf.getUserFile();
+		
 		long size = mf.getSize(); // 파일 사이즈
 		String orgName = mf.getOriginalFilename(); // 파일 이름
 		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자

@@ -29,5 +29,4 @@ public class UserFile {
     
     // 회원 파일
     private MultipartFile userFile;
-
 }

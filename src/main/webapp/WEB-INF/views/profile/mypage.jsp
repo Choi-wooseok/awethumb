@@ -18,6 +18,10 @@
     
     <!-- webfont -->
     <link href="https://fonts.googleapis.com/css?family=Passion+One&display=swap" rel="stylesheet">
+    
+    <!-- croppie -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/croppie.css" />
+    <script src="${pageContext.request.contextPath}/js/croppie.js"></script>
 
 	<!-- mypage.css -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
@@ -37,8 +41,12 @@
                 <div>
                     <div class="userImg">
                         <img src="./../images/test_user.jpg" alt="">
-                        <div class="imgHover"></div>
+                        <div id="upload-input-con">
+                        	<div><i class="fas fa-camera"></i>  Update image</div>
+	                        <input type="file" id="upload-input" accept="image/*" value="Choose a file" onchange="readURL(this); togglePImodal();">
+                        </div>
                     </div>
+                    
                     <div class="userInfo">
                         <div style="text-align: right; margin: 0px;">
                             <i class="fas fa-user-cog u_modal_btn"></i>
@@ -132,11 +140,6 @@
         <div class="u_mod_ol modal_overlay"></div>
         <div class="modal_content_container">
             <div class="modal_content">
-                <!-- 프로필 사진 전송 ajax를 위한 form -->
-                <form class="myHidden profile_img_form" action="updateprofileimg.do" method="post" enctype="multipart/form-data">
-                	<input name="userNo" value="${u.userNo}">
-                	<input class="profile_img_in" type="file" name="userFile">
-                </form>
                 <form class="user_setting mod_form" method="post" action="update.do">
                 	<input name="userNo" hidden="hidden" value="${u.userNo}">
                 	<input name="categoryList" hidden="hidden" value="" />
@@ -148,8 +151,6 @@
                         </aside>
                         <div>
                             <h1>${u.userNickname}</h1>
-                            <p class="img_info">* 프로필 사진을 변경하기 위해 사진을 클릭하세요.</p>
-                            <input type="file" style="display: none;">
                         </div>
                     </div>
                     <div>
@@ -259,6 +260,24 @@
             </div>
         </div>
     </div>
+    
+    <!-- 프로필 이미지 변경 모달 -->
+    <div class="pi_mod modal hidden">
+        <div class="pi_mod_ol modal_overlay"></div>
+        <div class="modal_content_container">
+            <div class="pi_mod_con modal_content">
+               	<div class="upload-wrap">
+		            <div id="upload"></div>
+		        </div>
+		        <form class="profile_img_form" action="updateprofileimg.do" method="post" enctype="multipart/form-data">
+		        	<input name="userNo" value="${u.userNo}" hidden="hidden">
+<!-- 			        <input type="file" id="result" name="userFile" hidden="hidden"> -->
+			        <button type="button" onclick="togglePImodal();">cancel</button>
+			        <button type="button" id="upload-result">update</button>
+		        </form>
+            </div>
+        </div>
+    </div>
 
     <!-- 슬라이드 -->
     <script>
@@ -273,6 +292,71 @@
     	const cList = "${u.categoryList}";
     	const userNo = ${u.userNo};
     	const subUserNo = ${su.userNo};
+    </script>
+    
+    <!-- 프로필 이미지 모달 -->
+    <script>
+	    $uploadCrop = $('#upload').croppie({
+	        enableExif: true,
+	        viewport: {
+	            width: 500,
+	            height: 500,
+	            type: 'circle'
+	        },
+	        boundary: {
+	            width: 500,
+	            height: 500
+	        }
+	    });
+	
+		
+    	// 업로드 이미지 result
+	    $("#upload-result").click(()=>{
+// 	    	let formData = new FormData($(".profile_img_form")[0]);
+	       	let formData = new FormData();
+	    	// 섬네일을 인풋에 지정
+	        $uploadCrop.croppie('result', {
+	            type: 'blob',
+	            size: 'viewport'
+	        }).then(function (resp) {
+	        	formData.append("userNo", 2);
+	        	formData.append("userFile", resp, "image.png");
+
+	        	// ajax로 넘김
+				$.ajax({
+			        cache : false,
+			        url : "updateprofileimg.do",
+			        processData: false,
+			        contentType: false,
+			        type : 'POST',
+			        dataType: 'text',
+			        data : formData
+			    })
+			    .done(() => {console.log("done")})
+	        });
+	    	
+	    })
+	    
+	    // 파일 업로드하는 함수
+	    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $uploadCrop.croppie('bind', {
+                        url: event.target.result
+                    })
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+	    // 모달창 토글하는 함수
+	    function togglePImodal() {
+	    	$(".pi_mod").toggleClass("hidden");
+	    }
+	    
+	    
     </script>
     
       

@@ -211,3 +211,39 @@ li {
     height: 36px;
     font-size: 16px;
 }
+#upload-input-con{
+	display: block;
+    position: absolute;
+    top: 255px;
+    left: 0px;
+    width: 280px;
+    box-sizing: border-box;
+    text-align: center;
+}
+#upload-input-con > div{
+    display: inline-block;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 114px;
+    height: 23px;
+    background-color: #fff;
+    line-height: 22px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+#upload-input{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+}
+img:hover #upload-input-con{
+	display:none!important
+}
+.pi_mod_con{
+	min-width: 0px;
+    width: inherit;
+    height: inherit;
+}
+.pi_mod_con > form{
+	text-align:right;
+}

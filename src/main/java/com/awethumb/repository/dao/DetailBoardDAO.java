@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Project;
 
 public interface DetailBoardDAO {
 	List<Board> selectBoardList();
@@ -17,4 +18,7 @@ public interface DetailBoardDAO {
 	BoardFile selectOneBoardSys(String sysname);
 	void insertImage(BoardFile boardFile);
 	int postNoSelect();
+	
+	Project selectProjectName(int pjtNo);
+	void updateProjectName(Project project);
 }

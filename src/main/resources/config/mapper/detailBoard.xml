@@ -81,6 +81,18 @@
 		order by post_no 
 		desc limit 1;
 	</select>
+	
+	<select id="selectProjectName" resultType="Project" parameterType="int">
+		select *
+		from project_tb 
+		where project_no = ${projectNo};
+	</select>
+	
+	<update id="updateProjectName" parameterType="Project">
+		update project_tb
+		set project_title = '${projectTitle}'
+		where project_no = ${projectNo}
+	</update>
 </mapper>
 
 

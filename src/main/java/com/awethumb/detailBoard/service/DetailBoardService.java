@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Project;
 
 public interface DetailBoardService {
 	List<Board> selectBoardList();
@@ -20,4 +21,7 @@ public interface DetailBoardService {
 	void insertImage(BoardFile boardFile);
 	int postNoSelect();
 	
+	// project
+	Project selectProjectName(int pjtNo);
+	void updateProjectName(Project project);
 }

@@ -28,7 +28,9 @@
         <div class="content">
             <div class="options">
                 <div class="layout_left">
-                    <span class="pjtTitle">Project Name</span>
+                    <span class="pjtTitle">
+						<div class="pjtName"></div>
+					</span>
                     <button id="bgChange">
                     	<i class="far fa-image"></i>
                     </button>

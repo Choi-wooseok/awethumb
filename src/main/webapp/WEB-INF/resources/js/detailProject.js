@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	
+	$.ajax({
+    	data: {pjtNo : 1},
+    	type: "post",
+    	url: 'selectProjectName.do',
+    	success: (project) => {
+    		$(".pjtName").html(`${project.projectTitle}`);
+    	}
+    })
+	
     $('#summernote').summernote({
         height: 300,
         minHeight: null,
@@ -123,7 +133,7 @@ function viewBoardAjax(board) {
 	            <img src="./../images/test_user.jpg" alt="">
 	        </div>
 	        <div class="userName">
-	            <a href="#">userName</a>
+	            <a href="#">$userName</a>
 	        </div>
 	    </div>
 	</div>

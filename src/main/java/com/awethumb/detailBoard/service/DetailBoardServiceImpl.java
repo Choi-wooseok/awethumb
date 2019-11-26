@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.awethumb.repository.dao.DetailBoardDAO;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Project;
 
 @Service
 public class DetailBoardServiceImpl implements DetailBoardService {
@@ -65,5 +66,14 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	// 가장 최근 postNo 받아옴
 	public int postNoSelect() {
 		return dao.postNoSelect();
+	}
+	
+	// Project 번호로 Project VO를 받아옴
+	public Project selectProjectName(int pjtNo) {
+		return dao.selectProjectName(pjtNo);
+	}
+	
+	public void updateProjectName(Project project) {
+		dao.updateProjectName(project);
 	}
 }

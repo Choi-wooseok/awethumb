@@ -1,4 +1,14 @@
 $(document).ready(function() {
+
+    $.ajax({
+    	data: {pjtNo : 1},
+    	type: "post",
+    	url: 'selectProjectName.do',
+    	success: (project) => {
+    		$(".pjtName").html(`${project.projectTitle}`);
+    	}
+    })
+    
     $('#summernote').summernote({
         height: 300,
         minHeight: null,
@@ -14,6 +24,23 @@ $(document).ready(function() {
 		}
     });
 });
+
+$(".pjtName").click(() => {
+	$.ajax({
+    	data: {pjtNo : 1},
+    	type: "post",
+    	url: 'selectProjectName.do',
+    	success: (project) => {
+    		$(".pjtTitle").html(`
+    			<form method="post" action="updateProjectName.do">
+					<input id="pjtName" name="pjtName" value="${project.projectTitle}" />
+					<input type="hidden" name="pjtNo" value="${project.projectNo}" />
+					<button class="udtTitle">수정</button>
+				</form>
+			`)
+    	}
+    })
+})
 
 function sendFile(file, el, welEditable) {
 	var data = new FormData();
@@ -83,6 +110,7 @@ $(".updateBoard").click((e) => {
 		`<input type="hidden" name="postNo" value="${thisNo}" />`
 	);
 })
+
 $("#closeBtn").click(() => {
     $(".modalInsertWrap").removeClass("block");
 })
@@ -108,8 +136,6 @@ $("#posUpdateBtn").click(() => {
 			}
 		});
 	})
-	
-	
-	/*let posX = gridItem.data("gs-x");
-	console.log(posX);*/
 })
+
+

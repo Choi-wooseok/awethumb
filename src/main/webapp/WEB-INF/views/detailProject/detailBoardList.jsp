@@ -33,7 +33,9 @@
         <div class="content">
             <div class="options">
                 <div class="layout_left">
-                    <span class="pjtTitle">Project Name</span>
+                    <span class="pjtTitle">
+                    	<div class="pjtName">${pjtName}</div>
+                    </span>
                     <button id="updateBtn">
                     	<i class="fas fa-user-cog"></i>
                     </button>

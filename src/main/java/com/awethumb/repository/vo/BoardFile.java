@@ -22,4 +22,7 @@ public class BoardFile {
     private String boardFileExe;
     // 글 번호 
     private int postNo;
+    
+    // 이미지 URL
+    private String url;
 }

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.awethumb.detailBoard.service.DetailBoardService;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Project;
 import com.awethumb.util.FileUploadUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
@@ -42,7 +43,6 @@ public class DetailBoardController {
 		return "redirect:detailBoardList.do";
 	}
 	
-
 	@RequestMapping("delete.do")
 	public String deleteBoard(int postNo) {
 		service.deleteBoard(postNo);
@@ -92,5 +92,18 @@ public class DetailBoardController {
 		}
 	}
 	
+	@PostMapping("selectProjectName.do")
+	@ResponseBody
+	public Project selectProjectName(@RequestParam("pjtNo") int pjtNo) {
+		return service.selectProjectName(pjtNo);
+	}
+	
+	@PostMapping("updateProjectName.do")
+	public String updateProjectName(int pjtNo, String pjtName) {
+		Project pjt = service.selectProjectName(pjtNo);
+		pjt.setProjectTitle(pjtName);
+		service.updateProjectName(pjt);
+		return "redirect:updateListForm.do";
+	}
 	
 }

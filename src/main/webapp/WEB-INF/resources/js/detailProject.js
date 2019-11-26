@@ -133,7 +133,7 @@ function viewBoardAjax(board) {
 	            <img src="./../images/test_user.jpg" alt="">
 	        </div>
 	        <div class="userName">
-	            <a href="#">$userName</a>
+	            <a href="#">${board.writer}</a>
 	        </div>
 	    </div>
 	</div>

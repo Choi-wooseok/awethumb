@@ -33,6 +33,9 @@ public class Board {
     // 이미지 리스트 받아옴
     private List<BoardFile> listFile;
     
+    // 글쓴
+    private String writer;
+    
     
 	public List<BoardFile> getListFile() {
 		return listFile;
@@ -112,6 +115,14 @@ public class Board {
 
 	public void setHashtagNo(String hashtagNo) {
 		this.hashtagNo = hashtagNo;
+	}
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 }

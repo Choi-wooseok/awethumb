@@ -74,7 +74,10 @@ public class DetailBoardController {
 	@RequestMapping("selectOneBoard.do")
 	@ResponseBody
 	public Board selectOneBoard(int postNo) {
-		return service.selectOneBoard(postNo);
+		Board board = service.selectOneBoard(postNo);
+		String writer = service.selectWriter(postNo);
+		board.setWriter(writer);
+		return board;
 	}
 	
 	@PostMapping("imageUpload.do")

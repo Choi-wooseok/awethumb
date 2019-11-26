@@ -76,4 +76,8 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public void updateProjectName(Project project) {
 		dao.updateProjectName(project);
 	}
+	
+	public String selectWriter(int postNo) {
+		return dao.selectWriter(postNo);
+	}
 }

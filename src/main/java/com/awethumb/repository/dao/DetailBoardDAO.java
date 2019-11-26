@@ -21,4 +21,5 @@ public interface DetailBoardDAO {
 	
 	Project selectProjectName(int pjtNo);
 	void updateProjectName(Project project);
+	String selectWriter(int postNo);
 }

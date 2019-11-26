@@ -520,7 +520,7 @@ function originPostAjax(reportNo){
 				`<button type="button" class="w3-btn w3-teal w3-small" id="permit-block">승인하기</button>`);
 			}
 			
-			if(result.comment){
+			if(result.comment && result.commentUser){
 				$("#Detail").html(
 				`
 				<h4>댓글 글쓴이 : \${result.commentUser.userNickname}</h4>
@@ -529,7 +529,7 @@ function originPostAjax(reportNo){
 				`
 				
 				);
-			} else {
+			} else if(result.board && result.userVO){
 				$("#Detail").html(
 					`
 					<h4>글쓴이 : \${result.userVO.userNickname}</h4>
@@ -538,6 +538,19 @@ function originPostAjax(reportNo){
 					`
 					
 					);
+			}
+			
+			else {
+				$("#Detail").html(
+				`
+				<h4>글쓴이 : \${result.userVO.userNickname}</h4>
+				<h4>글쓴이Id : \${result.userVO.userId}</h4>
+				<h4>내용 : 삭제된 게시물입니다.</h4>
+				
+				`
+				);
+				
+				
 			}
 			$("#deny-block").attr('disabled', result.reportStatus == 'Y' ? true : false);
 		}
@@ -584,14 +597,14 @@ $(document).on('click', "#permit-block", function(){
 		
 	});
 })
-$("#deny-block").on("click", function(){
+$(document).on("click","#deny-block", function(){
+	console.log('디나이블럭 진입');
 	$.ajax({
-		url: "denyBlock.do",
-		type: "get",
-		data: reportNo,
-		success: (result) => {
-			alert('승인취소 처리 완료되었습니다.');
-		}
+		url:"denyBlock.do?reportNo="+reportNo,
+		success: function(result){
+			alert(result + '님에대한 신고가 승인취소 처리 완료되었습니다.');
+ 			reportListAjax();
+ 		}
 	})
 })
 

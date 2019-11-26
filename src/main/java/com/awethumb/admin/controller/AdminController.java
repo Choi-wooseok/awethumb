@@ -47,7 +47,12 @@ public class AdminController {
 				r.setReportReason(r.getReportContent());
 			}
 			String reportTitle = service.selectPostContent(r.getPostNo());
-			reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
+			if( reportTitle != null) {
+				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
+			}
+			else {
+				reportTitle = "삭제된 게시물 입니다.";
+			}
 			r.setReportTitle(reportTitle);
 			List<Block> blist = service.selectBlock(r.getUserNo());
 			if (blist.size() != 0) {
@@ -100,9 +105,15 @@ public class AdminController {
 		return insertAndUpdateBlock(rmap);
 	}
 
-	@RequestMapping("/denyblock.do")
-	public void denyBlock(String reportNo) {
-		service.denyReportStatus(Integer.parseInt(reportNo));
+	@RequestMapping("/denyBlock.do")
+	@ResponseBody
+	public String denyBlock(String reportNo) {
+		int realNo = Integer.parseInt(reportNo);
+		service.denyReportStatus(realNo);
+		Report report = service.selectOneReport(realNo);
+		int userNo = report.getUserNo();
+		String userId = service.selectUserId(userNo);
+		return userId;
 	}
 
 	@RequestMapping("/cancelBlock.do")
@@ -136,7 +147,12 @@ public class AdminController {
 				r.setReportReason(r.getReportContent());
 			}
 			String reportTitle = service.selectPostContent(r.getPostNo());
-			reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
+			if(reportTitle == null) {
+				reportTitle = "삭제된 게시물 입니다.";
+			}
+			else {
+				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
+			}
 			r.setReportTitle(reportTitle);
 			List<Block> blist = service.selectBlock(r.getUserNo());
 			if (blist.size() != 0) {

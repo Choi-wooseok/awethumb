@@ -97,4 +97,10 @@
 		       user_file_exe = #{userFileExe}
 		 where user_no = #{userNo}   
 	</update>
+	
+	<select id="selectUserFileVO" parameterType="int" resultType="UserFile">
+		SELECT *
+		  FROM user_file_tb 
+		 WHERE user_no = #{userNo};
+	</select>
 </mapper>

@@ -1,8 +1,13 @@
 package com.awethumb.profile.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -125,4 +130,31 @@ public class ProfileController {
 		
 		service.updateUserFile(uf);
 	}	
+	
+	@RequestMapping("/getprofileimg.do")
+	@ResponseBody
+	public String getProfileImg(int userNo) throws UnsupportedEncodingException {
+		UserFile uf = service.getProfileImg(userNo);
+		// html에서 로컬 데이터로 바로 접근을 막아놨으니 여기서 직접 파일을 생성해 넘겨주는 수 밖에
+		String path = uf.getUserFilePath() + uf.getUserFileSysName();
+		StringBuffer sb = new StringBuffer();
+		File file = new File(path);
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			while(true) {
+				int ch = bis.read();
+				if(ch == -1) break;
+				sb.append((char)ch);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String target = sb.toString();
+		byte[] targetBytes = target.getBytes("UTF-8");
+		Encoder encoder = Base64.getEncoder();
+		String encodedString = encoder.encodeToString(targetBytes);
+		
+		return "data:image/png;base64," + encodedString;
+	}
 }

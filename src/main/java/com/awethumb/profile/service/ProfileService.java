@@ -21,4 +21,5 @@ public interface ProfileService {
 	public List<UserVO> getSearchFollowerList(Follow fol);
 	public List<UserVO> getSearchFollowingList(Follow fol);
 	public void updateUserFile(UserFile uf);
+	public UserFile getProfileImg(int userNo);
 }

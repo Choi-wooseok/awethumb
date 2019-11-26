@@ -40,7 +40,7 @@
             <div class="userWrap">
                 <div>
                     <div class="userImg">
-                        <img src="./../images/test_user.jpg" alt="">
+                        <img id="main_profile_img" src="./../images/test_user.jpg" alt="">
                         <div id="upload-input-con">
                         	<div><i class="fas fa-camera"></i>  Update image</div>
 	                        <input type="file" id="upload-input" accept="image/*" value="Choose a file" onchange="readURL(this); togglePImodal();">
@@ -269,12 +269,10 @@
                	<div class="upload-wrap">
 		            <div id="upload"></div>
 		        </div>
-		        <form class="profile_img_form" action="updateprofileimg.do" method="post" enctype="multipart/form-data">
-		        	<input name="userNo" value="${u.userNo}" hidden="hidden">
-<!-- 			        <input type="file" id="result" name="userFile" hidden="hidden"> -->
+		        <div class="pi_mod_btn_con">
 			        <button type="button" onclick="togglePImodal();">cancel</button>
 			        <button type="button" id="upload-result">update</button>
-		        </form>
+		        </div>
             </div>
         </div>
     </div>
@@ -295,78 +293,15 @@
     </script>
     
     <!-- 프로필 이미지 모달 -->
-    <script>
-	    $uploadCrop = $('#upload').croppie({
-	        enableExif: true,
-	        viewport: {
-	            width: 500,
-	            height: 500,
-	            type: 'circle'
-	        },
-	        boundary: {
-	            width: 500,
-	            height: 500
-	        }
-	    });
-	
-		
-    	// 업로드 이미지 result
-	    $("#upload-result").click(()=>{
-// 	    	let formData = new FormData($(".profile_img_form")[0]);
-	       	let formData = new FormData();
-	    	// 섬네일을 인풋에 지정
-	        $uploadCrop.croppie('result', {
-	            type: 'blob',
-	            size: 'viewport'
-	        }).then(function (resp) {
-	        	formData.append("userNo", 2);
-	        	formData.append("userFile", resp, "image.png");
-
-	        	// ajax로 넘김
-				$.ajax({
-			        cache : false,
-			        url : "updateprofileimg.do",
-			        processData: false,
-			        contentType: false,
-			        type : 'POST',
-			        dataType: 'text',
-			        data : formData
-			    })
-			    .done(() => {console.log("done")})
-	        });
-	    	
-	    })
-	    
-	    // 파일 업로드하는 함수
-	    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                
-                reader.onload = function (e) {
-                    $uploadCrop.croppie('bind', {
-                        url: event.target.result
-                    })
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-	    // 모달창 토글하는 함수
-	    function togglePImodal() {
-	    	$(".pi_mod").toggleClass("hidden");
-	    }
-	    
-	    
-    </script>
-    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/pimod.js"></script>
       
-<!--     유저 수정 모달 -->
+    <!-- 유저 수정 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/usermod.js"></script>
 
-<!--     프로젝트 추가 모달 -->
+	<!-- 프로젝트 추가 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/projmod.js"></script>
 
-<!--     팔로잉 모달 -->
+	<!-- 팔로잉 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/followmod.js"></script>
 
 </body>

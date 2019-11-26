@@ -36,4 +36,6 @@ public interface ProfileDAO {
 
 	public void updateUserFile(UserFile uf);
 
+	public UserFile selectUserFileVO(int userNo);
+
 }

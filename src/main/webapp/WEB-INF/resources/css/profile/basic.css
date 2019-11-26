@@ -244,6 +244,6 @@ img:hover #upload-input-con{
     width: inherit;
     height: inherit;
 }
-.pi_mod_con > form{
+.pi_mod_btn_con{
 	text-align:right;
 }

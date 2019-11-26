@@ -73,4 +73,9 @@ public class ProfileServiceImpl implements ProfileService{
 		else dao.updateUserFile(uf);
 		
 	}
+
+	@Override
+	public UserFile getProfileImg(int userNo) {
+		return dao.selectUserFileVO(userNo);
+	}
 }

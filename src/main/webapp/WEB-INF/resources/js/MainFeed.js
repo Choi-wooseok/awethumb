@@ -219,8 +219,8 @@ let scrollTop = 0;
 	    </div>
         <div id="cmtModalDetail" class="cmtModalDetail">
             <div class="comment-modal">
-        		<div> <button id="cmtUpdateBtn" type="button">수정</button></div>
-        		<div> <button id="cmtDeleteBtn">삭제</button></div>
+        		<div> <button class ="cmtUpdateBtn" type="button">수정</button></div>
+        		<div> <button class ="cmtDeleteBtn">삭제</button></div>
         		<div class="detailModalClose">취 소 </div>
     		</div>
 		</div>
@@ -374,10 +374,45 @@ let scrollTop = 0;
 				data: {cmtContent: $("#cmtContent").val(), 
 					userNo: userNo, 
 					postNo:$("#postNo").val()},
-				dataType: "JSON"
+				dataType: "JSON",
+				success: result => {
+					$.ajax({
+		                  url: "detailmainfeed.do",
+		                  data: {
+		                     postNo:$("#postNo").val()
+		                  },
+		                  dataType: "JSON",
+		                  success: result => {
+		                     makeDetailFeed(result);
+		                     setTimeout(() => {
+		                        makemodalattribute({
+		                           w: $("#image").width(),
+		                           h: $("#image").height()
+		                        })
+		                     }, 100);
+		                  }
+		               })
+
+		        }
 			});
 			$("#cmtContent").val("");
 			return false;
 		});
 	
-	
+	// 댓글 수정
+		$(".comment-modal").on("click", "cmtUpdateBtn", (e) => {
+			let cmtNo = $(e.target).data("no");
+			let cmtCon = $(e.target).data("content");
+			$.ajax({
+				url: "boardCommentUpdate.do",
+				type: "POST",
+				data: {
+					postNo : postnum,
+					cmtContent: $("#contentUpdate").val(), 
+					cmtNo :  cmtNo
+				},
+				dataType: "json",
+				success: list => boardCommentListAjax(list)
+			});
+			
+		});	

@@ -37,9 +37,10 @@ public class MainFeedController {
 	
 	@RequestMapping("/insertComment.do")
 	@ResponseBody
-	public void commentRegistAjax(Comment comment) {
+	public MainFeed commentRegistAjax(Comment comment) {
 		service.insertComment(comment);
 		System.out.println("인서트 들어옴");
+		return service.detailMainFeed(comment.getPostNo());
 	}
 	
 //	@RequestMapping("/comment_list.do")

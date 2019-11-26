@@ -53,9 +53,8 @@ function getProfileImgAjax(){
 		url: "getprofileimg.do",
 		dataType: "text",
 		data: {userNo},
-		success: function(data) {$(".userImg").html(`<img id="main_profile_img" src="${data}">`)}
+		success: function(data) {$("#main_profile_img").attr("src", data)}
 	})	
-//	$("#main_profile_img").attr("src", file);
 }
 getProfileImgAjax();
 

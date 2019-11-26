@@ -8,18 +8,18 @@ $(document).ready(function() {
 		callbacks: {
 			onImageUpload: function(files, editor, welEditable) {
 				for (var i = files.length - 1; i >= 0; i--) {
-					sendFile(files[i], this);
+					sendFile(files[i], editor, welEditable);
 				}
 			}
 		}
     });
 });
 
-function sendFile(file, el) {
-	var form_data = new FormData();
-	form_data.append('file', file);
+function sendFile(file, el, welEditable) {
+	var data = new FormData();
+	data.append('file', file);
 	$.ajax({
-		data: form_data,
+		data: data,
 		type: "POST",
 		url: 'imageUpload.do',
 		cache: false,
@@ -27,7 +27,8 @@ function sendFile(file, el) {
 		enctype: 'multipart/form-data',
 		processData: false,
 		success: function(url) {
-			$(el).summernote('editor.insertImage', url);
+			console.log(url)
+			$("#summernote").summernote('insertImage', url)
 		}
     });
 }

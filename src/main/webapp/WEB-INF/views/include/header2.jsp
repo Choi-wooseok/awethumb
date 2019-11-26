@@ -9,7 +9,13 @@
         <div class="layout_left">
             <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title">
             	<span>AweThumb</span>
-            </a>     
+           	</a>  
+            <span class="search">
+                <form action="">
+                    <input id="search" type="text" />
+                    <label for="search"><i class="fas fa-search"></i></label>
+                </form>
+            </span>   
         </div>
 
         <div class="layout_right">
@@ -19,14 +25,10 @@
             <a href="${pageContext.request.contextPath}/profile/${su.userNickname}">공찬희</a>
 
             <div class="optBtn">
-            	<button>
-            		<a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do">
-            			<i class="fas fa-search-location"></i>
-            		</a>
-            	</button>
                 <button>
                 	<a href="${pageContext.request.contextPath}/user/logout.do">
-	                    <i class="far fa-user"></i>
+	                    <i class="far fa-user">
+	                    </i>
                     </a>
                 </button>
                 <button>

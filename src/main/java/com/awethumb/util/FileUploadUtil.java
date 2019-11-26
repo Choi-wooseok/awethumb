@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.awethumb.repository.vo.BoardFile;
+import com.google.gson.JsonObject;
 
 public class FileUploadUtil {
-	public static BoardFile store(MultipartFile file, int postNo) throws Exception {
+	public static BoardFile store(MultipartFile file, int postNo, HttpServletRequest req) throws Exception {
 		try {
 			if (file.isEmpty()) {
 				throw new Exception("Failed to store empty file " + file.getOriginalFilename());
@@ -28,16 +30,12 @@ public class FileUploadUtil {
 			f.setPostNo(postNo);
 			
 			String type = f.getBoardFileOrgName().split("\\.")[1];
-			file.transferTo(new File("c:/java/upload/" + sysName + "." + type));
 			
-			System.out.println(f.getPostNo());
-			System.out.println(f.getBoardFileSize());
-			System.out.println(f.getBoardFileSysName());
-			System.out.println(f.getBoardFileOrgName());
-			System.out.println(f.getBoardFileRegDt());
-			System.out.println(f.getBoardFilePath());
-
-
+			String url = "c:/java/upload/" + sysName + "." + type;
+			file.transferTo(new File(url));
+			
+			f.setUrl(url);
+			
 			return f;
 		} catch (IOException e) {
 			throw new Exception("Failed to store file " + file.getOriginalFilename(), e);

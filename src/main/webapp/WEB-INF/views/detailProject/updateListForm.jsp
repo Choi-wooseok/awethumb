@@ -19,8 +19,7 @@
 
 </head>
 <body>
-    <!-- include header -->
-    <header></header>
+    <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
     <section>
     	<div class="bgWrap">
@@ -30,6 +29,9 @@
             <div class="options">
                 <div class="layout_left">
                     <span class="pjtTitle">Project Name</span>
+                    <button id="bgChange">
+                    	<i class="far fa-image"></i>
+                    </button>
                 </div>
                 <div class="layout_right">
                     <button id="posUpdateBtn" type="button">

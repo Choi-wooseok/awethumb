@@ -1,3 +1,39 @@
+$(document).ready(function() {
+    $('#summernote').summernote({
+        height: 300,
+        minHeight: null,
+        maxHeight: null,
+        focus: true,
+        // 서머노트 이미지 업로드시 필요
+		callbacks: {
+			onImageUpload: function(files, editor, welEditable) {
+				for (var i = files.length - 1; i >= 0; i--) {
+					sendFile(files[i], editor, welEditable);
+				}
+			}
+		}
+    });
+});
+
+function sendFile(file, el, welEditable) {
+	var data = new FormData();
+	data.append('file', file);
+	$.ajax({
+		data: data,
+		type: "POST",
+		url: 'imageUpload.do',
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(url) {
+			console.log(url)
+			$("#summernote").summernote('insertImage', url)
+		}
+    });
+}
+
+
 $(function () {
     $('.grid-stack').gridstack({
         animate: true,

@@ -42,20 +42,6 @@ public class DetailBoardController {
 		return "redirect:detailBoardList.do";
 	}
 	
-	@PostMapping("imageUpload.do")
-    @ResponseBody
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-        try {
-        	int postNo = service.postNoSelect();
-        	System.out.println("postNo = " + postNo);
-            BoardFile uploadedFile = FileUploadUtil.store(file, postNo);
-            service.insertImage(uploadedFile);
-            return ResponseEntity.ok().body(req.getContextPath() + "/image/" + uploadedFile.getBoardFileSysName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
 	@RequestMapping("delete.do")
 	public String deleteBoard(int postNo) {
@@ -90,5 +76,21 @@ public class DetailBoardController {
 	public Board selectOneBoard(int postNo) {
 		return service.selectOneBoard(postNo);
 	}
+	
+	@PostMapping("imageUpload.do")
+	@ResponseBody
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+		try {
+			int postNo = service.postNoSelect();
+			System.out.println("postNo = " + postNo);
+			BoardFile uploadedFile = FileUploadUtil.store(file, postNo, req);
+			service.insertImage(uploadedFile);
+			return ResponseEntity.ok().body(uploadedFile.getUrl());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
 	
 }

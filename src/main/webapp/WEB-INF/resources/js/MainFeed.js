@@ -5,10 +5,10 @@ let scrollTop = 0;
 // back to top
 
 	   $(document).ready(function(){ 
-		   console.log("시작")
+//		   console.log("시작")
 		
 		    $(window).scroll(function(){ 
-		    	console.log("씨밯")
+//		    	console.log("씨밯")
 		        if ($(this).scrollTop() > 100) { 
 		            $('#mainfeed-scroll').fadeIn(); 
 		        } else { 
@@ -59,12 +59,8 @@ let scrollTop = 0;
 						return;
 					}
 					makeMainFeedList(list);
-
-//					setTimeout(() => {masonry()}, 100);
-//					masonry();
 				}
 			})
-//			masonry();
 		}
 	   
 		function makeMainFeedList(list) {
@@ -109,18 +105,10 @@ let scrollTop = 0;
 					</div>
 				`);
 			});
-			console.log($(window).scrollTop());
+//			console.log($(window).scrollTop());
 			setTimeout(() => {masonry(); 
-			console.log($(window).scrollTop());
+//			console.log($(window).scrollTop());
 			$(window).scrollTop(scrollTop)}, 100);
-			 // Make jQuery object from HTML string
-
-		    // Append new blocks to container
-
-		    // Have Masonry position new blocks
-			
-//		    $('#feedsWrap').masonry( 'appended', $moreBlocks );  
-//			setTimeout(() => {masonry()}, 100);
 		}
 		
 // --------------- detail -------------
@@ -141,10 +129,8 @@ let scrollTop = 0;
 				}, 100);
 			}
 		})
-//		let postNum = $(e.target).data("postno");
-//		$("#modal" + postNum).css('display', 'block');
 	});
-	 
+	
 	function makeDetailFeed(detail) {
 		$feed = $("#detailFeedModal");
 			$feed.html(`
@@ -173,33 +159,30 @@ let scrollTop = 0;
 									<div class="modalCont">
 										${detail.postContent}
 									</div>
+									<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
-            	$(`#rightBox`).append(`
-            						<div class="comment">
+            			if (`${c.cmtContent}` != 'null'){
+            				$(`.comment`).append(`
         								<div class="commentList">
-		                			<div class="commentUserImg">
-		                    			<img src="./../images/test_user.jpg" alt="">
-		                			</div>
-		                			<div class="commentWrap">
-		                			`)
-		                			if (`${c.cmtContent}` != 'null'){
-		                			$(`.commentWrap`).append(`
+			                				<div class="commentUserImg">
+			                    				<img src="./../images/test_user.jpg" alt="">
+		                					</div>
+		                					<div class="commentWrap">
 		                			${c.cmtUserNickname}
 		                			<button class="commentModal">
 		                				<i class="fas fa-ellipsis-h"></i>
 		                			</button>
-		                			<span>
+		                			<div>
 		                				<br>
 		                				${c.cmtContent}
 		                				<span class="cmtDt">${c.cmtRegDt}</span>
-		                			</span>
+		                			</div>
 		                			</div>
         						</div>
-            				</div>
-		                			`)
-		                			} else {
-		                			$(`.commentWrap`).append(`
+            				</div>`)
+		                } else {
+		                	$(`.comment`).append(`
 		                				<span>등록된 댓글이 없습니다.</span>
 	                				</div>
         						</div>
@@ -209,8 +192,11 @@ let scrollTop = 0;
             })
             $(`#rightBox`).append(`
 			            	<div class="insertComment">
-			                    <input type="text" />
-			                    <button>등록</button>
+				            	<form id="crForm" method="post" action="insertComment.do" >
+	            					<input type="hidden" id="postNo" value="${detail.postNo}" />	
+				                    <input type="text" id="cmtContent"/>
+				                    <input type="submit" value="등록" class="cmtRegist"/>
+            					</form>
 			                </div>
             			</div>
             		</div>
@@ -290,13 +276,6 @@ let scrollTop = 0;
             event.stopPropagation();
             return false;
         });
-//      <div id="cmtModalDetail" class="cmtModalDetail">
-//          <div class="comment-modal">
-//        		<h4> <button id="report" type="button" onclick="doReport()">수정<i class="fas fa-angry"></i></button></h4>
-//        		<h4> <a href="bb.html"><button id="share">삭제</button></a></h4>
-//        		<h4 class="modalClose">취 소 </h4>
-//    		</div>
-//		</div>
         
         // 댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
@@ -306,11 +285,6 @@ let scrollTop = 0;
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
         })
-        window.onclick = function (e) {
-            if (e.target == cmtModalDetail) {
-            	cmtModalDetail.style.display = "none";
-            }
-        }
         
         // Get the modal
         var boardModal = document.getElementById('modalBoard');
@@ -339,7 +313,71 @@ let scrollTop = 0;
         }
 
         // 신고
-        function doReport() {
-            boardModal.style.display = "none";
+	        function doReport() {
+	            boardModal.style.display = "none";
+	        }
         }
-        }
+	
+//	function commentListAjax(){
+//		$.getJSON({
+//			url: "comment_list.do",
+//			data: {postNo: postnum},
+//			success: list => makeCommentList(cList)
+//		});
+//	}
+	
+//	function makeCommentList(cList) {
+//		$.each(cList, (i, c) => {
+//        	$(`#rightBox`).append(`
+//        						<div class="comment">
+//    								<div class="commentList">
+//		                				<div class="commentUserImg">
+//		                    				<img src="./../images/test_user.jpg" alt="">
+//	                					</div>
+//	                					<div class="commentWrap">
+//	                			`)
+//	                			if (`${c.cmtContent}` != 'null'){
+//	                			$(`.commentWrap`).append(`
+//	                			${c.cmtUserNickname}
+//	                			<button class="commentModal">
+//	                				<i class="fas fa-ellipsis-h"></i>
+//	                			</button>
+//	                			<span>
+//	                				<br>
+//	                				${c.cmtContent}
+//	                				<span class="cmtDt">${c.cmtRegDt}</span>
+//	                			</span>
+//	                			</div>
+//    						</div>
+//        				</div>
+//	                			`)
+//	                			} else {
+//	                			$(`.commentWrap`).append(`
+//	                				<span>등록된 댓글이 없습니다.</span>
+//                				</div>
+//    						</div>
+//        				</div>
+//	                			`)
+//	                			}
+//        })
+//	}
+	
+	// 댓글 등록
+	
+//		$("#crForm").submit(() => {
+		$(document).on('submit', '#crForm', () => {
+	//		console.log("11", $(".cmtContent").val());
+			console.log("1");
+			$.ajax({
+				url: "insertComment.do",
+				method:"POST",
+				data: {cmtContent: $("#cmtContent").val(), 
+					userNo: userNo, 
+					postNo:$("#postNo").val()},
+				dataType: "JSON"
+			});
+			$("#cmtContent").val("");
+			return false;
+		});
+	
+	

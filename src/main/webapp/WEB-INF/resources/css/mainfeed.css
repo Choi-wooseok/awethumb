@@ -52,3 +52,30 @@
 		color: #767676;
 		float: right;
 	}
+	.insertComment {
+	    position: absolute;
+	    width: 100%;
+	    bottom: 0;
+	}
+	#cmtContent {
+	    width: 100%;
+	    line-height: 50px;
+	    box-sizing: border-box;
+	    padding: 0 95px 0 15px;
+	    border: none;
+	    border-top: 1px solid #efefef;
+	}
+	.cmtRegist {
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 80px;
+	    height: 100%;
+	    border: none;
+	    cursor:pointer;
+	    background-color: transparent;
+	    border-left: 1px solid #efefef;
+	}
+	.cmtRegist:hover {
+	    color:#6dd5bc;
+	}

@@ -11,6 +11,7 @@ package com.awethumb.repository.dao;
 
 import java.util.List;
 
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
 
@@ -25,7 +26,7 @@ public interface MainFeedDAO {
 	/* 댓글 파트 시작 ========================================= */
 //	List<Comment> selectComment(int postNo);
 	int commentCount(int postNo);
-//	void insertComment(Comment comment);
+	void insertComment(Comment comment);
 //	void deleteComment(int commentNo);
 //	void updateComment(Comment comment);
 }

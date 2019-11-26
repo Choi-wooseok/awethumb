@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.mainfeed.service.MainFeedService;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
 
@@ -35,11 +35,18 @@ public class MainFeedController {
 //		System.out.println("디테일 들어옴");
 	}
 	
+	@RequestMapping("/insertComment.do")
+	@ResponseBody
+	public void commentRegistAjax(Comment comment) {
+		service.insertComment(comment);
+		System.out.println("인서트 들어옴");
+	}
+	
 //	@RequestMapping("/comment_list.do")
 //	public List<Comment> commentListAjax(int postNo) {
 //		return service.listComment(postNo);
 //	}
-	
+//	
 //	@RequestMapping("/mainfeed.do")
 //	public int commentCount(int postNo) {
 //		return service.commentCount(postNo);

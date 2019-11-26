@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.MainFeedDAO;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
 
@@ -30,6 +31,12 @@ public class MainFeedServiceImpl implements MainFeedService {
 	public MainFeed detailMainFeed(int postNo) {
 		return dao.selectOneMainFeed(postNo);
 	}
+	
+	// 댓글 -------------------------------------------------
+	
+	public void insertComment(Comment comment) {
+		dao.insertComment(comment);
+	}
 //
 //	public Board updateFormBoard(int no) {
 //		return dao.selectOneBoard(no);
@@ -52,15 +59,12 @@ public class MainFeedServiceImpl implements MainFeedService {
 //		return dao.selectComment(comment.getNo());
 //	}
 //	
-//	public List<Comment> commentRegist(Comment comment) {
-//		dao.insertComment(comment);
-//		return dao.selectComment(comment.getNo());
-//	}
 //	
 //	public List<Comment> commentUpdate(Comment comment) {
 //		dao.updateComment(comment);
 //		return dao.selectComment(comment.getNo());
 //	}
+
 
 
 }

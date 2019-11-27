@@ -53,7 +53,12 @@ function getProfileImgAjax(){
 		url: "getprofileimg.do",
 		dataType: "text",
 		data: {userNo},
-		success: function(data) {$("#main_profile_img").attr("src", data)}
+		success: function(data) {
+			// 메인 프로필 이미지
+			$("#main_profile_img").attr("src", data);
+			// 정보 수정 모달 이미지
+			$("#usermod_img").attr("src", data);
+		}
 	})	
 }
 getProfileImgAjax();

@@ -36,8 +36,7 @@
             <div class="userWrap">
                 <div>
                     <div class="userImg">
-                        <img src="./../images/test_user.jpg" alt="">
-                        <div class="imgHover"></div>
+                        <img id="main_profile_img" src="" alt="">
                     </div>
                     <div class="userInfo">
                         <div style="text-align: right; margin: 0px;"></div>
@@ -169,14 +168,30 @@
             slidesToScroll: 1,
         });
     </script>
+    <!-- 변수들 -->
+    <script>
+	    let follwerCnt = ${u.followerCnt};
+		const subUserNo = ${su.userNo};
+		const userNo = ${u.userNo};
+    </script>
+    
+    <!-- 프로필 이미지를 가져오는 스크립트 -->
+    <script>
+	    function getProfileImgAjax(){
+	    	console.log("in")
+	    	$.ajax({
+	    		url: "getprofileimg.do",
+	    		dataType: "text",
+	    		data: {userNo},
+	    		success: function(data) {$("#main_profile_img").attr("src", data)}
+	    	})	
+	    }
+	    getProfileImgAjax();
+	</script>
     
     <script>
+		const $sBtn = $(".sBtn");
     	// 구독여부 확인하는 스크립트
-    	let follwerCnt = ${u.followerCnt};
-    	const subUserNo = ${su.userNo};
-    	const userNo = ${u.userNo};
-    	const $sBtn = $(".sBtn");
-    	
     	$.ajax({
     		url: "checksub.do",
     		type: "POST",

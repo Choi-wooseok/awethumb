@@ -138,7 +138,10 @@ public class ProfileController {
 	public String getProfileImg(int userNo)  {
 		UserFile uf = service.getProfileImg(userNo);
 		// html에서 로컬 데이터로 바로 접근을 막아놨으니 여기서 직접 파일을 생성해 넘겨주는 수 밖에
-		String path = uf.getUserFilePath() + uf.getUserFileSysName();
+		String path = "";
+		// 유저 파일이 없을 경우 디폴트 이미지를 설정해준다.
+		if (uf == null) path = "C:\\java\\upload\\profile\\default-profile-picture.png";
+		else path = uf.getUserFilePath() + uf.getUserFileSysName();
 
 		String eString = "";
 		try{
@@ -152,7 +155,6 @@ public class ProfileController {
 			Encoder encoder = Base64.getEncoder();
 			eString = encoder.encodeToString(imageInByte);
 			baos.close();
-			System.out.println(eString);
 					
 		}catch(IOException e){
 			System.out.println(e.getMessage());

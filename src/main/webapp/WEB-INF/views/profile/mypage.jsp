@@ -40,7 +40,7 @@
             <div class="userWrap">
                 <div>
                     <div class="userImg">
-                        <img id="main_profile_img" src="./../images/test_user.jpg" alt="">
+                        <img id="main_profile_img" src="" alt="">
                         <div id="upload-input-con">
                         	<div><i class="fas fa-camera"></i>  Update image</div>
 	                        <input type="file" id="upload-input" accept="image/*" value="Choose a file" onchange="readURL(this); togglePImodal();">
@@ -146,7 +146,7 @@
                     <div>
                         <aside>
                             <button type="button" class="profile_img_btn img_btn">
-                                <img src="./../images/test_user.jpg">
+                                <img id="usermod_img" src="">
                             </button>
                         </aside>
                         <div>

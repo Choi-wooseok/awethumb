@@ -34,6 +34,9 @@ import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+
 @Controller("com.awethumb.mypage.controller.ProfileController")
 @RequestMapping("/profile")
 public class ProfileController {
@@ -167,8 +170,6 @@ public class ProfileController {
 	
 	@RequestMapping("/insertproj.do")
 	public String insertProj(Project p) throws IllegalStateException, IOException {
-		System.out.println(p.getProjectPublicEnabled());
-		
 		MultipartFile mf = p.getProjectFile();
 		ProjectFile pf = new ProjectFile();
 		
@@ -190,6 +191,8 @@ public class ProfileController {
 		service.insertProj(p, pf);
 		
 		mf.transferTo(new File(path + sysName));
+		
+		Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
 		
 		return "redirect:" + p.getUserNickname();
 	}

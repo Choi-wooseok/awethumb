@@ -86,8 +86,6 @@ let scrollTop = 0;
 
 						<div class="feedsPlay" id="feedsPlay${c.postNo}">
 							<div class="feedsContWrap">${c.postContent}</div>
-							<br>
-						<br>
 							`)
 							if (`${c.hashtagContent}` != 'null') {
 								$(`#feedsPlay${c.postNo}`).append(`<div class="hashTag">
@@ -174,7 +172,6 @@ let scrollTop = 0;
 		                				<i class="fas fa-ellipsis-h"></i>
 		                			</button>
 		                			<div>
-		                				<br>
 		                				${c.cmtContent}
 		                				<span class="cmtDt">${c.cmtRegDt}</span>
 		                			</div>
@@ -188,7 +185,7 @@ let scrollTop = 0;
         						</div>
             				</div>
 		                			`)
-		                			}
+		                		}
             })
             $(`#rightBox`).append(`
 			            	<div class="insertComment">
@@ -201,7 +198,7 @@ let scrollTop = 0;
             			</div>
             		</div>
         		</div>
-            		`)
+            `)
     		$(`.modal_content_container`).append(`
     				<i class="fas fa-caret-left arw-btn"></i>
     				<i class="fas fa-caret-right arw-btn"></i>
@@ -216,15 +213,18 @@ let scrollTop = 0;
 	            <div> <button id="share">퍼가기</button></div>
 	            <div class="boardClose">취 소 </div>
 	        </div>
-	    </div>
+	    </div>`)
+            $.each(detail.commentList, (i, c) => {
+            	$(`#modal${detail.postNo}`).append(`
         <div id="cmtModalDetail" class="cmtModalDetail">
             <div class="comment-modal">
-        		<div> <button class ="cmtUpdateBtn" type="button">수정</button></div>
+        		<div> <button class ="cmtUpdateBtn" data-cmtNo="${c.commentNo} type="button">수정</button></div>
         		<div> <button class ="cmtDeleteBtn">삭제</button></div>
         		<div class="detailModalClose">취 소 </div>
     		</div>
 		</div>
 			`);
+            })
 	}
 	// x버튼 클릭시 모달창 닫힘
 	$(document).on('click', '.modalClose', (e) => {
@@ -326,41 +326,6 @@ let scrollTop = 0;
 //		});
 //	}
 	
-//	function makeCommentList(cList) {
-//		$.each(cList, (i, c) => {
-//        	$(`#rightBox`).append(`
-//        						<div class="comment">
-//    								<div class="commentList">
-//		                				<div class="commentUserImg">
-//		                    				<img src="./../images/test_user.jpg" alt="">
-//	                					</div>
-//	                					<div class="commentWrap">
-//	                			`)
-//	                			if (`${c.cmtContent}` != 'null'){
-//	                			$(`.commentWrap`).append(`
-//	                			${c.cmtUserNickname}
-//	                			<button class="commentModal">
-//	                				<i class="fas fa-ellipsis-h"></i>
-//	                			</button>
-//	                			<span>
-//	                				<br>
-//	                				${c.cmtContent}
-//	                				<span class="cmtDt">${c.cmtRegDt}</span>
-//	                			</span>
-//	                			</div>
-//    						</div>
-//        				</div>
-//	                			`)
-//	                			} else {
-//	                			$(`.commentWrap`).append(`
-//	                				<span>등록된 댓글이 없습니다.</span>
-//                				</div>
-//    						</div>
-//        				</div>
-//	                			`)
-//	                			}
-//        })
-//	}
 	
 	// 댓글 등록
 	
@@ -398,7 +363,30 @@ let scrollTop = 0;
 			$("#cmtContent").val("");
 			return false;
 		});
+		
+//		<div id="cmtModalDetail" class="cmtModalDetail">
+//	        <div class="comment-modal">
+//				<div> <button class ="cmtUpdateBtn" data-cmtNo="${c.cmtNo} type="button">수정</button></div>
+//				<div> <button class ="cmtDeleteBtn">삭제</button></div>
+//				<div class="detailModalClose">취 소 </div>
+//			</div>
+//		</div>
 	
+//		댓글 수정폼
+		$("#boardCommentList" + postnum).on("click", ".cmtUpdateBtn", (e) => {
+			$(".commentboard").css("display","none");
+			let cmtNo = $(e.target).data("no");
+			let cmtCon = $(e.target).data("context");
+			$("#commentWrap" +  cmtNo).append(
+					`<div id="updateText" class="updateText">
+						<input type="text" id="contentUpdate" value="${cmtCon}"/>
+						<div>
+							<button class="update" data-no=${cmtNo}>수정</button>
+							<button class="cancel" data-no=${cmtNo}>취소</button>
+						</div>
+					</div>`
+			);
+		}); // 댓글수정폼
 	// 댓글 수정
 		$(".comment-modal").on("click", "cmtUpdateBtn", (e) => {
 			let cmtNo = $(e.target).data("no");

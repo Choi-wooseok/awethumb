@@ -16,8 +16,8 @@ Website: http://Alvarez.is/
 
 /* BASIC THEME CONFIGURATION */
 body {
-    color: #797979;
-	background: #eaeaea;
+    color: #363636;
+	background: fff;
     font-family: 'Ruda', sans-serif;
     padding: 0px !important;
     margin: 0px !important;
@@ -234,7 +234,7 @@ ul.top-menu > li > .logout {
     width: 210px;
     height: 100%;
     position: fixed;
-    background: #2f323a;
+    background: #F6F6F6;
 }
 
 #sidebar h5 {
@@ -297,7 +297,7 @@ ul.sidebar-menu {
 }
 
 ul.sidebar-menu li ul.sub li{
-    background: #2f323a;
+    background: #f6f6f6;
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
@@ -318,11 +318,11 @@ ul.sidebar-menu li ul.sub li a {
     -o-transition: all 0.3s ease;
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    color: #aeb2b7;
+    color: black;
 }
 
 ul.sidebar-menu li ul.sub li a:hover {
-	color: white;
+	color: #BDBDBD;
 	background: transparent;
 }
 
@@ -352,7 +352,7 @@ ul.sidebar-menu li a span{
 }
 
 ul.sidebar-menu li a{
-    color: #aeb2b7;
+    color: #363636;
     text-decoration: none;
     display: block;
     padding: 15px 0 15px 10px;
@@ -367,7 +367,7 @@ ul.sidebar-menu li a{
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
     background: #4ECDC4;
-    color: #fff;
+    color: black;
     display: block;
 
     -webkit-transition: all 0.3s ease;
@@ -384,7 +384,7 @@ ul.sidebar-menu li a i {
 }
 
 ul.sidebar-menu li a:hover i, ul.sidebar-menu li a:focus i {
-    color: #fff;
+    color: black;
 }
 
 ul.sidebar-menu li a.active i {
@@ -431,7 +431,7 @@ ul.sidebar-menu li a.active i {
 
 a.logo {
     font-size: 24px;
-    color: #f2f2f2;
+    color: black;
     float: left;
     margin-top: 15px;
     text-transform: uppercase;
@@ -447,7 +447,7 @@ a.logo:hover, a.logo:focus {
 }
 
 a.logo span {
-    color: #4ECDC4;
+    color: black;
 }
 
 

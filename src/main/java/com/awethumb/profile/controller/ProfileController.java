@@ -28,9 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.profile.service.ProfileService;
 import com.awethumb.repository.vo.Follow;
+import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 
 @Controller("com.awethumb.mypage.controller.ProfileController")
 @RequestMapping("/profile")
@@ -128,9 +133,10 @@ public class ProfileController {
 		uf.setUserFileSysName(sysName);
 		uf.setUserFilePath(path);
 		
-		mf.transferTo(new File(path + sysName));
-		
 		service.updateUserFile(uf);
+		
+		// 파일 저장
+		mf.transferTo(new File(path + sysName));
 	}	
 	
 	@RequestMapping("/getprofileimg.do")
@@ -138,7 +144,10 @@ public class ProfileController {
 	public String getProfileImg(int userNo)  {
 		UserFile uf = service.getProfileImg(userNo);
 		// html에서 로컬 데이터로 바로 접근을 막아놨으니 여기서 직접 파일을 생성해 넘겨주는 수 밖에
-		String path = uf.getUserFilePath() + uf.getUserFileSysName();
+		String path = "";
+		// 유저 파일이 없을 경우 디폴트 이미지를 설정해준다.
+		if (uf == null) path = "C:\\java\\upload\\profile\\default-profile-picture.png";
+		else path = uf.getUserFilePath() + uf.getUserFileSysName();
 
 		String eString = "";
 		try{
@@ -152,11 +161,39 @@ public class ProfileController {
 			Encoder encoder = Base64.getEncoder();
 			eString = encoder.encodeToString(imageInByte);
 			baos.close();
-			System.out.println(eString);
 					
 		}catch(IOException e){
 			System.out.println(e.getMessage());
 		}
 		return "data:image/png;base64," + eString;
+	}
+	
+	@RequestMapping("/insertproj.do")
+	public String insertProj(Project p) throws IllegalStateException, IOException {
+		MultipartFile mf = p.getProjectFile();
+		ProjectFile pf = new ProjectFile();
+		
+		long size = mf.getSize(); // 파일 사이즈
+		String orgName = mf.getOriginalFilename(); // 파일 이름
+		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+		
+		// 경로 설정
+		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
+		String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
+		
+		pf.setProjectFileSize(size);
+		pf.setProjectFileOrgName(orgName);
+		pf.setProjectFileExe(ext);
+		pf.setProjectFileSysName(sysName);
+		pf.setProjectFilePath(path);
+		
+		service.insertProj(p, pf);
+		
+		mf.transferTo(new File(path + sysName));
+		
+		Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
+		
+		return "redirect:" + p.getUserNickname();
 	}
 }

@@ -40,7 +40,7 @@
             <div class="userWrap">
                 <div>
                     <div class="userImg">
-                        <img id="main_profile_img" src="./../images/test_user.jpg" alt="">
+                        <img id="main_profile_img" src="" alt="">
                         <div id="upload-input-con">
                         	<div><i class="fas fa-camera"></i>  Update image</div>
 	                        <input type="file" id="upload-input" accept="image/*" value="Choose a file" onchange="readURL(this); togglePImodal();">
@@ -146,7 +146,7 @@
                     <div>
                         <aside>
                             <button type="button" class="profile_img_btn img_btn">
-                                <img src="./../images/test_user.jpg">
+                                <img id="usermod_img" src="">
                             </button>
                         </aside>
                         <div>
@@ -169,8 +169,8 @@
                         <aside>카테고리</aside>
                         <div class="cc">
                         	<c:forEach var="c" items="${categories}">
-	                           <button type="button" class="cb" data-no="${c.categoryNo}">
-	                               	${c.categoryTitle}<i class="cb_i fas fa-plus"></i>
+	                           <button type="button" class="user_cb cb" data-no="${c.categoryNo}">
+	                               	${c.categoryTitle}<i class="user_cb_i cb_i fas fa-plus"></i>
 	                           </button>
                         	</c:forEach>
                         </div>
@@ -185,7 +185,7 @@
                     </div>
                     <!-- 비밀번호 변경 -->
                     <div class="pw" data-pw="off"></div>
-                    <button class="profile_sub">제출</button>
+                    <button class="profile_sub mod_sub_btn_css">제출</button>
                 </form>
             </div>
         </div>
@@ -197,8 +197,12 @@
         <div class="modal_content_container">
             <div class="proj_mod_con modal_content">
                 <h2 class="proj_name mod_name"></h2>
-                <form class="add_proj_form mod_form">
+                <form class="add_proj_form mod_form" method="post" action="insertproj.do" enctype="multipart/form-data">
+                    <input name="userNickname" hidden="hidden" value="${u.userNickname}"/>
+                    <input name="userNo" hidden="hidden" value="${u.userNo}"/>
                     <input name="projectType" hidden="hidden"/>
+                    <input name="categoryNo" hidden="hidden"/>
+                    <input name="projectPublicEnabled" hidden="hidden" value="Y"/>
                     <div>
                         <aside>프로젝트 썸네일</aside>
                         <div>
@@ -214,9 +218,20 @@
                     <div>
                         <aside>비밀 프로젝트</aside>
                         <div>
-                            <input type="checkbox" name="projectPublicEnabled" value="Y">
+                            <input type="checkbox" id="private_check">
                         </div>
                     </div>
+                    <div>
+                    	<aside>카테고리</aside>
+	                    <div class="cc">
+		                   	<c:forEach var="c" items="${categories}">
+		                       <button type="button" class="proj_cb cb" data-no="${c.categoryNo}">
+		                           	${c.categoryTitle}<i class="proj_cb_i cb_i fas fa-plus"></i>
+		                       </button>
+		                   	</c:forEach>
+	                    </div>
+                    </div>
+                    <button class="mod_sub_btn_css">제출</button>
                 </form>
             </div>
         </div>

@@ -147,6 +147,13 @@
 			select count(*) from report_tb
 		</select>
 		
+		<!-- 신고글 자체를 삭제처리 -->
+		<delete id="deleteReport" parameterType="int">
+			delete
+			  from report_tb
+			 where report_no = #{reportNo} 
+		</delete>
+		
 <!-- 	<select id="selectBoard" resultType="Board"> -->
 <!-- 		select * -->
 <!-- 		  from tb_board -->

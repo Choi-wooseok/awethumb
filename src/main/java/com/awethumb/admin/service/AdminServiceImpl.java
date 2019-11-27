@@ -100,6 +100,13 @@ public class AdminServiceImpl implements AdminService{
 	public int reportCount() {
 		return dao.reportCount();
 	}
+
+	@Override
+	public void deleteReport(int reportNo) {
+		dao.deleteReport(reportNo);
+	}
+	
+	
 	
 	
 	

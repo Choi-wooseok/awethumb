@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.admin.service.AdminService;
 import com.awethumb.repository.vo.Block;
@@ -166,6 +165,12 @@ public class AdminController {
 		map.put("rList", rList);
 		map.put("pageMaker", pageMaker);
 		return map;
+	}
+	
+	@RequestMapping("/deleteReport.do")
+	@ResponseBody
+	public void deleteReport(int reportNo) {
+		service.deleteReport(reportNo);
 	}
 	 
 

@@ -50,20 +50,17 @@ $(".change_pass").click(() => {
 })
 
 // 카테고리 아이콘 변경
-$(".cb").click((e) => {
+$(".user_cb").click((e) => {
     let target = e.target
     if (e.target.nodeName === "BUTTON") target = target.firstElementChild;
     $(target).toggleClass("fa-plus").toggleClass("fa-check");
-    
-    
 })
 
 // 유저의 기존 카테고리를 찾아와서 체크해준다
-
 let cArr = new Array();
 if (cList.length > 1) cArr = cList.split(":");
 else cArr.push(cList);
-const $cb = $(".cb")
+const $cb = $(".user_cb")
 for (let cb of $cb){
 	for (let cNo of cArr){
 		if($(cb).data("no") == cNo) $(cb).children("i").removeClass("fa-plus").addClass("fa-check");
@@ -78,17 +75,5 @@ $(".profile_sub").click((e) => {
 	}
 	$("input[name=categoryList]").val(sCList.substring(0, sCList.length - 1));
 })
-
-
-
-
-
-
-
-
-
-
-
-
 
 

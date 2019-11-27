@@ -81,15 +81,17 @@ function getFollowingListAjax() {
 				$(".following_ul").append(
 					`<li class="following_li">
 						<div class="f_mod_img_con">
-							<img src="./../images/test_user.jpg" class="f_mod_img"/>
+							<img id="following_user_img_${user.userNo}" class="f_mod_img"/>
 						</div>
 						<div class="f_mod_user_con">
-							<a class="f_user_nick">${user.userNickname}</a>
+							<a class="f_user_nick" href="${user.userNickname}">${user.userNickname}</a>
 							<div class="f_user_name">${user.userName}</div>
 						</div>
 						<div class="f_mod_btn_con" id="following_user_${user.userNo}">
 						</div>
 					</li>`)
+				// 팔로잉 이미지를 설정해준다.
+				getFollowProfileImgAjax("following", user.userNo);
 				// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 버튼을 스킵한다.
 				if (user.userNo === subUserNo) return;
 				if(e == 1) {
@@ -105,6 +107,7 @@ function getFollowingListAjax() {
 							<i class="fas fa-plus"></i>
 						</button>`)
 				}
+				
 			})
 		}
 	})
@@ -136,18 +139,22 @@ function getFollowerListAjax() {
 				})
 			})
 			.done((e) => {
+				// 팔로워 이미지를 설정해준다.
+				const img = getFollowProfileImgAjax("follower", user.userNo);
 				$(".follower_ul").append(
 						`<li class="follower_li">
 						<div class="f_mod_img_con">
-						<img src="./../images/test_user.jpg" class="f_mod_img"/>
+						<img id="follower_user_img_${user.userNo}" class="f_mod_img"/>
 						</div>
 						<div class="f_mod_user_con">
-						<a class="f_user_nick">${user.userNickname}</a>
+						<a class="f_user_nick" href="${user.userNickname}">${user.userNickname}</a>
 						<div class="f_user_name">${user.userName}</div>
 						</div>
 						<div class="f_mod_btn_con" id="follower_user_${user.userNo}">
 						</div>
 				</li>`)
+				// 팔로잉 이미지를 설정해준다.
+				getFollowProfileImgAjax("follower", user.userNo);
 				// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 버튼을 스킵한다.
 				if (user.userNo === subUserNo) return;
 				if(e == 1) {
@@ -317,6 +324,16 @@ $(".following_srch").keyup(() => {
 	getSearchFollowingListAjax();
 })
 
+// 팔로우 리스트의 프로필 이미지를 가져오는 함수
+function getFollowProfileImgAjax(type, userNo){
+	$.ajax({
+		url: "getprofileimg.do",
+		dataType: "text",
+		data: {userNo},
+		success: function(data) {$(`#${type}_user_img_${userNo}`).attr("src", data)}
+	})
+}
+
 // 팔로워 리스트 검색 ajax
 function getSearchFollowerListAjax(){
 	$.ajax({
@@ -348,15 +365,17 @@ function getSearchFollowerListAjax(){
 				$(".srch_follower_ul").append(
 						`<li class="follower_li">
 						<div class="f_mod_img_con">
-						<img src="./../images/test_user.jpg" class="f_mod_img"/>
+						<img id="srch_follower_user_img_${user.userNo}" class="f_mod_img"/>
 						</div>
 						<div class="f_mod_user_con">
-						<a class="f_user_nick">${user.userNickname}</a>
+						<a class="f_user_nick" href="${user.userNickname}">${user.userNickname}</a>
 						<div class="f_user_name">${user.userName}</div>
 						</div>
 						<div class="f_mod_btn_con" id="srch_follower_user_${user.userNo}">
 						</div>
 				</li>`)
+				// 팔로워 이미지를 설정해준다.
+				getFollowProfileImgAjax("srch_follower", user.userNo);
 				// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 버튼을 스킵한다.
 				if (user.userNo === subUserNo) return;
 				if(e == 1) {
@@ -405,32 +424,33 @@ function getSearchFollowingListAjax(){
 			})
 			.done((e) => {
 				$(".srch_following_ul").append(
-						`<li class="following_li">
-							<div class="f_mod_img_con">
-								<img src="./../images/test_user.jpg" class="f_mod_img"/>
-							</div>
-							<div class="f_mod_user_con">
-								<a class="f_user_nick">${user.userNickname}</a>
-								<div class="f_user_name">${user.userName}</div>
-							</div>
-							<div class="f_mod_btn_con" id="srch_following_user_${user.userNo}">
-							</div>
-						</li>`)
-					// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 버튼을 스킵한다.
-					if (user.userNo === subUserNo) return;
-					if(e == 1) {
-						$(`#srch_following_user_${user.userNo}`).append(`
-							<button class="mod_unsub_btn unsub_btn" type="button" data-userNo="${user.userNo}">
-								구독중
-								<i class="fas fa-check"></i>
-							</button>`)
-					} else{
-						$(`#srch_following_user_${user.userNo}`).append(`
-							<button class="mod_sub_btn sub_btn" type="button" data-userno="${user.userNo}">
-								구독
-								<i class="fas fa-plus"></i>
-							</button>`)
-					}
+					`<li class="following_li">
+						<div class="f_mod_img_con">
+							<img id="srch_following_user_img_${user.userNo}" class="f_mod_img"/>
+						</div>
+						<div class="f_mod_user_con">
+							<a class="f_user_nick" href="${user.userNickname}">${user.userNickname}</a>
+							<div class="f_user_name">${user.userName}</div>
+						</div>
+						<div class="f_mod_btn_con" id="srch_following_user_${user.userNo}">
+						</div>
+					</li>`)
+				getFollowProfileImgAjax("srch_following", user.userNo);
+				// 만얀 리스트에 불러와진 유저 중 방문한 유저가 있을 때 버튼을 스킵한다.
+				if (user.userNo === subUserNo) return;
+				if(e == 1) {
+					$(`#srch_following_user_${user.userNo}`).append(`
+						<button class="mod_unsub_btn unsub_btn" type="button" data-userNo="${user.userNo}">
+							구독중
+							<i class="fas fa-check"></i>
+						</button>`)
+				} else{
+					$(`#srch_following_user_${user.userNo}`).append(`
+						<button class="mod_sub_btn sub_btn" type="button" data-userno="${user.userNo}">
+							구독
+							<i class="fas fa-plus"></i>
+						</button>`)
+				}
 			})
 		}
 	})

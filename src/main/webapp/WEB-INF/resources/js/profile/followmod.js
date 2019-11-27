@@ -326,7 +326,6 @@ $(".following_srch").keyup(() => {
 
 // 팔로우 리스트의 프로필 이미지를 가져오는 함수
 function getFollowProfileImgAjax(type, userNo){
-	console.log(userNo);
 	$.ajax({
 		url: "getprofileimg.do",
 		dataType: "text",

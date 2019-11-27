@@ -103,4 +103,18 @@
 		  FROM user_file_tb 
 		 WHERE user_no = #{userNo};
 	</select>
+	
+	<insert id="insertProject" parameterType="Project">
+		insert into project_tb(project_title, user_no, project_public_enabled, category_no, project_type)
+		values (#{projectTitle}, #{userNo}, #{projectPublicEnabled}, #{categoryNo}, #{projectType})
+	</insert>
+	
+	<insert id="insertProjectFile" parameterType="ProjectFile">
+		<selectKey resultType="int" keyProperty="projectNo" order="BEFORE">
+		    SELECT max(project_no)
+		      from project_tb
+		</selectKey>
+		insert into project_file_tb(project_no, project_file_sys_name, project_file_org_name, project_file_path, project_file_size, project_file_exe)
+		values (#{projectNo}, #{projectFileSysName}, #{projectFileOrgName}, #{projectFilePath}, #{projectFileSize}, #{projectFileExe})
+	</insert>
 </mapper>

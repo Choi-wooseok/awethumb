@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Category;
 import com.awethumb.repository.vo.Follow;
+import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
@@ -37,5 +39,9 @@ public interface ProfileDAO {
 	public void updateUserFile(UserFile uf);
 
 	public UserFile selectUserFileVO(int userNo);
+
+	public void insertProject(Project p);
+
+	public void insertProjectFile(ProjectFile pf);
 
 }

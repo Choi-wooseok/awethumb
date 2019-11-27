@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -12,6 +14,9 @@ public class Project {
 
     // 회원 번호 
     private int userNo;
+    
+    // 회원 닉네임
+    private String userNickname;
 
     // 레이블 색상 
     private String lableColor;
@@ -30,4 +35,6 @@ public class Project {
     // 2 -> 공유된 프로젝트
     // 3 -> 저장된 프로젝트
     private int projectType;
+    
+    private MultipartFile projectFile;
 }

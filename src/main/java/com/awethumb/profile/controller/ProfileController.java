@@ -28,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.profile.service.ProfileService;
 import com.awethumb.repository.vo.Follow;
+import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
@@ -128,9 +130,10 @@ public class ProfileController {
 		uf.setUserFileSysName(sysName);
 		uf.setUserFilePath(path);
 		
-		mf.transferTo(new File(path + sysName));
-		
 		service.updateUserFile(uf);
+		
+		// 파일 저장
+		mf.transferTo(new File(path + sysName));
 	}	
 	
 	@RequestMapping("/getprofileimg.do")
@@ -160,5 +163,34 @@ public class ProfileController {
 			System.out.println(e.getMessage());
 		}
 		return "data:image/png;base64," + eString;
+	}
+	
+	@RequestMapping("/insertproj.do")
+	public String insertProj(Project p) throws IllegalStateException, IOException {
+		System.out.println(p.getProjectPublicEnabled());
+		
+		MultipartFile mf = p.getProjectFile();
+		ProjectFile pf = new ProjectFile();
+		
+		long size = mf.getSize(); // 파일 사이즈
+		String orgName = mf.getOriginalFilename(); // 파일 이름
+		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+		
+		// 경로 설정
+		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
+		String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
+		
+		pf.setProjectFileSize(size);
+		pf.setProjectFileOrgName(orgName);
+		pf.setProjectFileExe(ext);
+		pf.setProjectFileSysName(sysName);
+		pf.setProjectFilePath(path);
+		
+		service.insertProj(p, pf);
+		
+		mf.transferTo(new File(path + sysName));
+		
+		return "redirect:" + p.getUserNickname();
 	}
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.awethumb.repository.dao.ProfileDAO;
 import com.awethumb.repository.vo.Category;
 import com.awethumb.repository.vo.Follow;
+import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
@@ -77,5 +79,11 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public UserFile getProfileImg(int userNo) {
 		return dao.selectUserFileVO(userNo);
+	}
+
+	@Override
+	public void insertProj(Project p, ProjectFile pf) {
+		dao.insertProject(p);
+		dao.insertProjectFile(pf);
 	}
 }

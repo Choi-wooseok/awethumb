@@ -19,7 +19,7 @@ public class ProjectFile {
     private String projectFilePath;
 
     // 프로젝트 파일 크기 
-    private String projectFileSize;
+    private long projectFileSize;
 
     // 프로젝트 파일 등록 날짜 
     private Date projectFileRegDt;

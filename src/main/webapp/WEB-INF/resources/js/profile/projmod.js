@@ -39,11 +39,38 @@ $(".proj_mod").on('scroll touchmove mousewheel', function(event) {
     return false;
 });
 // 프로젝트 비밀 여부
-const $privateCb = $("input[name=projectPublicEnabled]")
-$privateCb.click(()=>{
-    if($privateCb.is(":checked")){
-        $privateCb.val("N")
+const $pc = $("#private_check")
+const $pcInput = $("input[name=projectPublicEnabled]")
+$pc.click(()=>{
+	
+    if($pc.is(":checked")){
+    	$pcInput.val("N")
         return;
     }
-    $privateCb.val("Y")
+    $pcInput.val("Y")
+})
+
+// 프로젝트 생성 카테고리 버튼 클릭
+$(".proj_cb").click((e) => {
+    let target = e.target
+    if (e.target.nodeName === "BUTTON") target = target.firstElementChild;
+    
+    const $input = $("input[name=categoryNo]");
+    const categoryNo = $(target).parents("button").data("no")
+    
+    // 다수의 카테고리를 체크하는 경우
+    if($input.val() != categoryNo && $input.val()) {
+    	alert("카테고리는 한개만 선택 가능합니다.");
+    	return;
+    }
+    
+    $(target).toggleClass("fa-plus").toggleClass("fa-check");
+    
+    // 이미 선택된 카테고리를 해지하는 경우
+    if ($input.val() == categoryNo) {
+    	$input.val("");
+    	return;
+    }
+    
+    $input.val(categoryNo);
 })

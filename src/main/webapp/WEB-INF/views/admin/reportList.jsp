@@ -608,6 +608,17 @@ $(document).on("click","#deny-block", function(){
 	})
 })
 
+$(document).on("click", "#delete-report", function() {
+	console.log('딜리트 리포트 진입시 reportNo', reportNo);
+	$.ajax({
+		url:"deleteReport.do?reportNo="+reportNo,
+		success: function(){
+			alert('신고글이 삭제처리 되었습니다.');
+			reportListAjax();
+		}
+	})
+})
+
 $("#delete-report").on("click", function(){
 	
 })

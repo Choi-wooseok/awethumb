@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardService {
 	List<Board> selectBoardList();
@@ -24,5 +26,9 @@ public interface DetailBoardService {
 	// project
 	Project selectProjectName(int pjtNo);
 	void updateProjectName(Project project);
-	String selectWriter(int postNo);
+	UserVO selectWriter(int postNo);
+	
+	// comment
+	List<Comment> commentList(int postNo);
+	void insertComment(Comment comment);
 }

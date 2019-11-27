@@ -23,8 +23,8 @@
 	</insert>
 	
 	<!-- 글 번호로 글쓴이의 정보 받아옴 -->
-	<select id="selectWriter" parameterType="int" resultType="String">
-		select user_id 
+	<select id="selectWriter" parameterType="int" resultType="userVO">
+		select *
 		from user_tb
 		where user_no = (
 			select user_no 
@@ -93,6 +93,22 @@
 		set project_title = '${projectTitle}'
 		where project_no = ${projectNo}
 	</update>
+	
+	<select id="commentList" resultType="Comment" parameterType="int">
+		select * 
+		from comment_tb 
+		where post_no = ${postNo}
+		order by cmt_reg_dt 
+		desc;
+	</select>
+	
+	<insert id="insertComment" parameterType="Comment">
+		insert into comment_tb (
+			cmt_content, user_no, post_no
+		) values (
+			'${cmtContent}', ${userNo}, ${postNo}
+		)
+	</insert>
 </mapper>
 
 

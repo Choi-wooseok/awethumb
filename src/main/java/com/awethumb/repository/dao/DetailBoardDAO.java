@@ -2,9 +2,13 @@ package com.awethumb.repository.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardDAO {
 	List<Board> selectBoardList();
@@ -21,5 +25,7 @@ public interface DetailBoardDAO {
 	
 	Project selectProjectName(int pjtNo);
 	void updateProjectName(Project project);
-	String selectWriter(int postNo);
+	UserVO selectWriter(int postNo);
+	List<Comment> commentList(int postNo);
+	void insertComment(Comment comment);
 }

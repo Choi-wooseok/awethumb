@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.awethumb.detailBoard.service.DetailBoardService;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.UserVO;
 import com.awethumb.util.FileUploadUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
@@ -75,8 +77,8 @@ public class DetailBoardController {
 	@ResponseBody
 	public Board selectOneBoard(int postNo) {
 		Board board = service.selectOneBoard(postNo);
-		String writer = service.selectWriter(postNo);
-		board.setWriter(writer);
+		UserVO writer = service.selectWriter(postNo);
+		board.setWriter(writer.getUserName());
 		return board;
 	}
 	
@@ -109,4 +111,16 @@ public class DetailBoardController {
 		return "redirect:updateListForm.do";
 	}
 	
+	@RequestMapping("selectCommentList.do")
+	@ResponseBody
+	public List<Comment> commentList(@RequestParam("postNo") int postNo) {
+		return service.commentList(postNo);
+	}
+	
+	@RequestMapping("insertComment.do")
+	@ResponseBody
+	public void insertComment(Comment comment) {
+		comment.setUserNo(service.selectWriter(comment.getPostNo()).getUserNo());
+		service.insertComment(comment);
+	}
 }

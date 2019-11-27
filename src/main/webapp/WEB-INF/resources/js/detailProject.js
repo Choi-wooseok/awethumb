@@ -117,10 +117,61 @@ $(".detailBtn").click((e) => {
 					$('.single-item').slick();
 				}, 100)
 			);
+			
+			$.ajax({
+				url: "selectCommentList.do",
+				data: {postNo: board.postNo},
+				success : (cList) => {
+					for (let i = 0; i < cList.length; i++) {
+						commentListAjax(cList[i])						
+					}
+				}
+			})
+			
+			$("#cmtInsertBtn").click((e) => {
+				$.ajax({
+					type: "post",
+					url: "insertComment.do",
+					data: {
+						postNo : $(e.target).data("postno"),
+						cmtContent : $("#cmtCont").val()
+					},
+					success: () => {
+						$.ajax({
+							url: "selectCommentList.do",
+							data: {postNo : $(e.target).data("postno")},
+							success: (cList) => {
+								$(".comment").empty();
+								for (let i = 0; i < cList.length; i++) {
+									$("#comment").append(commentListAjax(cList[i]));						
+								}
+								$("#cmtCont").val('');								
+							}
+						})
+					}
+				})
+			})
 		}
 	})
 	$(".modal").addClass("block");
 })
+function commentListAjax(cList) {
+	$(".comment").append(
+	`
+	<div class="commentList">
+        <div class="commentUserImg">
+            <img src="./../images/test_user.jpg" alt="">
+        </div>
+        <div class="commentWrap">
+          	 ${cList.cmtContent}
+			<button class="cmtBtn" data-cmtNo="${cList.cmtNo}">
+				<i class="fas fa-ellipsis-h"></i>
+			</button>
+        </div>
+    </div>
+	`
+	)
+}
 function viewBoardAjax(board) {
 	$(".modal_content").html(
 	`
@@ -143,28 +194,10 @@ function viewBoardAjax(board) {
 			<div class="modalCont">
 				${board.postContent}
 			</div>
-	        <div class="comment">
-	            <div class="commentList">
-	                <div class="commentUserImg">
-	                    <img src="./../images/test_user.jpg" alt="">
-	                </div>
-	                <div class="commentWrap">
-	                  	 가나다라마바사아자차카타파하
-	                </div>
-	            </div>
-	
-	            <div class="commentList">
-	                <div class="commentUserImg">
-	                    <img src="./../images/test_user.jpg" alt="">
-	                </div>
-	                <div class="commentWrap">
-	                	가나다라마바사아자차카타파하가나다라마바사아자차카타파하
-	                </div>
-	            </div>
-	        </div>
+	        <div class="comment"></div>
 	        <div class="insertComment">
-	            <input type="text" />
-	            <button>등록</button>
+				<input id="cmtCont" name="cmtCont" type="text" />
+				<button id="cmtInsertBtn" type="button" data-postNo="${board.postNo}">등록</button>
 	        </div>
 	    </div>
 	</div>
@@ -209,7 +242,7 @@ function imgReSize({w, h}) {
     rightBox.style.height = boxSize.style.height;
     
     $(".comment").height(
-   		$("#rightBox").height()-$(".modalCont").height()-66
+   		$("#rightBox").height()-$(".modalCont").height()-75
     )
 }
 

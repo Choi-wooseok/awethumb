@@ -1221,3 +1221,19 @@ section#feeds {
     box-sizing: border-box;
     padding: 15px
 }
+#pjtName {
+	height: 25px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+.udtTitle {
+	box-sizing: border-box;
+    padding: 5px 8px;
+    background-color: transparent;
+    border: none;
+}
+.udtTitle:hover {
+	color: #fff;
+}

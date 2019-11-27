@@ -696,6 +696,7 @@ section > div.content {
     min-height: 400px;
     box-sizing: border-box;
     float: right;
+    background-color: #fff;
 }
 .ModaluserInfo {
     width: 100%;
@@ -1196,6 +1197,7 @@ section#feeds {
 }
 .modalContWrap {
 	overflow: hidden;
+	background-color: #333;
 }
 .slick-slide img {
 	display: block !important;	
@@ -1209,4 +1211,20 @@ section#feeds {
     border-bottom: 1px solid #efefef;
     box-sizing: border-box;
     padding: 15px
+}
+#pjtName {
+	height: 25px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+.udtTitle {
+	box-sizing: border-box;
+    padding: 5px 8px;
+    background-color: transparent;
+    border: none;
+}
+.udtTitle:hover {
+	color: #fff;
 }

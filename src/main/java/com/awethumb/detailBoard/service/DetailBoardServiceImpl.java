@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.awethumb.repository.dao.DetailBoardDAO;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
+import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.UserVO;
 
 @Service
 public class DetailBoardServiceImpl implements DetailBoardService {
@@ -77,7 +79,15 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 		dao.updateProjectName(project);
 	}
 	
-	public String selectWriter(int postNo) {
+	public UserVO selectWriter(int postNo) {
 		return dao.selectWriter(postNo);
+	}
+	 
+	public List<Comment> commentList(int postNo) {
+		return dao.commentList(postNo);
+	}
+	
+	public void insertComment(Comment comment) {
+		dao.insertComment(comment);
 	}
 }

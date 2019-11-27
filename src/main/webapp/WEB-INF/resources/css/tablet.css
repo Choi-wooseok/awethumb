@@ -512,6 +512,8 @@ section > div.content {
     padding: 15px;
 }
 .mpjinfo > span {
+	box-sizing: border-box;
+	padding-left: 35px;
     font-size: 45px;
     letter-spacing: 1px;
     font-family: 'Passion One', cursive;
@@ -592,16 +594,15 @@ section > div.content {
 }
 .slick-prev,
 .slick-next {
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+    top: 18px !important;
     z-index: 1;
 }
 .slick-prev {
     content: none !important;
-    left: -50px !important;
+    left: 15px !important;
 }
 .slick-next {
-    right: -50px !important;
+    right: 15px !important;
 }
 .slick-prev::before,
 .slick-next::before {
@@ -1231,4 +1232,20 @@ section#feeds {
     border-bottom: 1px solid #efefef;
     box-sizing: border-box;
     padding: 15px
+}
+#pjtName {
+	height: 25px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+.udtTitle {
+	box-sizing: border-box;
+    padding: 5px 8px;
+    background-color: transparent;
+    border: none;
+}
+.udtTitle:hover {
+	color: #fff;
 }

@@ -69,6 +69,12 @@
 						<button class="updateCancel">취소</button>
 					</div>
 				</div>
+				<div class="deleteComment">
+					<div>
+						<button class="deleteSubmit">삭제</button>
+						<button class="deleteCancel">취소</button>
+					</div>
+				</div>
 			</section>	
 				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>

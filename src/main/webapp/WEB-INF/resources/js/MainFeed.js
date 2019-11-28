@@ -110,6 +110,7 @@ let scrollTop = 0;
 		}
 		
 // --------------- detail -------------
+	function detailListAjax() {
 	$(document).on('click', '.detailFeed', (e) => {
 		$.ajax({
 			url: "detailmainfeed.do",
@@ -128,6 +129,7 @@ let scrollTop = 0;
 			}
 		})
 	});
+	}
 	
 	function makeDetailFeed(detail) {
 		$feed = $("#detailFeedModal");
@@ -217,6 +219,7 @@ let scrollTop = 0;
 	        </div>
 	    </div>`)
 	}
+	detailListAjax();
 	// x버튼 클릭시 모달창 닫힘
 	$(document).on('click', '.modalClose', (e) => {
 		let postNum = $(e.target).data("postnum");
@@ -290,7 +293,7 @@ let scrollTop = 0;
         	$(".cmtModalDetail").css("display","none");
 			let cmtNo = $(e.target).data("cmtno");
 			let cmtContent = $(e.target).data("cmtcontent");
-        	updateComment.style.display = "block"
+			$(".updateComment").css("display","block");
         	$(".cmtModal" + cmtNo).css("display", "none");
         	$("#commentWrap" + cmtNo).append(updateComment);
         	$('#contentUpdate').val(cmtContent);
@@ -317,56 +320,58 @@ let scrollTop = 0;
 				},
 				dataType: "json",
 				success: result => {
-					$.ajax({
-		                  url: "detailmainfeed.do",
-		                  data: {
-		                     postNo:$("#postNo").val()
-		                  },
-		                  dataType: "JSON",
-		                  success: result => {
-		                     makeDetailFeed(result);
-		                     setTimeout(() => {
-		                        makemodalattribute({
-		                           w: $("#image").width(),
-		                           h: $("#image").height()
-		                        })
-		                     }, 100);
-		                  }
-		               })
+					makeDetailFeed(result);
+					setTimeout(() => {
+						makemodalattribute({
+							w: $("#image").width(),
+							h: $("#image").height()
+						})
+					}, 100);
 				}
 			});
 			
 		});	
+     // 댓글 삭제폼
+        let deleteComment = document.querySelector(".deleteComment");
+        $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
+        	$(".cmtModalDetail").css("display","none");
+			let cmtNo = $(e.target).data("cmtno");
+        	$(".deleteComment").css("display","block");
+//        	$(".cmtModal" + cmtNo).css("display", "none");
+        	$("#commentWrap" + cmtNo).append(deleteComment);
+    		$(".deleteSubmit").data("cmtno", cmtNo);
+        	$(".deleteCancel").data("cmtno", cmtNo);
+        })
+        
+      // 삭제 폼 취소
+        $(document).on("click", ".deleteCancel", (e) => {
+        	let cmtNo = $(e.target).data("cmtno");
+        	$(deleteComment).css("display", "none");
+        	$(".cmtModal" + cmtNo).css("display", "block")
+        })
         
 //      댓글 삭제
-        $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
+        $(".commentList").on("click", ".deleteSubmit", (e) => {
+        	console.log($(e.target).data("cmtno"));
 			$.ajax({
 				url: "deleteComment.do",
+				type: "POST",
 				data: {
 					cmtNo: $(e.target).data("cmtno"),
 					postNo: $("#postNo").val()
-					},
+				},
 				dateType:"json",
 				success: result => {
-					$.ajax({
-		                  url: "detailmainfeed.do",
-		                  data: {
-		                     postNo:$("#postNo").val()
-		                  },
-		                  dataType: "JSON",
-		                  success: result => {
-		                     makeDetailFeed(result);
-		                     setTimeout(() => {
-		                        makemodalattribute({
-		                           w: $("#image").width(),
-		                           h: $("#image").height()
-		                        })
-		                     }, 100);
-		                  }
-					})
+					makeDetailFeed(result);
+					setTimeout(() => {
+						makemodalattribute({
+							w: $("#image").width(),
+							h: $("#image").height()
+						})
+					}, 100);
 				}
 			});
-        	$(".cmtModalDetail").css("display","none");
+//        	$(".cmtModalDetail").css("display","none");
 		});
         
         // Get the modal

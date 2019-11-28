@@ -82,4 +82,7 @@
 	.updateComment {
 		display: none;
 	}
+	.deleteComment {
+		display: none;
+	}
 	

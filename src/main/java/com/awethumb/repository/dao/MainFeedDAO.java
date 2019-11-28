@@ -27,8 +27,8 @@ public interface MainFeedDAO {
 //	List<Comment> selectComment(int postNo);
 	int commentCount(int postNo);
 	void insertComment(Comment comment);
-//	void deleteComment(int commentNo);
-//	void updateComment(Comment comment);
+	void updateComment(Comment comment);
+	void deleteComment(int cmtNo);
 }
 
 

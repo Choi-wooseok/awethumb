@@ -107,17 +107,17 @@
 		)
 	</insert>	
 			
-<!-- 	<delete id="deleteComment" parameterType="int"> -->
-<!-- 	    delete  -->
-<!-- 	      from tb_comment -->
-<!-- 	     where comment_no = #{commentNo} -->
-<!-- 	</delete>	 -->
-	
-<!-- 	<update id="updateComment" parameterType="comment"> -->
-<!-- 	    update tb_comment -->
-<!-- 	       set content = #{content} -->
-<!-- 	     where comment_no = #{commentNo} -->
-<!-- 	</update> -->
+	<update id="updateComment" parameterType="comment">
+	    update comment_tb
+	       set cmt_content = #{cmtContent}
+	     where cmt_no = #{cmtNo}
+	</update>
+
+	<delete id="deleteComment" parameterType="int">
+	    delete 
+	      from comment_tb
+	     where cmt_no = #{cmtNo}
+	</delete>	
 </mapper>
 
 

@@ -42,7 +42,20 @@ public class MainFeedController {
 		System.out.println("인서트 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
-	
+	@RequestMapping("/updateComment.do")
+	@ResponseBody
+	public MainFeed commentUpdateAjax(Comment comment) {
+		service.updateComment(comment);
+		System.out.println("update 들어옴");
+		return service.detailMainFeed(comment.getPostNo());
+	}
+	@RequestMapping("/deleteComment.do")
+	@ResponseBody
+	public MainFeed commentDelete(Comment comment) {
+		service.delectComment(comment.getCmtNo());
+		System.out.println("delete 들어옴");
+		return service.detailMainFeed(comment.getPostNo());
+	}
 //	@RequestMapping("/comment_list.do")
 //	public List<Comment> commentListAjax(int postNo) {
 //		return service.listComment(postNo);

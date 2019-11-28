@@ -20,10 +20,6 @@ public class MainFeedServiceImpl implements MainFeedService {
 		return dao.selectMainFeed(pageCount);
 	}
 	
-//	public List<Comment> listComment(int postNo) {
-//		return dao.selectComment(postNo);
-//	}
-	
 	public int commentCount(int postNo) {
 		return dao.commentCount(postNo);
 	}
@@ -37,7 +33,13 @@ public class MainFeedServiceImpl implements MainFeedService {
 	public void insertComment(Comment comment) {
 		dao.insertComment(comment);
 	}
-//
+	public void updateComment(Comment comment) {
+		dao.updateComment(comment);
+	}
+	public void delectComment(int cmtNo) {
+		dao.deleteComment(cmtNo);
+	}
+
 //	public Board updateFormBoard(int no) {
 //		return dao.selectOneBoard(no);
 //	}
@@ -54,18 +56,8 @@ public class MainFeedServiceImpl implements MainFeedService {
 //		dao.updateBoard(board);
 //	}
 //	
-//	public List<Comment> commentDelete(Comment comment) {
-//		dao.deleteComment(comment.getCommentNo());
-//		return dao.selectComment(comment.getNo());
-//	}
 //	
 //	
-//	public List<Comment> commentUpdate(Comment comment) {
-//		dao.updateComment(comment);
-//		return dao.selectComment(comment.getNo());
-//	}
-
-
 
 }
 

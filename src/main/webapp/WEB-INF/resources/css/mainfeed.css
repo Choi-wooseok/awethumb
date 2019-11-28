@@ -79,3 +79,7 @@
 	.cmtRegist:hover {
 	    color:#6dd5bc;
 	}
+	.updateComment {
+		display: none;
+	}
+	

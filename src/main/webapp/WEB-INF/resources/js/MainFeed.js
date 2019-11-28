@@ -166,13 +166,15 @@ let scrollTop = 0;
 			                				<div class="commentUserImg">
 			                    				<img src="./../images/test_user.jpg" alt="">
 		                					</div>
-		                					<div class="commentWrap">
+		                					<div class="commentWrap" id="commentWrap${c.cmtNo}">
+		                					<div class="cmtModal${c.cmtNo}">
 		                			${c.cmtUserNickname}
-		                			<button class="commentModal">
+		                			<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
 		                				<i class="fas fa-ellipsis-h"></i>
 		                			</button>
-		                			<div>
+		                			<div class="cmtContent">
 		                				${c.cmtContent}
+            						</div>
 		                				<span class="cmtDt">${c.cmtRegDt}</span>
 		                			</div>
 		                			</div>
@@ -214,17 +216,6 @@ let scrollTop = 0;
 	            <div class="boardClose">취 소 </div>
 	        </div>
 	    </div>`)
-            $.each(detail.commentList, (i, c) => {
-            	$(`#modal${detail.postNo}`).append(`
-        <div id="cmtModalDetail" class="cmtModalDetail">
-            <div class="comment-modal">
-        		<div> <button class ="cmtUpdateBtn" data-cmtNo="${c.commentNo} type="button">수정</button></div>
-        		<div> <button class ="cmtDeleteBtn">삭제</button></div>
-        		<div class="detailModalClose">취 소 </div>
-    		</div>
-		</div>
-			`);
-            })
 	}
 	// x버튼 클릭시 모달창 닫힘
 	$(document).on('click', '.modalClose', (e) => {
@@ -279,12 +270,104 @@ let scrollTop = 0;
         
         // 댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
-        $(".commentModal").click(() => {
+        $(".commentModal").click((e) => {
+//        	console.dir($(e.target).parents("button").attr("id"));
+        	const cmtNo = $(e.target).parents("button").data("cmtno");
+        	let cmtContent = $(e.target).parents("button").data("cmtcontent");
         	cmtModalDetail.style.display = "block";
+        	$(".cmtUpdateBtn").data("cmtno", cmtNo);
+        	$(".cmtUpdateBtn").data("cmtcontent", cmtContent);
+        	$(".cmtDeleteBtn").data("cmtno", cmtNo);
+        	console.log($(".cmtDeleteBtn").data("cmtno"))
+//        	console.log($(".cmtUpdateBtn").data("cmtcontent"))
         })
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
         })
+        // 댓글 수정폼
+        let updateComment = document.querySelector(".updateComment");
+        $(".cmtModalDetail").on("click", ".cmtUpdateBtn", (e) => {
+        	$(".cmtModalDetail").css("display","none");
+			let cmtNo = $(e.target).data("cmtno");
+			let cmtContent = $(e.target).data("cmtcontent");
+        	updateComment.style.display = "block"
+        	$(".cmtModal" + cmtNo).css("display", "none");
+        	$("#commentWrap" + cmtNo).append(updateComment);
+        	$('#contentUpdate').val(cmtContent);
+    		$(".updateSubmit").data("cmtno", cmtNo);
+        	$(".updateCancel").data("cmtno", cmtNo);
+        })
+        
+        // 수정 폼 취소
+        $(document).on("click", ".updateCancel", (e) => {
+        	let cmtNo = $(e.target).data("cmtno");
+        	$(updateComment).css("display", "none");
+        	$(".cmtModal" + cmtNo).css("display", "block")
+        })
+        
+//      댓글 수정
+		$(".commentList").on("click", ".updateSubmit", (e) => {
+			$.ajax({
+				url: "updateComment.do",
+				type: "POST",
+				data: {
+					postNo : $("#postNo").val(),
+					cmtContent: $("#contentUpdate").val(), 
+					cmtNo :  $(e.target).data("cmtno")
+				},
+				dataType: "json",
+				success: result => {
+					$.ajax({
+		                  url: "detailmainfeed.do",
+		                  data: {
+		                     postNo:$("#postNo").val()
+		                  },
+		                  dataType: "JSON",
+		                  success: result => {
+		                     makeDetailFeed(result);
+		                     setTimeout(() => {
+		                        makemodalattribute({
+		                           w: $("#image").width(),
+		                           h: $("#image").height()
+		                        })
+		                     }, 100);
+		                  }
+		               })
+				}
+			});
+			
+		});	
+        
+//      댓글 삭제
+        $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
+			$.ajax({
+				url: "deleteComment.do",
+				data: {
+					cmtNo: $(e.target).data("cmtno"),
+					postNo: $("#postNo").val()
+					},
+				dateType:"json",
+				success: result => {
+					$.ajax({
+		                  url: "detailmainfeed.do",
+		                  data: {
+		                     postNo:$("#postNo").val()
+		                  },
+		                  dataType: "JSON",
+		                  success: result => {
+		                     makeDetailFeed(result);
+		                     setTimeout(() => {
+		                        makemodalattribute({
+		                           w: $("#image").width(),
+		                           h: $("#image").height()
+		                        })
+		                     }, 100);
+		                  }
+					})
+				}
+			});
+        	$(".cmtModalDetail").css("display","none");
+		});
         
         // Get the modal
         var boardModal = document.getElementById('modalBoard');
@@ -372,35 +455,3 @@ let scrollTop = 0;
 //			</div>
 //		</div>
 	
-//		댓글 수정폼
-		$("#boardCommentList" + postnum).on("click", ".cmtUpdateBtn", (e) => {
-			$(".commentboard").css("display","none");
-			let cmtNo = $(e.target).data("no");
-			let cmtCon = $(e.target).data("context");
-			$("#commentWrap" +  cmtNo).append(
-					`<div id="updateText" class="updateText">
-						<input type="text" id="contentUpdate" value="${cmtCon}"/>
-						<div>
-							<button class="update" data-no=${cmtNo}>수정</button>
-							<button class="cancel" data-no=${cmtNo}>취소</button>
-						</div>
-					</div>`
-			);
-		}); // 댓글수정폼
-	// 댓글 수정
-		$(".comment-modal").on("click", "cmtUpdateBtn", (e) => {
-			let cmtNo = $(e.target).data("no");
-			let cmtCon = $(e.target).data("content");
-			$.ajax({
-				url: "boardCommentUpdate.do",
-				type: "POST",
-				data: {
-					postNo : postnum,
-					cmtContent: $("#contentUpdate").val(), 
-					cmtNo :  cmtNo
-				},
-				dataType: "json",
-				success: list => boardCommentListAjax(list)
-			});
-			
-		});	

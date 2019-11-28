@@ -44,12 +44,33 @@
 				<div class="waitme-container">
 			<section id="feeds">
 				<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
+				
+				<!-- 메인피드 생성 -->
 				<div class="feedsWrap msrItems" id="feedsWrap">
 					<!-- 반복을 통한 list출력 -->
 				</div>
+				
+				<!-- detail창 생성 -->
 				<div id="detailFeedModal"></div>
-			</section>	
+				
+				<!-- detail 모달창 -->
+				<div id="cmtModalDetail" class="cmtModalDetail">
+		            <div class="comment-modal">
+		        		<div><button class ="cmtUpdateBtn" type="button">수정</button></div>
+		        		<div><button class ="cmtDeleteBtn">삭제</button></div>
+		        		<div class="detailModalClose">취 소 </div>
+		    		</div>
 				</div>
+				
+				<div class="updateComment">
+					<input type="text" id="contentUpdate"/>
+					<div>
+						<button class="updateSubmit">수정</button>
+						<button class="updateCancel">취소</button>
+					</div>
+				</div>
+			</section>	
+				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
 		<script>
 			const userNo = ${su.userNo}

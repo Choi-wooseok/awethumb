@@ -12,7 +12,7 @@
     display:none;
     -webkit-border-radius:60px;
     -moz-border-radius:60px;
-    border-radius:60px
+    border-radius:60px;
 }
 #mainfeed-scroll span {
     position:absolute;
@@ -57,6 +57,9 @@
 	    width: 100%;
 	    bottom: 0;
 	}
+	.cmtContent {
+		margin-top: 5px;
+	}
 	#cmtContent {
 	    width: 100%;
 	    line-height: 50px;
@@ -85,4 +88,22 @@
 	.deleteComment {
 		display: none;
 	}
-	
+	#delBtn, #upBtn {
+	    height: 100%;
+	    border: none;
+	    cursor: pointer;
+	    background-color: transparent;
+	    color: #767676;
+	}
+	#delBtn:hover, #upBtn:hover {
+	    color: #6dd5bc;
+	}
+	#upBtn {
+		width: 77px;
+	}
+	#delBtn {
+		width: 40px;
+	}
+	#contentUpdate {
+		border-radius:3px;
+	}

@@ -65,14 +65,14 @@
 				<div class="updateComment">
 					<input type="text" id="contentUpdate"/>
 					<div>
-						<button class="updateSubmit">수정</button>
-						<button class="updateCancel">취소</button>
+						<button id="upBtn" class="updateSubmit">수정</button>
+						<button id="upBtn" class="updateCancel">취소</button>
 					</div>
 				</div>
 				<div class="deleteComment">
 					<div>
-						<button class="deleteSubmit">삭제</button>
-						<button class="deleteCancel">취소</button>
+						<button id="delBtn" class="deleteSubmit">삭제</button>
+						<button id="delBtn" class="deleteCancel">취소</button>
 					</div>
 				</div>
 			</section>	

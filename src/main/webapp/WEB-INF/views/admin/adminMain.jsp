@@ -23,6 +23,7 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
+      	<button type="button" id="insertReportForm">신고합니다</button>
         <div class="row">
           <div class="col-lg-9 main-chart">
             <!--CUSTOM CHART START -->
@@ -295,7 +296,7 @@
 <%@ include file="/WEB-INF/views/include/adminFooter.jsp" %>
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
-  <script src="lib/jquery/jquery.min.js"></script>
+  
 
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
@@ -370,6 +371,11 @@
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+    
+	$(document).on("click", "#insertReportForm", function(){
+			var newWindow = window.open("about:blank");
+			newWindow.location.href = "insertReportForm.do?postNo=23&commentNo=260";
+		})
   </script>
 </body>
 

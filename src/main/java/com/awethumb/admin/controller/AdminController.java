@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.admin.service.AdminService;
 import com.awethumb.repository.vo.Block;
+import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.PageMaker;
@@ -25,6 +26,29 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	
+	@RequestMapping("/insertReportForm.do")
+	public void insertReportForm() {
+	};
+	
+	@RequestMapping("/selectReportPost.do")
+	@ResponseBody
+	public Map<String, Object> selectReportPost(String postNo) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("board", service.selectOneBoardUsingNo(Integer.parseInt(postNo)));
+		result.put("user", service.selectOneUserUsingPostNo(Integer.parseInt(postNo)));
+		return result;
+	}
+	@RequestMapping("/selectReportPostAndComment.do")
+	@ResponseBody
+	public Map<String, Object> selectReportPost(String postNo, String commentNo) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("board", service.selectOneBoardUsingNo(Integer.parseInt(postNo)));
+		result.put("comment", service.selectOneCommentUsingNo(Integer.parseInt(commentNo)));
+		result.put("user", service.selectOneUserUsingCommentNo(Integer.parseInt(commentNo)));
+		return result;
+	}
+	
 
 	@RequestMapping("/adminMain.do")
 	public void adminMain() {

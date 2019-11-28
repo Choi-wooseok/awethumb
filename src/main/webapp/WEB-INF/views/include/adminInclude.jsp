@@ -23,3 +23,5 @@
   <script src="<c:url value='/admin/lib/chart-master/Chart.js'/>"></script>
   <!-- w3 css -->
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- 제이쿼리 -->
+  <script src="lib/jquery/jquery.min.js"></script>

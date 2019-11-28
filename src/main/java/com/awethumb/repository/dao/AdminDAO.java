@@ -26,6 +26,11 @@ public interface AdminDAO {
 	void denyReportStatus(int reportNo);
 	void deleteBlock(int userNo);
 	void deleteReport(int reportNo);
+	Board selectOneBoardUsingNo(int postNo);
+	Comment selectOneCommentUsingNo(int commentNo);
+	UserVO selectOneUserUsingPostNo(int postNo);
+	UserVO selectOneUserUsingCommentNo(int commentNo);
+	
 	
 	/* 페이징 관련 */
 	@SuppressWarnings("unchecked")

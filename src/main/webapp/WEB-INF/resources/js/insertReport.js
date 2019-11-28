@@ -1,0 +1,3 @@
+function insertReport(postNo, ContentNo){
+	
+}

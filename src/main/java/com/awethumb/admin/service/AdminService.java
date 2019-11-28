@@ -27,6 +27,10 @@ public interface AdminService {
 	void denyReportStatus(int reportNo);
 	List<Report> deleteBlock(int userNo);
 	void deleteReport(int reportNo);
+	Board selectOneBoardUsingNo(int postNo);
+	Comment selectOneCommentUsingNo(int commentNo);
+	UserVO selectOneUserUsingPostNo(int postNo);
+	UserVO selectOneUserUsingCommentNo(int commentNo);
 	
 	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();

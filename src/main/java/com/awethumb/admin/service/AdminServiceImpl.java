@@ -105,6 +105,30 @@ public class AdminServiceImpl implements AdminService{
 	public void deleteReport(int reportNo) {
 		dao.deleteReport(reportNo);
 	}
+
+	@Override
+	public Board selectOneBoardUsingNo(int postNo) {
+		return dao.selectOneBoardUsingNo(postNo);
+	}
+
+	@Override
+	public Comment selectOneCommentUsingNo(int commentNo) {
+		return dao.selectOneCommentUsingNo(commentNo);
+	}
+
+	@Override
+	public UserVO selectOneUserUsingPostNo(int postNo) {
+		return dao.selectOneUserUsingPostNo(postNo);
+	}
+
+	@Override
+	public UserVO selectOneUserUsingCommentNo(int commentNo) {
+		return dao.selectOneUserUsingCommentNo(commentNo);
+	}
+	
+	
+	
+	
 	
 	
 	

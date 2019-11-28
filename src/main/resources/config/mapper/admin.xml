@@ -56,6 +56,43 @@
 	 where report_no = #{reportNo}
 </update>
 
+<!-- postNo받아서 board 1개 셀렉 -->
+<select id="selectOneBoardUsingNo" parameterType="int" resultType="Board">
+	select *
+	  from board_tb
+	 where post_no = #{postNo}
+</select>
+<!-- commentNo받아서 comment 1개 셀렉 -->
+<select id="selectOneCommentUsingNo" parameterType="int" resultType="Comment">
+	select *
+	  from comment_tb
+	 where cmt_no = #{cmtNo}
+</select>
+<!-- postNo받아서 project_tb타고 userNo 받아서 유저테이블에서 user를 1개 뽑아버리기 -->
+<select id="selectOneUserUsingPostNo" parameterType="int" resultType="UserVO">
+	select *
+	  from user_tb u
+	 WHERE u.user_no = (select p.user_no
+	 						 from project_tb p
+	 						 WHERE p.project_no = (SELECT b.project_no
+	 												 from board_tb b
+							 					    WHERE post_no = #{postNO}
+							 							 )
+								)
+</select>
+<!-- commentNo받아서 userNo 받아서 유저테이블에서 user를 1개 뽑아버리기 -->
+<select id="selectOneUserUsingCommentNo" parameterType="int" resultType="UserVO">
+	select *
+	  from user_tb u
+	 WHERE u.user_no = (select c.user_no
+	 						 from comment_tb c
+	 						 WHERE c.cmt_no = #{commentNo}
+						)
+</select>
+
+
+
+
 <!-- 리포트넘버로 1개 리포트셀렉 -->
 <select id="selectOneReport" parameterType="int" resultType="Report">
 	select *
@@ -117,7 +154,7 @@
 			   set report_status = 'Y'
 			 where report_no = #{reportNo}
 		</update>
-<!-- 유저 그 기간만큼 정지처리하고, 리포트의 상태값 처리됨으로 변경 -->
+		<!-- 유저 그 기간만큼 정지처리하고, 리포트의 상태값 처리됨으로 변경 -->
 		<!-- 새로운 block insert -->
 		<insert id="insertBlock" parameterType="hashmap">
 			insert into block_tb(user_no, block_code,block_end_dt)

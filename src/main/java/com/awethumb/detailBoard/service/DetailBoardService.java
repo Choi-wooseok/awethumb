@@ -31,4 +31,5 @@ public interface DetailBoardService {
 	// comment
 	List<Comment> commentList(int postNo);
 	void insertComment(Comment comment);
+	void deleteComment(int cmtNo);
 }

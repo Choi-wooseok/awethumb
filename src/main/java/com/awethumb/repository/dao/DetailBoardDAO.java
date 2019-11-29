@@ -28,4 +28,5 @@ public interface DetailBoardDAO {
 	UserVO selectWriter(int postNo);
 	List<Comment> commentList(int postNo);
 	void insertComment(Comment comment);
+	void deleteComment(int cmtNo);
 }

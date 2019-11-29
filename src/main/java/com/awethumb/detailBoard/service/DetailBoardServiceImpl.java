@@ -90,4 +90,8 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public void insertComment(Comment comment) {
 		dao.insertComment(comment);
 	}
+	
+	public void deleteComment(int cmtNo) {
+		dao.deleteComment(cmtNo);
+	}
 }

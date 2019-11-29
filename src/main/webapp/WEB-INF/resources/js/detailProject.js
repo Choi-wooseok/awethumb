@@ -54,6 +54,7 @@ $(function () {
     });
 });
 
+// 그리드 넓이가 몇 이하일 경우 디자인 변경
 $(".grid-stack-item").resize((e) => {
     let width = $(e.target).width();
     let height = $(e.target).height();
@@ -66,15 +67,14 @@ $(".grid-stack-item").resize((e) => {
     }
 });
 
-let modalWrap = document.querySelector(".modalInsertWrap");
-// 등록버튼 클릭 시 모달창 생성
-document.querySelector("#insertBtn").addEventListener("click", () => {
-    modalWrap.classList.toggle("block");
-});
+// 등록 버튼 클릭 시 모달창 생성
+$("#insertBtn").click(() => {
+	$(".modalInsertWrap").addClass("block");
+})
 // x버튼 클릭 시 모달창 제거
-document.querySelector("#closeBtn").addEventListener("click", () => {
-    modalWrap.classList.toggle("block");
-});
+$(".closeBtn").click(() => {
+	$(".modalInsertWrap").removeClass("block");
+})
 
 // 모달창이 띄어졌을 시 스크롤 방지
 $(".modalInsertWrap").on('scroll touchmove mousewheel', function(event) {
@@ -99,8 +99,7 @@ $("#updateBtn").click(() => {
 	location.href='/awethumb/detailProject/updateListForm.do';
 })
 
-
-// 인스타 버튼 클릭시 모달창 생성
+// 인스타 버튼 클릭시 DetailBoard 모달창 생성
 $(".detailBtn").click((e) => {
 	let posNo = $(e.target).data("msg");
 	let promise = $.getJSON({
@@ -127,34 +126,95 @@ $(".detailBtn").click((e) => {
 					}
 				}
 			})
-			
-			$("#cmtInsertBtn").click((e) => {
-				$.ajax({
-					type: "post",
-					url: "insertComment.do",
-					data: {
-						postNo : $(e.target).data("postno"),
-						cmtContent : $("#cmtCont").val()
-					},
-					success: () => {
-						$.ajax({
-							url: "selectCommentList.do",
-							data: {postNo : $(e.target).data("postno")},
-							success: (cList) => {
-								$(".comment").empty();
-								for (let i = 0; i < cList.length; i++) {
-									$("#comment").append(commentListAjax(cList[i]));						
-								}
-								$("#cmtCont").val('');								
-							}
-						})
-					}
-				})
-			})
 		}
 	})
 	$(".modal").addClass("block");
 })
+
+// 댓글 등록버튼 클릭 시 Ajax로 댓글 등
+$(document).on("click", "#cmtInsertBtn", (e) => {
+	let postNo = $(e.target).data("postno");
+	if ($("#cmtCont").val().length != 0) {
+		$.ajax({
+			type: "post",
+			url: "insertComment.do",
+			data: {
+				postNo : postNo,
+				cmtContent : $("#cmtCont").val()
+			},
+			success: () => {commentListViewAjax(postNo)}
+		})
+	}
+});
+// 댓글 삭제 버튼 클릭 시 
+$(document).on("click", ".deleteCommentBoard", (e) => {
+	let cmtNo = $(".modalMini").data("cmtno");
+	$.ajax({
+		url: "deleteComment.do",
+		data: {cmtNo : cmtNo},
+		success: () => {
+			let postNo = $(".modalMini").data("postno");
+			commentListViewAjax(postNo);
+			$(".modalMini").removeData("cmtno")
+		}
+	})
+});
+
+
+
+
+// 댓글 수정 버튼 클릭 시
+$(document).on("click", ".updateCommentBoard", (e) => {
+	$(".updateCommentWrap").addClass("block");
+	$(".modalMini").removeClass("block");
+	
+	
+//	let cmtNo = $(".modalMini").data("cmtno");
+//	$.ajax({
+//		url: "deleteComment.do",
+//		data: {cmtNo : cmtNo},
+//		success: () => {
+//			let postNo = $(".modalMini").data("postno");
+//			commentListViewAjax(postNo);
+//			$(".modalMini").removeData("cmtno")
+//		}
+//	})
+});
+
+
+
+
+// 댓글 등록 후 다시 뿌리는 Ajax
+function commentListViewAjax(postNo) {
+	$.ajax({
+		url: "selectCommentList.do",
+		data: {postNo : postNo},
+		success: (cList) => {
+			$(".modalMini").removeClass("block");
+			$(".modal").addClass("block");
+			$(".comment").empty();
+			for (let i = 0; i < cList.length; i++) {
+				$("#comment").append(commentListAjax(cList[i]));						
+			}
+			$("#cmtCont").val('');
+		}
+	})
+}
+
+// 댓글 ... 클릭 시 선택창 생성
+$(document).on("click", ".cmtBtn", (e) => {
+	$(".modal").removeClass("block");
+	$(".modalMini").addClass("block");
+	$(".modalMini").attr("data-cmtNo", $(e.target).data("cmtno"));
+	$(".modalMini").attr("data-postNo", $("#cmtInsertBtn").data("postno"));	
+})
+// 취소버튼 클릭 시 선택창 제거
+$(document).on("click", ".updatecancel", (e) => {
+	$(".modalMini").removeClass("block");
+	$(".modal").addClass("block");
+})
+
+// DOM
 function commentListAjax(cList) {
 	$(".comment").append(
 	`
@@ -164,8 +224,8 @@ function commentListAjax(cList) {
         </div>
         <div class="commentWrap">
           	 ${cList.cmtContent}
-			<button class="cmtBtn" data-cmtNo="${cList.cmtNo}">
-				<i class="fas fa-ellipsis-h"></i>
+			<button class="cmtBtn">
+				<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}"></i>
 			</button>
         </div>
     </div>
@@ -212,7 +272,6 @@ function viewBoardAjax(board) {
 	$("#modalClose").click(() => {
 		$(".modal").removeClass("block");
 		$("#boxSize").html(``);
-		/*$("#boxSize").removeClass("imgWrap");*/
 	})
 }
 
@@ -242,7 +301,7 @@ function imgReSize({w, h}) {
     rightBox.style.height = boxSize.style.height;
     
     $(".comment").height(
-   		$("#rightBox").height()-$(".modalCont").height()-75
+   		$(".modalContWrap").height()-($(".modalCont").height()+18+51)
     )
 }
 

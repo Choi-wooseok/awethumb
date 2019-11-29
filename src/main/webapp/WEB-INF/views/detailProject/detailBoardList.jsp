@@ -98,13 +98,19 @@
             </div>
         </div>
     </div> 
+    
+    
+    <!-- Comment 수정 화면 만들어야됨 -->
+    <!-- 각 페이지 수정 클릭 시 수정할 수 있는 input 창이 생기며 -->
+    <!-- 수정 선택 시 글 수정, 취소 선택 시 이전으로 돌림 -->
+    <div class=""></div>
 
     <div class="modalInsertWrap">
         <form method="post" action="write.do">
             <div class="insertFormWrap">
                 <div class="insertTitle">
                    	 글 등록하기
-                    <button id="closeBtn" type="button">
+                    <button class="closeBtn" type="button">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -117,6 +123,15 @@
                 </div>
             </div>
         </form>
+    </div>
+    
+
+	<div class="optionModalWrap modalMini">
+        <div>
+            <div class="deleteCommentBoard">글 삭제</div>
+            <div class="updateCommentBoard">글 수정</div>
+            <div class="updatecancel">취소</div>
+        </div>
     </div>
     
     <div class="modal hidden">

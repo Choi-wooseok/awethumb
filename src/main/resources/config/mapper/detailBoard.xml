@@ -109,6 +109,12 @@
 			'${cmtContent}', ${userNo}, ${postNo}
 		)
 	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete
+		from comment_tb
+		where cmt_no = ${cmtNo}
+	</delete>
 </mapper>
 
 

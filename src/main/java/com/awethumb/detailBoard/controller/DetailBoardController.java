@@ -123,4 +123,11 @@ public class DetailBoardController {
 		comment.setUserNo(service.selectWriter(comment.getPostNo()).getUserNo());
 		service.insertComment(comment);
 	}
+	
+	@RequestMapping("deleteComment.do")
+	@ResponseBody
+	public void deleteComment(@RequestParam("cmtNo") int cmtNo) {
+		service.deleteComment(cmtNo);
+	}
+
 }

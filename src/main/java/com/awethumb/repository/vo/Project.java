@@ -37,4 +37,7 @@ public class Project {
     private int projectType;
     
     private MultipartFile projectFile;
+    
+    private int countPerPage = 9;
+	private int currentPageNo;
 }

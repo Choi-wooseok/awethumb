@@ -117,4 +117,18 @@
 		insert into project_file_tb(project_no, project_file_sys_name, project_file_org_name, project_file_path, project_file_size, project_file_exe)
 		values (#{projectNo}, #{projectFileSysName}, #{projectFileOrgName}, #{projectFilePath}, #{projectFileSize}, #{projectFileExe})
 	</insert>
+	
+	<select id="selectProjects" parameterType="Project" resultType="Project">
+		select *
+		  from project_tb
+		 where user_no = #{userNo}
+		   and project_type = #{projectType}
+		 LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	
+	<select id="selectProjectThumb" parameterType="int" resultType="ProjectFile">
+		select *
+		  from project_file_tb
+		 where project_no = #{projectNo}
+	</select>
 </mapper>

@@ -84,6 +84,19 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public void insertProj(Project p, ProjectFile pf) {
 		dao.insertProject(p);
-		dao.insertProjectFile(pf);
+		// 유저에게 썸네일을 입력 받았을 경우에만 파일을 입력
+		if(pf.getProjectFilePath() != null) {
+			dao.insertProjectFile(pf);
+		}
+	}
+
+	@Override
+	public List<Project> selectProjects(Project p) {
+		return dao.selectProjects(p);
+	}
+
+	@Override
+	public ProjectFile getProjectThumb(int projectNo) {
+		return dao.selectProjectThumb(projectNo);
 	}
 }

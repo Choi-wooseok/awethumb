@@ -170,30 +170,68 @@ public class ProfileController {
 	
 	@RequestMapping("/insertproj.do")
 	public String insertProj(Project p) throws IllegalStateException, IOException {
-		MultipartFile mf = p.getProjectFile();
 		ProjectFile pf = new ProjectFile();
 		
-		long size = mf.getSize(); // 파일 사이즈
-		String orgName = mf.getOriginalFilename(); // 파일 이름
-		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
-		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
-		
-		// 경로 설정
-		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
-		String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
-		
-		pf.setProjectFileSize(size);
-		pf.setProjectFileOrgName(orgName);
-		pf.setProjectFileExe(ext);
-		pf.setProjectFileSysName(sysName);
-		pf.setProjectFilePath(path);
+		MultipartFile mf = p.getProjectFile();
+		// 썸네일을 입력 받았을 경우
+		if(mf.getSize() != 0) {
+			long size = mf.getSize(); // 파일 사이즈
+			String orgName = mf.getOriginalFilename(); // 파일 이름
+			String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+			String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+			
+			// 경로 설정
+			SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
+			String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
+			
+			pf.setProjectFileSize(size);
+			pf.setProjectFileOrgName(orgName);
+			pf.setProjectFileExe(ext);
+			pf.setProjectFileSysName(sysName);
+			pf.setProjectFilePath(path);
+			
+			mf.transferTo(new File(path + sysName));
+			
+			Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
+		}
 		
 		service.insertProj(p, pf);
 		
-		mf.transferTo(new File(path + sysName));
-		
-		Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
-		
 		return "redirect:" + p.getUserNickname();
+	}
+	
+	@RequestMapping("/getprojects.do")
+	@ResponseBody
+	public List<Project> getProjects(Project p){
+		return service.selectProjects(p);
+	}
+	
+	@RequestMapping("/getprojectthumb.do")
+	@ResponseBody
+	public String getProjectThumb(int projectNo)  {
+		ProjectFile pf = service.getProjectThumb(projectNo);
+		// html에서 로컬 데이터로 바로 접근을 막아놨으니 여기서 직접 파일을 생성해 넘겨주는 수 밖에
+		String path = "";
+		// 파일이 없을 경우 디폴트 이미지를 설정해준다.
+		if (pf == null) path = "C:\\java\\upload\\project\\default-project-thumbnail-picture.jpg";
+		else path = pf.getProjectFilePath() + "thumbnail_" + pf.getProjectFileSysName();
+
+		String eString = "";
+		try{
+			
+			BufferedImage originalImage = ImageIO.read(new File(path));
+					
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write( originalImage, "jpg", baos );
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			Encoder encoder = Base64.getEncoder();
+			eString = encoder.encodeToString(imageInByte);
+			baos.close();
+					
+		}catch(IOException e){
+			System.out.println(e.getMessage());
+		}
+		return "data:image/jpg;base64," + eString;
 	}
 }

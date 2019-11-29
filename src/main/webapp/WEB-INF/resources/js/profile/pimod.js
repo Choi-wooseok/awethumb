@@ -48,7 +48,6 @@ function uploadProfileImgAjax(data){
 }
 //프로필 이미지를 갖고오는 ajax
 function getProfileImgAjax(){
-	console.log("in")
 	$.ajax({
 		url: "getprofileimg.do",
 		dataType: "text",

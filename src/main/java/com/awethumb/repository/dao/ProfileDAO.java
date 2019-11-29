@@ -44,4 +44,9 @@ public interface ProfileDAO {
 
 	public void insertProjectFile(ProjectFile pf);
 
+	public List<Project> selectProjects(Project p);
+
+	public ProjectFile selectProjectThumb(int projectNo);
+
+
 }

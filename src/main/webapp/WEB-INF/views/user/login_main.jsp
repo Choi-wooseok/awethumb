@@ -26,7 +26,8 @@
 	                <input type="text" name="userId" id="id" placeholder="username" />
 	                <input type="password" name="userPass" id="pass" placeholder="password" />
 	                <button>Login</button>
-	                <button>Google Login</button>
+	                <button type="button" id="googleOauthLogin">Google Login</button>
+	                <button type="button" id="naverOauthLogin">Naver Login</button>
 	<!-- 	            <button type="button">Google Login</button> -->
 	            </form>
 	            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
@@ -34,6 +35,8 @@
 	    </section>
 		<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
 		<script type="text/javascript">
+			let googleURL = "${google_url}";
+			let naverURL = "${naver_url}";
 			if ('${errCode}' == 1) {
 				Swal.fire({
 					  icon: 'error',

@@ -29,15 +29,25 @@ let chkUserId = false;
 let chkUserNickname = false;
 let passFlag = false;
 
+// 구글 로그인
+$("#googleOauthLogin").click(() => {
+	//location.href= pageContextURL + "/user/google/callback.do";
+	location.href = googleURL;
+});
+
+$("#naverOauthLogin").click(() => {
+	//location.href= pageContextURL + "/user/google/callback.do";
+	location.href = naverURL;
+});
 
 //let idPtn = /(^[a-zA-Z0-9]{4,12})+$/;
 let idPtn = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 let namePtn = /(^[가-힣]{2,6})+$/;
 let nicknamePtn = /(^[a-zA-Z0-9]{5,30})+$/;
 let passPtn = /(^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{10,20})+$/;
-
-
-
+/*
+/google/callback
+*/
 
 $("#modalOpen").click(() => {
 	$(".modal").css("display","block");
@@ -53,6 +63,9 @@ $("#userIdChk").click(() => {
 $("#userNicknameChk").click(() => {
 	chkUser('userNickname', $("#userNickname").val(), "이미 등록된 유저 닉네임 입니다.", "nickname");
 });
+
+
+
 // 아이디 80자 제한 처리 해야 함
 function chkUser(chkType, chkValue, validateMsg, chkIdNick) {
 	if (chkIdNick == "id") {

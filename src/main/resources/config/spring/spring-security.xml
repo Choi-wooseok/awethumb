@@ -15,7 +15,8 @@
 
 	<bean id="loginSuccessHandler" class="com.awethumb.security.LoginSuccessHandler" />	  
 	<bean id="loginFailureHandler" class="com.awethumb.security.LoginFailureHandler" />	  
-	
+	<bean id="userAuthProvider" class="com.awethumb.security.CustomAuthenticationProvider"/>
+
 	<bean id="myBatisUserDetailsService" class="com.awethumb.security.MyBatisUserDetailsService" />	  
 	<security:http> 
 		<security:csrf disabled="true" />
@@ -24,6 +25,7 @@
 <!-- 		<security:intercept-url pattern="/**" access="permitAll" /> -->
 		<security:form-login login-page="/user/login_main.do" username-parameter="userId" 
 							 password-parameter="userPass"  
+							 login-processing-url="/user/login.do"
 		                     authentication-success-handler-ref="loginSuccessHandler"
 		                     authentication-failure-handler-ref="loginFailureHandler" 
 		/>
@@ -36,8 +38,9 @@
 		/>
 	</security:http>					
 	<security:authentication-manager>
+		<security:authentication-provider ref="userAuthProvider" />
 		<security:authentication-provider user-service-ref="myBatisUserDetailsService">
-			<security:password-encoder ref="bcryptPasswordEncoder" />
+		<security:password-encoder ref="bcryptPasswordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

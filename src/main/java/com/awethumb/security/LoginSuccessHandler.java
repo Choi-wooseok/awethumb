@@ -26,9 +26,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess (
 			HttpServletRequest request, HttpServletResponse response, Authentication authentication) 
 					throws IOException, ServletException, AuthenticationException {
+		System.out.println("authentication : " + authentication.toString());
 		Collection<? extends GrantedAuthority> list = authentication.getAuthorities();
 		SecurityUser user = (SecurityUser) authentication.getPrincipal();
-		
+		System.out.println("여기로 넘어오나?" + user);
 		for (GrantedAuthority auth : list) {
 			if ("ROLE_A".equals(auth.getAuthority())) {
 				response.sendRedirect(request.getContextPath() + "/admin/adminMain.do");

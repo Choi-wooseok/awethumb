@@ -79,7 +79,7 @@
 	</bean>
 	
 	<bean id="naverRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://211.207.168.237:8000/awethumb/user/naver/callback.do" />
+		<constructor-arg value="http://localhost:8000/awethumb/user/naver/callback.do" />
 	</bean>
 	
 	<bean id="naverSns" class="com.awethumb.auth.SnsValue">

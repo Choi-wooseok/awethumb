@@ -21,13 +21,27 @@ $(document).ready(function() {
 		boxSize.style.height = maxSize + "px";
 		image.style.height = "100%";
 	}
-	$("#join2").css("display","none");
-	$("#join3").css("display","none");
+	if (user.userId != null) {
+		$("#join1").remove();
+		$("#activeSignup1").remove();
+		$("#activeSignup2 > a").text("추가정보 입력");
+		$("#join2 .thewar").last().after('<div class="aaa"><input type="nickname" name="userNickname" id="userNickname" class="inpt" required="required" placeholder="닉네임을 입력하세요"><button type="button" class="confirm" id="userNicknameChk">중복 확인</button><label for="nickname">Your nickname</label></div>');
+		$(".modal").css("display","block");
+		$("#join3").css("display","none");
+	}
+	else {
+		$("#join2").css("display","none");
+		$("#join3").css("display","none");
+	}
+	
+//	console.log("profile : " + profile);
 })
 
 let chkUserId = false;
 let chkUserNickname = false;
 let passFlag = false;
+
+
 
 // 구글 로그인
 $("#googleOauthLogin").click(() => {
@@ -180,6 +194,7 @@ function passChk() {
 
 $("#crForm").submit(() => {
 	let obj = document.fr;
+	if ($("#"))
     if(!(idPtn.test(obj.userId.value))) {
     	Swal.fire({
     		  icon: 'error',

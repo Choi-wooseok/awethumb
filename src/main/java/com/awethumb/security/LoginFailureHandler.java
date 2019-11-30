@@ -23,6 +23,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
+		System.out.println("실패....");
 		if("비밀번호가 맞지 않습니다.".equals(exception.getMessage())) {
 			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=1");
 			return;
@@ -32,7 +33,5 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		} 
 		response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=3");
 	}
-
-	
 
 }

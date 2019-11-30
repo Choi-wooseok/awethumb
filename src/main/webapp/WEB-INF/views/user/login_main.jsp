@@ -22,7 +22,7 @@
 	        <div class="indexBg"></div>
 	        <div class="login">
 	            <p class="title">AweThumb</p>
-	            <form method='post' action="<c:url value="/login" />" >
+	            <form method='post' action="<c:url value="/user/login.do" />" >
 	                <input type="text" name="userId" id="id" placeholder="username" />
 	                <input type="password" name="userPass" id="pass" placeholder="password" />
 	                <button>Login</button>
@@ -35,8 +35,13 @@
 	    </section>
 		<%@ include file="/WEB-INF/views/user/user_join.jsp"%>  
 		<script type="text/javascript">
+			
+			let user = JSON.parse('${user}');
 			let googleURL = "${google_url}";
 			let naverURL = "${naver_url}";
+			let profile = "${profile}";
+			console.log("profile : " + profile);
+			
 			if ('${errCode}' == 1) {
 				Swal.fire({
 					  icon: 'error',

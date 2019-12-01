@@ -26,7 +26,6 @@ public class MyBatisUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userId) {
 		UserVO user = dao.selectUser(userId);
-		System.out.println("ㅋㅋㅋㅋ");
 		List<SimpleGrantedAuthority> list = null;
 		try {
 			list = new ArrayList<>();

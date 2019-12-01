@@ -3,8 +3,6 @@ package com.awethumb.user.controller;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
@@ -27,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.InternalResourceView;
 
@@ -50,12 +44,8 @@ public class UserController {
 	private UserService service;
 	@Autowired
 	private CommonService commService;
-//	@Autowired
-//	private AuthenticationManager authenticationManager;
 	@Autowired
 	private CustomAuthenticationProvider customAuthenticationProvider;
-	@Inject
-	private AuthenticationSuccessHandler loginSuccessHandler;
 	@Inject
 	private SnsValue googleSns;
 	@Inject
@@ -67,18 +57,16 @@ public class UserController {
 	
 	@RequestMapping("/login_main.do")
 	public void loginMain(Model model, @ModelAttribute(value="user") UserVO user) throws JsonProcessingException {
-		/* naver URL 생성 */
 		model.addAttribute("categoryList", commService.selectCategoryList());
+		
+		/* naver URL 생성 */
 		SnsLogin snsLogin = new SnsLogin(naverSns);
 		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
-		
-		
-		System.out.println("user??" + user);
 		/* 구글code 발행 위한 URL 생성 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-//		System.out.println("googleUrl : " + url);
 		model.addAttribute("google_url", url);
+		// oauth 로그인 시
 		model.addAttribute("user", new ObjectMapper().writeValueAsString(user));
 	}
 	
@@ -86,9 +74,10 @@ public class UserController {
 	
 	// oauth 로그인 - 네이버, 구글
 	@RequestMapping(value = "/{service}/callback.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@RequestParam String code, @PathVariable String service, HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes attr) {
+	public String snsLoginCallback(@RequestParam String code, @PathVariable String service, HttpSession session, RedirectAttributes attr) {
 		SnsValue sns = null;
-		InternalResourceView aa = new InternalResourceView();
+		
+		String redirectURL = "redirect:/user/login_main.do";
 		if ("google".equals(service)) sns = googleSns;
 		else if ("naver".equals(service)) sns = naverSns;
 		SnsLogin snsLogin = new SnsLogin(sns);
@@ -98,7 +87,6 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("profile ? " + profile);
 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(profile.getUserId(), profile.getUserPass());
 		try {
 			Authentication auth = customAuthenticationProvider.authenticate(authRequest);
@@ -106,16 +94,20 @@ public class UserController {
 			SecurityContext securityContext = SecurityContextHolder.getContext();
 			securityContext.setAuthentication(auth);
 			session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-			loginSuccessHandler.onAuthenticationSuccess(request, response, auth);
+			redirectURL = "redirect:/feed/feed.do";
 			
 		} catch (Exception e) {
 			// 유저 정보가 없다면
 			if ("UserNotFound".equals(e.getMessage())) {
+				attr.addFlashAttribute("user", profile);
+			}
+			// 고유 id값 변경 시 - 처리??
+			else if ("UserPasswordChanged".equals(e.getMessage())) {
 				
 			}
+			
 		}
-		attr.addFlashAttribute("user", profile);
-		return "redirect:/user/login_main.do";
+		return redirectURL;
 		
 	}
 	
@@ -129,7 +121,6 @@ public class UserController {
 	@RequestMapping("/user_regist.do")
 	@ResponseBody
 	public int registUser(@RequestBody UserVO user) {
-		System.out.println("user : " + user);
 		return service.registUser(user);
 	}
 	

@@ -17,4 +17,5 @@ public class UserVO {
 	private int projectCnt;
 	private int followingCnt;
 	private int followerCnt;
+	private boolean oauth;
 }

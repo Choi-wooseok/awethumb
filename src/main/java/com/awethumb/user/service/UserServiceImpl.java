@@ -37,16 +37,21 @@ public class UserServiceImpl implements UserService {
 	public int registUser(UserVO user) {
 		int result = 0;
 		try {
-			
 			String rdmKey = CommUtil.randomKeyByPassword(); 
-			user.setUserEmailKey(rdmKey);
+			if (!user.isOauth()) {
+				user.setUserEmailKey(rdmKey);
+			} else {
+				user.setUserEmailKey("Y");
+			}
 			user.setUserPass(encoder.encode(user.getUserPass()));
 			result += dao.registUser(user);
 			Auth auth = new Auth();
 			auth.setUserId(user.getUserId());
 			auth.setAuthType("ROLE_U");
 			result += dao.registAuth(auth);
-			mailService.mailSendWithUserKey(user.getUserId(), user.getUserName(), rdmKey);
+			if (!user.isOauth()) {
+				mailService.mailSendWithUserKey(user.getUserId(), user.getUserName(), rdmKey);
+			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

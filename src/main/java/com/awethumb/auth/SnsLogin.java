@@ -45,7 +45,6 @@ public class SnsLogin {
 	
 	private UserVO parseJSON(String body) throws Exception {
 		UserVO user = new UserVO();
-		System.out.println("body : " + body);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(body);
 		if (this.sns.isGoogle()) {

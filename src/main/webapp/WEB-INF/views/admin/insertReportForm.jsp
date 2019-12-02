@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +10,12 @@
   <script src="lib/jquery/jquery.min.js"></script>
 </head>
 <body class="w3-container w3-auto" style="width:700px;">
+	<!-- 이걸 해줌으로써 su.userName이런식으로 현재 로그인한 사용자의 정보를 받아올수 있게 된다. -->
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="su"/>
+	</sec:authorize>
 	<div>
-		<form action="<c:url value='/admin/insertReport.do'/>" method="post" class="w3-panel w3-card-4">
+		<form action="<c:url value='/admin/insertReport.do'/>" method="post" name="submit-form" class="w3-panel w3-card-4" onsubmit='return submitForm();'>
 			<h2>신고하기</h2>
 			<div id="userId">신고대상 회원 아이디 : </div>
 			<div id="userNickName">신고대상 회원 닉네임 : </div>
@@ -25,9 +29,13 @@
 			    <option value="5">기타</option>
 			</select>
 			</div>
-			<input type="text" class="w3-input" placeholder="기타를 선택하신분은 사유를 적어주세요." id="reason">
+			<input type="text" class="w3-input" placeholder="기타를 선택하신분은 사유를 적어주세요." id="reason" name="reportReason">
+			<input type="hidden" name="reportUserNo" value="${su.userNo}">
+			<button id="report-button" >신고하기</button>
+			<br>
 		</form>
 	</div>
+	
 <script>
 	/* 기본 디스에이블드, 셀렉트변화시 기타일경우에 풀어주고, 다시 다른걸로 변하면 잠궈준다. */
 	$(function(){
@@ -48,7 +56,9 @@
 				url: "selectReportPost.do?postNo="+postNo,
 				dataType: "json",
 				success: function(result){
-					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>`)
+					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>
+									   <input type="hidden" name="userNo" value="\${result.user.userNo}">
+									   <input type="hidden" name="postNo" value="\${postNo}">`)
 					$("#userNickName").html(`<h3>신고대상 회원닉네임 : \${result.user.userNickname}</h3>`)
 				}
 			})
@@ -57,12 +67,14 @@
 				url: "selectReportPostAndComment.do?postNo="+postNo+"&commentNo="+commentNo,
 				dataType: "json",
 				success: function(result){
-					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>`)
+					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>
+									   <input type="hidden" name="userNo" value="\${result.user.userNo}">
+							   		   <input type="hidden" name="postNo" value="\${postNo}">
+							   		   <input type="hidden" name="commentNo" value="\${commentNo}">`)
 					$("#userNickName").html(`<h3>신고대상 회원닉네임 : \${result.user.userNickname}</h3>`)
 				}
 			})
 		}
-		
 	})
 	$('select[name="blockCode"]').on('change', () => {
 	if($('select[name="blockCode"]').val() == 5){
@@ -71,6 +83,24 @@
 		$("#reason").attr("disabled", true);
 	}
 	})
+	
+	function submitForm(){
+		if($("select[name=blockCode").val() == null){
+			alert("신고 사유를 입력해주세요.");
+			return false;
+		}
+		let confirm_report = confirm("허위 신고시 제제를 받으실 수 있습니다.");
+		if(confirm_report == true){
+			alert("신고가 완료되었습니다.");
+			return true;
+		}
+		else if(confirm_report == false){
+			return false;
+		}
+		
+	}
+	
+	
 </script>
 </body>
 </html>

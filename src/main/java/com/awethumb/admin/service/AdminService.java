@@ -31,6 +31,7 @@ public interface AdminService {
 	Comment selectOneCommentUsingNo(int commentNo);
 	UserVO selectOneUserUsingPostNo(int postNo);
 	UserVO selectOneUserUsingCommentNo(int commentNo);
+	void insertReport(Report report);
 	
 	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();

@@ -30,6 +30,7 @@ public interface AdminDAO {
 	Comment selectOneCommentUsingNo(int commentNo);
 	UserVO selectOneUserUsingPostNo(int postNo);
 	UserVO selectOneUserUsingCommentNo(int commentNo);
+	void insertReport(Report report);
 	
 	
 	/* 페이징 관련 */

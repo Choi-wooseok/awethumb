@@ -30,6 +30,9 @@ public class Report {
     // 신고 처리 상태
     private String reportStatus;
     
+    // 신고한 회원 번호
+    private int reportUserNo;
+    
 	/* 출력의 편의를 위해 만들어진 변수들 */
     
     // 유저 아이디

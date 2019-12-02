@@ -24,9 +24,6 @@ public class Project {
     // 프로젝트 공개 여부 
     private String projectPublicEnabled;
 
-    // 공유 유저 리스트 
-    private String sharedUserList;
-
     // 카테고리 번호 
     private int categoryNo;
     

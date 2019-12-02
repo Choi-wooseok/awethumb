@@ -13,65 +13,88 @@ let progressProjCnt = 0;
 let sharedProjCnt = 0;
 let savedProjCnt = 0;
 const projCountPerPage = 9;
-function getProjectsAjax(projectType, currentPageNo){
+
+function getProgressProjectsAjax(){
+	const projectType = 1;
 	$.ajax({
-		url: "getprojects.do",
+		url: "getprogressprojects.do",
 		dataType: "json",
 		data: {
 			userNo, 
 			projectType, 
-			currentPageNo
-		}
+			currentPageNo : progressProjCurrPageNo
+		},
+		success : list => { appendProjects(projectType, list); }
 	})
-	.done((list) => {
-		
-		let $cont = null;
-		// 불러온 프로젝트 목록에 따라 불러온 페이지수 추가
-		switch(projectType){
-		case 1: 
-			$cont = $(".progress-project-cont");
-			progressProjCurrPageNo += projCountPerPage;
-			progressProjCnt += list.length
-			break;
-		case 2: 
-			$cont = $(".shared-project-cont");
-			sharedProjCurrPageNo += projCountPerPage;
-			sharedProjCnt += list.length
-			break;
-		case 3: 
-			$cont = $(".saved-project-cont");
-			savedProjCurrPageNo += projCountPerPage;
-			savedProjCnt += list.length
-			break;
-		}
-		
-		for (let proj of list){
-			$cont.append(
-				`<div class="mpjlist">
-	                <div>
-	                    <div class="bg_gray">
-	                        <div>
-	                            <p>${proj.projectTitle}</p>
-	                            <span>
-	                                <i class="fas fa-project-diagram"></i>
-	                                20
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <img id="proj-${proj.projectNo}-thumb" alt="">
-	                </div>
-	            </div>`)
-            // 썸네일 가져오기
-            getProjectThumb(proj.projectNo);
-		}
-		
+}
+function getSharedProjectsAjax(){
+	const projectType = 2;
+	$.ajax({
+		url: "getsharedprojects.do",
+		dataType: "json",
+		data: {
+			userNo, 
+			projectType, 
+			currentPageNo : sharedProjCurrPageNo
+		},
+		success : list => { appendProjects(projectType, list); }
+	})
+}
+function getSavedProjectsAjax(){
+	const projectType = 3;
+	$.ajax({
+		url: "getsavedprojects.do",
+		dataType: "json",
+		data: {
+			userNo, 
+			currentPageNo : savedProjCurrPageNo
+		},
+		success : list => { appendProjects(projectType, list); }
 	})
 }
 
-// 최초 1회 실행
-getProjectsAjax(1, progressProjCurrPageNo);
-getProjectsAjax(2, sharedProjCurrPageNo);
-getProjectsAjax(3, savedProjCurrPageNo);
+function appendProjects(projectType, list){
+	let $cont = null;
+	// 불러온 프로젝트 목록에 따라 불러온 페이지수 추가
+	switch(projectType){
+	case 1: 
+		$cont = $(".progress-project-cont");
+		progressProjCurrPageNo += projCountPerPage;
+		progressProjCnt += list.length
+		break;
+	case 2: 
+		$cont = $(".shared-project-cont");
+		sharedProjCurrPageNo += projCountPerPage;
+		sharedProjCnt += list.length
+		break;
+	case 3: 
+		$cont = $(".saved-project-cont");
+		savedProjCurrPageNo += projCountPerPage;
+		savedProjCnt += list.length
+		break;
+	}
+	
+	for (let proj of list){
+		$cont.append(
+			`<div class="mpjlist">
+                <div>
+                    <div class="bg_gray">
+                        <div>
+                            <p>${proj.projectTitle}</p>
+                            <span>
+                                <i class="fas fa-project-diagram"></i>
+                                20
+                            </span>
+                        </div>
+                    </div>
+                    <img class="proj-${proj.projectNo}-thumb" alt="">
+                </div>
+            </div>`)
+        // 썸네일 가져오기
+        getProjectThumb(proj.projectNo);
+	}
+}
+
 
 // 프로젝트 썸네일을 가져오는 함수
 function getProjectThumb(projectNo) {
@@ -83,7 +106,7 @@ function getProjectThumb(projectNo) {
 		}
 	})
 	.done((data) => {
-		$(`#proj-${projectNo}-thumb`).attr("src", data)
+		$(`.proj-${projectNo}-thumb`).attr("src", data)
 	})
 }
 
@@ -92,18 +115,22 @@ $(window).scroll(function() {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
     	let projCurrPageNo = 0;
     	let projCnt = 0;
+    	let getProjectsAjax = null
     	switch(currentProjectType){
     	case 1: 
     		projCurrPageNo = progressProjCurrPageNo;
     		projCnt = progressProjCnt;
+    		getProjectsAjax = getProgressProjectsAjax;
     		break;
     	case 2: 
     		projCurrPageNo = sharedProjCurrPageNo;
     		projCnt = sharedProjCnt;
+    		getProjectsAjax = getSharedProjectsAjax;
     		break;
     	case 3: 
     		projCurrPageNo = savedProjCurrPageNo;
     		projCnt = savedProjCnt;
+    		getProjectsAjax = getSavedProjectsAjax;
     		break;
     	}
     	
@@ -112,7 +139,7 @@ $(window).scroll(function() {
     	// 고정되어 있는 높이를 변동해준다.
     	$(".slick-list").height("100%");
     	
-    	getProjectsAjax(currentProjectType, projCurrPageNo);
+    	getProjectsAjax();
     }
 });
 

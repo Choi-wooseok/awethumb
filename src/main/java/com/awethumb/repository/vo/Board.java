@@ -1,5 +1,6 @@
 package com.awethumb.repository.vo;
 
+import java.util.Date;
 import java.util.List;
 
 public class Board {
@@ -36,6 +37,16 @@ public class Board {
     // 글쓴
     private String writer;
     
+    // 작성 날짜
+    private Date regDate;
+    
+    public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
     
 	public List<BoardFile> getListFile() {
 		return listFile;

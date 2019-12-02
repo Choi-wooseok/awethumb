@@ -43,9 +43,9 @@
 <!-- 신고하기 -->
 <insert id="insertReport" parameterType="Report">
 	insert into report_tb (
-		block_code, post_no, user_no, cmt_no, report_content
+		block_code, post_no, user_no, cmt_no, report_content, report_user_no
 	) values (
-		#{blockCode}, #{postNo}, #{userNo}, #{cmtNo}, #{reportContent}
+		#{blockCode}, #{postNo}, #{userNo}, #{cmtNo}, #{reportContent}, #{reportUserNo}
 	)
 </insert>
 

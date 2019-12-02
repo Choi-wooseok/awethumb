@@ -374,7 +374,7 @@
     
 	$(document).on("click", "#insertReportForm", function(){
 			var newWindow = window.open("about:blank");
-			newWindow.location.href = "insertReportForm.do?postNo=23&commentNo=260";
+			newWindow.location.href = "insertReportForm.do?postNo=96&commentNo=282";
 		})
   </script>
 </body>

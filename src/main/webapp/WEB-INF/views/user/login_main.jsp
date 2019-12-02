@@ -63,6 +63,14 @@
 					  text: '<spring:message code="userlogin.fail" />'
 				})
 			}
+			
+			else if ('${errCode}' == 4) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.oauth.fail" />'
+				})
+			}
 		</script> 
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
 	</div>

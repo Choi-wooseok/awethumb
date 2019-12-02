@@ -125,6 +125,11 @@ public class AdminServiceImpl implements AdminService{
 	public UserVO selectOneUserUsingCommentNo(int commentNo) {
 		return dao.selectOneUserUsingCommentNo(commentNo);
 	}
+
+	@Override
+	public void insertReport(Report report) {
+		dao.insertReport(report);
+	}
 	
 	
 	

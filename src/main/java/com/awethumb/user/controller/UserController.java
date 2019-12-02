@@ -61,7 +61,12 @@ public class UserController {
 		
 		/* naver URL 생성 */
 		SnsLogin snsLogin = new SnsLogin(naverSns);
-		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+		if ("4".equals(model.getAttribute("errCode"))) {
+			String naverURL = snsLogin.getNaverAuthURL().replace("scope=profile", "") + "auth_type=reprompt"; 
+			model.addAttribute("naver_url", naverURL);
+		} else {
+			model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+		}
 		/* 구글code 발행 위한 URL 생성 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
@@ -84,6 +89,9 @@ public class UserController {
 		UserVO profile = null;
 		try {
 			profile = snsLogin.getUserProfile(code);
+			if (profile == null) {
+				attr.addFlashAttribute("errCode", "4");
+				return redirectURL;			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

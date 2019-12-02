@@ -91,12 +91,27 @@ public class ProfileServiceImpl implements ProfileService{
 	}
 
 	@Override
-	public List<Project> selectProjects(Project p) {
-		return dao.selectProjects(p);
+	public ProjectFile getProjectThumb(int projectNo) {
+		return dao.selectProjectThumb(projectNo);
 	}
 
 	@Override
-	public ProjectFile getProjectThumb(int projectNo) {
-		return dao.selectProjectThumb(projectNo);
+	public List<Project> selectProgressProjects(Project p) {
+		return dao.selectProgressProjects(p);
+	}
+
+	@Override
+	public List<Project> selectSharedProjects(Project p) {
+		return dao.selectSharedProjects(p);
+	}
+
+	@Override
+	public List<Project> selectSavedProjects(Project p) {
+		return dao.selectSavedProjects(p);
+	}
+
+	@Override
+	public int selectProjectCount(int userNo) {
+		return dao.selectProjectCount(userNo);
 	}
 }

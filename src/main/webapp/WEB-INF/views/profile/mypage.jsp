@@ -56,7 +56,7 @@
                         <div>
                             <span>
                             	Project
-                                <span class="cnt">23</span>
+                                <span class="cnt">${projectCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
@@ -300,5 +300,7 @@
 	<!-- 팔로잉 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/followmod.js"></script>
 	
+	<!-- init 함수 -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/init.js"></script>
 </body>
 </html>

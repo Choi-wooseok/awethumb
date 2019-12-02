@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -21,4 +23,7 @@ public class SavedBoard {
 
     // 세로 
     private int hight;
+    
+    // 저장된 날짜
+    private Date savedDate;
 }

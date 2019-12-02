@@ -44,6 +44,7 @@ public class SnsLogin {
 	}
 	
 	private UserVO parseJSON(String body) throws Exception {
+		System.out.println("body : " + body);
 		UserVO user = new UserVO();
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(body);
@@ -63,6 +64,9 @@ public class SnsLogin {
 			}
 		} else if (this.sns.isNaver()) {
 			JsonNode resNode = rootNode.get("response");
+			if (resNode.get("email") == null || resNode.get("name") == null) {
+				return null;
+			}
 			user.setUserPass(resNode.get("id").asText());
 			user.setUserId(resNode.get("email").asText());
 			user.setUserName(URLDecoder.decode(resNode.get("name").asText(), "UTF-8"));

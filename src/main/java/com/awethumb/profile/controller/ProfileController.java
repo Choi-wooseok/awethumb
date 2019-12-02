@@ -47,7 +47,9 @@ public class ProfileController {
 	public ModelAndView mypage(@PathVariable String userNickname, Principal p) {
 		ModelAndView mav = new ModelAndView();
 		UserVO user = service.selectOneUser(userNickname);
+		// 해당 유저가 없으면 404 페이지로 이동시킨다.
 		
+		mav.addObject("projectCnt", service.selectProjectCount(user.getUserNo()));
 		mav.addObject("u", user);
 		
 		try {
@@ -200,10 +202,22 @@ public class ProfileController {
 		return "redirect:" + p.getUserNickname();
 	}
 	
-	@RequestMapping("/getprojects.do")
+	@RequestMapping("/getprogressprojects.do")
 	@ResponseBody
-	public List<Project> getProjects(Project p){
-		return service.selectProjects(p);
+	public List<Project> getProgressProjects(Project p){
+		return service.selectProgressProjects(p);
+	}
+
+	@RequestMapping("/getsharedprojects.do")
+	@ResponseBody
+	public List<Project> getSharedProjects(Project p){
+		return service.selectSharedProjects(p);
+	}
+
+	@RequestMapping("/getsavedprojects.do")
+	@ResponseBody
+	public List<Project> getSavedProjects(Project p){
+		return service.selectSavedProjects(p);
 	}
 	
 	@RequestMapping("/getprojectthumb.do")

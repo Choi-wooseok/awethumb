@@ -25,6 +25,9 @@ public interface ProfileService {
 	public void updateUserFile(UserFile uf);
 	public UserFile getProfileImg(int userNo);
 	public void insertProj(Project p, ProjectFile pf);
-	public List<Project> selectProjects(Project p);
 	public ProjectFile getProjectThumb(int projectNo);
+	public List<Project> selectProgressProjects(Project p);
+	public List<Project> selectSharedProjects(Project p);
+	public List<Project> selectSavedProjects(Project p);
+	public int selectProjectCount(int userNo);
 }

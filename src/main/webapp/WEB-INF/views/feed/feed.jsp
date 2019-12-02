@@ -34,7 +34,7 @@
 							</button>
 						</div>
 					</div>
-					<c:if test="${aa eq 2}">
+					<c:if test="${aa eq 1}">
 					<div id="feedImgWrap">
 						<img id="feedImg" src="./../images/test_img1.jpg" alt="">
 						<div class="hoverWrap">
@@ -59,12 +59,16 @@
 						<div id="commentList">
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
-						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do">
-							<div class="insertComment insertComment2">
+<%-- 						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do"> --%>
+<!-- 							<div class="insertComment insertComment2"> -->
+<%-- 								<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" /> --%>
+<!-- 								<button id="commentInsertBtn">등록</button> -->
+<!-- 							</div> -->
+<!-- 						</form> -->
+							<div class="insertComment">
 								<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" />
-								<button id="commentInsertBtn">등록</button>
+								<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
 							</div>
-						</form>
 					</div>
 					<!--  modal -->
 					<!-- boardModal -->
@@ -81,11 +85,18 @@
 							<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div>
 						</div>
 					</div>
-					<!-- commentModal -->
-<%-- 					<div id="commentBoardAjax${bl.postNo}"></div> --%>
+				    
 				</div>
 				</c:forEach>
 			</div>
+				<!-- commentModal -->
+				<div class="optionModalWrap commentboardmodal">
+			        <div>
+			            <div class="delete">글 삭제</div>
+			            <div class="modify">글 수정</div>
+			            <div class="updatecancel">취소</div>
+			        </div>
+			    </div>
 			
 			<div class="feedSide">
 				<div>최신 글 등록</div>

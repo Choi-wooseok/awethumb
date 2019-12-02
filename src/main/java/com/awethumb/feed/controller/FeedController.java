@@ -24,7 +24,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		model.addAttribute("boardlist", service.selectFeedBoard());
 		int aa = 2; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
-		
 		model.addAttribute("cmtno", service.selectCommentNo() ); //댓글번호받기
 	}
 	
@@ -32,52 +31,19 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
 	public List<Comment> selectComment(int postNo){
-		List<Comment> comList = new ArrayList<>();
-		List<Integer> cmtno = service.selectCmtNo(postNo);
-		for(int a : cmtno) {
-			Comment cm = service.selectOneComment(a);
-			int cmtReg = service.commentTime(a);
-			// 날짜계산
-			int mi, ho, day, week ,month, year ;
-		
-			if(cmtReg < 60 ) {
-				mi = cmtReg;
-				cm.setCmtRegDt(Integer.toString(mi) + "분 전");
-			}
-			else if(cmtReg > 60 && cmtReg < 3600) {
-				ho = cmtReg / 60;
-				cm.setCmtRegDt(Integer.toString(ho) + "시간 전");
-			}
-			else if (cmtReg > 1440) {
-				day = cmtReg / 1440;
-				cm.setCmtRegDt(Integer.toString(day) + "일 전");
-			}
-			else if (cmtReg > 10080) {
-				week = cmtReg / 10080;
-				cm.setCmtRegDt(Integer.toString(week) + "주 전");
-			}
-			else if (cmtReg > 40320) {
-				month = cmtReg / 40320;
-				cm.setCmtRegDt(Integer.toString(month) + "달 전");
-			}
-			else if (cmtReg > 525600 ) {
-				year = cmtReg / 525600;
-				cm.setCmtRegDt(Integer.toString(year) + "년 전");
-			}
-			comList.add(cm);
-		}
-		
-		return comList;
+		return service.selectFeedBoardComment(postNo);
 	}
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
 	public List<Comment> commentInsert(@RequestBody Comment comment){
-		System.out.println("댓글등록" + comment.getCmtContent());
+		System.out.println("댓글등록 : " + comment.getCmtContent());
 		return service.insertBoardComment(comment);
 	}
 	@RequestMapping("/boardCommentDelete.do")
 	@ResponseBody
 	public List<Comment> commentDelete(Comment comment) {
+		System.out.println("번호 : " + comment.getCmtNo());
+		System.out.println("글번호 : " + comment.getPostNo());
 		System.out.println("댓삭제");
 		return  service.deleteBoardComment(comment);
 	}

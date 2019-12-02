@@ -1,5 +1,6 @@
 package com.awethumb.feed.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +21,64 @@ public class FeedServiceImpl implements FeedService {
 	
 	// 댓글
 	public List<Comment> selectFeedBoardComment(int postNo){
-		return dao.selectFeedBoardComment(postNo);
+		return CommentTime(postNo);
 	}
 	public List<Comment> insertBoardComment(Comment comment){
 		dao.insertBoardComment(comment);
-		return dao.selectFeedBoardComment(comment.getPostNo());
+		return CommentTime(comment.getPostNo());
 	}
 	public List<Comment> deleteBoardComment(Comment comment){
 		dao.deleteBoardComment(comment.getCmtNo());
-		System.out.println("postNo : " + comment.getPostNo());
-		return dao.selectFeedBoardComment(comment.getPostNo());
+		return CommentTime(comment.getPostNo());
 	}
 	public List<Comment> updateBoardComment(Comment comment) {
 		dao.updateBoardComment(comment);
-		return dao.selectFeedBoardComment(comment.getPostNo());
-	}
-	public List<Integer> selectCmtNo(int postNo){
-		return dao.selectCmtNo(postNo);
-	}
-	public int commentTime(int cmtNo) {
-		return dao.commentTime(cmtNo);
-	}
-	public Comment selectOneComment(int cmtNo) {
-		return dao.selectOneComment(cmtNo);
+		return CommentTime(comment.getPostNo());
 	}
 	public List<Integer> selectCommentNo(){
 		return dao.selectCommentNo();
 	}
+	
+	// 댓글 시간대 모듈 메소드
+	public List<Comment> CommentTime(int postNo){
+		List<Comment> comList = new ArrayList<>();
+		List<Integer> cmtno = dao.selectCmtNo(postNo);
+		for(int a : cmtno) {
+			Comment cm = dao.selectOneComment(a);
+			int cmtReg = dao.commentTime(a);
+			// 날짜계산
+			int mi, ho, day, week ,month, year ;
+		
+			if(cmtReg < 60 ) {
+				mi = cmtReg;
+				cm.setCmtRegDt(Integer.toString(mi) + "분 전");
+			}
+			else if(cmtReg > 60 && cmtReg < 3600) {
+				ho = cmtReg / 60;
+				cm.setCmtRegDt(Integer.toString(ho) + "시간 전");
+			}
+			else if (cmtReg > 1440) {
+				day = cmtReg / 1440;
+				cm.setCmtRegDt(Integer.toString(day) + "일 전");
+			}
+			else if (cmtReg > 10080) {
+				week = cmtReg / 10080;
+				cm.setCmtRegDt(Integer.toString(week) + "주 전");
+			}
+			else if (cmtReg > 40320) {
+				month = cmtReg / 40320;
+				cm.setCmtRegDt(Integer.toString(month) + "달 전");
+			}
+			else if (cmtReg > 525600 ) {
+				year = cmtReg / 525600;
+				cm.setCmtRegDt(Integer.toString(year) + "년 전");
+			}
+			comList.add(cm);
+		}
+		return comList;
+	}
+	
+	
 }
 
 

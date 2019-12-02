@@ -47,7 +47,7 @@
 				    FROM comment_tb
 				   WHERE cmt_no = ${cmtNo}),
 				   NOW()
-				);
+				)
 	</select>
 	
 	
@@ -56,7 +56,7 @@
 		cmt_content, user_no, post_no
 		)values( 
 		#{cmtContent}, #{userNo}, #{postNo}
-		);
+		)
 	</insert>
 	
 	<delete id="deleteBoardComment" parameterType="int">

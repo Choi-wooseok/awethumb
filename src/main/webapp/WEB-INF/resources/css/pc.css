@@ -1018,14 +1018,14 @@ section#feed {
 .feedUserName > span {
 	float: right !important;
 }
-#commentModal {
+.commentModal {
 	position: absolute;
 	bottom: 5px;
 	right: 5px;
 }
 .board,
 .cmtModalDetail,
-.commentboard {
+.commentboardmodal {
 	display: none;
 	position: fixed;
  	z-index: 100;
@@ -1046,10 +1046,10 @@ section#feed {
 	width: 360px;
 	border-radius: 4px;
 }
-#commentModal{  
+.commentModal{  
  	display:none;  
 } 
-#commentList:hover #commentModal{  
+#commentList:hover .commentModal{  
 	display:block; 
 	border: none;
 	background-color: transparent; 

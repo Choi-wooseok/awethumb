@@ -1,45 +1,63 @@
 let loginUserNo = $(".loginUserNo").val();
-	let postNo = document.querySelectorAll(".postNo");
+let postNo = document.querySelectorAll(".postNo");
+// 댓글등록
+$(".commentInsertBtn").on("click", (e) => {
+	let postNumber = $(e.target).data("postnumber");
+	let commentWriter = $(".commentWriter" + postNumber).val();
+	console.log("qwe : " + postNumber);
+	console.log("qwe : " + commentWriter);
+	$.ajax({
+		url: "boardCommentInsert.do",
+		contentType : "application/json", 
+		method:"POST",
+		data: JSON.stringify({
+			postNo: postNumber,
+			cmtContent: commentWriter,
+			userNo : loginUserNo
+		}),
+		dataType: "json",
+		success: list =>  boardCommentListAjax(list)
+		
+	});
+	$(".commentWriter"+ postNumber).val("");
+});
+
+$(".commentboardmodal").on("click", ".delete", (e) => {
+	let cmtNo = $(".commentboardmodal").data("cmtno");
+	let postNumber = $(e.target).data("postnumber");
+	$.ajax({
+		url: "boardCommentDelete.do",
+		data: {
+			cmtNo: cmtNo,
+			postNo: postNumber
+			},
+		dateType:"json",
+		success: (list) => boardCommentListAjax(list)
+	});
+});
 	for (let a of postNo){
-		let postnum = a.value; // 게시글번호받기 걷기
+		let postnum = a.value; // 게시글 번호받기 걷기
 		$(function () {
-			// 등록
-			$("#insertComment" + postnum).submit(() => {
-				$.ajax({
-					url: "boardCommentInsert.do",
-					contentType : "application/json", 
-					method:"POST",
-					data: JSON.stringify({
-						postNo: postnum,
-						cmtContent: $(".commentWriter"+ postnum).val(),
-						userNo : loginUserNo
-					}),
-					dataType: "json",
-					success: list => boardCommentListAjax(list)
-				});
-				$(".commentWriter"+ postnum).val("");
-				return false;
-			});
 			// 삭제
-			$("#boardCommentList" + postnum).on("click", "button.delete", (e) => {
-				$(".updateText").css("display","none");
-				$.ajax({
-					url: "boardCommentDelete.do",
-					data: {
-						cmtNo: $(e.target).data("no"),
-						postNo: postnum
-						},
-					dateType:"json",
-					success: (list) => boardCommentListAjax(list)
-				});
-			});
+//			$(".commentboardmodal").on("click", ".delete", (e) => {
+//				let cmtNo = $(".commentboardmodal").data("cmtno");
+//				$.ajax({
+//					url: "boardCommentDelete.do",
+//					data: {
+//						cmtNo: cmtNo,
+//						postNo: postnum
+//						},
+//					dateType:"json",
+//					success: (list) => boardCommentListAjax(list)
+//				});
+//			});
 			// 수정취소
 			$("#boardCommentList" + postnum).on("click", "button.cancel", (e) => {
 				$("#updateText").css("display","none");
 			});
 			// 댓글 수정
 			$("#boardCommentList" + postnum).on("click", "button.update", (e) => {
-				let cmtNo = $(e.target).data("no");
+				let cmtNo = $(e.target).data("cmtNo");
 				let cmtCon = $(e.target).data("content");
 				$.ajax({
 					url: "boardCommentUpdate.do",
@@ -54,16 +72,15 @@ let loginUserNo = $(".loginUserNo").val();
 				});
 				
 			});
-			$("#boardCommentList" + postnum).on("click", "button.modify", (e) => {
-				$(".commentboard").css("display","none");
-				let cmtNo = $(e.target).data("no");
-				let cmtCon = $(e.target).data("context");
+			$(".commentboardmodal").on("click", ".modify", (e) => {
+				let cmtNo = $(e.target).data("cmtNo");
+				let cmtCon = $(e.target).data("cmtComment");
 				$("#commentWrap" +  cmtNo).append(
 						`<div id="updateText" class="updateText">
 							<input type="text" id="contentUpdate" value="${cmtCon}"/>
 							<div>
-								<button class="update" data-no=${cmtNo}>수정</button>
-								<button class="cancel" data-no=${cmtNo}>취소</button>
+								<button class="update" data-cmtNo=${cmtNo}>수정</button>
+								<button class="cancel" data-cmtNo=${cmtNo}>취소</button>
 							</div>
 						</div>`
 				);
@@ -94,31 +111,12 @@ let loginUserNo = $(".loginUserNo").val();
 									댓글유저번호 : ${c.userNo}
 									로그인 유저번호: ${loginUserNo}
 									댓글번호 : ${c.cmtNo}
-									<button type="button" id="commentModal"
-									 class="commentModal${c.cmtNo}"
-									 data-commentNo="${c.cmtNo}">
+									<button type="button" data-btn="modal1" id="commentModal${c.cmtNo}"
+									 class="commentModal"
+									 data-commentNo="${c.cmtNo}"
+									 data-commentConetext="${c.cmtContext}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
-								</div>
-							</div>
-							<div id="modalComment${c.cmtNo}" class="commentboard">
-								<div class="comment-modal">
-									<div>
-										<button
-										data-no="${c.cmtNo}"
-										data-context="${c.cmtContent}"
-										class="modify">
-										수정 - 댓글번호 :  ${c.cmtNo} 
-										</button>
-									</div>
-									<div>
-										<button
-										 data-no="${c.cmtNo}"
-										 class="delete"> 
-										삭제  - 댓글번호 :  ${c.cmtNo}
-										</button>	
-									</div>
-									<div class="commentModalClose">취 소</div>
 								</div>
 							</div>`
 						);
@@ -151,34 +149,30 @@ let loginUserNo = $(".loginUserNo").val();
 		$(".boardClose" + postnum).click(() => {
 		    $("#modalBoard" + postnum).css("display","none");
 		});
-		let cno = document.querySelectorAll(".commentNo");
-		for (let cn of cno){
-			let cmtNo = cn.value;
-			$(document).on( "click",".commentModal" + cmtNo, (e) => {
-				let abc = $(e.target).parent("button").data("commentno");
-				if(cmtNo == abc){
-					$("#modalComment" + abc).css("display","block");
-					$(document).on("click",".commentModalClose", () => {
-						$("#modalComment" + abc).css("display","none");
-					});
-				} // if
-			});
-		} // for
-//		function divreload(postNo){
-//		      $("#commentInsertBtn").click(() => {
-//		    	  alert("클릭댐");
-//		    	  window.location.href + ("#commentList")
-//		      });
-//		      alert("새로고침함");
-//		}
-//		function refresh(href) {
-//			jQuery('#commentList').load(href);
-////			alert("새로고침함");
-//			}
+		
 	} //for
 
+	
+	
 
-
+// click 이벤트
+$(document).on( "click",".commentModal", (e) => {
+//	$(".commentModalmini").addClass("block");
+	$(".commentboardmodal").attr("data-cmtNo", $(e.target).data("commentno"));
+	$(".commentboardmodal").attr("data-cmtComment", $(e.target).data("commentconetext"));
+	let obj = e.target
+	if (obj.nodeName == "I") {
+		obj = obj.parentNode;
+	}
+	let comnum = $(obj).data("commentno");
+	$(".commentboardmodal").css("display","block");
+	$(document).on("click",".commentModalClose", () => {
+		$(".commentboardmodal").css("display","none");
+	});
+});
+$(document).on("click", ".updatecancel", (e) => {
+	$(".commentboardmodal").css("display","none");
+})
 
 
 

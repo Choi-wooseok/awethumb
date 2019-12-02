@@ -11,9 +11,6 @@ public interface FeedService {
 	List<Comment> insertBoardComment(Comment comment);
 	List<Comment> deleteBoardComment(Comment comment);
 	List<Comment> updateBoardComment(Comment comment);
-	List<Integer> selectCmtNo(int postNo);
-	int commentTime(int cmtNo);
-	Comment selectOneComment(int cmtNo);
 	List<Integer> selectCommentNo();
 
 

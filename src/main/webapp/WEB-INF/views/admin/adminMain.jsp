@@ -310,6 +310,7 @@
   <!--script for this page-->
   <script src="lib/sparkline-chart.js"></script>
   <script src="lib/zabuto_calendar.js"></script>
+  <script src="<c:url value='/js/insertReport.js' />"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       var unique_id = $.gritter.add({
@@ -372,11 +373,12 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
     
-	$(document).on("click", "#insertReportForm", function(){
-			var newWindow = window.open("about:blank");
-			newWindow.location.href = "insertReportForm.do?postNo=96&commentNo=282";
-		})
+	//insertReport는 대상 신고버튼 id, postNo, commentNo만 있으면 작동한다.
+	$(function(){
+		insertReport('insertReportForm', 96, 282);
+	})
   </script>
+  
 </body>
 
 </html>

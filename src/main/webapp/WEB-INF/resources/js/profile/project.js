@@ -3,7 +3,6 @@ $('.myprojectSlide').slick({
     slidesToShow: 1,
     slidesToScroll: 1
 });
-
 let currentProjectType = 1;
 
 let progressProjCurrPageNo = 0;
@@ -14,6 +13,7 @@ let sharedProjCnt = 0;
 let savedProjCnt = 0;
 const projCountPerPage = 9;
 
+// 각각의 프로젝트를 가져오는 ajax
 function getProgressProjectsAjax(){
 	const projectType = 1;
 	$.ajax({
@@ -53,6 +53,7 @@ function getSavedProjectsAjax(){
 	})
 }
 
+// ajax로 불러온 데이터를 html에 append
 function appendProjects(projectType, list){
 	let $cont = null;
 	// 불러온 프로젝트 목록에 따라 불러온 페이지수 추가
@@ -79,12 +80,8 @@ function appendProjects(projectType, list){
 			`<div class="mpjlist">
                 <div>
                     <div class="bg_gray">
-                        <div>
+                        <div class="proj-thumb-cont" href="${contextPath}/detailProject/${proj.projectNo}">
                             <p>${proj.projectTitle}</p>
-                            <span>
-                                <i class="fas fa-project-diagram"></i>
-                                20
-                            </span>
                         </div>
                     </div>
                     <img class="proj-${proj.projectNo}-thumb" alt="">
@@ -94,7 +91,10 @@ function appendProjects(projectType, list){
         getProjectThumb(proj.projectNo);
 	}
 }
-
+// 링크 이동 시키는 함수
+$(document).on("click", ".proj-thumb-cont", (e) => {
+	location.href = $(e.target).attr("href")
+})
 
 // 프로젝트 썸네일을 가져오는 함수
 function getProjectThumb(projectNo) {

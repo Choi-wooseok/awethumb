@@ -45,7 +45,7 @@
                         <div>
                             <span>
                             	Project
-                                <span class="cnt">23</span>
+                                <span class="cnt">${projectCnt}</span>
                             </span>
                             <div class="line"></div>
                             <span>
@@ -77,45 +77,44 @@
     <div class="myprojectWrap">
         <div class="myprojectSlide">
                 
-            <div class="myprojectContWrap">
-                <!-- Ajax -->
-                <!-- 슬라이드 버튼 누를 시 해당 글자로 변경 -->
+            <div class="myprojectContWrap" id="slide-0">
                 <div class="mpjinfo">
                     <span>Progress Project</span>
-                    <!-- <span>Shared Project</span> -->
-                    <!-- <span>Saved Project</span> -->
-                </div>
-                <p>진행중인 프로젝트</p>
-                <div class="mpjcont">
-                    <div class="mpjlist">
-                        <div>
-                            <div class="bg_gray">
-                                <div>
-                                    <p>Project Name</p>
-                                    <span>
-                                        <i class="fas fa-project-diagram"></i>
-                                        20
-                                    </span>
-                                </div>
-                            </div>
-                            <img src="./../images/test_img1.jpg" alt="">
-                        </div>
+                    <div class="add_proj">
+                        <div>추가</div>
+                        <i class="fas fa-plus proj_mod_btn" data-proj-type="1"></i>
                     </div>
                 </div>
+                <p>진행중인 프로젝트</p>
+                <div class="mpjcont progress-project-cont">
+                    
+                </div>
             </div>
 
-            <div class="myprojectContWrap">
+            <div class="myprojectContWrap" id="slide-1">
                 <div class="mpjinfo">
                     <span>Shared Project</span>
+                    <div class="add_proj ">
+                        <div>추가</div>
+                        <i class="fas fa-plus proj_mod_btn" data-proj-type="2"></i>
+                    </div>
                 </div>
                 <p>공유중인 프로젝트</p>
+                <div class="mpjcont shared-project-cont">
+                </div>
             </div>
 
-            <div class="myprojectContWrap">
+            <div class="myprojectContWrap" id="slide-2">
                 <div class="mpjinfo">
                     <span>Saved Project</span>
+                    <div class="add_proj" >
+                        <div>추가</div>
+                        <i class="fas fa-plus  proj_mod_btn" data-proj-type="3"></i>
+                    </div>
                 </div>
                 <p>저장한 프로젝트</p>
+                <div class="mpjcont saved-project-cont">
+                </div>
             </div>
         </div>
     </div>
@@ -159,15 +158,6 @@
         </div>
     </div>
 
-
-
-    <!-- 슬라이드 -->
-    <script>
-        $('.myprojectSlide').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-        });
-    </script>
     <!-- 변수들 -->
     <script>
 	    let follwerCnt = ${u.followerCnt};
@@ -237,9 +227,14 @@
     	})
     </script>
     
+    <!-- 프로젝트 불러오는 스크립트 -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/project.js"></script>
       
     <!-- 팔로잉 모달 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/followmod.js"></script>
+    
+    <!-- init 함수 -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/init.js"></script>
 
 </body>
 </html>

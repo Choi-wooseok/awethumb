@@ -283,6 +283,7 @@
     	const cList = "${u.categoryList}";
     	const userNo = ${u.userNo};
     	const subUserNo = ${su.userNo};
+    	const contextPath = '<%=request.getContextPath()%>'
     </script>
     
     <!-- 프로젝트 불러오는 스크립트 -->

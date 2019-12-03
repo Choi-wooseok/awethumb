@@ -914,6 +914,8 @@ section#feed {
     text-align: center;
 }
 .feedPlay {
+	box-sizing: border-box;
+	padding-bottom: 51px;
     background-color: #fff;
 }
 .feedPlay > div:first-child {

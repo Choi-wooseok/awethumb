@@ -36,7 +36,7 @@
                     </button>
                 </div>
                 <div class="layout_right">
-                    <button id="posUpdateBtn" type="button">
+                    <button id="posUpdateBtn" data-pjtNo="${projectNo}" type="button">
                        	수정완료
                     </button>
                 </div>
@@ -73,7 +73,7 @@
 
         <div class="optionModalWrap optionU">
 	        <div>
-	            <div class="deleteBoard"></div>
+	            <div class="deleteBoard">글 삭제</div>
 	            <div class="updateBoard">글 수정</div>
 	            <div class="updatecancel">취소</div>
 	        </div>

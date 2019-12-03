@@ -1,7 +1,6 @@
 $(document).ready(function() {
-	
 	$.ajax({
-    	data: {pjtNo : 1},
+    	data: {pjtNo : $("#updateBtn").data("pjtno")},
     	type: "post",
     	url: 'selectProjectName.do',
     	success: (project) => {
@@ -70,6 +69,10 @@ $(".grid-stack-item").resize((e) => {
 // 등록 버튼 클릭 시 모달창 생성
 $("#insertBtn").click(() => {
 	$(".modalInsertWrap").addClass("block");
+	let pjtNo = $("#insertBtn").data("pjtno");
+	$(".inpjtNo").html(`
+		<input type="hidden" name="projectNo" value="${pjtNo}" />
+	`)
 })
 // x버튼 클릭 시 모달창 제거
 $(".closeBtn").click(() => {
@@ -96,7 +99,8 @@ $(".cancel").click(() => {
 
 // 수정아이콘 클릭 시 수정화면으로 이동
 $("#updateBtn").click(() => {
-	location.href='/awethumb/detailProject/updateListForm.do';
+	let projectNo = $("#updateBtn").data("pjtno");
+	location.href=`/awethumb/detailProject/updateListForm.do?projectNo=${projectNo}`;
 })
 
 // 인스타 버튼 클릭시 DetailBoard 모달창 생성
@@ -165,23 +169,58 @@ $(document).on("click", ".deleteCommentBoard", (e) => {
 
 // 댓글 수정 버튼 클릭 시
 $(document).on("click", ".updateCommentBoard", (e) => {
-	$(".updateCommentWrap").addClass("block");
 	$(".modalMini").removeClass("block");
-	
-	
-//	let cmtNo = $(".modalMini").data("cmtno");
-//	$.ajax({
-//		url: "deleteComment.do",
-//		data: {cmtNo : cmtNo},
-//		success: () => {
-//			let postNo = $(".modalMini").data("postno");
-//			commentListViewAjax(postNo);
-//			$(".modalMini").removeData("cmtno")
-//		}
-//	})
+	let cmtNo = $(".modalMini").data("cmtno");
+	$(".modal").addClass("block");
+	let cmtSel = $("#cmt"+cmtNo);
+	cmtSel.addClass("block");
+	cmtSel.html(`
+		<input class="upCmtCont" name="cmtCont" type="text">
+		<button class="upCmtBtn" data-cmtNo="${cmtNo}">수정</button>
+		<button class="cancelCmtBtn">취소</button>
+	`);
 });
 
+// 취소 클릭 시 수정입력창 제거
+$(document).on("click", ".cancelCmtBtn", (e) => {
+	$(e.target).parent().removeClass("block");
+});
 
+// 수정 클릭 시 댓글 수정
+$(document).on("click", ".upCmtBtn", (e) => {
+	let cmtNo = $(e.target).data("cmtno");
+	let postNo = $(".modalMini").data("postno")
+	if ($(".upCmtCont").val().length != 0) {
+		$.ajax({
+			type: "post",
+			url: "updateComment.do",
+			data: {
+				cmtNo : cmtNo,
+				cmtContent : $(e.target).siblings(".upCmtCont").val()
+			},
+			success: () => {
+				commentListViewAjax(postNo)
+			}
+		})
+	};
+//	$(".cmtWrap").removeClass("block");
+})
+
+// 참고
+$(document).on("click", "#cmtInsertBtn", (e) => {
+	let postNo = $(e.target).data("postno");
+	if ($("#upCmtCont").val().length != 0) {
+		$.ajax({
+			type: "post",
+			url: "insertComment.do",
+			data: {
+				postNo : postNo,
+				cmtContent : $("#cmtCont").val()
+			},
+			success: () => {commentListViewAjax(postNo)}
+		})
+	}
+});
 
 
 // 댓글 등록 후 다시 뿌리는 Ajax
@@ -223,10 +262,12 @@ function commentListAjax(cList) {
             <img src="./../images/test_user.jpg" alt="">
         </div>
         <div class="commentWrap">
-          	 ${cList.cmtContent}
+			${cList.cmtContent}
 			<button class="cmtBtn">
 				<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}"></i>
 			</button>
+			<div class="cmtWrap" id="cmt${cList.cmtNo}">
+			</div>
         </div>
     </div>
 	`

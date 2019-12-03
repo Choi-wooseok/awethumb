@@ -1,7 +1,6 @@
 $(document).ready(function() {
-
     $.ajax({
-    	data: {pjtNo : 1},
+    	data: {pjtNo : $("#posUpdateBtn").data("pjtno")},
     	type: "post",
     	url: 'selectProjectName.do',
     	success: (project) => {
@@ -27,7 +26,7 @@ $(document).ready(function() {
 
 $(".pjtName").click(() => {
 	$.ajax({
-    	data: {pjtNo : 1},
+    	data: {pjtNo : $("#posUpdateBtn").data("pjtno")},
     	type: "post",
     	url: 'selectProjectName.do',
     	success: (project) => {
@@ -93,29 +92,48 @@ $(".modalInsertWrap").on('scroll touchmove mousewheel', function(event) {
 $(".optionModalBtn").click((e) => {
 	let thisNo = $(e.target).data("msg");
 	$(".optionModalWrap").addClass("block");
-	$(".updateBoard").attr("data-val", thisNo);	
-	$(".deleteBoard").html(
-		`<a href="delete.do?postNo=${thisNo}">글 삭제</a>`
-	);
+	$(".deleteBoard").attr("data-postNo", thisNo);
+	$(".updateBoard").attr("data-postNo", thisNo);	
 })
-$(".updatecancel").click(() => {
-    $(".optionU").removeClass("block");
+// 삭제 클릭시 이벤트
+$(".deleteBoard").click((e) => {
+	$(".optionU").removeClass("block");
+	let pjtNo = $("#posUpdateBtn").data("pjtno");
+	$.post({
+		url: "delete.do",
+		data: {
+			pjtNo: pjtNo, 
+			postNo: $(e.target).data("postno")
+		},
+		success: () => {
+			window.location.href=`/awethumb/detailProject/updateListForm.do?projectNo=${pjtNo}`
+		}
+	})
 })
 
 // 수정클릭 시 글쓰기 창 띄우기 / 제거하기
 $(".updateBoard").click((e) => {
 	$(".modalInsertWrap").addClass("block");
-	let thisNo = $(e.target).data("val");
-	$(".updateForm").append(
-		`<input type="hidden" name="postNo" value="${thisNo}" />`
-	);
+	let thisNo = $(e.target).data("postno");
+	let pjtNo = $("#posUpdateBtn").data("pjtno");
+	$(".updateForm").append(`
+		<input type="hidden" name="postNo" value="${thisNo}" />
+		<input type="hidden" name="projectNo" value="${pjtNo}" />
+	`);
+})
+$(".updatecancel").click(() => {
+	$(".optionU").removeClass("block");
 })
 
 $("#closeBtn").click(() => {
     $(".modalInsertWrap").removeClass("block");
 })
 
-$("#posUpdateBtn").click(() => {
+$("#posUpdateBtn").click((e) => {
+	let projectNo = $(e.target).data("pjtno");
+	if($(".grid-stack-item").length == 0) {
+		window.location.href=`/awethumb/detailProject/${projectNo}`;
+	}
 	$(".grid-stack-item").each((i, e) => {
 		let posNo = $(e).data("postno");
 		let posX = $(e).data("gs-x");
@@ -132,7 +150,7 @@ $("#posUpdateBtn").click(() => {
 				hight : posH
 			},
 			success: () => {
-				window.location.href="/awethumb/detailProject/detailBoardList.do"
+				window.location.href=`/awethumb/detailProject/${projectNo}`
 			}
 		});
 	})

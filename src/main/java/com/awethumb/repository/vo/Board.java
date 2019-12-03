@@ -8,7 +8,7 @@ public class Board {
     private int postNo;
 
     // 프로젝트 번호 
-    private int projectNo = 1;
+    private int projectNo;
 
     // 글 내용 
     private String postContent;

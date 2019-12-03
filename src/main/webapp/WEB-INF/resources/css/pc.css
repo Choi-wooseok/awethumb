@@ -920,6 +920,8 @@ section#feed {
     text-align: center;
 }
 .feedPlay {
+	box-sizing: border-box;
+	padding-bottom: 51px;
     background-color: #fff;
 }
 .feedPlay > div:first-child {
@@ -1049,7 +1051,7 @@ section#feed {
 .commentModal{  
  	display:none;  
 } 
-#commentList:hover .commentModal{  
+.commentList:hover .commentModal{  
 	display:block; 
 	border: none;
 	background-color: transparent; 
@@ -1234,13 +1236,16 @@ section#feeds {
 	color: #fff;
 }
 
-/* .cmtBtn {
-	position: absolute;
-	bottom: 5px;
-	right: 5px;
-	border: none;
-	display: none;
+.cmtWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 9px;
+    display: none;
 }
-.commentWrap:hover > .cmtBtn {
-	display: block;
-} */

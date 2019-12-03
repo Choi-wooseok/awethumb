@@ -36,12 +36,12 @@
                     <span class="pjtTitle">
                     	<div class="pjtName">${pjtName}</div>
                    	</span>
-                    <button id="updateBtn">
+                    <button id="updateBtn" data-pjtNo="${projectNo}">
                     	<i class="fas fa-user-cog"></i>
                     </button>
                 </div>
                 <div class="layout_right">
-                    <button id="insertBtn">
+                    <button id="insertBtn" data-pjtNo="${projectNo}">
                         <i class="fas fa-plus"></i>
                        	등록
                     </button>
@@ -98,12 +98,6 @@
             </div>
         </div>
     </div> 
-    
-    
-    <!-- Comment 수정 화면 만들어야됨 -->
-    <!-- 각 페이지 수정 클릭 시 수정할 수 있는 input 창이 생기며 -->
-    <!-- 수정 선택 시 글 수정, 취소 선택 시 이전으로 돌림 -->
-    <div class=""></div>
 
     <div class="modalInsertWrap">
         <form method="post" action="write.do">
@@ -114,10 +108,10 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-    
                 <div class="insertCont">
                 	<textarea id="summernote" name="postContent"></textarea>
                 </div>
+                <div class="inpjtNo"></div>
                 <div class="btnWrap">
                     <button id="okBtn" type="submit">등록</button>
                 </div>
@@ -136,7 +130,7 @@
     
     <div class="modal hidden">
         <div class="modal_content_container">
-            <i class="fas fa-caret-left arw-btn"></i>
+<!--             <i class="fas fa-caret-left arw-btn"></i> -->
             <div class="modal_content"></div>
             <i class="fas fa-caret-right arw-btn"></i>
         </div>

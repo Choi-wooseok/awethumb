@@ -3,9 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.DetailBoardDAO">
 	
-	<select id="selectBoardList" resultType="Board">
-		select *
-		  from board_tb
+	<select id="selectBoardList" parameterType="int" resultType="Board">
+		select * 
+		from board_tb 
+		where project_no = ${projectNo};
 	</select>
 	
 	<select id="selectImgList" parameterType="int" resultType="Board">
@@ -115,6 +116,12 @@
 		from comment_tb
 		where cmt_no = ${cmtNo}
 	</delete>
+	
+	<update id="updateComment" parameterType="Comment">
+		update comment_tb
+		set cmt_content = '${cmtContent}'
+		where cmt_no = ${cmtNo}
+	</update>
 </mapper>
 
 

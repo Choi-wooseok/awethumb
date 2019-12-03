@@ -19,8 +19,8 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	private DetailBoardDAO dao;
 	
 	// 전체리스트 불러오기
-	public List<Board> selectBoardList() {
-		return dao.selectBoardList();
+	public List<Board> selectBoardList(int projectno) {
+		return dao.selectBoardList(projectno);
 	};
 	
 	public List<BoardFile> selectImgList(int postNo) {
@@ -93,5 +93,9 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	
 	public void deleteComment(int cmtNo) {
 		dao.deleteComment(cmtNo);
+	}
+	
+	public void updateComment(Comment comment) {
+		dao.updateComment(comment);
 	}
 }

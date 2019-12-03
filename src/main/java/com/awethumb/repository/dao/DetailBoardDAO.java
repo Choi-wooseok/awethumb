@@ -11,8 +11,8 @@ import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardDAO {
-	List<Board> selectBoardList();
-	void insertBoard(Board board);
+	List<Board> selectBoardList(int projectno);
+	int insertBoard(Board board);
 	void deleteBoard(int postNo);
 	void updateBoard(Board board);
 	Board selectOneBoard(int postNo);
@@ -29,4 +29,5 @@ public interface DetailBoardDAO {
 	List<Comment> commentList(int postNo);
 	void insertComment(Comment comment);
 	void deleteComment(int cmtNo);
+	void updateComment(Comment comment);
 }

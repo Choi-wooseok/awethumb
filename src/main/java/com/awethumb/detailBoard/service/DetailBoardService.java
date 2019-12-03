@@ -9,7 +9,7 @@ import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardService {
-	List<Board> selectBoardList();
+	List<Board> selectBoardList(int projectNo);
 	void insertBoard(Board board);
 	void deleteBoard(int postNo);
 	void updateBoard(Board board);
@@ -32,4 +32,5 @@ public interface DetailBoardService {
 	List<Comment> commentList(int postNo);
 	void insertComment(Comment comment);
 	void deleteComment(int cmtNo);
+	void updateComment(Comment comment);
 }

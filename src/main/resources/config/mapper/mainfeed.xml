@@ -17,7 +17,9 @@
 		<result column="hashtag_content" property="hashtagContent" /> 
 		<result column="comment_count" property="commentCount" /> 
 		<result column="like_count" property="likeCount" /> 
-		<collection property="commentList" resultMap="commentMap"/>
+		<result column="search_word" property="searchWord" /> 
+		<collection property="commentList" resultMap="commentMap" />
+		<collection property="hashtagList" select="selectHashtagList" column="post_no"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
 		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
@@ -27,9 +29,27 @@
 		<result column="user_no" property="userNo" />
 		<result column="post_no" property="postNo" />
 	</resultMap>
-	<select id="selectMainFeed" parameterType="FeedPage" resultType="MainFeed">
+	<resultMap id="hashtagMap" type="Hashtag">
+		<result column="hashtag_content" property="hashtagContent" />
+		<result column="post_no" property="postNo" />
+	</resultMap>
+	<!-- 검색 ======================================================== -->
+	<select id="search" resultMap="mainFeedMap" flushCache="true" useCache="true">
+		 select u.*
+		   from user_tb u
+		  inner join project_tb p
+		     on u.user_no = p.user_no
+		  inner join board_tb b
+		     on p.project_no = b.project_no
+		  right outer join hashtag_tb h
+		     on b.post_no = h.post_no
+		  where u.user_nickname like '%#{searchWord}%'
+		     or h.hashtag_content like '%#{searchWord}%'
+	</select>
+	<!-- 피드 ======================================================= -->
+	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
-		select b.*, u.user_nickname, h.hashtag_content, 
+		select b.*, u.user_nickname, 
 			(select count(c.cmt_no)
 		   	   FROM comment_tb c
 		  	  WHERE c.post_no = b.post_no
@@ -43,17 +63,21 @@
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
-		  left outer join hashtag_tb h
-		 	on b.post_no = h.post_no
 		 order by b.post_no desc
 		 limit #{pageIndex} , #{pageCount} 
 	</select>
-	
-	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap">
-		select b.*, c.*, u.*, (select u.user_nickname
+	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
+		select * 
+		  from hashtag_tb 
+		 where post_no = #{postNo}
+	</select>
+	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap" flushCache="true" useCache="true">
+		select b.*, c.*, u.*, h.*, (select u.user_nickname
 								 from user_tb u
 								where u.user_no = c.user_no) as cmt_user_nickname
 		  from board_tb b
+		  left outer join hashtag_tb h
+		 	on b.post_no = h.post_no
 		 inner join project_tb p
 		 	on b.project_no = p.project_no
 		 inner join user_tb u
@@ -87,14 +111,13 @@
 <!-- 	</delete> -->
 	
  	<!-- 댓글 파트 ============================================= --> 
-	<select id="selectComment" parameterType="int" resultType="Comment">
+	<select id="selectComment" parameterType="int" resultType="Comment" flushCache="true" useCache="true">
 	    select *
 	      from comment_tb
 	     where post_no = #{postNo}
 	     order by cmt_no 
 	</select>	
-	
-	<select id="commentCount" parameterType="int" resultType="int">
+	<select id="commentCount" parameterType="int" resultType="int" flushCache="true" useCache="true">
 		select count(*)
 		  from comment_tb
 		 where post_no = #{postNo}
@@ -106,13 +129,11 @@
 			#{cmtContent}, #{userNo}, #{postNo}
 		)
 	</insert>	
-			
 	<update id="updateComment" parameterType="comment">
 	    update comment_tb
 	       set cmt_content = #{cmtContent}
 	     where cmt_no = #{cmtNo}
 	</update>
-
 	<delete id="deleteComment" parameterType="int">
 	    delete 
 	      from comment_tb

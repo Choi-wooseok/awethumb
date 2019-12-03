@@ -44,4 +44,5 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
 </header>

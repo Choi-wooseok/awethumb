@@ -31,13 +31,13 @@ public class MainFeed {
     // 글 공개 여부 
     private String postPublicEnabled;
 
+    // 유저 닉네임 
+    private String userNickname;
+
     // 해시태그 번호 
     private String hashtagNo;
     
-    // 해시태그 번호 
-    private String userNickname;
-    
-    // 해시태그 번호 
+    // 해시태그 내용
     private String hashtagContent;
     
     // 댓글 갯수
@@ -46,6 +46,12 @@ public class MainFeed {
     // 좋아요 갯수
     private int likeCount;
     
+    // 검색 키워드
+    private String searchWord;
+    
     // 댓글을 리스트로
     private List<Comment> commentList;
+    
+    // 해시태그를 리스트로
+    private List<Hashtag> hashtagList;
 }

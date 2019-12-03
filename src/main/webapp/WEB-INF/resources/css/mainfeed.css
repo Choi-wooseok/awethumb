@@ -107,3 +107,13 @@
 	#contentUpdate {
 		border-radius:3px;
 	}
+	.hashtag > a {
+		
+		color: #767676;
+	}
+	.hashtag > a:hover {
+		color: #6dd5bc;
+	}
+	.playInfo {
+		margin-top: 5px;
+	}

@@ -64,6 +64,7 @@ let scrollTop = 0;
 		}
 	   
 		function makeMainFeedList(list) {
+			console.log(list);
 			$.each(list, (i, c) => {
 				$("#feedsWrap").append(`
 					<div class="feedsList msrItem" id="feedsList">
@@ -73,9 +74,6 @@ let scrollTop = 0;
 							</div>
 							<div>
 								<a href="#">${c.userNickname}</a>
-								<button type="button">
-									<i class="fas fa-ellipsis-h"></i>
-								</button>
 							</div>
 						</div>
 
@@ -87,11 +85,14 @@ let scrollTop = 0;
 						<div class="feedsPlay" id="feedsPlay${c.postNo}">
 							<div class="feedsContWrap">${c.postContent}</div>
 							`)
-							if (`${c.hashtagContent}` != 'null') {
-								$(`#feedsPlay${c.postNo}`).append(`<div class="hashTag">
-								<a href="#">${c.hashtagContent}</a>
-								</div>`)
+						$.each(c.hashtagList, (i, h) => {
+							if (`${h.hashtagContent}` != 'null') {
+								$(`#feedsPlay${c.postNo}`).append(`
+								<span class="hashTag">
+									<a href="#">#${h.hashtagContent}</a>
+								</span>`)
 							}
+						});
 							$(`#feedsPlay${c.postNo}`).append(`
 							<div class="playInfo">
 								댓글 <span>${c.commentCount}</span>개
@@ -159,7 +160,18 @@ let scrollTop = 0;
 									<div class="modalCont">
 										${detail.postContent}
 									</div>
-									<div class="comment">
+									`)
+						$.each(detail.hashtagList, (i, h) => {
+							if (`${h.hashtagContent}` !=  'null') {
+								$(`.modalCont`).append(`
+									<span class="hashtag">
+									<a href="#">#${h.hashtagContent}</a>
+									</span>
+								`)
+							}		
+						});
+							$(`#rightBox`).append(`
+								<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
             			if (`${c.cmtContent}` != 'null'){
@@ -264,14 +276,13 @@ let scrollTop = 0;
             )
          // makemodalattribute() 끝
 		
-        // 모달창이 띄워졌을 시 스크롤 방지
+// 		모달창이 띄워졌을 시 스크롤 방지
         $("#detailFeedModal").on('scroll touchmove mousewheel', function(event) {
             event.preventDefault();
             event.stopPropagation();
             return false;
         });
-        
-        // 댓글부분 모달창 띄우기 / 끄기
+// 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
         $(".commentModal").click((e) => {
 //        	console.dir($(e.target).parents("button").attr("id"));
@@ -287,7 +298,7 @@ let scrollTop = 0;
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
         })
-        // 댓글 수정폼
+// 		댓글 수정폼
         let updateComment = document.querySelector(".updateComment");
         $(".cmtModalDetail").on("click", ".cmtUpdateBtn", (e) => {
         	$(".cmtModalDetail").css("display","none");
@@ -300,14 +311,12 @@ let scrollTop = 0;
     		$(".updateSubmit").data("cmtno", cmtNo);
         	$(".updateCancel").data("cmtno", cmtNo);
         })
-        
-        // 수정 폼 취소
+// 		수정 폼 취소
         $(document).on("click", ".updateCancel", (e) => {
         	let cmtNo = $(e.target).data("cmtno");
         	$(updateComment).css("display", "none");
         	$(".cmtModal" + cmtNo).css("display", "block")
         })
-        
 //      댓글 수정
 		$(".commentList").on("click", ".updateSubmit", (e) => {
 			$.ajax({
@@ -329,9 +338,8 @@ let scrollTop = 0;
 					}, 100);
 				}
 			});
-			
 		});	
-     // 댓글 삭제폼
+// 		댓글 삭제폼
         let deleteComment = document.querySelector(".deleteComment");
         $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
         	$(".cmtModalDetail").css("display","none");
@@ -342,14 +350,12 @@ let scrollTop = 0;
     		$(".deleteSubmit").data("cmtno", cmtNo);
         	$(".deleteCancel").data("cmtno", cmtNo);
         })
-        
-      // 삭제 폼 취소
+// 		삭제 폼 취소
         $(document).on("click", ".deleteCancel", (e) => {
         	let cmtNo = $(e.target).data("cmtno");
         	$(deleteComment).css("display", "none");
         	$(".cmtModal" + cmtNo).css("display", "block")
         })
-        
 //      댓글 삭제
         $(".commentList").on("click", ".deleteSubmit", (e) => {
         	console.log($(e.target).data("cmtno"));
@@ -406,20 +412,8 @@ let scrollTop = 0;
 	        }
         }
 	
-//	function commentListAjax(){
-//		$.getJSON({
-//			url: "comment_list.do",
-//			data: {postNo: postnum},
-//			success: list => makeCommentList(cList)
-//		});
-//	}
-	
-	
 	// 댓글 등록
-	
-//		$("#crForm").submit(() => {
 		$(document).on('submit', '#crForm', () => {
-	//		console.log("11", $(".cmtContent").val());
 			console.log("1");
 			$.ajax({
 				url: "insertComment.do",
@@ -452,11 +446,27 @@ let scrollTop = 0;
 			return false;
 		});
 		
-//		<div id="cmtModalDetail" class="cmtModalDetail">
-//	        <div class="comment-modal">
-//				<div> <button class ="cmtUpdateBtn" data-cmtNo="${c.cmtNo} type="button">수정</button></div>
-//				<div> <button class ="cmtDeleteBtn">삭제</button></div>
-//				<div class="detailModalClose">취 소 </div>
-//			</div>
-//		</div>
-	
+//		검색기능
+		$(document).on("click", ".search", () => {
+			
+		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

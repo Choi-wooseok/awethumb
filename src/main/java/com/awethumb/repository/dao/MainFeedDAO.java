@@ -24,11 +24,13 @@ public interface MainFeedDAO {
 //	int deleteBoard(int no);
 	
 	/* 댓글 파트 시작 ========================================= */
-//	List<Comment> selectComment(int postNo);
 	int commentCount(int postNo);
 	void insertComment(Comment comment);
 	void updateComment(Comment comment);
 	void deleteComment(int cmtNo);
+	
+	/* 검색 파트 ============================================*/
+	MainFeed search(MainFeed mainfeed);
 }
 
 

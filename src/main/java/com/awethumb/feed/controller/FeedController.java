@@ -43,7 +43,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@ResponseBody
 	public List<Comment> commentDelete(Comment comment) {
 		System.out.println("번호 : " + comment.getCmtNo());
-		System.out.println("글번호 : " + comment.getPostNo());
 		System.out.println("댓삭제");
 		return  service.deleteBoardComment(comment);
 	}

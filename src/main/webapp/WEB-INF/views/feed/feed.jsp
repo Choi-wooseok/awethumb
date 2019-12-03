@@ -59,7 +59,7 @@
 						<div id="commentList">
 							<div id="boardCommentList${bl.postNo}"></div>
 						</div>
-<%-- 						<form id="insertComment${bl.postNo}" method="post" action="boardCommentInsert.do"> --%>
+<!-- 						<form class="insertComment" method="post" action="boardCommentInsert.do"> -->
 <!-- 							<div class="insertComment insertComment2"> -->
 <%-- 								<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" /> --%>
 <!-- 								<button id="commentInsertBtn">등록</button> -->
@@ -89,12 +89,11 @@
 				</div>
 				</c:forEach>
 			</div>
-				<!-- commentModal -->
 				<div class="optionModalWrap commentboardmodal">
 			        <div>
-			            <div class="delete">글 삭제</div>
-			            <div class="modify">글 수정</div>
-			            <div class="updatecancel">취소</div>
+			            <div class="commentDelete">글 삭제</div>
+			            <div class="commentModify">글 수정</div>
+			            <div class="modalCancel">취소</div>
 			        </div>
 			    </div>
 			

@@ -26,6 +26,9 @@ $(document).ready(function() {
 		$("#activeSignup1").remove();
 		$("#activeSignup2 > a").text("추가정보 입력");
 		$("#join2 .thewar").last().after('<div class="aaa"><input type="nickname" name="userNickname" id="userNickname" class="inpt" required="required" placeholder="닉네임을 입력하세요"><button type="button" class="confirm" id="userNicknameChk">중복 확인</button><label for="nickname">Your nickname</label></div>');
+		if (user.oauthType === "kakao") {
+			$("#join2 .thewar").last().after('<div class="aaa"><input type="name" name="userName" id="userName" class="inpt" required="required" placeholder="이름을 입력하세요"><label for="name">Your name</label></div>');
+		}
 		$("#activeSignup2").addClass("active");
 		$(".modal").css("display","block");
 		$("#join3").css("display","none");
@@ -54,6 +57,10 @@ $(document).ready(function() {
 	$("#naverOauthLogin").click(() => {
 		//location.href= pageContextURL + "/user/google/callback.do";
 		location.href = naverURL;
+	});
+	$("#kakaoOauthLogin").click(() => {
+		//location.href= pageContextURL + "/user/google/callback.do";
+		location.href = kakaoURL;
 	});
 	
 	//let idPtn = /(^[a-zA-Z0-9]{4,12})+$/;
@@ -265,7 +272,16 @@ $(document).ready(function() {
 			
 		}
 	    
-	    
+	    if (user.oauthType === "kakao") {
+	    	if(!(namePtn.test(obj.userName.value))) {
+		    	Swal.fire({
+		  		  icon: 'error',
+		  		  title: '필수 사항 미입력',
+		  		  text: '이름 2~6자 이외의 값, 한글이외의 값은 입력하실 수 없습니다.',
+		    	})
+		        return false;
+		    }
+	    }
 	    
 	    if(!(nicknamePtn.test(obj.userNickname.value))) {
 	    	Swal.fire({
@@ -308,7 +324,13 @@ $(document).ready(function() {
 	    	objList = {userId : obj.userId.value, userPass : obj.userPass.value, 
 	    			userNickname : obj.userNickname.value, userName : obj.userName.value,
 	    			categoryList : categoryResult , oauth : false};
-	    } else {
+	    }
+	    else if (user.oauthType === "kakao") {
+	    	objList = {userId : user.userId, userPass : user.userPass,
+	    			userNickname : obj.userNickname.value, userName : obj.userName.value,
+	    			categoryList : categoryResult, oauth : true };
+	    }
+	    else {
 	    	objList = {userId : user.userId, userPass : user.userPass,
 	    			userNickname : obj.userNickname.value, userName : user.userName,
 	    			categoryList : categoryResult, oauth : true };

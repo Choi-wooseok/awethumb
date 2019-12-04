@@ -16,6 +16,7 @@ public class SnsValue implements SnsUrls {
 	
 	private boolean isNaver;
 	private boolean isGoogle;
+	private boolean isKakao;
 	
 	// 생성자 - 기본생성자 생성 방지
 	public SnsValue(String service, String clientId, String clientSecret, String redirectUrl) {
@@ -25,14 +26,17 @@ public class SnsValue implements SnsUrls {
 		this.redirectUrl = redirectUrl;
 		this.isNaver = "naver".equals(service);
 		this.isGoogle = "google".equals(service);
+		this.isKakao = "kakao".equals(service);
 		
 		if (isNaver) {
 			this.api20Instance = NaverAPI20.instance();
 			this.profileUrl = NAVER_PROFILE_URL;
-			
 		} else if (isGoogle) {
 			this.api20Instance = GoogleApi20.instance();
 			this.profileUrl = GOOGLE_PROFILE_URL;
+		} else if (isKakao) {
+			this.api20Instance = KakaoAPI20.instance(this.clientId, this.clientSecret, this.redirectUrl);
+			this.profileUrl = KAKAO_PROFILE_URL;
 		}
 	}
 }

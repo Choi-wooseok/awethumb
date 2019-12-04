@@ -26,8 +26,9 @@
 	                <input type="text" name="userId" id="id" placeholder="username" />
 	                <input type="password" name="userPass" id="pass" placeholder="password" />
 	                <button>Login</button>
-	                <button type="button" id="googleOauthLogin">Google Login</button>
+<!-- 	                <button type="button" id="googleOauthLogin">Google Login</button> -->
 	                <button type="button" id="naverOauthLogin">Naver Login</button>
+	                <button type="button" id="kakaoOauthLogin">Kakao Login</button>
 	<!-- 	            <button type="button">Google Login</button> -->
 	            </form>
 	            <p class="loginText">회원가입을 원하시면 <a href="javascript:;" id="modalOpen">여기</a>를 눌러주세요.</p>
@@ -39,6 +40,7 @@
 			let user = JSON.parse('${user}');
 			let googleURL = "${google_url}";
 			let naverURL = "${naver_url}";
+			let kakaoURL = "${kakao_url}";
 			let profile = "${profile}";
 			console.log("profile : " + profile);
 			
@@ -71,6 +73,15 @@
 					  text: '<spring:message code="userlogin.oauth.fail" />'
 				})
 			}
+			
+			else if ('${errCode}' == 5) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.oauthKakao.fail" />'
+				})
+			}
+			
 		</script> 
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/user.js"></script>
 	</div>

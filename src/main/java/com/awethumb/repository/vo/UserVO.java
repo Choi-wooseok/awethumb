@@ -18,4 +18,5 @@ public class UserVO {
 	private int followingCnt;
 	private int followerCnt;
 	private boolean oauth;
+	private String oauthType;
 }

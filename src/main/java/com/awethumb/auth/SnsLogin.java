@@ -17,24 +17,31 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public class SnsLogin {
 	private OAuth20Service oauthService;
 	private SnsValue sns;
+	private String scopeType;
 	
 	public SnsLogin(SnsValue sns) {
+		if (sns.isKakao()) this.scopeType = "profile,account_email";
+		else this.scopeType = "profile";
+		
 		this.oauthService = new ServiceBuilder(sns.getClientId())
 				.apiSecret(sns.getClientSecret())
 				.callback(sns.getRedirectUrl())
-				.scope("profile")
+				.scope(scopeType)
 				.build(sns.getApi20Instance());
 		
 		this.sns = sns;
 	}
 	
-	public String getNaverAuthURL() {
+	public String getAuthURL() {
 		return this.oauthService.getAuthorizationUrl();
 	}
 
-	public UserVO getUserProfile(String code) throws Exception {
+	public UserVO getUserProfile(String code, String methodType) throws Exception {
 		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		OAuthRequest req = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
+		OAuthRequest req = null;
+		if ("kakao".equals(methodType)) req = new OAuthRequest(Verb.POST, this.sns.getProfileUrl());
+		else req = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
+		
 		oauthService.signRequest(accessToken, req);
 		
 		Response res = oauthService.execute(req);
@@ -44,6 +51,7 @@ public class SnsLogin {
 	}
 	
 	private UserVO parseJSON(String body) throws Exception {
+		
 		System.out.println("body : " + body);
 		UserVO user = new UserVO();
 		ObjectMapper mapper = new ObjectMapper();
@@ -63,13 +71,24 @@ public class SnsLogin {
 				}
 			}
 		} else if (this.sns.isNaver()) {
-			JsonNode resNode = rootNode.get("response");
+			JsonNode resNode = rootNode.findPath("response");
 			if (resNode.get("email") == null || resNode.get("name") == null) {
 				return null;
 			}
 			user.setUserPass(resNode.get("id").asText());
 			user.setUserId(resNode.get("email").asText());
+			user.setOauthType("naver");
 			user.setUserName(URLDecoder.decode(resNode.get("name").asText(), "UTF-8"));
+			
+		} else if (this.sns.isKakao()) {
+			JsonNode resNode = rootNode.get("kakao_account");
+			String hasEmail = resNode.get("has_email").asText();
+			if (resNode.get("email") == null || "false".equals(hasEmail)) {
+				return null;
+			}
+			user.setUserPass(rootNode.get("id").asText());
+			user.setUserId(resNode.get("email").asText() + "forKakao");
+			user.setOauthType("kakao");
 		}
 		
 		

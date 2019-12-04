@@ -44,3 +44,4 @@ Servers/
 /.recommenders/
 bin/
 
+spring-oauth2.xml

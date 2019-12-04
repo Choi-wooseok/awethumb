@@ -1,5 +1,7 @@
 package com.awethumb.user.controller;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.InternalResourceView;
 
 import com.awethumb.auth.SnsLogin;
 import com.awethumb.auth.SnsValue;
@@ -51,6 +52,8 @@ public class UserController {
 	@Inject
 	private SnsValue naverSns;
 	@Inject
+	private SnsValue kakaoSns;
+	@Inject
 	private GoogleConnectionFactory googleConnectionFactory;
 	@Inject
 	private OAuth2Parameters googleOAuth2Parameters;
@@ -60,38 +63,61 @@ public class UserController {
 		model.addAttribute("categoryList", commService.selectCategoryList());
 		
 		/* naver URL 생성 */
-		SnsLogin snsLogin = new SnsLogin(naverSns);
+		SnsLogin naverSnsLogin = new SnsLogin(naverSns);
+		SnsLogin kakaoSnsLogin = new SnsLogin(kakaoSns);
+		
+		// 네이버 필수사항 체크 안했을 시 재 체크 유도
 		if ("4".equals(model.getAttribute("errCode"))) {
-			String naverURL = snsLogin.getNaverAuthURL().replace("scope=profile", "") + "auth_type=reprompt"; 
+			String naverURL = naverSnsLogin.getAuthURL().replace("scope=profile", "") + "auth_type=reprompt"; 
 			model.addAttribute("naver_url", naverURL);
 		} else {
-			model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+			model.addAttribute("naver_url", naverSnsLogin.getAuthURL());
 		}
+		
+		model.addAttribute("kakao_url", kakaoSnsLogin.getAuthURL());
+		
 		/* 구글code 발행 위한 URL 생성 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
 		model.addAttribute("google_url", url);
+		System.out.println();
 		// oauth 로그인 시
 		model.addAttribute("user", new ObjectMapper().writeValueAsString(user));
 	}
 	
 	
 	
-	// oauth 로그인 - 네이버, 구글
+	// oauth 로그인 - 네이버, 카카오
 	@RequestMapping(value = "/{service}/callback.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@RequestParam String code, @PathVariable String service, HttpSession session, RedirectAttributes attr) {
 		SnsValue sns = null;
-		
+		String methodType = null;
 		String redirectURL = "redirect:/user/login_main.do";
-		if ("google".equals(service)) sns = googleSns;
-		else if ("naver".equals(service)) sns = naverSns;
+		if ("google".equals(service)) {
+			sns = googleSns;
+			methodType = "google";
+		}
+		else if ("naver".equals(service)) {
+			sns = naverSns;
+			methodType = "naver";
+		}
+		else if ("kakao".equals(service)) {
+			sns = kakaoSns;
+			methodType = "kakao";
+		} 
+		
 		SnsLogin snsLogin = new SnsLogin(sns);
 		UserVO profile = null;
 		try {
-			profile = snsLogin.getUserProfile(code);
+			profile = snsLogin.getUserProfile(code, methodType);
 			if (profile == null) {
-				attr.addFlashAttribute("errCode", "4");
-				return redirectURL;			}
+				if (sns.isNaver()) {
+					attr.addFlashAttribute("errCode", "4");
+				} else if (sns.isKakao()) {
+					attr.addFlashAttribute("errCode", "5");
+				}
+				return redirectURL;	
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,7 +129,6 @@ public class UserController {
 			securityContext.setAuthentication(auth);
 			session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 			redirectURL = "redirect:/feed/feed.do";
-			
 		} catch (Exception e) {
 			// 유저 정보가 없다면
 			if ("UserNotFound".equals(e.getMessage())) {
@@ -148,8 +173,6 @@ public class UserController {
 		attr.addFlashAttribute("errCode", errCode);
 		return "redirect:/user/login_main.do";
 	}
-	
-	
-	
+
 
 }

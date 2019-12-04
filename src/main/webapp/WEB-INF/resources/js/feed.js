@@ -154,6 +154,7 @@ function feedList(list){
    
    
 let loginUserNo = $(".loginUserNo").val();
+let loginUserNickName = $(".loginUserNickName").val();
 function aaa () {
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
@@ -177,20 +178,21 @@ function aaa () {
 									<img src="./../images/test_user.jpg" alt="">
 									</div>
 									<div id="commentWrap${c.cmtNo}" class="commentWrap">
-										로그인성공
-										<span style="color:red;">내용 : ${c.cmtContent}</span>
-										<span style="color:blue;">작성일자 : ${c.cmtRegDt}</span>
-										댓글유저번호 : ${c.userNo}
-										로그인 유저번호: ${loginUserNo}
-										댓글번호 : ${c.cmtNo}
-										<button type="button" 
+										<div class="cmtInfo">
+											<span style="color:green;">글작성자 : ${c.cmtUserNickname}</span>
+											<span style="color:red;">작성시간 : ${c.cmtRegDt}</span>
+											<button type="button" 
 												id="commentModal${c.cmtNo}"
 												class="commentModal"
 												data-commentContent="${c.cmtContent}"
 												data-commentNo="${c.cmtNo}"
 												data-postNo="${c.postNo}">
 												<i class="fas fa-ellipsis-h"></i>
-										</button>
+											</button>
+										</div>
+										<div class="cmtContent" style="color:blue;">
+											내용 : ${c.cmtContent} 
+										</div>
 									</div>
 								</div>`
 						);
@@ -202,11 +204,13 @@ function aaa () {
 										<img src="./../images/test_user.jpg" alt="">
 									</div>
 									<div id="commentWrap${c.cmtNo}" class="commentWrap">
-										로그인실패
-										<span style="color:red;">내용 : ${c.cmtContent}</span>
-										<span style="color:blue;">작성일자 : ${c.cmtRegDt}</span>
-										댓글유저번호 : ${c.userNo}
-										로그인 유저번호: ${loginUserNo}
+										<div class="cmtInfo">
+											<span style="color:green;">글작성자 : ${c.cmtUserNickname}</span>
+											<span style="color:red;">작성시간 : ${c.cmtRegDt}</span>
+										</div>
+										<div class="cmtContent" style="color:blue;">
+											내용 : ${c.cmtContent} 
+										</div>
 									</div>
 								</div>`
 						);
@@ -237,7 +241,8 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 		data: JSON.stringify({
 			postNo: postNumber,
 			cmtContent: commentWriter,
-			userNo : loginUserNo
+			userNo : loginUserNo,
+			cmtUserNickname : loginUserNickName
 		}),
 		dataType: "json",
 		success: list =>  aaa()

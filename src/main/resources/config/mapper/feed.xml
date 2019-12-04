@@ -22,16 +22,22 @@
 	</select>
 	
 	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">
-		select *
-		  from comment_tb
-		 where post_no = #{postNo}
-		 order by cmt_reg_dt
+		 SELECT ct.*,
+				ut.user_nickname
+		   from comment_tb ct
+		  INNER JOIN user_tb ut
+		     ON ct.user_no = ut.user_no 
+		  where post_no = #{postNo}
+		  order by cmt_reg_dt
 	</select>
 	
 	<select id="selectOneComment" parameterType="int" resultType="Comment">
-		select *
-		  from comment_tb
-		 where cmt_no = #{cmtNo} 
+ 		 SELECT ct.*,
+		        ut.user_nickname as cmtUserNickname
+		   from comment_tb ct
+		  INNER JOIN user_tb ut
+		     ON ct.user_no = ut.user_no 
+		  where cmt_no = #{cmtNo}
 	</select>
 	
 	<select id="selectCommentNo" resultType="int">

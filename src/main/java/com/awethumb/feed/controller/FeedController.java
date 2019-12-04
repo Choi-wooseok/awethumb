@@ -17,6 +17,7 @@ import com.awethumb.repository.vo.FeedPage;
 @Controller("com.awethumb.feed.controller.FeedController")
 @RequestMapping("/feed")
 public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
+	
 	@Autowired // 자동주입
 	private FeedService service;
 	
@@ -26,7 +27,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		int aa = 1; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
 		System.out.println("feed.do들어옴");
-		
 	}
 	
 	@RequestMapping("/feedlist.do")
@@ -35,7 +35,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		System.out.println("feedList.do 들어옴");
 		return service.selectFeedBoardPage(pageCount);
 	}
-	
 	// 댓글
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody

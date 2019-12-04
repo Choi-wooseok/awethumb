@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <!DOCTYPE html>
@@ -10,12 +11,17 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 </head>
 <body>
+	<!-- 로그인 user 정보 -->
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="u"/>
+	</sec:authorize>
 	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
 	<header><c:import url="/WEB-INF/views/include/header.jsp"></c:import></header>
 	<div id="waitme-container" class="waitme-container">
 	<section id="feed">
 		<div class="feedContWrap">
-				<input type="hidden" class="loginUserNo" value="2" />
+				<input type="hidden" class="loginUserNo" value="${u.userNo}" />
+				<input type="hidden" class="loginUserNickName" value="${u.userNickname}" />
 				<input type="hidden" class="aa" value="${aa}" />
 				<c:forEach var="p" items="${postNoList}">
 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>

@@ -29,6 +29,7 @@ $pmBtn.click((e) => {
     $("input[name=projectType]").attr("value", projType);
     hidePModal();
 })
+
 // 모달창 밖에 클릭시 모달창 닫힘
 document.querySelector(".proj_mod_ol").addEventListener("click", hidePModal)
 
@@ -73,4 +74,36 @@ $(".proj_cb").click((e) => {
     }
     
     $input.val(categoryNo);
+})
+
+// token input
+$(function(){
+	var availableTags = [
+	    "ActionScript",
+	    "AppleScript",
+	    "Asp",
+	    "BASIC",
+	    "C",
+	    "C++",
+	    "Clojure",
+	    "COBOL",
+	    "ColdFusion",
+	    "Erlang",
+	    "Fortran",
+	    "Groovy",
+	    "Haskell",
+	    "Java",
+	    "JavaScript",
+	    "Lisp",
+	    "Perl",
+	    "PHP",
+	    "Python",
+	    "Ruby",
+	    "Scala",
+	    "Scheme"
+	];
+	$('#myAutocomplete').autocomplete({
+		source: availableTags,
+		multiselect: true
+	});
 })

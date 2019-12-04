@@ -20,9 +20,14 @@
     <link href="https://fonts.googleapis.com/css?family=Passion+One&display=swap" rel="stylesheet">
     
     <!-- croppie -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/croppie.css" />
-    <script src="${pageContext.request.contextPath}/js/croppie.js"></script>
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile/croppie.css" />
+    <script src="${pageContext.request.contextPath}/js/profile/croppie.js"></script>
+    
+    <!-- tokeninput -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/jquery.autocomplete.multiselect.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css"/>
+	
 	<!-- mypage.css -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
 </head>
@@ -108,10 +113,6 @@
             <div class="myprojectContWrap" id="slide-2">
                 <div class="mpjinfo">
                     <span>Saved Project</span>
-                    <div class="add_proj" >
-                        <div>추가</div>
-                        <i class="fas fa-plus  proj_mod_btn" data-proj-type="3"></i>
-                    </div>
                 </div>
                 <p>저장한 프로젝트</p>
                 <div class="mpjcont saved-project-cont">
@@ -216,6 +217,12 @@
 		                   	</c:forEach>
 	                    </div>
                     </div>
+                    <div class="shared-user-cont">
+                    	<aside>공유할 유저</aside>
+	                    <div class="tokenInput__wrapper">
+							<input type="text" id="myAutocomplete">
+	                    </div>
+                    </div>
                     <button class="mod_sub_btn_css">제출</button>
                 </form>
             </div>
@@ -303,5 +310,7 @@
 	
 	<!-- init 함수 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/init.js"></script>
+    
+    
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.awethumb.feed.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.feed.service.FeedService;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.FeedBoard;
+import com.awethumb.repository.vo.FeedPage;
 
 @Controller("com.awethumb.feed.controller.FeedController")
 @RequestMapping("/feed")
@@ -20,11 +21,19 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	private FeedService service;
 	
 	@RequestMapping("/feed.do")
-	public void feedKong(Model model) {
-		model.addAttribute("boardlist", service.selectFeedBoard());
-		int aa = 2; // 더미 이미지 띄우는용
+	public void feed(Model model) {
+		model.addAttribute("postNoList", service.postNoList());
+		int aa = 1; // 더미 이미지 띄우는용
 		model.addAttribute("aa", aa);
-		model.addAttribute("cmtno", service.selectCommentNo() ); //댓글번호받기
+		System.out.println("feed.do들어옴");
+		
+	}
+	
+	@RequestMapping("/feedlist.do")
+	@ResponseBody
+	public List<FeedBoard> feedKong(FeedPage pageCount) {
+		System.out.println("feedList.do 들어옴");
+		return service.selectFeedBoardPage(pageCount);
 	}
 	
 	// 댓글

@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
+import com.awethumb.repository.vo.FeedPage;
 
 public interface FeedDAO {
-	List<FeedBoard> selectFeedBoard(); // 게시판전체
+	List<Integer> postNoList(); // 게시판번호받기
+	List<FeedBoard> selectFeedBoardPage(FeedPage pageCount); // 게시판전체
 	List<Integer> selectCmtNo(int postNo); // 댓글상세번호받기
 	List<Integer> selectCommentNo(); // 댓글 전체번호받기
 	int commentTime(int cmtNo); // 댓글 시간

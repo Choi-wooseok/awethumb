@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
+import com.awethumb.repository.vo.FeedPage;
 
 public interface FeedService {
-	List<FeedBoard> selectFeedBoard();
+	List<Integer> postNoList();
+	List<FeedBoard> selectFeedBoardPage(FeedPage pageCount);
 	List<Comment> selectFeedBoardComment(int postNo);
 	List<Comment> insertBoardComment(Comment comment);
 	List<Comment> deleteBoardComment(Comment comment);

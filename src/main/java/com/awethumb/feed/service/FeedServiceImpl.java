@@ -9,16 +9,19 @@ import org.springframework.stereotype.Service;
 import com.awethumb.repository.dao.FeedDAO;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
+import com.awethumb.repository.vo.FeedPage;
 @Service
 public class FeedServiceImpl implements FeedService {
 	@Autowired
 	private FeedDAO dao; 
 	
-	public List<FeedBoard> selectFeedBoard() {
-		return dao.selectFeedBoard();
+	public List<Integer> postNoList(){
+		return dao.postNoList();
 	}
 	
-	
+	public List<FeedBoard> selectFeedBoardPage(FeedPage pageCount) {
+		return dao.selectFeedBoardPage(pageCount);
+	}
 	// 댓글
 	public List<Comment> selectFeedBoardComment(int postNo){
 		return CommentTime(postNo);

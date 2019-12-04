@@ -3,7 +3,11 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.FeedDAO">
 	
-	<select id="selectFeedBoard" resultType="FeedBoard">
+	<select id="postNoList" resultType="FeedBoard">
+		SELECT post_no
+		  from board_tb
+	</select>
+	<select id="selectFeedBoardPage" parameterType="FeedPage" resultType="FeedBoard">
 		SELECT ut.user_nickname,
 			   bt.post_no,
 		       bt.post_content,
@@ -14,6 +18,7 @@
 		    ON ut.user_no = pt.user_no
 		 INNER JOIN board_tb bt
 		    ON pt.project_no = bt.project_no
+		 limit #{pageIndex} , #{pageCount}  
 	</select>
 	
 	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">

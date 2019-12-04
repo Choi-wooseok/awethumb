@@ -143,6 +143,7 @@ $(document).on("click", "#cmtInsertBtn", (e) => {
 			type: "post",
 			url: "insertComment.do",
 			data: {
+				userNo : loginNo,
 				postNo : postNo,
 				cmtContent : $("#cmtCont").val()
 			},
@@ -255,23 +256,45 @@ $(document).on("click", ".updatecancel", (e) => {
 
 // DOM
 function commentListAjax(cList) {
-	$(".comment").append(
-	`
-	<div class="commentList">
-        <div class="commentUserImg">
-            <img src="./../images/test_user.jpg" alt="">
-        </div>
-        <div class="commentWrap">
-			${cList.cmtContent}
-			<button class="cmtBtn">
-				<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}"></i>
-			</button>
-			<div class="cmtWrap" id="cmt${cList.cmtNo}">
+	if (loginNo == cList.userNo) {
+		$(".comment").append(
+			`
+			<div class="commentList">
+				<div class="commentUserImg">
+					<img src="./../images/test_user.jpg" alt="">
+				</div>
+				<div class="commentWrap">
+					<div class="cmtInfo">
+						<span>${cList.cmtUserNickname}</span>
+						<span>${cList.cmtRegDt}</span>
+						<button class="cmtBtn">
+							<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}"></i>
+						</button>
+					</div>
+					<div class="cmtContent">${cList.cmtContent}</div>
+					<div class="cmtWrap" id="cmt${cList.cmtNo}"></div>
+				</div>
 			</div>
-        </div>
-    </div>
-	`
-	)
+			`
+		)
+	} else {
+		$(".comment").append(
+			`
+			<div class="commentList">
+				<div class="commentUserImg">
+					<img src="./../images/test_user.jpg" alt="">
+				</div>
+				<div class="commentWrap">
+					<div class="cmtInfo">
+						<span>${cList.cmtUserNickname}</span>
+						<span>${cList.cmtRegDt}</span>
+					</div>
+					<div class="cmtContent">${cList.cmtContent}</div>
+				</div>
+			</div>
+			`
+		)
+	}
 }
 function viewBoardAjax(board) {
 	$(".modal_content").html(

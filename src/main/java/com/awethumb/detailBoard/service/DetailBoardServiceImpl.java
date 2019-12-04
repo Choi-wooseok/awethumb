@@ -98,4 +98,8 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public void updateComment(Comment comment) {
 		dao.updateComment(comment);
 	}
+	
+	public String selectUser(int userNo) {
+		return dao.selectUser(userNo);
+	}
 }

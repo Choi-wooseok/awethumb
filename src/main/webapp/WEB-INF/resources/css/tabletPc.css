@@ -709,6 +709,7 @@ section > div.content {
 }
 .modalCont {
 	width: 100%;
+	min-height: 80px;
     max-height: 150px;
     overflow: auto;
     box-sizing: border-box;
@@ -1233,4 +1234,66 @@ section#feeds {
 }
 .udtTitle:hover {
 	color: #fff;
+}
+
+.cmtWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 9px;
+    display: none;
+}
+.comment > span {
+	display: block;
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+}
+.cmtInfo {
+	position: relative;
+}
+.commentWrap:hover > .cmtInfo > button {
+	display: block;
+}
+.cmtInfo > span {
+	font-size: 14px;
+}
+.cmtInfo > button {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	overflow: hidden;
+	border: none;
+	width: 25px;
+	height: 25px;
+	background-color: transparent;
+}
+.cmtContent {
+	margin-top: 5px;
+	font-size: 14px;
+	line-height: 1.2;
+	letter-space: 1px;
+}
+.detailBtn > i,
+.optionModalBtn > i,
+.cmtBtn > i {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.detailBtn > i::before,
+.optionModalBtn > i::before,
+.cmtBtn > i::before {
+	line-height: 25px;
 }

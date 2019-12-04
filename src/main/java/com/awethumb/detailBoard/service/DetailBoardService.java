@@ -33,4 +33,5 @@ public interface DetailBoardService {
 	void insertComment(Comment comment);
 	void deleteComment(int cmtNo);
 	void updateComment(Comment comment);
+	String selectUser(int userNo);
 }

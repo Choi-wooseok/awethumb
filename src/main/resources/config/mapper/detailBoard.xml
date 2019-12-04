@@ -122,6 +122,12 @@
 		set cmt_content = '${cmtContent}'
 		where cmt_no = ${cmtNo}
 	</update>
+	
+	<select id="selectUser" resultType="String" parameterType="int">
+		select user_nickname
+		from user_tb
+		where user_no = ${userNo}
+	</select>
 </mapper>
 
 

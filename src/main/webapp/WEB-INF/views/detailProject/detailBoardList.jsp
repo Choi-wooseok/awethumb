@@ -24,6 +24,9 @@
 
 </head>
 <body>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.user" var="su"/>
+	</sec:authorize>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
     
     <section>
@@ -135,6 +138,7 @@
             <i class="fas fa-caret-right arw-btn"></i>
         </div>
     </div>
+    <script>let loginNo = ${su.userNo}</script>
                 
 	<!-- grid Js -->
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>

@@ -124,13 +124,17 @@ public class DetailBoardController {
 	@RequestMapping("selectCommentList.do")
 	@ResponseBody
 	public List<Comment> commentList(@RequestParam("postNo") int postNo) {
-		return service.commentList(postNo);
+		List<Comment> comments = service.commentList(postNo);
+		for(int i = 0; i < comments.size(); i++) {
+			Comment uVo = comments.get(i);
+			uVo.setCmtUserNickname(service.selectUser(uVo.getUserNo()));
+		}
+		return comments;
 	}
 	
 	@RequestMapping("insertComment.do")
 	@ResponseBody
 	public void insertComment(Comment comment) {
-		comment.setUserNo(service.selectWriter(comment.getPostNo()).getUserNo());
 		service.insertComment(comment);
 	}
 	

@@ -50,16 +50,13 @@ $(document).ready(function() {
 	
 	// 구글 로그인
 	$("#googleOauthLogin").click(() => {
-		//location.href= pageContextURL + "/user/google/callback.do";
 		location.href = googleURL;
 	});
 	
 	$("#naverOauthLogin").click(() => {
-		//location.href= pageContextURL + "/user/google/callback.do";
 		location.href = naverURL;
 	});
 	$("#kakaoOauthLogin").click(() => {
-		//location.href= pageContextURL + "/user/google/callback.do";
 		location.href = kakaoURL;
 	});
 	
@@ -388,7 +385,7 @@ $(document).ready(function() {
 	$("#closeModal").click(() => {
 		$(".modal").css("display","none");
 	});
-
+	
 });
 //Swal.fire({
 //	  icon: 'error',

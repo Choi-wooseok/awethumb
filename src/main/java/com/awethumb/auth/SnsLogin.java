@@ -52,7 +52,6 @@ public class SnsLogin {
 	
 	private UserVO parseJSON(String body) throws Exception {
 		
-		System.out.println("body : " + body);
 		UserVO user = new UserVO();
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(body);

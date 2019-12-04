@@ -1,7 +1,5 @@
 package com.awethumb.user.controller;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -12,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
@@ -136,12 +133,10 @@ public class UserController {
 			}
 			// 고유 id값 변경 시 - 처리??
 			else if ("UserPasswordChanged".equals(e.getMessage())) {
-				
+				attr.addFlashAttribute("errCode", "6");				
 			}
-			
 		}
 		return redirectURL;
-		
 	}
 	
 	

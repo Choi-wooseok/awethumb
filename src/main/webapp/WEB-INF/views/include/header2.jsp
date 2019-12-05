@@ -11,11 +11,10 @@
             	<span>AweThumb</span>
            	</a>  
             <span class="search">
-                <form action="">
                     <input id="search" type="text" />
                     <label for="search"><i class="fas fa-search"></i></label>
-                </form>
-            </span>   
+            </span>
+            <span id="searchResults"></span>   
         </div>
 
         <div class="layout_right">
@@ -27,8 +26,7 @@
             <div class="optBtn">
                 <button>
                 	<a href="${pageContext.request.contextPath}/user/logout.do">
-	                    <i class="far fa-user">
-	                    </i>
+	                    <i class="far fa-user"></i>
                     </a>
                 </button>
                 <button>

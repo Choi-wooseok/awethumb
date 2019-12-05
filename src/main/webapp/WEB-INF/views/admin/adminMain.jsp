@@ -375,7 +375,7 @@
     
 	//insertReport는 대상 신고버튼 id, postNo, commentNo만 있으면 작동한다.
 	$(function(){
-		insertReport('insertReportForm', 96, 282);
+		insertReport('insertReportForm', 45, 711);
 	})
   </script>
   

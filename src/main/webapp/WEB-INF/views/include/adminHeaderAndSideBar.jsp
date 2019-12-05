@@ -224,13 +224,13 @@
           </li>
           <!-- 신고,회원관련 메뉴 -->
           <li class="sub-menu">
-            <a href="javascript:;">
+            <a href="<c:url value='/admin/adminMain.do'/>">
               <i class="fa fa-desktop"></i>
               <span>회원 관리</span>
               </a>
             <ul class="sub">
               <li><a href="<c:url value='/admin/reportList.do'/>">불량회원 신고현황</a></li>
-              <li><a href="buttons.html">회원 관리</a></li>
+              <li><a href="<c:url value='/admin/manageUser.do'/>">회원 관리</a></li>
             </ul>
           </li>         
  

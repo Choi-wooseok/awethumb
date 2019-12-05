@@ -52,8 +52,8 @@ function feedList(list){
 							</div>
 							<div>
 								<span>${bl.userNickName}</span>
-								<button type="button" class="myBoard${bl.postNo}">
-								<i class="fas fa-ellipsis-h"></i>
+								<button type="button" class="boardModal" data-postNo="${bl.postNo}">
+									<i class="fas fa-ellipsis-h"></i>
 								</button>
 							</div>
 						</div>
@@ -84,20 +84,6 @@ function feedList(list){
 								<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
 							</div>
 						</div>
-						<!--  modal -->
-						<!-- boardModal -->
-						<div id="modalBoard${bl.postNo}" class="board">
-							<!-- boardModal content -->
-							<div class="board-modal">
-								<div>
-									<button id="report" class="report" type="button">
-									부적절한 컨텐츠 신고</button>
-								</div>
-							<div>
-								<button id="share">퍼가기</button>
-							</div>
-							<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div>
-						</div>
 					</div>
 			`)
 		}
@@ -110,7 +96,7 @@ function feedList(list){
 							</div>
 							<div>
 								<span>${bl.userNickName}</span>
-								<button type="button" class="myBoard${bl.postNo}">
+								<button type="button" class="boardModal" data-postNo="${bl.postNo}">
 								<i class="fas fa-ellipsis-h"></i>
 								</button>
 							</div>
@@ -130,20 +116,6 @@ function feedList(list){
 								<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" />
 								<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
 							</div>
-						</div>
-						<!--  modal -->
-						<!-- boardModal -->
-						<div id="modalBoard${bl.postNo}" class="board">
-							<!-- boardModal content -->
-							<div class="board-modal">
-								<div>
-									<button id="report" class="report" type="button">
-									부적절한 컨텐츠 신고</button>
-								</div>
-							<div>
-								<button id="share">퍼가기</button>
-							</div>
-							<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div>
 						</div>
 					</div>
 				`);
@@ -220,13 +192,6 @@ function aaa () {
 			}); // each
 			$("#boardCommentList" + postnum).html($bcla);
 		};
-		$(".myBoard" + postnum).click(() => {
-			$("#modalBoard" + postnum).css("display","block");
-		});
-		$(".boardClose" + postnum).click(() => {
-			$("#modalBoard" + postnum).css("display","none");
-		});
-		
 	} //for
 }
 aaa();
@@ -319,14 +284,46 @@ $(document).on( "click",".commentModal", (e) => {
 	$(".commentModify").data("postNo", postNo);
 	$(".commentModify").data("commentcontent", cmtContent);
 	
+	$(".report").data("postNo", postNo);
+	$(".report").data("commentno", cmtNo);
+	
+	
 	$(".modalCancel").on("click", () => {
 		$(".commentboardmodal").css("display","none");
 	});
 	
 });
-
-
-
+$(document).on("click", ".boardModal", (e) => {
+	let obj = e.target;
+	if (obj.nodeName == "I") {
+		obj = obj.parentNode;
+	}
+	let postNo = $(obj).data("postno");
+	$(".report").data("postNo", postNo);
+	$(".board").css("display","block");
+	$(".boardCancel").click(() => {
+		$(".board").css("display","none");
+	});
+});
+//신고
+$(document).on("click", ".report",(e) => {
+	let postNo = $(e.target).data("postNo");
+	let cmtNo = $(e.target).data("cmtNo");
+	if (cmtNo == null) { // 글
+		alert("글신고")
+		console.log("글boardNo : " + postNo);
+		let newWindow = window.open("about:blank");
+		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+	}
+	else { // 댓글 신고
+		alert("댓글신고")
+		console.log("댓boardNo : " + postNo);
+		console.log("댓commentNo : " + cmtNo);
+		let newWindow = window.open("about:blank");
+		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+	}
+});
+// 글번호 댓글번호
 
 
 

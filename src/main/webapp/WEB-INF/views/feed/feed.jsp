@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <!DOCTYPE html>
@@ -33,11 +32,35 @@
 			<div class="feedWrap" id="feedWrap">
 				<!-- 리스트 반복 -->
 			</div>
+			<!--  modal -->
+<%-- 			<div id="modalBoard${bl.postNo}" class="board"> --%>
+<!-- 				boardModal content -->
+<!-- 				<div class="board-modal"> -->
+<!-- 					<div> -->
+<!-- 						<button id="report" class="report" type="button"> -->
+<!-- 						부적절한 컨텐츠 신고</button> -->
+<!-- 					</div> -->
+<!-- 				<div> -->
+<!-- 					<button id="share">퍼가기</button> -->
+<!-- 				</div> -->
+<%-- 				<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div> --%>
+<!-- 			</div> -->
+			
+				<!-- boardModal -->
+				<div id="modalBoard" class="optionModalWrap board">
+					<!-- boardModal content -->
+					<div>
+						<div class="report">글 신고</div>
+						<div class="boardShare">퍼가기</div>
+						<div class="boardCancel">취 소</div>
+					</div>
+				</div>
 				<!-- comment modal -->
 				<div class="optionModalWrap commentboardmodal">
 			        <div>
-			            <div class="commentDelete">글 삭제</div>
-			            <div class="commentModify">글 수정</div>
+			            <div class="report">댓글 신고</div>
+			            <div class="commentDelete">댓글 삭제</div>
+			            <div class="commentModify">댓글 수정</div>
 			            <div class="modalCancel">취소</div>
 			        </div>
 			    </div>
@@ -55,7 +78,6 @@
 								<a href="#">userName</a> <span>3분 전</span>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>

@@ -172,4 +172,10 @@
 			     FROM shared_project_tb
 			    WHERE shared_user_no = #{userNo}) p
 	</select>
+	
+	<select id="selectTokenUsers" parameterType="string" resultType="string">
+		select user_nickname
+		  from user_tb
+		 where user_nickName like CONCAT('%',#{userNickname},'%')
+	</select>
 </mapper>

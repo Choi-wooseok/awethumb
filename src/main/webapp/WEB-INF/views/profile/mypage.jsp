@@ -24,9 +24,7 @@
     <script src="${pageContext.request.contextPath}/js/profile/croppie.js"></script>
     
     <!-- tokeninput -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/jquery.autocomplete.multiselect.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/tagify.css"/>
 	
 	<!-- mypage.css -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile/basic.css"/>
@@ -189,6 +187,7 @@
                     <input name="projectType" hidden="hidden"/>
                     <input name="categoryNo" hidden="hidden"/>
                     <input name="projectPublicEnabled" hidden="hidden" value="Y"/>
+                    <input name="sharedUserList" hidden="hidden"/>
                     <div>
                         <aside>프로젝트 썸네일</aside>
                         <div>
@@ -196,10 +195,16 @@
                         </div>
                     </div>
                     <div>
-                        <aside>프로젝트 타이틀</aside>
+                        <aside>프로젝트 제목</aside>
                         <div>
                             <input type="text" name="projectTitle">
                         </div>
+                    </div>
+                    <div class="shared-user-cont">
+                    	<aside>공유할 유저</aside>
+	                    <div class="tokenInput_wrapper">
+							<input type="text" class="tokenInput">
+	                    </div>
                     </div>
                     <div>
                         <aside>비밀 프로젝트</aside>
@@ -217,13 +222,8 @@
 		                   	</c:forEach>
 	                    </div>
                     </div>
-                    <div class="shared-user-cont">
-                    	<aside>공유할 유저</aside>
-	                    <div class="tokenInput__wrapper">
-							<input type="text" id="myAutocomplete">
-	                    </div>
-                    </div>
-                    <button class="mod_sub_btn_css">제출</button>
+                    
+                    <button class="mod_sub_btn_css proj_mod_sub_btn">제출</button>
                 </form>
             </div>
         </div>
@@ -292,6 +292,9 @@
     	const subUserNo = ${su.userNo};
     	const contextPath = '<%=request.getContextPath()%>'
     </script>
+    
+    <!-- 공유유저 추가 스크립트 -->
+    <script src="${pageContext.request.contextPath}/js/profile/tagify.min.js"></script>
     
     <!-- 프로젝트 불러오는 스크립트 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/project.js"></script>

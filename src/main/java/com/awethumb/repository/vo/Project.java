@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -37,4 +39,6 @@ public class Project {
     
     private int countPerPage = 9;
 	private int currentPageNo;
+	
+	private List<String> sharedUserNickList;
 }

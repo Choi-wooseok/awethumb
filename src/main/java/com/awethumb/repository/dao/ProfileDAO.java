@@ -54,4 +54,6 @@ public interface ProfileDAO {
 
 	public int selectProjectCount(int userNo);
 
+	public List<String> selectTokenUsers(String userNickname);
+
 }

@@ -30,4 +30,5 @@ public interface ProfileService {
 	public List<Project> selectSharedProjects(Project p);
 	public List<Project> selectSavedProjects(Project p);
 	public int selectProjectCount(int userNo);
+	public List<String> selectTokenUsers(String userNickname);
 }

@@ -77,33 +77,35 @@ $(".proj_cb").click((e) => {
 })
 
 // token input
-$(function(){
-	var availableTags = [
-	    "ActionScript",
-	    "AppleScript",
-	    "Asp",
-	    "BASIC",
-	    "C",
-	    "C++",
-	    "Clojure",
-	    "COBOL",
-	    "ColdFusion",
-	    "Erlang",
-	    "Fortran",
-	    "Groovy",
-	    "Haskell",
-	    "Java",
-	    "JavaScript",
-	    "Lisp",
-	    "Perl",
-	    "PHP",
-	    "Python",
-	    "Ruby",
-	    "Scala",
-	    "Scheme"
-	];
-	$('#myAutocomplete').autocomplete({
-		source: availableTags,
-		multiselect: true
-	});
+var tokenInput = document.querySelector(".tokenInput"),
+    tagify = new Tagify(tokenInput, {
+	enforceWhitelist: true,
+	whitelist: []
+    }),
+    controller; // for aborting the call
+
+// listen to any keystrokes which modify tagify's input
+tagify.on('input', onTokenInput)
+function onTokenInput( e ){
+	var tokenValue = e.detail.value;
+	tagify.settings.whitelist.length = 0; // reset the whitelist
+	
+	controller && controller.abort();
+	controller = new AbortController();
+	
+	$.ajax({
+		url: "gettokenusers.do",
+		data: {userNickname: tokenValue}
+	})
+	.done((whitelist) => {
+		tagify.settings.whitelist = whitelist;
+		tagify.dropdown.show.call(tagify, tokenValue);
+	})
+}
+
+// submit 하기 전에 인풋 태그를 만들어줘서 닉네임을 보내준다
+$(".add_proj_form").submit((e) => {
+	for (let val of JSON.parse(tokenInput.value)){
+		$(".add_proj_form").prepend(`<input name="sharedUserNickList" hidden="hidden" value="${val.value}">`)
+	}
 })

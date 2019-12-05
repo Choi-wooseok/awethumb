@@ -114,4 +114,9 @@ public class ProfileServiceImpl implements ProfileService{
 	public int selectProjectCount(int userNo) {
 		return dao.selectProjectCount(userNo);
 	}
+
+	@Override
+	public List<String> selectTokenUsers(String userNickname) {
+		return dao.selectTokenUsers(userNickname);
+	}
 }

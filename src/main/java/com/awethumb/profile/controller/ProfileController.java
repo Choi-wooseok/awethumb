@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -172,6 +173,11 @@ public class ProfileController {
 	
 	@RequestMapping("/insertproj.do")
 	public String insertProj(Project p) throws IllegalStateException, IOException {
+		for (int i = 0; i < p.getSharedUserNickList().size(); i++) {
+			System.out.println(p.getSharedUserNickList().get(i));
+		}
+		
+		/*
 		ProjectFile pf = new ProjectFile();
 		
 		MultipartFile mf = p.getProjectFile();
@@ -198,7 +204,7 @@ public class ProfileController {
 		}
 		
 		service.insertProj(p, pf);
-		
+		*/
 		return "redirect:" + p.getUserNickname();
 	}
 	
@@ -247,5 +253,11 @@ public class ProfileController {
 			System.out.println(e.getMessage());
 		}
 		return "data:image/jpg;base64," + eString;
+	}
+	
+	@RequestMapping("/gettokenusers.do")
+	@ResponseBody
+	public List<String> getTokenUsers (@RequestParam(value="userNickname" ) String userNickname) {
+		return service.selectTokenUsers(userNickname);
 	}
 }

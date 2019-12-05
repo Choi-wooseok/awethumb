@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<title>신고하기</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/admin/lib/jquery/jquery.min.js"></script>
+
   <style>
   	body {
 			background-image: url( "${pageContext.request.contextPath}/images/main_bg.jpg");
@@ -49,8 +50,7 @@
 	
 <script>
 	/* 기본 디스에이블드, 셀렉트변화시 기타일경우에 풀어주고, 다시 다른걸로 변하면 잠궈준다. */
-	$(function(){
-		$("#reason").attr("disabled", true);
+
 		
 		/*
 		겟방식으로 이 페이지에 들어왔을때, commentNo가 있으면 댓글이 신고된 것이고, postNo만 있으면 게시글이 신고된 것이다.
@@ -60,58 +60,8 @@
 		let commentNo = "";
 		postNo = <%= request.getParameter("postNo") %>;
 		commentNo = <%= request.getParameter("commentNo") %>;
-		console.log('postNo: '+postNo, 'commentNo: '+commentNo);
-		
-		if(commentNo == null){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/report/selectReportPost.do?postNo="+postNo,
-				dataType: "json",
-				success: function(result){
-					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>
-									   <input type="hidden" name="userNo" value="\${result.user.userNo}">
-									   <input type="hidden" name="postNo" value="\${postNo}">`)
-					$("#userNickName").html(`<h3>신고대상 회원닉네임 : \${result.user.userNickname}</h3>`)
-				}
-			})
-		} else {
-			$.ajax({
-				url: "${pageContext.request.contextPath}/report/selectReportPostAndComment.do?postNo="+postNo+"&commentNo="+commentNo,
-				dataType: "json",
-				success: function(result){
-					$("#userId").html(`<h3>신고대상 회원아이디 : \${result.user.userId}</h3>
-									   <input type="hidden" name="userNo" value="\${result.user.userNo}">
-							   		   <input type="hidden" name="postNo" value="\${postNo}">
-							   		   <input type="hidden" name="commentNo" value="\${commentNo}">`)
-					$("#userNickName").html(`<h3>신고대상 회원닉네임 : \${result.user.userNickname}</h3>`)
-				}
-			})
-		}
-	})
-	$('select[name="blockCode"]').on('change', () => {
-	if($('select[name="blockCode"]').val() == 5){
-			$("#reason").attr("disabled", false);
-	} else {
-		$("#reason").attr("disabled", true);
-	}
-	})
-	
-	function submitForm(){
-		if($("select[name=blockCode").val() == null){
-			alert("신고 사유를 입력해주세요.");
-			return false;
-		}
-		let confirm_report = confirm("허위 신고시 제제를 받으실 수 있습니다.");
-		if(confirm_report == true){
-			alert("신고가 완료되었습니다.");
-			return true;
-		}
-		else if(confirm_report == false){
-			return false;
-		}
-		
-	}
-	
-	
+		console.log(commentNo);
 </script>
+  <script src="${pageContext.request.contextPath}/js/report/insertreport.js"></script>
 </body>
 </html>

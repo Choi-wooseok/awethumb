@@ -35,23 +35,7 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping("/selectReportPost.do")
-	@ResponseBody
-	public Map<String, Object> selectReportPost(String postNo) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("board", service.selectOneBoardUsingNo(Integer.parseInt(postNo)));
-		result.put("user", service.selectOneUserUsingPostNo(Integer.parseInt(postNo)));
-		return result;
-	}
-	@RequestMapping("/selectReportPostAndComment.do")
-	@ResponseBody
-	public Map<String, Object> selectReportPost(String postNo, String commentNo) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("board", service.selectOneBoardUsingNo(Integer.parseInt(postNo)));
-		result.put("comment", service.selectOneCommentUsingNo(Integer.parseInt(commentNo)));
-		result.put("user", service.selectOneUserUsingCommentNo(Integer.parseInt(commentNo)));
-		return result;
-	}
+	
 	
 
 	@RequestMapping("/adminMain.do")

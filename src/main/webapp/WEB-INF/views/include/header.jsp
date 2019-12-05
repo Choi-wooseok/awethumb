@@ -13,10 +13,15 @@
         </div>
 
         <div class="layout_right">
-            <span class="user layout_left">
-                <img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
-            </span>
-            <a href="${pageContext.request.contextPath}/profile/${su.userNickname}">공찬희</a>
+            <sec:authorize access="isAuthenticated()">
+            	<span class="user layout_left">
+                	<img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
+            	</span>
+				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userName}</a>
+			</sec:authorize>
+            <sec:authorize access="isAnonymous()">
+	            <a href="${pageContext.request.contextPath}/user/login_main.do">로그인하세요</a>
+			</sec:authorize>
 
             <div class="optBtn">
             	<button>

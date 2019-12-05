@@ -3,7 +3,7 @@
  */
 /*	$(function(){
 		$("#reason").attr("disabled", true);*/
-if(commentNo == null){
+if(commentNo == null || commentNo == undefined || commentNo == ""){
 	$.ajax({
 		url: "selectReportPost.do?postNo="+postNo,
 		dataType: "json",

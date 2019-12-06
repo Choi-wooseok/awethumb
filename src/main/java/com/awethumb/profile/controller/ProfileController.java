@@ -32,6 +32,7 @@ import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.TokenUser;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
@@ -173,11 +174,6 @@ public class ProfileController {
 	
 	@RequestMapping("/insertproj.do")
 	public String insertProj(Project p) throws IllegalStateException, IOException {
-		for (int i = 0; i < p.getSharedUserNickList().size(); i++) {
-			System.out.println(p.getSharedUserNickList().get(i));
-		}
-		
-		/*
 		ProjectFile pf = new ProjectFile();
 		
 		MultipartFile mf = p.getProjectFile();
@@ -204,7 +200,6 @@ public class ProfileController {
 		}
 		
 		service.insertProj(p, pf);
-		*/
 		return "redirect:" + p.getUserNickname();
 	}
 	
@@ -257,7 +252,7 @@ public class ProfileController {
 	
 	@RequestMapping("/gettokenusers.do")
 	@ResponseBody
-	public List<String> getTokenUsers (@RequestParam(value="userNickname" ) String userNickname) {
+	public List<TokenUser> getTokenUsers (@RequestParam(value="userNickname" ) String userNickname) {
 		return service.selectTokenUsers(userNickname);
 	}
 }

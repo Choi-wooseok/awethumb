@@ -16,8 +16,10 @@ $pmBtn.click((e) => {
     case 1 :
         pName = "Progress Project"; 
         break;
-    case 2 : 
+    case 2 :
         pName = "Shared Project";
+        // 공유 유저 선택창 추가
+        $(".shared-user-cont").removeClass('myHidden');
         break;
     case 3 : 
         pName = "Saved Project";
@@ -31,7 +33,11 @@ $pmBtn.click((e) => {
 })
 
 // 모달창 밖에 클릭시 모달창 닫힘
-document.querySelector(".proj_mod_ol").addEventListener("click", hidePModal)
+document.querySelector(".proj_mod_ol").addEventListener("click", ()=>{
+	hidePModal();
+	// 공유 유저 선택창을 숨긴다
+	$(".shared-user-cont").addClass("myHidden");
+})
 
 // 모달창이 띄어졌을 시 스크롤 방지
 $(".proj_mod").on('scroll touchmove mousewheel', function(event) {
@@ -105,7 +111,8 @@ function onTokenInput( e ){
 
 // submit 하기 전에 인풋 태그를 만들어줘서 닉네임을 보내준다
 $(".add_proj_form").submit((e) => {
+//	e.preventDefault();
 	for (let val of JSON.parse(tokenInput.value)){
-		$(".add_proj_form").prepend(`<input name="sharedUserNickList" hidden="hidden" value="${val.value}">`)
+		$(".add_proj_form").prepend(`<input name="sharedUserNoList" hidden="hidden" value="${val.no}">`)
 	}
 })

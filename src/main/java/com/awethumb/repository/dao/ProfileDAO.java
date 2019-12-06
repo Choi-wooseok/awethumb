@@ -7,6 +7,7 @@ import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.TokenUser;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
@@ -54,6 +55,8 @@ public interface ProfileDAO {
 
 	public int selectProjectCount(int userNo);
 
-	public List<String> selectTokenUsers(String userNickname);
+	public List<TokenUser> selectTokenUsers(String userNickname);
+
+	public void insertSharedUserList(Project p);
 
 }

@@ -11,6 +11,7 @@ import com.awethumb.repository.vo.Follow;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.Subscribe;
+import com.awethumb.repository.vo.TokenUser;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 
@@ -83,7 +84,13 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Override
 	public void insertProj(Project p, ProjectFile pf) {
-		dao.insertProject(p);
+		dao.insertProject(p);			
+		
+		// 프로젝트 번호가 2일 경우 공유 유저 리스트를 넣어준다
+		if(p.getProjectType() == 2) {
+			dao.insertSharedUserList(p);
+		}
+		
 		// 유저에게 썸네일을 입력 받았을 경우에만 파일을 입력
 		if(pf.getProjectFilePath() != null) {
 			dao.insertProjectFile(pf);
@@ -116,7 +123,7 @@ public class ProfileServiceImpl implements ProfileService{
 	}
 
 	@Override
-	public List<String> selectTokenUsers(String userNickname) {
+	public List<TokenUser> selectTokenUsers(String userNickname) {
 		return dao.selectTokenUsers(userNickname);
 	}
 }

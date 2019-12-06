@@ -200,7 +200,7 @@
                             <input type="text" name="projectTitle">
                         </div>
                     </div>
-                    <div class="shared-user-cont">
+                    <div class="shared-user-cont myHidden">
                     	<aside>공유할 유저</aside>
 	                    <div class="tokenInput_wrapper">
 							<input type="text" class="tokenInput">

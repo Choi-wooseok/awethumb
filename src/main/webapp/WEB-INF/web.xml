@@ -60,7 +60,8 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:config/spring/spring-context.xml,
-      			   classpath:config/spring/spring-oauth2.xml
+      			   classpath:config/spring/spring-oauth2.xml,
+      			   classpath:config/spring/spring-websocket.xml
       </param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>

@@ -172,6 +172,7 @@
 			where user_no = #{userNo}
 		</delete>
 		
+		
 		<!-- 페이징 관련 시작 -->
 		<!-- selectReportPaging(@Param("pagenum") int pagenum, @Param("contentnum") int contentnum);
 		int reportcount(); -->
@@ -180,8 +181,17 @@
 			order by report_status ASC, report_no DESC
 			limit #{pageStart}, #{perPageNum}
 		</select>
+		<select id="selectUserPaging" resultType="UserVO" parameterType="Criteria">
+			select * from user_tb
+			order by user_no
+			limit #{pageStart}, #{perPageNum}
+		</select>
 		<select id="reportCount" resultType="int">
 			select count(*) from report_tb
+		</select>
+		
+		<select id="userCount" resultType="int">
+			select count(*) from user_tb
 		</select>
 		
 		<!-- 신고글 자체를 삭제처리 -->

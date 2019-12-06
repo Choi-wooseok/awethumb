@@ -9,7 +9,7 @@
 <body>
 <script>
 // 	location.href="${pageContext.request.contextPath}/mainfeed/mainfeed.do";	
-	location.href="${pageContext.request.contextPath}/admin/adminMain.do";	
+	location.href="${pageContext.request.contextPath}/admin/adminMain.do";
 // 	location.href="${pageContext.request.contextPath}/detailProject/detailBoardList.do";
 </script>
 </body>

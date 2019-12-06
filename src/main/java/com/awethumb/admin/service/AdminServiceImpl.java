@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Block> selectBlock(int userNo) {
+	public Block selectBlock(int userNo) {
 		return dao.selectBlock(userNo);
 	}
 
@@ -130,6 +130,17 @@ public class AdminServiceImpl implements AdminService{
 	public void insertReport(Report report) {
 		dao.insertReport(report);
 	}
+
+	@Override
+	public List<UserVO> selectUserPaging(Criteria cri) {
+		return dao.selectUserPaging(cri);
+	}
+	@Override
+	public int userCount() {
+		return dao.userCount();
+	}
+	
+	
 	
 	
 	

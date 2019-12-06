@@ -22,7 +22,7 @@ public interface AdminDAO {
 	UserVO selectOneUserByComment(Comment comment);
 	void insertBlock(Map<String, String> rmap);
 	void updateReportStatus(Map<String, String> rmap);
-	List<Block> selectBlock(int userNo);
+	Block selectBlock(int userNo);
 	void denyReportStatus(int reportNo);
 	void deleteBlock(int userNo);
 	void deleteReport(int reportNo);
@@ -33,8 +33,13 @@ public interface AdminDAO {
 	void insertReport(Report report);
 	
 	
+	
 	/* 페이징 관련 */
 	@SuppressWarnings("unchecked")
 	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();
+	
+	@SuppressWarnings("unchecked")
+	List<UserVO> selectUserPaging(Criteria cri);
+	int userCount();
 }

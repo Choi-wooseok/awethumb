@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.admin.service.AdminService;
@@ -21,6 +18,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.PageMaker;
 import com.awethumb.repository.vo.Report;
+import com.awethumb.repository.vo.UserVO;
 
 @Controller("com.awethumb.admin.controller.AdminController")
 @RequestMapping("/admin")
@@ -32,12 +30,35 @@ public class AdminController {
 	@RequestMapping("/manageUser.do")
 	public void manageUser() {
 		
+	};
+	@RequestMapping("/userListAjaxPaging.do")
+	@ResponseBody
+	public Map<String, Object> userListAjaxPaging(Criteria cri) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.userCount());
+		
+		
+		//유저하나하나마다 그 자신과 연관된 정지상태와 정지기한이 있다. 편의를 위해 UserVO에 이 정보를 연결하고 출력할때 같이 뽑아준다.
+		
+		List<UserVO> uList = service.selectUserPaging(cri);
+		/* 스크립트 단에서 편리한 출력을 위해 리스트에 데이터를 가공해서 주입. */
+		// 필요한 정보 :회원번호/회원아이디/정지상태/정지 기한
+		// 회원번호를 이용해 Block테이블에서 Block을 골라서 각각의 UserVO에 해당하는 Block을 세팅해준다.
+		for (UserVO u : uList) {
+			if(service.selectBlock(u.getUserNo()) != null) {
+				u.setBlock(service.selectBlock(u.getUserNo()));
+				u.setBlockEnabled("Y");
+			} else {
+				u.setBlockEnabled("N");
+			}
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("uList", uList);
+		map.put("pageMaker", pageMaker);
+		return map;
 	}
-	
-	
-	
-	
-
+		
 	@RequestMapping("/adminMain.do")
 	public void adminMain() {
 	};
@@ -65,8 +86,8 @@ public class AdminController {
 				reportTitle = "삭제된 게시물 입니다.";
 			}
 			r.setReportTitle(reportTitle);
-			List<Block> blist = service.selectBlock(r.getUserNo());
-			if (blist.size() != 0) {
+			Block b = service.selectBlock(r.getUserNo());
+			if (b != null) {
 				r.setBlockEnabled("Y");
 			} else {
 				r.setBlockEnabled("N");
@@ -89,10 +110,8 @@ public class AdminController {
 		report.setBoard(service.selectOneBoard(report));
 		report.setUserVO(service.selectOneUser(report));
 
-//		String originContent = service.selectPostContent(report.getPostNo());
-//		System.out.println(originContent);
-		List<Block> blist = service.selectBlock(report.getUserNo());
-		if (blist.size() != 0) {
+		Block b = service.selectBlock(report.getUserNo());
+		if (b != null) {
 			report.setBlockEnabled("Y");
 		} else {
 			report.setBlockEnabled("N");
@@ -165,8 +184,8 @@ public class AdminController {
 				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
 			}
 			r.setReportTitle(reportTitle);
-			List<Block> blist = service.selectBlock(r.getUserNo());
-			if (blist.size() != 0) {
+			Block b = service.selectBlock(r.getUserNo());
+			if (b != null) {
 				r.setBlockEnabled("Y");
 			} else {
 				r.setBlockEnabled("N");

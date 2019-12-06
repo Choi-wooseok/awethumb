@@ -40,5 +40,5 @@ public class Project {
     private int countPerPage = 9;
 	private int currentPageNo;
 	
-	private List<String> sharedUserNickList;
+	private List<Integer> sharedUserNoList;
 }

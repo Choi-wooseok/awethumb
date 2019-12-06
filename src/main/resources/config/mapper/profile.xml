@@ -109,6 +109,18 @@
 		values (#{projectTitle}, #{userNo}, #{projectPublicEnabled}, #{categoryNo}, #{projectType})
 	</insert>
 	
+	<insert id="insertSharedUserList" parameterType="Project">
+		<selectKey resultType="int" keyProperty="projectNo" order="BEFORE">
+		    SELECT max(project_no)
+		      from project_tb
+		</selectKey>
+		insert into shared_project_tb(project_no, shared_user_no)
+		values
+		<foreach collection="sharedUserNoList" item="sharedUserNo" separator=",">
+			(#{projectNo}, #{sharedUserNo})
+        </foreach>
+	</insert>
+	
 	<insert id="insertProjectFile" parameterType="ProjectFile">
 		<selectKey resultType="int" keyProperty="projectNo" order="BEFORE">
 		    SELECT max(project_no)
@@ -173,8 +185,8 @@
 			    WHERE shared_user_no = #{userNo}) p
 	</select>
 	
-	<select id="selectTokenUsers" parameterType="string" resultType="string">
-		select user_nickname
+	<select id="selectTokenUsers" parameterType="string" resultType="TokenUser">
+		select user_nickname value, user_no no
 		  from user_tb
 		 where user_nickName like CONCAT('%',#{userNickname},'%')
 	</select>

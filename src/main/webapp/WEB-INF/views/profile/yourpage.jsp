@@ -80,10 +80,6 @@
             <div class="myprojectContWrap" id="slide-0">
                 <div class="mpjinfo">
                     <span>Progress Project</span>
-                    <div class="add_proj">
-                        <div>추가</div>
-                        <i class="fas fa-plus proj_mod_btn" data-proj-type="1"></i>
-                    </div>
                 </div>
                 <p>진행중인 프로젝트</p>
                 <div class="mpjcont progress-project-cont">
@@ -94,10 +90,6 @@
             <div class="myprojectContWrap" id="slide-1">
                 <div class="mpjinfo">
                     <span>Shared Project</span>
-                    <div class="add_proj ">
-                        <div>추가</div>
-                        <i class="fas fa-plus proj_mod_btn" data-proj-type="2"></i>
-                    </div>
                 </div>
                 <p>공유중인 프로젝트</p>
                 <div class="mpjcont shared-project-cont">
@@ -107,10 +99,6 @@
             <div class="myprojectContWrap" id="slide-2">
                 <div class="mpjinfo">
                     <span>Saved Project</span>
-                    <div class="add_proj" >
-                        <div>추가</div>
-                        <i class="fas fa-plus  proj_mod_btn" data-proj-type="3"></i>
-                    </div>
                 </div>
                 <p>저장한 프로젝트</p>
                 <div class="mpjcont saved-project-cont">
@@ -163,6 +151,7 @@
 	    let follwerCnt = ${u.followerCnt};
 		const subUserNo = ${su.userNo};
 		const userNo = ${u.userNo};
+		const contextPath = '<%=request.getContextPath()%>'
     </script>
     
     <!-- 프로필 이미지를 가져오는 스크립트 -->
@@ -235,6 +224,6 @@
     
     <!-- init 함수 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/profile/init.js"></script>
-
+    
 </body>
 </html>

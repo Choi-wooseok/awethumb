@@ -21,7 +21,7 @@
 		<div class="feedContWrap">
 				<input type="hidden" class="loginUserNo" value="${u.userNo}" />
 				<input type="hidden" class="loginUserNickName" value="${u.userNickname}" />
-				<input type="hidden" class="aa" value="${aa}" />
+				<input type="hidden" class="imageState" value="${imageState}" />
 				<c:forEach var="p" items="${postNoList}">
 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
 				</c:forEach>
@@ -83,7 +83,7 @@
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">
-				<div>내 주변 친구들</div>
+				<div>팔로워 추천</div>
 				<div>
 					<div class="feedSideUserList">
 

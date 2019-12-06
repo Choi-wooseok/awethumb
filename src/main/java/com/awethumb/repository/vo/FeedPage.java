@@ -12,4 +12,7 @@ public class FeedPage {
 
     // 검색 키워드
     private String searchWord;
+    
+    // 내유저번호로 구독한사람뽑기
+    private int subUserNo;
 }

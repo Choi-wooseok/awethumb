@@ -1,6 +1,8 @@
-let pageIndex = 0;
-const pageCount = 5;
+let pageIndex = 0; // 시작
+const pageCount = 5; // 범위 5개
 let scrollTop = 0;
+let loginUserNo = $(".loginUserNo").val();
+let loginUserNickName = $(".loginUserNickName").val();
 $(document).ready(function(){ 
 	$(window).scroll(function(){ 
 			if ($(this).scrollTop() > 100) { 
@@ -27,7 +29,9 @@ function boardList(){
 	$.getJSON({
 		url: "feedlist.do",
 		data:{
-			pageIndex
+			pageIndex : pageIndex,
+			pageCount : pageCount,
+			subUserNo:loginUserNo
 		},
 		success: list =>{
 			if(list.length == 0) {
@@ -39,11 +43,10 @@ function boardList(){
 		}
 	})
 }; // boardList
-let aa = $(".aa").val();
-console.log("이미지 : " + aa);
+let imageState = $(".imageState").val();
 function feedList(list){
 	$.each(list, (i, bl) => {
-		if (aa === 1) { // 1사진 O 1이아닐때 사진X
+		if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
 			$("#feedWrap").append(`
 					<div class="feedList">
 						<div class="feedInfo">
@@ -125,8 +128,7 @@ function feedList(list){
 }; // feedList
    
    
-let loginUserNo = $(".loginUserNo").val();
-let loginUserNickName = $(".loginUserNickName").val();
+
 function aaa () {
 	let postNo = document.querySelectorAll(".postNo");
 	for (let a of postNo){
@@ -308,22 +310,16 @@ $(document).on("click", ".boardModal", (e) => {
 //신고
 $(document).on("click", ".report",(e) => {
 	let postNo = $(e.target).data("postNo");
-	let cmtNo = $(e.target).data("cmtNo");
-	if (cmtNo == null) { // 글
-		alert("글신고")
-		console.log("글boardNo : " + postNo);
+	let cmtNo = $(e.target).data("commentno");
+	if (cmtNo == null) { // 게시글 신고
 		let newWindow = window.open("about:blank");
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
 	}
 	else { // 댓글 신고
-		alert("댓글신고")
-		console.log("댓boardNo : " + postNo);
-		console.log("댓commentNo : " + cmtNo);
 		let newWindow = window.open("about:blank");
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
-// 글번호 댓글번호
 
 
 

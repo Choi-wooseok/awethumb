@@ -24,8 +24,8 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/feed.do")
 	public void feed(Model model) { 
 		model.addAttribute("postNoList", service.postNoList());
-		int aa = 1; // 더미 이미지 띄우는용
-		model.addAttribute("aa", aa);
+		int imageState = 1; // 더미 이미지 띄우는용
+		model.addAttribute("imageState", imageState);
 	}
 	
 	@RequestMapping("/feedlist.do")

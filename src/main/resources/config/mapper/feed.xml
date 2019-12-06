@@ -7,18 +7,23 @@
 		SELECT post_no
 		  from board_tb
 	</select>
+	
 	<select id="selectFeedBoardPage" parameterType="FeedPage" resultType="FeedBoard">
 		SELECT ut.user_nickname,
 			   bt.post_no,
 		       bt.post_content,
 			   bt.view_cnt,
 			   bt.project_no
-		  FROM user_tb ut
+		  FROM board_tb bt 
 		 INNER JOIN project_tb pt
-		    ON ut.user_no = pt.user_no
-		 INNER JOIN board_tb bt
-		    ON pt.project_no = bt.project_no
-		 limit #{pageIndex} , #{pageCount}  
+		    ON bt.project_no= pt.project_no 
+		 INNER JOIN user_tb ut 
+		    ON ut.user_no = pt.user_no 
+		 WHERE ut.user_no = any (SELECT opp_user_no
+								   FROM subscribe_tb
+								  WHERE sub_user_no = #{subUserNo}) 
+		 ORDER BY reg_date desc
+		 LIMIT #{pageIndex} , #{pageCount}
 	</select>
 	
 	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">

@@ -46,9 +46,6 @@ public class MainFeed {
     // 좋아요 갯수
     private int likeCount;
     
-    // 검색 키워드
-    private String searchWord;
-    
     // 댓글을 리스트로
     private List<Comment> commentList;
     

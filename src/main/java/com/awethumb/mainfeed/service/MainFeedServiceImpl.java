@@ -39,6 +39,11 @@ public class MainFeedServiceImpl implements MainFeedService {
 	public void delectComment(int cmtNo) {
 		dao.deleteComment(cmtNo);
 	}
+	
+	// 검색 -------------------------------------------------
+	public List<MainFeed> search(String serchWord) {
+		return dao.search(serchWord);
+	}
 
 //	public Board updateFormBoard(int no) {
 //		return dao.selectOneBoard(no);

@@ -5,6 +5,7 @@ import java.util.List;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.repository.vo.Search;
 
 public interface MainFeedService {
 //  메인피드 생성 ------------------------------
@@ -16,4 +17,6 @@ public interface MainFeedService {
 	void updateComment(Comment comment);
 	void delectComment(int cmtNo);
 	int commentCount(int postNo);
+//  검색 ------------------------------------
+	List<MainFeed> search(String searchWord);
 }

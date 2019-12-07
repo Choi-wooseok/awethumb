@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.mainfeed.service.MainFeedService;
@@ -39,23 +41,32 @@ public class MainFeedController {
 	@ResponseBody
 	public MainFeed commentRegistAjax(Comment comment) {
 		service.insertComment(comment);
-		System.out.println("인서트 들어옴");
+//		System.out.println("인서트 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
 	@RequestMapping("/updateComment.do")
 	@ResponseBody
 	public MainFeed commentUpdateAjax(Comment comment) {
 		service.updateComment(comment);
-		System.out.println("update 들어옴");
+//		System.out.println("update 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
 	@RequestMapping("/deleteComment.do")
 	@ResponseBody
 	public MainFeed commentDelete(Comment comment) {
 		service.delectComment(comment.getCmtNo());
-		System.out.println("delete 들어옴");
+//		System.out.println("delete 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
+	@RequestMapping(value="/search.do", method = RequestMethod.POST)
+	@ResponseBody
+	public List<MainFeed> search(@RequestBody String searchWord) {
+		System.out.println("search 들어옴");
+		System.out.println(searchWord);
+		return service.search(searchWord);
+	}
+	
+	
 //	@RequestMapping("/comment_list.do")
 //	public List<Comment> commentListAjax(int postNo) {
 //		return service.listComment(postNo);

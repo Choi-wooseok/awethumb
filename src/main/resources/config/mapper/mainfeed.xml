@@ -18,6 +18,7 @@
 		<result column="comment_count" property="commentCount" /> 
 		<result column="like_count" property="likeCount" /> 
 		<result column="search_word" property="searchWord" /> 
+		<result column="result_type" property="resultType" /> 
 		<collection property="commentList" resultMap="commentMap" />
 		<collection property="hashtagList" select="selectHashtagList" column="post_no"/>
 	</resultMap>
@@ -33,26 +34,30 @@
 		<result column="hashtag_content" property="hashtagContent" />
 		<result column="post_no" property="postNo" />
 	</resultMap>
+	<resultMap id="searchMap" type="Search">
+		<result column="hashtag_count_and_user_no" property="hashtagCountAndUserNo"/>
+		<result column="hashtag_and_nickname" property=""/>
+		<result column="result_type" property="resultType"/>
+		<result column="result_type" property="searchWord"/>
+	</resultMap>
 	<!-- 검색 ======================================================== -->
-	<select id="search" resultMap="mainFeedMap" flushCache="true" useCache="true">
-		 select u.*
-		   from user_tb u
-		  inner join project_tb p
-		     on u.user_no = p.user_no
-		  inner join board_tb b
-		     on p.project_no = b.project_no
-		  right outer join hashtag_tb h
-		     on b.post_no = h.post_no
-		  where u.user_nickname like '%#{searchWord}%'
-		     or h.hashtag_content like '%#{searchWord}%'
+	<select id="search" resultType="Search" flushCache="true" useCache="true">
+		select u.user_no as hashtag_count_and_user_no, u.user_nickname as hashtag_and_nickname, 'u' as "result_type" 
+  		  from user_tb u
+ 		 where u.user_nickname like concat(#{searchWord},'%')
+  		 union all
+		select count(h.hashtag_content) , h.hashtag_content, 'h' 
+  		  from hashtag_tb h
+ 		 group by h.hashtag_content
+		having h.hashtag_content like concat(#{searchWord},'%')
 	</select>
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
 		select b.*, u.user_nickname, 
 			(select count(c.cmt_no)
-		   	   FROM comment_tb c
-		  	  WHERE c.post_no = b.post_no
+		   	   from comment_tb c
+		  	  where c.post_no = b.post_no
 			) as comment_count, 
 			(select count(l.post_and_cmt_no)
 			   from like_tb l
@@ -63,6 +68,9 @@
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
+     	   <if test="searchWord != null">
+		       or u.user_nickname like #{searchWord} || '%'
+     	   </if>
 		 order by b.post_no desc
 		 limit #{pageIndex} , #{pageCount} 
 	</select>
@@ -70,6 +78,9 @@
 		select * 
 		  from hashtag_tb 
 		 where post_no = #{postNo}
+		   <if test="searchWord != null">
+		 	   or hashtag_content like #{searchWord} || '%'
+		   </if>
 	</select>
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap" flushCache="true" useCache="true">
 		select b.*, c.*, u.*, h.*, (select u.user_nickname

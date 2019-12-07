@@ -6,7 +6,6 @@ let scrollTop = 0;
 
 	   $(document).ready(function(){ 
 //		   console.log("시작")
-		
 		    $(window).scroll(function(){ 
 //		    	console.log("씨밯")
 		        if ($(this).scrollTop() > 100) { 
@@ -64,7 +63,7 @@ let scrollTop = 0;
 		}
 	   
 		function makeMainFeedList(list) {
-			console.log(list);
+//			console.log(list);
 			$.each(list, (i, c) => {
 				$("#feedsWrap").append(`
 					<div class="feedsList msrItem" id="feedsList">
@@ -182,18 +181,19 @@ let scrollTop = 0;
 		                					</div>
 		                					<div class="commentWrap" id="commentWrap${c.cmtNo}">
 		                					<div class="cmtModal${c.cmtNo}">
-		                			${c.cmtUserNickname}
-		                			<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
-		                				<i class="fas fa-ellipsis-h"></i>
-		                			</button>
-		                			<div class="cmtContent">
-		                				${c.cmtContent}
-            						</div>
-		                				<span class="cmtDt">${c.cmtRegDt}</span>
-		                			</div>
-		                			</div>
-        						</div>
-            				</div>`)
+		                						<div class="cmtInfo">
+		                							<span>${c.cmtUserNickname}</span>
+		                							<span>${c.cmtRegDt}</span>
+		                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
+		                								<i class="fas fa-ellipsis-h"></i>
+		                							</button>
+            									</div>
+		                						<div class="cmtContent">
+		                							${c.cmtContent}
+            									</div>
+				                			</div>
+		        						</div>
+		            				</div>`)
 		                } else {
 		                	$(`.comment`).append(`
 		                				<span>등록된 댓글이 없습니다.</span>
@@ -292,7 +292,7 @@ let scrollTop = 0;
         	$(".cmtUpdateBtn").data("cmtno", cmtNo);
         	$(".cmtUpdateBtn").data("cmtcontent", cmtContent);
         	$(".cmtDeleteBtn").data("cmtno", cmtNo);
-        	console.log($(".cmtDeleteBtn").data("cmtno"))
+//        	console.log($(".cmtDeleteBtn").data("cmtno"))
 //        	console.log($(".cmtUpdateBtn").data("cmtcontent"))
         })
         $(".detailModalClose").click(() => {
@@ -358,7 +358,7 @@ let scrollTop = 0;
         })
 //      댓글 삭제
         $(".commentList").on("click", ".deleteSubmit", (e) => {
-        	console.log($(e.target).data("cmtno"));
+//        	console.log($(e.target).data("cmtno"));
 			$.ajax({
 				url: "deleteComment.do",
 				type: "POST",
@@ -414,7 +414,6 @@ let scrollTop = 0;
 	
 	// 댓글 등록
 		$(document).on('submit', '#crForm', () => {
-			console.log("1");
 			$.ajax({
 				url: "insertComment.do",
 				method:"POST",
@@ -447,26 +446,70 @@ let scrollTop = 0;
 		});
 		
 //		검색기능
-		$(document).on("click", ".search", () => {
-			
-		})
+//		$(document).on("click", ".search", () => {
+//			
+//		})
+		$("#search").keyup(() => {
+			let searchWord = $("#search").val().replace(/ /g, '');
+//				console.log(searchWord)
+			if (searchWord != '') {
+				let tempSearchWord = searchWord;
+				if (tempSearchWord.charAt(0) == '#') {
+					tempSearchWord = searchWord.substring(1);
+				}
+				if (tempSearchWord.length == 0) return;
+//					alert(tempsearchWord)
+				$.ajax({
+					url: "search.do",
+					method: 'POST',
+					data: tempSearchWord,
+					dataType: 'JSON',
+					contentType: 'application/json; charset=UTF-8',
+					success: result => {
+//							console.log(result)
+//							console.log(result.length)
+//							console.log("search", searchWord, searchWord.startsWith('#'));
+						if (result.length > 0) {
+							let str = '';
+							if (searchWord.startsWith('#')){
+//									console.log("search", searchWord);
+								for (let i = 0; i < result.length; i++) {
+									console.log(result[i].hashtagAndNickname);
+									if (result[i].resultType == 'h'){
+										str += '<div id="resultSearch">' + '#' + result[i].hashtagAndNickname + 
+												' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
+									} else {
+										str = '';
+									}
+								}
+							} else {
+								for (let i = 0; i < result.length; i++) {
+									if (result[i].resultType == 'u'){
+										str += '<div id="resultSearch">' + result[i].hashtagAndNickname + '</div>';
+									} else if (result[i].resultType == 'h') {
+										str += '<div id="resultSearch">' + '#' + result[i].hashtagAndNickname + 
+												' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
+									}
+								}
+							}
+//								console.log(str);
+							$("#searchResults").css("display", "block")
+							$("#searchResults").html(str);
+							window.onclick = () => {
+								$("#searchResults").css("display", "none")
+					        }
+						} else {
+							$("#searchResults").html("");
+							$("#searchResults").css("display", "none")
+						}
+					}
+				});
+			} else {
+				$("#searchResults").html("");
+				$("#searchResults").css("display", "none")
+			}
+		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		

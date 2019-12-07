@@ -9,11 +9,13 @@
             <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title">
             	<span>AweThumb</span>
            	</a>  
-            <span class="search">
-                    <input id="search" type="text" />
-                    <label for="search"><i class="fas fa-search"></i></label>
-            </span>
-            <span id="searchResults"></span>   
+            <div class="search">
+                <input id="search" type="text" />
+                <div id="searchBtn">
+	                <i class="fas fa-search"></i>
+                </div>
+            	<div id="searchResults"></div>   
+            </div>
         </div>
 
         <div class="layout_right">
@@ -24,7 +26,7 @@
 				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userName}</a>
 			</sec:authorize>
              <sec:authorize access="isAnonymous()">
-	            <a href="${pageContext.request.contextPath}/user/login_main.do">로그인하세요</a>
+	            <a href="${pageContext.request.contextPath}/user/login_main.do" id="needLogin">로그인하세요</a>
 			</sec:authorize>
 
             <div class="optBtn">

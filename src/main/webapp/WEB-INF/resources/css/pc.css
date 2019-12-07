@@ -42,7 +42,7 @@ header > div > div:nth-child(2) {
 .search > form {
     position: relative;
 }
-.search > form > input {
+.search > input {
     width: 300px;
     height: 33px;
     border-radius: 3px;
@@ -50,16 +50,17 @@ header > div > div:nth-child(2) {
     box-shadow: none;
     box-sizing: border-box;
     padding: 0 38px 0 8px;
+    text-align: center;
 }
-.search > form > input:focus {
+.search > input:focus {
     border: 1px solid;
     border-color: #6dd5bc;
 }
-.search > form > label {
+.search > label {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 12px;
+    right: 25px;
     cursor: pointer;
 }
 .user {

@@ -30,7 +30,7 @@ public interface MainFeedDAO {
 	void deleteComment(int cmtNo);
 	
 	/* 검색 파트 ============================================*/
-	MainFeed search(MainFeed mainfeed);
+	List<MainFeed> search(String searchWord);
 }
 
 

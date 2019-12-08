@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awethumb.repository.dao.ChatDAO">
+
+<select id="selectRoom" resultType="int" parameterType="Message" flushCache="true" useCache="true">
+	SELECT message_no
+	  FROM message_tb
+	 WHERE (send_user = #{sendUser} AND take_user = #{takeUser})
+	    OR (send_user = #{takeUser} AND take_user = #{sendUser})  
+</select>
+<insert id="insertRoom">
+	INSERT INTO chatroom_tb
+	VALUES ()
+</insert>
+
+
+
+</mapper>
+
+
+
+

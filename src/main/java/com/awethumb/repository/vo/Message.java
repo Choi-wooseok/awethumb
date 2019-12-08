@@ -2,6 +2,8 @@ package com.awethumb.repository.vo;
 
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 import lombok.Data;
 
 @Data
@@ -26,4 +28,12 @@ public class Message {
 
     // 메세지 내용 
     private String messageContent;
+    
+    public static Message convertMessage(String source) {
+		Message message = new Message();
+		Gson gson = new Gson();
+		message = gson.fromJson(source,  Message.class);
+		return message;
+	}
+    
 }

@@ -7,8 +7,9 @@
     http://www.springframework.org/schema/websocket   
     http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+
 	<websocket:handlers>
-	    <websocket:mapping handler="soc_client" path="/websocket/socket_client.do" />	
+	    <websocket:mapping handler="soc_client" path="/chat.do" />	
 		<websocket:handshake-interceptors>
 	    	<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 	    </websocket:handshake-interceptors>

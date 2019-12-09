@@ -9,6 +9,7 @@
 
 
 	<websocket:handlers>
+	    <websocket:mapping handler="AlarmHandler" path="/alarm.do" />	
 	    <websocket:mapping handler="soc_client" path="/chat.do" />	
 		<websocket:handshake-interceptors>
 	    	<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />

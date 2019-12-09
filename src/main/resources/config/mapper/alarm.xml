@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awethumb.repository.dao.AlarmDAO">
+
+<insert id="insertAlarm" parameterType="Alarm">
+	INSERT INTO alarm_tb(
+		receive_user_no, 
+		send_user_no, 
+		alarm_type
+		<if test="boardNo != null">
+            , board_no
+        </if>
+		<if test="commentNo != null">
+            , comment_no
+        </if>
+		<if test="projectNo != null">
+            , project_no
+        </if>
+	)
+	VALUES (
+		#{receive_user_no}, 
+		#{send_user_no}, 
+		#{alarm_type}
+		<if test="boardNo != null">
+            , #{boardNo}
+        </if>
+		<if test="commentNo != null">
+            , #{commentNo}
+        </if>
+		<if test="projectNo != null">
+            , #{projectNo}
+        </if>
+	)
+</insert>
+
+<select id="selectAlarmCnt" parameterType="int" resultType="int">
+	select count(*)
+	  from alarm_tb
+	 where receiver_user_no = #{userNo}
+	   and check = 'N'
+</select>
+
+
+</mapper>
+
+
+
+

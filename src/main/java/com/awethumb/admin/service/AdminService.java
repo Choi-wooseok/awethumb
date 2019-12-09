@@ -32,6 +32,8 @@ public interface AdminService {
 	UserVO selectOneUserUsingPostNo(int postNo);
 	UserVO selectOneUserUsingCommentNo(int commentNo);
 	void insertReport(Report report);
+	UserVO selectOneUserUsingUserNo(int userNo);
+	void updateBlcok(Map<String, Object> rmap);
 	
 	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();

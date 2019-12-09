@@ -27,6 +27,28 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	@RequestMapping("/userManageAjax.do")
+	@ResponseBody
+	public Map<String, Object> userManageAjax(int userNo) {
+		//여기서 리절트에 json으로 담아줘야 하는 정보는
+		// 번호에 해당하는 user객체
+		// 그 유저가 정지중인지의 여부와 정지중이라면 정지마감날짜
+		// 번호로 유저를 뽑아야하고, 블락테이블에 유저no로 접근하는 메서드 사용해야함.
+		System.out.println("일로 들어오냐?" + userNo);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		UserVO user = service.selectOneUserUsingUserNo(userNo);
+		System.out.println("user:"+ user);
+		System.out.println("block:" + service.selectBlock(userNo));
+		result.put("user", user);
+		Block block = service.selectBlock(userNo);
+		if(block != null) {
+			result.put("block", block);
+		};
+		return result;
+	}
+	
 	@RequestMapping("/manageUser.do")
 	public void manageUser() {
 		
@@ -58,6 +80,19 @@ public class AdminController {
 		map.put("pageMaker", pageMaker);
 		return map;
 	}
+	
+	@RequestMapping("/updateBlcok.do")
+	@ResponseBody
+	public void updateBlock(@RequestBody Map<String, Object> map) {
+		Map<String, Object> rmap = new HashMap<String, Object>();
+		Block block = service.selectBlock(Integer.parseInt(map.get("userNo").toString()));
+		String endDt = map.get("blockDate").toString();
+		if(block != null) {
+			rmap.put("userNo", Integer.parseInt(map.get("userNo").toString()));
+			rmap.put("blockDate", endDt);
+			service.updateBlcok(rmap);
+		}
+	};
 		
 	@RequestMapping("/adminMain.do")
 	public void adminMain() {

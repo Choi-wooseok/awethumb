@@ -317,6 +317,7 @@ function originPostAjax(reportNo){
 
 
 
+/*모달 내부 탭메뉴*/
 document.getElementsByClassName("tablink")[0].click();
 
 function openMenu(evt, menuName) {
@@ -332,6 +333,7 @@ function openMenu(evt, menuName) {
   document.getElementById(menuName).style.display = "block";
   evt.currentTarget.classList.add("w3-light-grey");
 }
+
 $(document).on('click', "#permit-block", function(){
 	console.log($("input[name=date-selector]").val());
 	let param = {

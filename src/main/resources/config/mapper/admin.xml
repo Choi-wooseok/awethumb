@@ -113,6 +113,12 @@
 	  from user_tb
 	 where user_no = #{userNo}
 </select>
+<!-- UserVo를 userNo를 이용해서 뽑기 -->
+<select id="selectOneUserUsingUserNo" parameterType="int" resultType="UserVO">
+	select *
+	  from user_tb
+	 where user_no = #{userNo}
+</select>
 <!-- Board 뽑기 -->
 <select id="selectOneBoard" parameterType="Report" resultType="Board">
 	select *
@@ -165,6 +171,12 @@
 			update report_tb
 			   set report_status = 'Y'
 			 where report_no = #{reportNo}
+		</update>
+		<!-- 정지기간 변경유저넘버에 해당하는 블락의 엔드데이트를 바꾼다-->
+		<update id="updateBlcok" parameterType="hashmap">
+			update block_tb
+			   set block_end_dt = STR_TO_DATE(#{blockDate}, '%Y-%m-%d')
+			 where user_no = #{userNo}
 		</update>
 		<!-- block delete -->
 		<delete id="deleteBlock" parameterType="hashmap">

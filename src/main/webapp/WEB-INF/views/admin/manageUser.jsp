@@ -18,32 +18,26 @@
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
-				<!-- <!-- Tapped 모달창 시작
-				<div id="detail-block" class="w3-modal">
+				<!-- 모달창 시작 -->
+				<div id="detail-user" class="w3-modal">
 					<div class="w3-modal-content w3-card-4 w3-animate-zoom">
 						<header class="w3-container w3-teal">
 							<span
-								onclick="document.getElementById('detail-block').style.display='none'"
+								onclick="document.getElementById('detail-user').style.display='none'"
 								class="w3-button w3-teal w3-xlarge w3-display-topright">&times;</span>
-							<h2>상세보기 & 회원정지</h2>
+							<h2>회원관리</h2>
 						</header>
 
-						<div class="w3-bar w3-border-bottom">
-							<button class="tablink w3-bar-item w3-button"
-								onclick="openMenu(event, 'Detail')">상세글보기</button>
-							<button class="tablink w3-bar-item w3-button"
-								onclick="openMenu(event, 'Block')">이용정지</button>
-						</div>
-
 						<div id="Detail" class="w3-container menu w3-padding-large">
-
+							<span id="unlockAndBlock"></span>
 						</div>
-
+						
 						<div id="Block" class="w3-container menu w3-padding-large">
-							<h3 class="w3-large">이용정지 기한을 설정해주세요.</h3>
-							<form action="blockUser.do">
+							<h3 class="w3-large">수정할 이용정지 기한을 설정해주세요.</h3>
+							<form action="updateBlcok.do">
 								<input type="date" class="w3-margin-bottom" name="date-selector"><br>
-								<span id="permit-span"></span>
+								<button type="button" class="w3-btn w3-blue-grey w3-small"
+									id="update-block">기간수정</button>
 								<button type="button" class="w3-btn w3-blue-grey w3-small"
 									id="deny-block">승인거절</button>
 								<button type="button" class="w3-btn w3-black w3-small"
@@ -53,11 +47,11 @@
 
 						<div class="w3-container w3-light-grey w3-padding">
 							<button class="w3-button w3-right w3-white w3-border"
-								onclick="document.getElementById('detail-block').style.display='none'">닫기</button>
+								onclick="document.getElementById('detail-user').style.display='none'">닫기</button>
 						</div>
 					</div>
 				</div>
-				Tapped 모달 끝 -->
+				<!-- Tapped 모달 끝 -->
 			
 			<style>
 			table {text-align: left}

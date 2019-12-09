@@ -139,6 +139,18 @@ public class AdminServiceImpl implements AdminService{
 	public int userCount() {
 		return dao.userCount();
 	}
+
+	@Override
+	public UserVO selectOneUserUsingUserNo(int userNo) {
+		return dao.selectOneUserUsingUserNo(userNo);
+	}
+
+	@Override
+	public void updateBlcok(Map<String, Object> rmap) {
+		dao.updateBlcok(rmap);
+	}
+
+	
 	
 	
 	

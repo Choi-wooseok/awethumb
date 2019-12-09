@@ -126,9 +126,6 @@
         overflow-y: scroll;
     	height: 300px;
 	}
-	#searchResults > span {
-		height: 30px;
-	}
 	#needLogin:hover {
 		color: #6dd5bc;
 	}
@@ -136,7 +133,15 @@
 		top: -68px;
     	left: 265px;
 	}
-	#resultSearch:hover {
+	.resultSearch:hover {
 		background-color: #F7F7F7;
 		color: #6dd5bc;
+		cursor: pointer;
+	}
+	#resultCount {
+		height: 30px;
+	}
+	.resultSearch > a {
+		color: #6dd5bc;
+		
 	}

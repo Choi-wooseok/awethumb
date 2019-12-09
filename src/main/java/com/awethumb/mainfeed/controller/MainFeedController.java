@@ -61,8 +61,8 @@ public class MainFeedController {
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
 	public List<MainFeed> search(@RequestBody String searchWord) {
-		System.out.println("search 들어옴");
-		System.out.println(searchWord);
+//		System.out.println("search 들어옴");
+//		System.out.println(searchWord);
 		return service.search(searchWord);
 	}
 	

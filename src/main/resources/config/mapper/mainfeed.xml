@@ -19,7 +19,7 @@
 		<result column="like_count" property="likeCount" /> 
 		<result column="search_word" property="searchWord" /> 
 		<result column="result_type" property="resultType" /> 
-		<collection property="commentList" resultMap="commentMap" />
+		<collection property="commentList" select="selectComment" column="post_no"/>
 		<collection property="hashtagList" select="selectHashtagList" column="post_no"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
@@ -29,6 +29,7 @@
 		<result column="cmt_reg_dt" property="cmtRegDt" />
 		<result column="user_no" property="userNo" />
 		<result column="post_no" property="postNo" />
+		<result column="ago_reg_dt" property="agoRegDt" />
 	</resultMap>
 	<resultMap id="hashtagMap" type="Hashtag">
 		<result column="hashtag_content" property="hashtagContent" />
@@ -44,12 +45,12 @@
 	<select id="search" resultType="Search" flushCache="true" useCache="true">
 		select u.user_no as hashtag_count_and_user_no, u.user_nickname as hashtag_and_nickname, 'u' as "result_type" 
   		  from user_tb u
- 		 where u.user_nickname like concat(#{searchWord},'%')
+ 		 where u.user_nickname like CONCAT(#{searchWord},'%')
   		 union all
 		select count(h.hashtag_content) , h.hashtag_content, 'h' 
   		  from hashtag_tb h
  		 group by h.hashtag_content
-		having h.hashtag_content like concat(#{searchWord},'%')
+		having h.hashtag_content like CONCAT(#{searchWord},'%')
 	</select>
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
@@ -83,48 +84,38 @@
 		   </if>
 	</select>
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap" flushCache="true" useCache="true">
-		select b.*, c.*, u.*, h.*, (select u.user_nickname
-								 from user_tb u
-								where u.user_no = c.user_no) as cmt_user_nickname
+		select b.*, u.*
 		  from board_tb b
-		  left outer join hashtag_tb h
-		 	on b.post_no = h.post_no
 		 inner join project_tb p
 		 	on b.project_no = p.project_no
 		 inner join user_tb u
 		 	on p.user_no = u.user_no
-		  left outer join comment_tb c
-		    on b.post_no = c.post_no
 		 where b.post_no = #{postNo}
 	</select>
-<!-- 	<insert id="insertMainFeed" parameterType="MainFeed"> -->
-<!-- 		insert into board_tb ( -->
-<!-- 			no, title, writer, content -->
-<!-- 		) values ( -->
-<!-- 			seq_MainFeed_no.nextval, #{title}, #{writer}, #{content} -->
-<!-- 		) -->
-<!-- 	</insert> -->
 <!-- 	<update id="updateViewCnt" parameterType="int"> -->
 <!-- 		update board_tb  -->
 <!-- 		   set view_cnt = view_cnt + 1 -->
 <!-- 		 where no = #{no} -->
 <!-- 	</update> -->
-<!-- 	<update id="updateMainFeed" parameterType="MainFeed"> -->
-<!-- 		update board_tb  -->
-<!-- 		   set title = #{title},  -->
-<!-- 		       content = #{content} -->
-<!-- 		 where no = #{no} -->
-<!-- 	</update> -->
-<!-- 	<delete id="deleteMainFeed" parameterType="int"> -->
-<!-- 		delete  -->
-<!-- 		  from board_tb  -->
-<!-- 		 where no = #{no} -->
-<!-- 	</delete> -->
 	
  	<!-- 댓글 파트 ============================================= --> 
-	<select id="selectComment" parameterType="int" resultType="Comment" flushCache="true" useCache="true">
-	    select *
-	      from comment_tb
+	<select id="selectComment" parameterType="int" resultMap="commentMap" flushCache="true" useCache="true">
+	    select c.*, 
+	    	(select
+			<![CDATA[
+			  case when TIMESTAMPDIFF(hour, cmt_reg_dt, NOW())<1 
+ 			  	   then CONCAT(TIMESTAMPDIFF(MINUTE, cmt_reg_dt, NOW()), '분 전')
+ 			  	   when TIMESTAMPDIFF(hour, cmt_reg_dt, NOW())<24
+			  	   then CONCAT(TIMESTAMPDIFF(HOUR, cmt_reg_dt, NOW()), '시간 전')
+			  	   else CONCAT(DATEDIFF(NOW(), cmt_reg_dt), '일 전') 
+		 	]]> 
+			   end
+			  from comment_tb
+			 where cmt_no = c.cmt_no) as ago_reg_dt,
+			 (select u.user_nickname
+			   from user_tb u
+			  where u.user_no = c.user_no) as cmt_user_nickname
+	      from comment_tb c
 	     where post_no = #{postNo}
 	     order by cmt_no 
 	</select>	

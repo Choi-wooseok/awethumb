@@ -1,5 +1,5 @@
 let pageIndex = 0;
-const pageCount = 5;
+const pageCount = 6;
 let scrollTop = 0;
 
 // back to top
@@ -44,27 +44,33 @@ let scrollTop = 0;
 		   
 	   }
 	   
-	 
 // mainfeed 생성 및 페이징 --------------------------------------
-	   function MainfeedMakeAjax() {
+	   function MainfeedMakeAjax(srchWord) {
 			$.getJSON({
 				url: "mainfeedList.do",
 				data: {
-					pageIndex
+					pageIndex,
+					srchWord
 				},
 				success: list => {
 					if(list.length == 0) {
 						$(window).off('scroll');
 						return;
 					}
+					if (srchWord === "undefined")
 					makeMainFeedList(list);
+					else makeMainFeedList(list, 'srch');
 				}
 			})
 		}
 	   
-		function makeMainFeedList(list) {
+		function makeMainFeedList(list, type) {
+			if (type) {
+				
+			}
 //			console.log(list);
 			$.each(list, (i, c) => {
+//				console.log(c.commentList);
 				$("#feedsWrap").append(`
 					<div class="feedsList msrItem" id="feedsList">
 						<div class="feedsInfo">
@@ -174,6 +180,7 @@ let scrollTop = 0;
 	                    	`)
             $.each(detail.commentList, (i, c) => {
             			if (`${c.cmtContent}` != 'null'){
+            				console.log(c.agoRegDt);
             				$(`.comment`).append(`
         								<div class="commentList">
 			                				<div class="commentUserImg">
@@ -183,7 +190,7 @@ let scrollTop = 0;
 		                					<div class="cmtModal${c.cmtNo}">
 		                						<div class="cmtInfo">
 		                							<span>${c.cmtUserNickname}</span>
-		                							<span>${c.cmtRegDt}</span>
+		                							<span>${c.agoRegDt}</span>
 		                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
 		                								<i class="fas fa-ellipsis-h"></i>
 		                							</button>
@@ -476,19 +483,19 @@ let scrollTop = 0;
 								for (let i = 0; i < result.length; i++) {
 									console.log(result[i].hashtagAndNickname);
 									if (result[i].resultType == 'h'){
-										str += '<div id="resultSearch">' + '#' + result[i].hashtagAndNickname + 
-												' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
-									} else {
+										str += '<div class="resultSearch" data-serchType="h" data-hashtagContent=' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
+									else {
 										str = '';
 									}
 								}
 							} else {
 								for (let i = 0; i < result.length; i++) {
 									if (result[i].resultType == 'u'){
-										str += '<div id="resultSearch">' + result[i].hashtagAndNickname + '</div>';
+										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
 									} else if (result[i].resultType == 'h') {
-										str += '<div id="resultSearch">' + '#' + result[i].hashtagAndNickname + 
-												' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
 								}
 							}
@@ -498,6 +505,23 @@ let scrollTop = 0;
 							window.onclick = () => {
 								$("#searchResults").css("display", "none")
 					        }
+							// 검색 결과 클릭시 화면 이동
+							$(document).on('click', '.resultSearch', (e) => {
+								let searchType = $(e.target).data("searchtype")
+								console.log("b", searchType);
+								if (searchType == 'u'){
+									let searchU = $(e.target).data("usernickname");
+									location.href = pageContextURI + '/profile/' + searchU;
+									console.log("c", searchU);
+								} else if (searchType == 'h') {
+									let searchH = $(e.target).data("hashtagcontent");
+									location.href = pageContextURI + '/mainfeed/mainfeed.do?searchWord=' + searchH;
+									$(".feedsList").remove();
+									MainfeedMakeAjax(tempSearchWord);
+//									console.log(list);
+									console.log("a", searchH);
+								}
+							});
 						} else {
 							$("#searchResults").html("");
 							$("#searchResults").css("display", "none")

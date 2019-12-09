@@ -16,6 +16,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.awethumb.repository.vo.Chatroom;
 import com.awethumb.repository.vo.Message;
 import com.awethumb.repository.vo.SecurityUser;
 import com.awethumb.websocket.service.WebSocketService;
@@ -24,8 +25,8 @@ import com.google.gson.Gson;
 @Component("soc_client")
 public class WebSocketHandler extends TextWebSocketHandler {
 	
-//	@Autowired
-//	WebSocketService socService;
+	@Autowired
+	WebSocketService socService;
 	
 	// 연결된 유저 목록
 	private List<WebSocketSession> connectedUsers;
@@ -54,9 +55,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		
 		session.sendMessage(new TextMessage("에코 메세지 : " + message.getPayload()));
 		
-		// ConvertMessage에 sendUser나 takeUser가 ""일 경우에 convert 하지 않도록 처리해야 함.
+//		 ConvertMessage에 sendUser나 takeUser가 ""일 경우에 convert 하지 않도록 처리해야 함.
+		 Message messageVO = new Gson().fromJson(message.getPayload(), Message.class);
 		
-		Message messageVO = Message.convertMessage(message.getPayload());
 		
 		if (messageVO.getSendUser() == 0 || messageVO.getSendUser() == 0) return;
 		
@@ -65,15 +66,30 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		System.out.println("받는 사용자 아이디 : " + messageVO.getTakeUser());
 		System.out.println("보낸 내용 : " + messageVO.getMessageContent());
 		
-//		Chatroom croom = new Chatroom();
-//		WebSocketSession wSession = users.get(messageVO.getSendUser());
+		
+		//WebSocketSession wSession = users.get(messageVO.getSendUser());
+		
 		// 사용자 방 조회
-//		int isRoom = socService.selectRoom(messageVO);
 //		
+		int roomNo = 0;
 //		// 사용자 간 방이 없다면 방 생성
-//		if (isRoom == 0) {
-//			socService.createRoom();
-//		}
+		if (socService.isRoom(messageVO) == 0) {
+			roomNo = socService.createRoom(new Chatroom());
+		} else {
+			roomNo = socService.selectRoom(messageVO);
+		}
+		System.out.println("selectRoom?" + roomNo);
+		
+		
+		// 방 번호 추가
+		messageVO.setChatroomNo(roomNo);
+		
+		// 채팅 내용 저장
+		int sendResult = socService.insertMessage(messageVO);
+		
+		// 전송한 메세지가 저장이 되지 않았다면 예외 발생 시키고 상대방 소켓에 전송 하지 않음
+		if (sendResult == 0) throw new Exception("message send fail");
+		
 //		
 		
 		
@@ -88,6 +104,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	            socSession.sendMessage(new TextMessage(msgJson));
 	        }
 		}
+		
 		
 		// db insert 작업 해야 함.
 		
@@ -116,8 +133,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			Authentication auth = pp.getAuthentication();
 			SecurityUser secUser = (SecurityUser) auth.getPrincipal();
 			if (secUser.getUser() != null) {
-			socLoginUserNo = secUser.getUser().getUserNo();
-		}
+				socLoginUserNo = secUser.getUser().getUserNo();
+			}
 		
 		}
 		

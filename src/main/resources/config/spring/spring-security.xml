@@ -23,6 +23,8 @@
 <!-- 		<security:intercept-url pattern="/security/user.do" access="hasRole('ROLE_U')" /> -->
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_A')" />
 		<security:intercept-url pattern="/feed/**" access="hasRole('ROLE_U')" />
+		<security:intercept-url pattern="/websocket/**" access="hasRole('ROLE_U')" />
+		<security:intercept-url pattern="/chat.do" access="hasRole('ROLE_U')" />
 <!-- 		<security:intercept-url pattern="/**" access="permitAll" /> -->
 		<security:form-login login-page="/user/login_main.do" username-parameter="userId" 
 							 password-parameter="userPass"  

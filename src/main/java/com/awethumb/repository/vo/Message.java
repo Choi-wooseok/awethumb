@@ -29,11 +29,7 @@ public class Message {
     // 메세지 내용 
     private String messageContent;
     
-    public static Message convertMessage(String source) {
-		Message message = new Message();
-		Gson gson = new Gson();
-		message = gson.fromJson(source,  Message.class);
-		return message;
-	}
+    // 읽지 않은 메세지 수
+    private int unReadCnt;
     
 }

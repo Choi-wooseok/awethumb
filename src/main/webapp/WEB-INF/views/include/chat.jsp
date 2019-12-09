@@ -25,8 +25,16 @@
 	<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal.user" var="su"/>
 	</sec:authorize>
-
-
+	<div>
+	대화 목록 및 안읽은 메세지 값 <br />
+	<c:forEach var="ssss" items="${chatList}">
+		<p>방번호 : ${ssss.chatroomNo}</p> <br />
+		<c:forEach var="ggg" items="${ssss.messageList}">
+			내용 : ${ggg.messageContent} , 안읽은 수 : ${ggg.unReadCnt} <br />
+		</c:forEach>
+	</c:forEach>
+	
+	</div>
 
  	<div class="col-12 row justify-content-center align-items-center my-5 ">
 		<a href=""><img src="../../../resources/image/AlmomLogo.png"
@@ -111,7 +119,7 @@ $(document).ready(function () {
 	  message = {};
 	  message.messageContent = $("#message").val();
 	  message.sendUser = '${su.userNo}';
-	  message.takeUser = '2';
+	  message.takeUser = '10';
 	  
 //   	  message.TUTOR_USER_user_id = '${TUTOR_USER_user_id}'
 //   	  message.USER_user_id = '${profile.user_id}'

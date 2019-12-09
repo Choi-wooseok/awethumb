@@ -3,17 +3,79 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.ChatDAO">
 
-<select id="selectRoom" resultType="int" parameterType="Message" flushCache="true" useCache="true">
-	SELECT message_no
+<resultMap type="Message" id="messageMap">
+	<id property="chatroomNo" column="chatroom_no" />
+	<result property="messageNo" column="message_no" />
+	<result property="chatroomNo" column="chatroom_no" />
+	<result property="sendUser" column="send_user" />
+	<result property="takeUser" column="take_user" />
+	<result property="sendTime" column="send_time" />
+	<result property="readTime" column="read_time" />
+	<result property="messageContent" column="message_content" />
+	
+	
+</resultMap>
+
+<resultMap type="Chatroom" id="chatroomMap">
+	<result property="chatroomNo" column="chatroom_no" />
+	<collection property="messageList" select="selectAllMessage" column="{chatroomNo=chatroom_no, sendUser=send_user}"/>
+</resultMap>	
+
+
+<!-- 방 존재 여부 조회 -->
+<select id="isRoom" resultType="int" parameterType="Message" flushCache="true" useCache="true">
+	SELECT COUNT(message_no) 
 	  FROM message_tb
 	 WHERE (send_user = #{sendUser} AND take_user = #{takeUser})
-	    OR (send_user = #{takeUser} AND take_user = #{sendUser})  
+	    OR (send_user = #{takeUser} AND take_user = #{sendUser}) 
 </select>
-<insert id="insertRoom">
+<!-- 방 조회 -->
+<select id="selectRoom" resultType="int" parameterType="Message" flushCache="true" useCache="true">
+	SELECT DISTINCT chatroom_no
+	  FROM message_tb
+	 WHERE (send_user = #{sendUser} AND take_user = #{takeUser})
+	    OR (send_user = #{takeUser} AND take_user = #{sendUser}) 
+</select>
+
+ <!-- 유저 당 개설된 방 조회 -->
+<select id="selectAllChatRoom" resultMap="chatroomMap" parameterType="int" flushCache="true" useCache="true">
+	SELECT DISTINCT c.*, (select user_no from user_tb where user_no = #{sendUser}) as send_user
+	  FROM chatroom_tb c
+	 INNER JOIN message_tb m
+	 	ON c.chatroom_no = m.chatroom_no
+	 WHERE m.send_user = #{sendUser}
+	    OR m.take_user = #{sendUser} 
+</select>
+ 
+ <!-- 유저 당 메세지 조회 -->
+<select id="selectAllMessage" resultMap="messageMap" parameterType="Message" flushCache="true" useCache="true">
+	SELECT m.*, 
+				(SELECT COUNT(*)
+				   FROM message_tb
+				  WHERE read_time is null
+				    AND chatroom_no = m.chatroom_no
+				    AND take_user = #{sendUser}) as un_read_cnt
+	  FROM message_tb m
+	 WHERE chatroom_no = #{chatroomNo}      
+</select>
+
+<!-- 방 생성 -->
+<insert id="createRoom" useGeneratedKeys="true" keyProperty="chatroomNo" parameterType="Chatroom">
 	INSERT INTO chatroom_tb
 	VALUES ()
 </insert>
-
+<!-- 채팅 내용 등록 -->
+<insert id="insertMessage" parameterType="Message">
+	INSERT INTO message_tb (chatroom_no, send_user, take_user, message_content)
+	VALUES (#{chatroomNo}, #{sendUser}, #{takeUser}, #{messageContent})
+</insert>
+<!-- 읽은 시간 -->
+<update id="readMessageTime" parameterType="Message">
+	UPDATE message_tb
+	   SET read_time = NOW()
+	 WHERE take_user = #{takeUser}
+	   AND chatroom_no = #{chatroomNo}
+</update>
 
 
 </mapper>

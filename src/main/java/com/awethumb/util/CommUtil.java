@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.awethumb.repository.vo.Message;
+import com.google.gson.Gson;
+
 import java.security.MessageDigest;
 
 /**
@@ -171,6 +174,7 @@ public class CommUtil {
 	public static String[] emailSplit(String email) {
 		return email.split("@");
 	}
+	
 	
 	
 }

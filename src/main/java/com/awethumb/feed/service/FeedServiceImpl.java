@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.FeedDAO;
+import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
@@ -37,9 +38,6 @@ public class FeedServiceImpl implements FeedService {
 	public List<Comment> updateBoardComment(Comment comment) {
 		dao.updateBoardComment(comment);
 		return CommentTime(comment.getPostNo());
-	}
-	public List<Integer> selectCommentNo(){
-		return dao.selectCommentNo();
 	}
 	
 	// 댓글 시간대 모듈 메소드
@@ -80,7 +78,13 @@ public class FeedServiceImpl implements FeedService {
 		}
 		return comList;
 	}
-	
+	// side바 추천
+	public List<CategoryList> selectUserCategoryList(String userId) {
+		return dao.selectUserCategoryList(userId);
+	}
+	public CategoryList selectLoginUserCategory(String userId) {
+		return dao.selectLoginUserCategory(userId);
+	}
 	
 }
 

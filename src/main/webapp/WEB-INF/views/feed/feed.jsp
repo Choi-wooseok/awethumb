@@ -25,27 +25,10 @@
 				<c:forEach var="p" items="${postNoList}">
 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
 				</c:forEach>
-<%-- 				<c:forEach var="cn" items="${cmtno}"> --%>
-<%-- 				<input type="hidden" value="${cn}" class="commentNo"/> --%>
-<%-- 				</c:forEach> --%>
 			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 			<div class="feedWrap" id="feedWrap">
 				<!-- 리스트 반복 -->
 			</div>
-			<!--  modal -->
-<%-- 			<div id="modalBoard${bl.postNo}" class="board"> --%>
-<!-- 				boardModal content -->
-<!-- 				<div class="board-modal"> -->
-<!-- 					<div> -->
-<!-- 						<button id="report" class="report" type="button"> -->
-<!-- 						부적절한 컨텐츠 신고</button> -->
-<!-- 					</div> -->
-<!-- 				<div> -->
-<!-- 					<button id="share">퍼가기</button> -->
-<!-- 				</div> -->
-<%-- 				<div id="boardCancel "class="boardClose${bl.postNo}">취 소 - 게시글 번호 : ${bl.postNo}</div> --%>
-<!-- 			</div> -->
-			
 				<!-- boardModal -->
 				<div id="modalBoard" class="optionModalWrap board">
 					<!-- boardModal content -->

@@ -45,11 +45,6 @@
 		  where cmt_no = #{cmtNo}
 	</select>
 	
-	<select id="selectCommentNo" resultType="int">
-		SELECT cmt_no
-		  FROM comment_tb
-	</select>
-	
 	<select id="selectCmtNo" parameterType="int" resultType="int">
 		SELECT cmt_no
 		  FROM comment_tb
@@ -65,7 +60,6 @@
 				   NOW()
 				)
 	</select>
-	
 	
 	<insert id="insertBoardComment" parameterType="Comment" >
 		INSERT INTO comment_tb (
@@ -86,6 +80,34 @@
 		   SET cmt_content = #{cmtContent}
 		 WHERE cmt_no = #{cmtNo}
 	</update>
+	
+	<select id="selectUserCategoryList" resultType="CategoryList" parameterType="string">
+		SELECT user_no,
+			   user_nickname,
+			   category_list
+		  FROM user_tb
+		 WHERE user_no = any(SELECT user_no
+							   FROM user_tb
+							  WHERE user_no = any(SELECT distinct st.opp_user_no
+												    FROM subscribe_tb st
+												   INNER JOIN user_tb ut
+												      ON st.sub_user_no = ut.user_no 
+												   WHERE ut.user_no = any(SELECT st.opp_user_no
+																		    FROM subscribe_tb st
+																		   INNER JOIN user_tb ut
+																		      ON st.sub_user_no = ut.user_no 
+																		   WHERE ut.user_id = #{userId}) 
+												  ORDER BY st.opp_user_no ) )
+		 ORDER BY user_no
+	</select>
+	
+	
+	<select id="selectLoginUserCategory" parameterType="string" resultType="CategoryList">
+		select category_list
+		  from user_tb
+		 where user_id = #{userId}
+	</select>
+
 
 </mapper>
 

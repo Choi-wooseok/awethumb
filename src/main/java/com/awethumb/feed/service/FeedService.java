@@ -6,6 +6,7 @@ import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.FollowMeUser;
 
 public interface FeedService {
 	List<Integer> postNoList();
@@ -15,7 +16,7 @@ public interface FeedService {
 	List<Comment> deleteBoardComment(Comment comment);
 	List<Comment> updateBoardComment(Comment comment);
 	List<CategoryList> selectUserCategoryList(String userId);
-	CategoryList selectLoginUserCategory(String userId);
+	String selectLoginUserCategory(String userId);
+	List<FollowMeUser> selectFollowMe(String userId);
 	
-
 }

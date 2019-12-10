@@ -15,7 +15,6 @@
 		<sec:authentication property="principal.user" var="u"/>
 	</sec:authorize>
 	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
-	<header><c:import url="/WEB-INF/views/include/header.jsp"></c:import></header>
 	<div id="waitme-container" class="waitme-container">
 	<section id="feed">
 		<div class="feedContWrap">
@@ -50,36 +49,49 @@
 			
 			<!-- 최신글 리스트 반복 -->
 			<div class="feedSide">
-				<div>최신 글 등록</div>
 				<div>
-					<div class="feedSideUserList">
-						<div class="feedInfo">
-							<div class="feedUserImg">
-								<img src="./../images/test_user.jpg" alt="">
-							</div>
-							<div class="feedUserName">
-								<a href="#">userName</a> <span>3분 전</span>
+				<c:if test="${empty meCategory}">
+					<h3>카테고리가 없습니다.</h3>
+				</c:if>
+				<div style="border-bottom: 0.5px solid black">
+					<h2 style="text-align: center; border-bottom: 0.5px solid #e5e5e5">내 카테고리</h2>	
+					<h3 style="word-break: keep-all;">${meCategory}</h3>
+				</div>
+				<div>나를 팔로우 하는 사람</div>
+					<c:if test="${empty followme}">
+						<h3>팔로우 하는 사람이 없습니다.</h3>
+					</c:if>
+					<c:forEach var="fmu" items="${followme}">
+						<div class="feedSideUserList">
+							<div class="feedInfo">
+								<div class="feedUserImg">
+									<img src="./../images/test_user.jpg" alt="">
+								</div>
+								<div class="feedUserName">
+									<a href="<c:url value="/profile/${fmu.userNickname}"/>">${fmu.userNickname}</a>
+								</div>
 							</div>
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">
 				<div>팔로워 추천</div>
 				<div>
-					<div class="feedSideUserList">
-
-						<div class="feedInfo">
-							<div class="feedUserImg">
-								<img src="./../images/test_user.jpg" alt="">
-							</div>
-							<div class="feedUserName">
-								<a href="#">userName</a> <span>함께 아는 친구 3명</span>
+					<c:forEach var="cl" items="${categorylist}">
+						<div class="feedSideUserList">
+							<div class="feedInfo">
+								<div class="feedUserImg">
+									<img src="./../images/test_user.jpg" alt="">
+								</div>
+								<div class="feedUserName">
+									<a href="<c:url value="/profile/${cl.userNickName}"/>">${cl.userNickName}</a>
+									<span style="color:#6dd5bc">${cl.categoryTitle}</span>
+								</div>
 							</div>
 						</div>
-
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>

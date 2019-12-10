@@ -7,4 +7,5 @@ public class CategoryList {
 	private int userNo;
 	private String userNickName;
 	private String categoryList;
+	private String categoryTitle;
 }

@@ -6,6 +6,7 @@ import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.FollowMeUser;
 
 public interface FeedDAO {
 	List<Integer> postNoList(); // 게시판번호받기
@@ -20,6 +21,8 @@ public interface FeedDAO {
 	void updateBoardComment(Comment comment); // 댓글수정
 	List<CategoryList> selectUserCategoryList(String userId); // 유저가 구독한 사람이 구독한 사람들 뽑기
 	CategoryList selectLoginUserCategory(String userId); // 로그인한유저의 카테고리
+	String selectCategoryTitle(int categoryNo); // 카테고리번호로 카테고리title뽑기
+	List<FollowMeUser> selectFollowMe(String userId); // 나를 팔로우하는 사람중에 맞팔이아닌 userNo랑 usernickname
 	
 	
 }

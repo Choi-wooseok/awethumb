@@ -4,17 +4,6 @@ let scrollTop = 0;
 let loginUserNo = $(".loginUserNo").val();
 let loginUserNickName = $(".loginUserNickName").val();
 $(document).ready(function(){ 
-	$(window).scroll(function(){ 
-			if ($(this).scrollTop() > 100) { 
-				$('#mainfeed-scroll').fadeIn(); 
-		    } else { 
-		    	$('#mainfeed-scroll').fadeOut(); 
-		    } 
-	    }); 
-	    $('#mainfeed-scroll').click(function(){ 
-	        $("html, body").animate({ scrollTop: 0 }, 600); 
-	        return false;
-	    	}); 
 	    boardList();
 });
 // infinity scroll
@@ -50,7 +39,7 @@ function feedList(list){
 	if(list.length === 0) {
 		$("#feedWrap").append(`
 				<div style="min-height: 615px;">
-				<h2>구독중인 사람이 없습니다.</h2>
+					<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
 				</div>
 		`);
 	}
@@ -64,7 +53,7 @@ function feedList(list){
 									<img src="./../images/test_user.jpg" alt="">
 								</div>
 								<div>
-									<span>${bl.userNickName}</span>
+									<a href="/awethumb/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
 									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
@@ -107,7 +96,7 @@ function feedList(list){
 									<img src="./../images/test_user.jpg" alt="">
 								</div>
 								<div>
-									<span>${bl.userNickName}</span>
+									<a href="/awethumb/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
 									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
 									<i class="fas fa-ellipsis-h"></i>
 									</button>

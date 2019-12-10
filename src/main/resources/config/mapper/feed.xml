@@ -107,6 +107,35 @@
 		  from user_tb
 		 where user_id = #{userId}
 	</select>
+	
+	<select id="selectCategoryTitle" parameterType="int" resultType="String">
+		select category_title
+		  from category_tb
+		 where category_no = #{categoryNo}
+	</select>
+	
+
+	<select id="selectFollowMe" parameterType="string" resultType="FollowMeUser">
+		SELECT user_no,
+				 user_nickname
+		  FROM user_tb
+		 WHERE user_no = any (SELECT a.user_no
+							    FROM ( SELECT sub_user_no AS user_no
+									     FROM subscribe_tb
+									    WHERE opp_user_no = (SELECT user_no
+															   FROM user_tb 
+															  WHERE user_id = #{userId}) ) AS a
+	      LEFT JOIN (SELECT user_no
+				      FROM user_tb
+				     WHERE user_no = any (SELECT opp_user_no
+									        FROM subscribe_tb
+									       WHERE sub_user_no = (SELECT user_no
+															      FROM user_tb 
+														         WHERE user_id = #{userId}) ) )	AS b
+	       ON a.user_no = b.user_no
+	    WHERE b.user_no IS NULL ) 																													   
+	</select>
+
 
 
 </mapper>

@@ -41,6 +41,26 @@
 	   and alarm_check = 'N'
 </select>
 
+<select id="selectUserNoByBoardNo" parameterType="int" resultType="int">
+	SELECT ut.user_no
+      FROM user_tb ut, project_tb pt, board_tb bt
+     WHERE ut.user_no = pt.user_no
+       AND pt.project_no = bt.project_no
+       AND bt.post_no = #{boardNo}
+</select>
+<select id="selectUserNoByCommentNo" parameterType="int" resultType="int">
+	SELECT ut.user_no
+      FROM user_tb ut, project_tb pt, board_tb bt, comment_tb ct
+     WHERE ut.user_no = pt.user_no
+       AND pt.project_no = bt.project_no
+       AND bt.post_no = ct.post_no
+       AND ct.cmt_no = #{commentNo}
+</select>
+<select id="selectUserNoListByProjectNo" parameterType="int" resultType="int">
+	SELECT shared_user_no
+      FROM shared_project_tb
+     WHERE project_no = #{projectNo}
+</select>
 
 </mapper>
 

@@ -190,4 +190,10 @@
 		  from user_tb
 		 where user_nickName like CONCAT('%',#{userNickname},'%')
 	</select>
+	<select id="selectCurrentSharedProjectNo" parameterType="int" resultType="int">
+		select max(project_no)
+		  from project_tb
+		 where user_no = #{userNo}
+		   and project_type = 2
+	</select>
 </mapper>

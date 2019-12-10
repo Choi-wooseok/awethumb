@@ -1,6 +1,8 @@
 package com.awethumb.alarm.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +35,33 @@ public class AlarmHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// 메세지를 객체로 변환시켜준다
 		Alarm alarm = Alarm.convertMessage(message.getPayload());
-		System.out.println("alarm-------------------------------------------------");
-		System.out.println(alarm.getSendUserNo());
-		System.out.println(alarm.getReceiveUserNo());
-		System.out.println("alarm-------------------------------------------------");
-		service.insertAlarm(alarm);
 		
 		// 알림을 받는 유저
-		int rUserNo = alarm.getReceiveUserNo();
-		WebSocketSession ruSession = users.get(rUserNo);
-		// 알림을 받는 유저가 접속해있을 시
-		if (ruSession != null) {
-			ruSession.sendMessage(new TextMessage(Integer.toString(service.selectAlarmCnt(rUserNo))));
+		List<Integer> rUserNoList = new ArrayList<>();
+		switch(alarm.getAlarmType()) {
+			case 1:
+				rUserNoList.add(alarm.getReceiveUserNo());
+				break;
+			case 2: 
+				rUserNoList.add(service.selectUserNoByBoardNo(alarm.getBoardNo()));
+				break;
+			case 3:
+				rUserNoList.add(service.selectUserNoByCommentNo(alarm.getCommentNo()));
+				break;
+			case 4:
+				rUserNoList = service.selectUserNoListByProjectNo(alarm.getProjectNo());
+				break;
+		}
+		// 알림을 받는 유저 수만큼 반복해준다
+		for(int rUserNo : rUserNoList) {
+			alarm.setReceiveUserNo(rUserNo);
+			service.insertAlarm(alarm);
+			
+			WebSocketSession ruSession = users.get(rUserNo);
+			// 알림을 받는 유저가 접속해있을 시
+			if (ruSession != null) {
+				ruSession.sendMessage(new TextMessage(Integer.toString(service.selectAlarmCnt(rUserNo))));
+			}
 		}
 	}
 

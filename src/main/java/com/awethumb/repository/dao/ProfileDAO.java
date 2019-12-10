@@ -59,4 +59,6 @@ public interface ProfileDAO {
 
 	public void insertSharedUserList(Project p);
 
+	public int selectCurrentSharedProjectNo(int userNo);
+
 }

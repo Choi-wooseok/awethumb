@@ -1,5 +1,7 @@
 package com.awethumb.alarm.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +20,20 @@ public class AlarmServiceImpl implements AlarmService{
 	@Override
 	public int selectAlarmCnt(int userNo) {
 		return dao.selectAlarmCnt(userNo);
+	}
+
+	@Override
+	public int selectUserNoByBoardNo(int boardNo) {
+		return dao.selectUserNoByBoardNo(boardNo);
+	}
+
+	@Override
+	public int selectUserNoByCommentNo(int commentNo) {
+		return dao.selectUserNoByCommentNo(commentNo);
+	}
+
+	@Override
+	public List<Integer> selectUserNoListByProjectNo(int projectNo) {
+		return dao.selectUserNoListByProjectNo(projectNo);
 	}
 }

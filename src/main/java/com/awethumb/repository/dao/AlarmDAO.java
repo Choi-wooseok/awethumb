@@ -1,5 +1,7 @@
 package com.awethumb.repository.dao;
 
+import java.util.List;
+
 import com.awethumb.repository.vo.Alarm;
 
 public interface AlarmDAO {
@@ -7,5 +9,11 @@ public interface AlarmDAO {
 	void insertAlarm(Alarm alarm);
 
 	int selectAlarmCnt(int userNo);
+
+	int selectUserNoByBoardNo(int boardNo);
+
+	int selectUserNoByCommentNo(int commentNo);
+
+	List<Integer> selectUserNoListByProjectNo(int projectNo);
 
 }

@@ -9,4 +9,6 @@ public class SharedProject {
 
     // 공유된 유저 번호 
     private int sharedUserNo;
+    
+    private char shareCheck;
 }

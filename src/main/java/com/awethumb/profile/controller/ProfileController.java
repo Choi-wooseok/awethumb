@@ -255,4 +255,10 @@ public class ProfileController {
 	public List<TokenUser> getTokenUsers (@RequestParam(value="userNickname" ) String userNickname) {
 		return service.selectTokenUsers(userNickname);
 	}
+	
+	@RequestMapping("/currentsharedprojectno")
+	@ResponseBody
+	public int currentSharedProjectNo(int userNo) {
+		return service.selectCurrentSharedProjectNo(userNo);
+	}
 }

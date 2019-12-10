@@ -30,7 +30,7 @@ public class Alarm {
     private Date regDate;
 
     // 확인 여부 Y/N
-    private String check;
+    private String alarmCheck;
 
     // 알림 타입 1. 구독 2. 좋아요 3. 댓글 4. 공유 수락
     private int alarmType;

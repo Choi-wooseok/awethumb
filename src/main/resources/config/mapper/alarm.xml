@@ -19,9 +19,9 @@
         </if>
 	)
 	VALUES (
-		#{receive_user_no}, 
-		#{send_user_no}, 
-		#{alarm_type}
+		#{receiveUserNo}, 
+		#{sendUserNo}, 
+		#{alarmType}
 		<if test="boardNo != null">
             , #{boardNo}
         </if>
@@ -37,8 +37,8 @@
 <select id="selectAlarmCnt" parameterType="int" resultType="int">
 	select count(*)
 	  from alarm_tb
-	 where receiver_user_no = #{userNo}
-	   and check = 'N'
+	 where receive_user_no = #{userNo}
+	   and alarm_check = 'N'
 </select>
 
 

@@ -17,7 +17,7 @@
             	<span class="user layout_left">
                 	<img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
             	</span>
-				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userName}</a>
+				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userNickname}</a>
 			</sec:authorize>
             <sec:authorize access="isAnonymous()">
 	            <a href="${pageContext.request.contextPath}/user/login_main.do">로그인하세요</a>
@@ -40,11 +40,20 @@
                     </a>	
                 </button>
                 <button>
-                	<a href="${pageContext.request.contextPath}/detailProject/detailBoardList.do">
-                    	<i class="far fa-bell"></i>
-                    </a>	
+                	<div>
+	                   	<i class="far fa-bell"></i>
+	                   	<div class="alarmCnt"></div>
+                	</div>
                 </button>
             </div>
         </div>
     </div>
+    <sec:authorize access="isAuthenticated()">
+    	<!-- 알림 js -->
+	    <script>
+	    	const connectedUserNo= ${su.userNo};
+	    	const pageContextPath = "${pageContext.request.contextPath}";
+        </script>
+        <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>
+    </sec:authorize>
 </header>

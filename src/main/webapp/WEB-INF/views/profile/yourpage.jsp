@@ -212,6 +212,8 @@
         	}).done(() => {
         		$sBtn.toggleClass("myHidden");
         		$(".follower_cnt").text(++follwerCnt);
+        		// 알림 전송
+        		makeAlarm(1, userNo);
         	})
     	})
     </script>

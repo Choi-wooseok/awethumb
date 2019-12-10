@@ -33,7 +33,10 @@ public class AlarmHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// 메세지를 객체로 변환시켜준다
 		Alarm alarm = Alarm.convertMessage(message.getPayload());
-		
+		System.out.println("alarm-------------------------------------------------");
+		System.out.println(alarm.getSendUserNo());
+		System.out.println(alarm.getReceiveUserNo());
+		System.out.println("alarm-------------------------------------------------");
 		service.insertAlarm(alarm);
 		
 		// 알림을 받는 유저

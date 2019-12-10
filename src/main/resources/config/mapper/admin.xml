@@ -166,6 +166,12 @@
 			insert into block_tb(user_no, block_code,block_end_dt)
 			values(#{userNo}, #{blockCode}, STR_TO_DATE(#{blockDate}, '%Y-%m-%d'))
 		</insert>
+		<!-- 유저넘버를 이용해 운영자 직관으로 정지처리 -->
+		<insert id="insertBlockByAdmin" parameterType="hashmap">
+			insert into block_tb(user_no, block_code, block_end_dt)
+			values(#{userNo}, 6, STR_TO_DATE(#{blockDate}, '%Y-%m-%d'))
+		</insert>
+		
 		<!-- report_tb의 status값을 변경 -->
 		<update id="updateReportStatus" parameterType="hashmap">
 			update report_tb
@@ -180,6 +186,11 @@
 		</update>
 		<!-- block delete -->
 		<delete id="deleteBlock" parameterType="hashmap">
+			delete from block_tb
+			where user_no = #{userNo}
+		</delete>
+		<!-- 그회원에 해당하는 블락없애기 -->
+		<delete id="cancelBlockByUserNo" parameterType="int">
 			delete from block_tb
 			where user_no = #{userNo}
 		</delete>
@@ -212,66 +223,12 @@
 			  from report_tb
 			 where report_no = #{reportNo} 
 		</delete>
+		<!-- 관리자가 유저 강제탈퇴 시키기 -->
+		<delete id="deleteUser" parameterType="int">
+			delete
+			  from user_tb
+			 where user_no = #{userNo} 
+		</delete>
 		
-<!-- 	<select id="selectBoard" resultType="Board"> -->
-<!-- 		select * -->
-<!-- 		  from tb_board -->
-<!-- 		 order by no desc   -->
-<!-- 	</select> -->
-<!-- 	<select id="selectOneBoard" parameterType="int" resultType="Board"> -->
-<!-- 		select * -->
-<!-- 		  from tb_board -->
-<!-- 		 where no = #{no}  -->
-<!-- 	</select> -->
-<!-- 	<insert id="insertBoard" parameterType="Board"> -->
-<!-- 		insert into tb_board ( -->
-<!-- 			no, title, writer, content -->
-<!-- 		) values ( -->
-<!-- 			seq_board_no.nextval, #{title}, #{writer}, #{content} -->
-<!-- 		) -->
-<!-- 	</insert> -->
-<!-- 	<update id="updateViewCnt" parameterType="int"> -->
-<!-- 		update tb_board  -->
-<!-- 		   set view_cnt = view_cnt + 1 -->
-<!-- 		 where no = #{no} -->
-<!-- 	</update> -->
-<!-- 	<update id="updateBoard" parameterType="Board"> -->
-<!-- 		update tb_board  -->
-<!-- 		   set title = #{title},  -->
-<!-- 		       content = #{content} -->
-<!-- 		 where no = #{no} -->
-<!-- 	</update> -->
-<!-- 	<delete id="deleteBoard" parameterType="int"> -->
-<!-- 		delete  -->
-<!-- 		  from tb_board  -->
-<!-- 		 where no = #{no} -->
-<!-- 	</delete> -->
-	
-	<!-- 댓글 파트 ============================================= -->
-<!-- 	<select id="selectComment" parameterType="int" resultType="Comment"> -->
-<!-- 	    select * -->
-<!-- 	      from tb_comment -->
-<!-- 	     where no = #{no} -->
-<!-- 	     order by comment_no  -->
-<!-- 	</select>	 -->
-	
-<!-- 	<insert id="insertComment" parameterType="Comment"> -->
-<!-- 		insert into tb_comment( -->
-<!-- 			comment_no, no, writer, content -->
-<!-- 		) values ( -->
-<!-- 			seq_comment_no.nextVal, #{no}, #{writer}, #{content} -->
-<!-- 		) -->
-<!-- 	</insert>	 -->
-			
-<!-- 	<delete id="deleteComment" parameterType="int"> -->
-<!-- 	    delete  -->
-<!-- 	      from tb_comment -->
-<!-- 	     where comment_no = #{commentNo} -->
-<!-- 	</delete>	 -->
-	
-<!-- 	<update id="updateComment" parameterType="comment"> -->
-<!-- 	    update tb_comment -->
-<!-- 	       set content = #{content} -->
-<!-- 	     where comment_no = #{commentNo} -->
-<!-- 	</update> -->
+		
 </mapper>

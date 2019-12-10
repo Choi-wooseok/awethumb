@@ -34,9 +34,12 @@ public interface AdminService {
 	void insertReport(Report report);
 	UserVO selectOneUserUsingUserNo(int userNo);
 	void updateBlcok(Map<String, Object> rmap);
+	void cancelBlockByUserNo(int userNo);
+	void insertBlockByAdmin(Map<String, Object> rmap);
 	
 	List<Report> selectReportPaging(Criteria cri);
 	int reportCount();
 	List<UserVO> selectUserPaging(Criteria cri);
 	int userCount();
+	void deleteUser(int userNo);
 }

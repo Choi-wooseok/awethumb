@@ -34,13 +34,10 @@ public class AdminController {
 		// 번호에 해당하는 user객체
 		// 그 유저가 정지중인지의 여부와 정지중이라면 정지마감날짜
 		// 번호로 유저를 뽑아야하고, 블락테이블에 유저no로 접근하는 메서드 사용해야함.
-		System.out.println("일로 들어오냐?" + userNo);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		UserVO user = service.selectOneUserUsingUserNo(userNo);
-		System.out.println("user:"+ user);
-		System.out.println("block:" + service.selectBlock(userNo));
 		result.put("user", user);
 		Block block = service.selectBlock(userNo);
 		if(block != null) {
@@ -81,18 +78,39 @@ public class AdminController {
 		return map;
 	}
 	
-	@RequestMapping("/updateBlcok.do")
+	@RequestMapping("/updateBlock.do")
 	@ResponseBody
-	public void updateBlock(@RequestBody Map<String, Object> map) {
+	public Map<String, String> updateBlock(@RequestBody Map<String, Object> map) {
 		Map<String, Object> rmap = new HashMap<String, Object>();
+		System.out.println(map.get("userNo"));
+		System.out.println(map.get("userNo").toString());
+		System.out.println(Integer.parseInt(map.get("userNo").toString()));
+		
 		Block block = service.selectBlock(Integer.parseInt(map.get("userNo").toString()));
+		System.out.println("block :" + block);
 		String endDt = map.get("blockDate").toString();
 		if(block != null) {
 			rmap.put("userNo", Integer.parseInt(map.get("userNo").toString()));
 			rmap.put("blockDate", endDt);
 			service.updateBlcok(rmap);
+			Map<String, String> result = new HashMap<>();
+			result.put("action", "이용정지 기간 정정 처리되었습니다.");
+			return result;
+		} else {
+			rmap.put("userNo", Integer.parseInt(map.get("userNo").toString()));
+			rmap.put("blockDate", endDt);
+			service.insertBlockByAdmin(rmap);
+			Map<String, String> result = new HashMap<>();
+			result.put("action", "이용정지 처리되었습니다.");
+			return result;
 		}
 	};
+	@RequestMapping("/deleteUser.do")
+	@ResponseBody
+	public void deleteUser(int userNo) {
+		service.deleteUser(userNo);
+	}
+	
 		
 	@RequestMapping("/adminMain.do")
 	public void adminMain() {
@@ -187,6 +205,12 @@ public class AdminController {
 		Report report = service.selectOneReport(Integer.parseInt(reportNo));
 		int userNo = report.getUserNo();
 		return service.deleteBlock(userNo);
+	}
+	
+	@RequestMapping("/cancelBlockByUserNo.do")
+	@ResponseBody
+	public List<Report> cancelBlockByUserNo(String userNo) {
+		return service.deleteBlock(Integer.parseInt(userNo));
 	}
 
 	@Transactional

@@ -150,6 +150,23 @@ public class AdminServiceImpl implements AdminService{
 		dao.updateBlcok(rmap);
 	}
 
+	@Override
+	public void cancelBlockByUserNo(int userNo) {
+		dao.cancelBlockByUserNo(userNo);
+	}
+
+	@Override
+	public void insertBlockByAdmin(Map<String, Object> rmap) {
+		dao.insertBlockByAdmin(rmap);
+	}
+
+	@Override
+	public void deleteUser(int userNo) {
+		dao.deleteUser(userNo);
+	}
+
+	
+
 	
 	
 	

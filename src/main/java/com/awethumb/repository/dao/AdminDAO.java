@@ -33,7 +33,9 @@ public interface AdminDAO {
 	void insertReport(Report report);
 	UserVO selectOneUserUsingUserNo(int userNo);
 	void updateBlcok(Map<String, Object> rmap);
-	
+	void cancelBlockByUserNo(int userNo);
+	void insertBlockByAdmin(Map<String, Object> rmap);
+	void deleteUser(int userNo);
 	
 	
 	/* 페이징 관련 */

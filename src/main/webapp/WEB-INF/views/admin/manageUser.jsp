@@ -39,9 +39,9 @@
 								<button type="button" class="w3-btn w3-blue-grey w3-small"
 									id="update-block">기간수정</button>
 								<button type="button" class="w3-btn w3-blue-grey w3-small"
-									id="deny-block">승인거절</button>
+									id="cancel-block">정지해제</button>
 								<button type="button" class="w3-btn w3-black w3-small"
-									id="delete-report">삭제하기</button>
+									id="delete-user">회원삭제</button>
 							</form>
 						</div>
 

@@ -124,6 +124,7 @@ function userManageAjax(userNo){
 			dataType: "json",
 			success: function(result){
 				if(result.block != null){
+					$("#cancel-block").attr('disabled', false);
 					let someTimestamp = Number(`${result.block.blockEndDt}`);
 					let endDt = new Date(someTimestamp);
 					let Dt = endDt.toLocaleDateString();
@@ -150,11 +151,11 @@ function userManageAjax(userNo){
 					
 				}
 				else {
+					$("#cancel-block").attr('disabled', true);
 					$("#Detail").html(
 							`
 							<h4>회원 아이디 : ${result.user.userId}</h4>
 							<h4>회원 닉네임 : ${result.user.userNickname}</h4>
-							<h4>정지상태 : </h4>
 							`
 					);
 					$("#unlockAndBlock").html(
@@ -183,11 +184,40 @@ $(document).on('click', "#update-block", function(){
 		dataType: "json",
 		contentType: "application/json",
 		success: function(result){
-			alert('정지기간 수정 처리 완료되었습니다.');
+//			어떤 인설트 또는 업데이트 행위의 결과를 받아내어, 정확히 어떤 작업이 있었는지 분기로 뿌려준다.
+			alert(result.action);
 			userListAjax();
 		}
 		
 	});
 })
 
+// 정지해제 관련
+$(document).on("click", "#cancel-block", function() {
+	console.log('캔슬블럭 진입시 reportNo', userNo);
+	$.ajax({
+ 		url:"cancelBlockByUserNo.do?userNo="+ userNo,
+ 		dataType: "json",
+		success: function(result){
+ 			alert('이용정지가 해제되었습니다.');
+ 			$("#cancel-block").attr('disabled', true); 
+ 			userListAjax();
+ 		}
+ 	})
+  
+});
 
+// 유저삭제
+$(document).on("click", "#delete-user", function() {
+	let flag = confirm("회원을 강제탈퇴(계정삭제)하게 될 경우 그 회원과 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?");
+	if(flag){
+		$.ajax({
+			url:"deleteUser.do?userNo="+userNo,
+			success: function(){
+				alert('회원이 강제 탈퇴 처리 되었습니다.');
+				userListAjax();
+			}
+		})
+	}
+	
+})

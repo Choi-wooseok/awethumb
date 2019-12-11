@@ -20,6 +20,7 @@
 		<div class="feedContWrap">
 				<input type="hidden" class="loginUserNo" value="${u.userNo}" />
 				<input type="hidden" class="loginUserNickName" value="${u.userNickname}" />
+				<input type="hidden" class="loginUserId" value="${u.userId}" />
 				<input type="hidden" class="imageState" value="${imageState}" />
 				<c:forEach var="p" items="${postNoList}">
 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
@@ -48,32 +49,39 @@
 			    </div>
 			
 			<!-- 최신글 리스트 반복 -->
-			<div class="feedSide">
-				<div>
-				<c:if test="${empty meCategory}">
-					<h3>카테고리가 없습니다.</h3>
-				</c:if>
-				<div style="border-bottom: 0.5px solid black">
-					<h2 style="text-align: center; border-bottom: 0.5px solid #e5e5e5">내 카테고리</h2>	
-					<h3 style="word-break: keep-all;">${meCategory}</h3>
-				</div>
-				<div>나를 팔로우 하는 사람</div>
-					<c:if test="${empty followme}">
-						<h3>팔로우 하는 사람이 없습니다.</h3>
-					</c:if>
-					<c:forEach var="fmu" items="${followme}">
-						<div class="feedSideUserList">
-							<div class="feedInfo">
-								<div class="feedUserImg">
-									<img src="./../images/test_user.jpg" alt="">
-								</div>
-								<div class="feedUserName">
-									<a href="<c:url value="/profile/${fmu.userNickname}"/>">${fmu.userNickname}</a>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
+<!-- 			<div class="feedSide" style="z-index : 1; top:10px ; height:85px; background:red;"> -->
+<%-- 					<c:if test="${empty meCategory}"> --%>
+<!-- 						<h3>카테고리가 없습니다.</h3> -->
+<%-- 					</c:if> --%>
+<!-- 					<div style="text-align: center;">내 카테고리 </div> -->
+<!-- 					<div> -->
+<%-- 						<h3 style="word-break: keep-all;">${meCategory}</h3> --%>
+<!-- 					</div> -->
+<!-- 			</div> -->
+			<div class="feedSide aaa" id="side">
+					<div>나를 팔로우 하는 사람</div>
+<%-- 					<c:if test="${empty followme}"> --%>
+<!-- 						<h3>팔로우 하는 사람이 없습니다.</h3> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:forEach var="fmu" items="${followme}"> --%>
+<!-- 						<div class="feedSideUserList"> -->
+<!-- 							<div class="feedInfo"> -->
+<!-- 								<div class="feedUserImg"> -->
+<!-- 									<img src="./../images/test_user.jpg" alt=""> -->
+<!-- 								</div> -->
+<!-- 								<div class="feedUserName"> -->
+<%-- 									<a href="<c:url value="/profile/${fmu.userNickname}"/>">${fmu.userNickname}</a> --%>
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<%-- 					</c:forEach> --%>
+					<div id="feedSideUserList" class="feedSideUserList">
+					</div>
+<!-- 					<div class="addBtn" id="addBtn" style="text-align:center;"> -->
+<!-- 						<button type="button" style=" border:none; background-color:transparent"> -->
+<!-- 							더보기 -->
+<!-- 						</button> -->
+<!-- 					</div> -->
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">

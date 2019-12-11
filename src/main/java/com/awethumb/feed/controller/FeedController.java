@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.feed.service.FeedService;
-import com.awethumb.feed.service.FeedServiceImpl;
+import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.FollowMeUser;
 
 @Controller("com.awethumb.feed.controller.FeedController")
 @RequestMapping("/feed")
@@ -31,17 +32,23 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		
 		String userId = p.getName(); // 로그인 한 userId
 		// 내가 팔로우한 사람을 팔로우한 사람들중에 2개이상 카테고리가 중복된 카테고리인 사람들과 카테고리 뽑기  
-		model.addAttribute("categorylist", service.selectUserCategoryList(userId)); 
+		model.addAttribute("categorylist", service.selectUserCategoryList(userId));
 		model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
 		
-		model.addAttribute("followme", service.selectFollowMe(userId));
+		
 	} // feed.do 
 	
 	// 게시글
 	@RequestMapping("/feedlist.do")
 	@ResponseBody
-	public List<FeedBoard> feedKong(FeedPage pageCount) {
-		return service.selectFeedBoardPage(pageCount);
+	public List<FeedBoard> feedKong(FeedPage feedpage) {
+		return service.selectFeedBoardPage(feedpage);
+	}
+	
+	@RequestMapping("/feedsidelist.do")
+	@ResponseBody
+	public List<FollowMeUser> feedSideFollow(FollowMeUser followmeuser) {
+		return service.selectFollowMe(followmeuser);
 	}
 	
 	// 댓글

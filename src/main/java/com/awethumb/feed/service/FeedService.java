@@ -17,6 +17,6 @@ public interface FeedService {
 	List<Comment> updateBoardComment(Comment comment);
 	List<CategoryList> selectUserCategoryList(String userId);
 	String selectLoginUserCategory(String userId);
-	List<FollowMeUser> selectFollowMe(String userId);
+	List<FollowMeUser> selectFollowMe(FollowMeUser followmeuser);
 	
 }

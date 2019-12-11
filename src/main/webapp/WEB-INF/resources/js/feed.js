@@ -3,47 +3,110 @@ const pageCount = 5; // 범위 5개
 let scrollTop = 0;
 let loginUserNo = $(".loginUserNo").val();
 let loginUserNickName = $(".loginUserNickName").val();
+let loginUserId = $(".loginUserId").val();
+let sidePageIndex = 0; // 시작
+const sidePageCount = 4; // 범위 5개
 $(document).ready(function(){ 
 	    boardList();
+	    sideFollowList();
 });
+$(document).on('click', '.addBtn', () => {
+	sideFollowList();
+});
+//$(document).on('click', ".aaa",() => {
+//	alert("asdf");
+//	sideFollowList();
+//});
 // infinity scroll
-$(window).on('scroll', function() {
-	scrollTop = $(window).scrollTop();
+$(window).scroll(() => {
+//	scrollTop = $(window).scrollTop();
 	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 		pageIndex += pageCount;
   		boardList();
+  		sideFollowList();
   	}
  });
 function boardList(){
 	$.getJSON({
 		url: "feedlist.do",
+		dataType:"JSON",
 		data:{
 			pageIndex : pageIndex,
 			pageCount : pageCount,
 			subUserNo:loginUserNo
 		},
 		success: list =>{
-			if(list.length == 0) {
+			if(list.length === 0) {
 				$(window).off('scroll');
-				feedList(list);
+				$("#feedWrap").append(`
+					<div style="min-height: 615px;">
+						<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
+					</div>
+				`);
 				return;
 			}
 			feedList(list);
 		}
 	})
 }; // boardList
-let imageState = $(".imageState").val();
-function feedList(list){
-	console.log("list : " + list);
-//	if(list) {
-	if(list.length === 0) {
-		$("#feedWrap").append(`
-				<div style="min-height: 615px;">
-					<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
+function sideFollowList(){
+	$.getJSON({
+		url: "feedsidelist.do",
+		dataType:"JSON",
+		data:{
+			sidePageIndex : sidePageIndex,
+			sidePageCount : sidePageCount,
+			userId:loginUserId
+		},
+		success: list => {
+//			if(Object.keys(list).length === 0) {
+			if(list.length === 0) {
+				alert("list 0개")
+//				$(".addBtn").off('click');
+//				$("#addBtn").css("display","none");
+				feedSideFollowMe(list);
+				return;
+			}
+			sidePageIndex += sidePageCount;
+			feedSideFollowMe(list);
+		}
+	})
+};
+function feedSideFollowMe(list) {
+	$.each(list, (i, sl) => {
+		$("#feedSideUserList").append(`
+			<div class="feedInfo">
+				<div class="feedUserImg">
+					<img src="./../images/test_user.jpg" alt="">
 				</div>
+				<div class="feedUserName">
+					<a href="/awethumb/profile/${sl.userNickname}">${sl.userNickname}</a>
+				</div>
+			</div>
+		`);
+	})
+	if (list.length !== 0){
+		$("#feedSideUserList").append(`
+			<div class="addBtn" id="addBtn" style="text-align:center;">
+				<button type="button" style=" border:none; background-color:transparent">
+					더보기
+				</button>
+			</div>
 		`);
 	}
-	else{
+}
+let imageState = $(".imageState").val();
+function feedList(list){
+//	if(list) {
+//	if(Object.keys(list).length === 0) {
+//		alert("씨바왜나와")
+//		$("#feedWrap").append(`
+//				<div style="min-height: 615px;">
+//					<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
+//				</div>
+//		`);
+//	}
+	if (list.length !== 0) {
 		$.each(list, (i, bl) => {
 			if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
 				$("#feedWrap").append(`

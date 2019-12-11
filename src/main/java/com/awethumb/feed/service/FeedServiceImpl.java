@@ -127,19 +127,8 @@ public class FeedServiceImpl implements FeedService {
 			}
 			
 		} // for
-//		List<CategoryList> cList = new ArrayList<>(); // 컨트롤러로 보낼녀석
-//		int cnt = 0;
-//		for (int i = 0 ; i < cateList.size(); i++) { // 비슷한사람이 최대30명이 넘지않기위한 for문 
-//			if(cnt <= 30) {
-//				int no = r.nextInt(cateList.size());
-//				cList.add(cateList.get(no));
-//				cnt++;
-//			}
-//		}
-//		return cList;
 		return cateList;
 	}
-	
 	// 내 카테고리 목록 title
 	public String meCategoryList(String userId){
 		CategoryList loginUserCategory = dao.selectLoginUserCategory(userId);
@@ -150,19 +139,17 @@ public class FeedServiceImpl implements FeedService {
 			int b = Integer.parseInt(a);
 			cateListMe.add(dao.selectCategoryTitle(b));
 		}
-		System.out.println("qwe : " + cateListMe.size());
 		String title = "";
 		for (int i = 0; i < cateListMe.size(); i++) {
 			title += (cateListMe.get(i) + " ");
 		}
-		System.out.println("tt2 : " + title);
 				
 		return title;
 	}
 	
 	// 맞팔안한 나를 팔로우한사람들 정보 가져오기
-	public List<FollowMeUser> selectFollowMe(String userId) {
-		return dao.selectFollowMe(userId);
+	public List<FollowMeUser> selectFollowMe(FollowMeUser followmeuser) {
+		return dao.selectFollowMe(followmeuser);
 	}
 	
 	

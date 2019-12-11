@@ -98,7 +98,8 @@
 																		      ON st.sub_user_no = ut.user_no 
 																		   WHERE ut.user_id = #{userId}) 
 												  ORDER BY st.opp_user_no ) )
-		 ORDER BY user_no
+		 ORDER BY rand()
+		 limit 0, 30
 	</select>
 	
 	
@@ -115,9 +116,9 @@
 	</select>
 	
 
-	<select id="selectFollowMe" parameterType="string" resultType="FollowMeUser">
+	<select id="selectFollowMe" parameterType="FollowMeUser" resultType="FollowMeUser">
 		SELECT user_no,
-				 user_nickname
+			   user_nickname
 		  FROM user_tb
 		 WHERE user_no = any (SELECT a.user_no
 							    FROM ( SELECT sub_user_no AS user_no
@@ -133,7 +134,8 @@
 															      FROM user_tb 
 														         WHERE user_id = #{userId}) ) )	AS b
 	       ON a.user_no = b.user_no
-	    WHERE b.user_no IS NULL ) 																													   
+	    WHERE b.user_no IS NULL )
+	    LIMIT #{sidePageIndex} , #{sidePageCount}																   
 	</select>
 
 

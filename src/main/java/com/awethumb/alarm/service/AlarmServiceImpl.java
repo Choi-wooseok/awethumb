@@ -36,4 +36,24 @@ public class AlarmServiceImpl implements AlarmService{
 	public List<Integer> selectUserNoListByProjectNo(int projectNo) {
 		return dao.selectUserNoListByProjectNo(projectNo);
 	}
+
+	@Override
+	public List<Alarm> selectAlarmList(int userNo) {
+		return dao.selectAlarmList(userNo);
+	}
+
+	@Override
+	public void updateAlarm(int userNo) {
+		dao.updateAlarm(userNo);
+	}
+
+	@Override
+	public void deleteAlarm(int alarmNo) {
+		dao.deleteAlarm(alarmNo);
+	}
+
+	@Override
+	public Alarm selectLatestAlarm() {
+		return dao.selectLatestAlarm();
+	}
 }

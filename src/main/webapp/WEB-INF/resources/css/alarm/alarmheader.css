@@ -1,0 +1,53 @@
+.alarm-dropdown-wrap{
+	border:1px solid #dbdbdb;
+	border-top:1px solid #fff;
+	width:320px;
+	display:inline-block;
+	left:64%;
+	background-color:#fff;
+}
+.alarmhidden{
+	display:none;
+}
+.alarm-dropdown-thumb{
+	width: 40px;
+}
+li > article{
+	display:flex;
+	align-items:center;
+}
+.ac-usernick{
+    color: #6dd5bc;
+    font-size: 18px;
+}
+.alarm-list > li{
+	padding: 12px;
+	height: 40px;
+	border-bottom: 1px solid #dbdbdb;
+	cursor:pointer;
+	align-items: center;
+	justify-content: space-between;
+}
+.alarm-content{
+	font-size: 14px;
+	line-height: 18px;
+	margin-left: 14px;
+}
+.alarm-profile-link{
+	display:table-cell;
+	height:40px;
+	cursor:pointer;
+}
+.alarm-dropdown-thumb{
+	vertical-align: middle;
+}
+.alarm-dropdown-delbtn{
+}
+.dropdown-showmore{
+	display: block;
+    text-align: center;
+    cursor: pointer;
+}
+
+
+

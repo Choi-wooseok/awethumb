@@ -20,6 +20,8 @@ const alarmsocket = new WebSocket(alarmSocketUri);
 
 alarmsocket.onmessage = function(evt) {
 	$(".alarmCnt").text(evt.data)
+	// 알림창이 열려있고 알림 오면 최근 내용을 알림에 추가 시킨다.
+	if($(".alarm-dropdown-wrap").hasClass("alarmhidden") == false) getLatestAlarm();
 };
 
 

@@ -8,6 +8,8 @@ import lombok.Data;
 
 @Data
 public class Alarm {
+	private String userNickname;
+	
 	// 알림 번호 
     private Integer alarmNo;
 

@@ -16,4 +16,12 @@ public interface AlarmDAO {
 
 	List<Integer> selectUserNoListByProjectNo(int projectNo);
 
+	List<Alarm> selectAlarmList(int userNo);
+
+	void updateAlarm(int userNo);
+
+	void deleteAlarm(int alarmNo);
+
+	Alarm selectLatestAlarm();
+
 }

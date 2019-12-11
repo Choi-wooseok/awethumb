@@ -76,12 +76,12 @@
 <!-- 						</div> -->
 <%-- 					</c:forEach> --%>
 					<div id="feedSideUserList" class="feedSideUserList">
-					</div>
 <!-- 					<div class="addBtn" id="addBtn" style="text-align:center;"> -->
 <!-- 						<button type="button" style=" border:none; background-color:transparent"> -->
 <!-- 							더보기 -->
 <!-- 						</button> -->
 <!-- 					</div> -->
+					</div>
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">

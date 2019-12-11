@@ -10,20 +10,27 @@ $(document).ready(function(){
 	    boardList();
 	    sideFollowList();
 });
-$(document).on('click', '.addBtn', () => {
-	sideFollowList();
-});
+//$(document).on('click', '.addBtn', () => {
+//	sideFollowList();
+//});
 //$(document).on('click', ".aaa",() => {
 //	alert("asdf");
 //	sideFollowList();
 //});
 // infinity scroll
+$("#feedSideUserList").scroll(() => {
+	console.log("1 : " + $("#feedSideUserList").height());
+	console.log("2 : " + $("#feedSideUserList").height());
+	console.log("3 : " + Math.ceil($("#feedSideUserList").scrollTop()));
+	if ($("#feedSideUserList").height() == $("#feedSideUserList").height() - Math.ceil($("#feedSideUserList").scrollTop())) {
+		sidePageIndex += sidePageCount;
+		sideFollowList();
+	}
+});
 $(window).scroll(() => {
-//	scrollTop = $(window).scrollTop();
 	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 		pageIndex += pageCount;
   		boardList();
-  		sideFollowList();
   	}
  });
 function boardList(){
@@ -50,6 +57,7 @@ function boardList(){
 	})
 }; // boardList
 function sideFollowList(){
+//	alert("사이드바")
 	$.getJSON({
 		url: "feedsidelist.do",
 		dataType:"JSON",
@@ -61,13 +69,13 @@ function sideFollowList(){
 		success: list => {
 //			if(Object.keys(list).length === 0) {
 			if(list.length === 0) {
-				alert("list 0개")
+				$("#addBtn").css("display","none");
+//				alert("list 0개")
 //				$(".addBtn").off('click');
-//				$("#addBtn").css("display","none");
 				feedSideFollowMe(list);
 				return;
 			}
-			sidePageIndex += sidePageCount;
+//			sidePageIndex += sidePageCount;
 			feedSideFollowMe(list);
 		}
 	})
@@ -85,15 +93,18 @@ function feedSideFollowMe(list) {
 			</div>
 		`);
 	})
-	if (list.length !== 0){
-		$("#feedSideUserList").append(`
-			<div class="addBtn" id="addBtn" style="text-align:center;">
-				<button type="button" style=" border:none; background-color:transparent">
-					더보기
-				</button>
-			</div>
-		`);
-	}
+//	if (list.length !== 0){
+//		$("#addBtn").remove();
+//		$("#feedSideUserList").append(`
+//				<div class="addBtn" id="addBtn" style="text-align:center;">
+//				<button type="button" style=" border:none; background-color:transparent">
+//				더보기
+//				</button>
+//				</div>
+//		`);
+//	}
+//		$("#addBtn").css("display","none");
+//	}
 }
 let imageState = $(".imageState").val();
 function feedList(list){

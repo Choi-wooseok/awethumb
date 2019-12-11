@@ -77,8 +77,12 @@
 	delete from alarm_tb
 	 where alarm_no = #{alarmNo}
 </delete>
-<select id="selectLatestAlarm" >
-	
+<select id="selectLatestAlarm" resultType="Alarm" >
+	SELECT a.*, u.user_nickname user_nickname
+      FROM alarm_tb a, user_tb u
+     WHERE a.send_user_no = u.user_no
+     ORDER BY reg_date DESC
+     LIMIT 1
 </select>
 </mapper>
 

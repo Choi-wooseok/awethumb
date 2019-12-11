@@ -33,6 +33,13 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+	<!-- 세션 발생시마다 데이터 쌓아주는 리스너 -->
+	<listener>
+		<listener-class>com.awethumb.filter.VisitCounter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
   
   <error-page>
 	<error-code>404</error-code>
@@ -51,7 +58,6 @@
   <error-page>
 	<location>/error/default.do</location>
   </error-page>
-  
   
   
   <servlet>
@@ -83,21 +89,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-  <!-- 세션 발생시마다 데이터 쌓아주는 -->
-<!-- 	<PRE class=brush:xml> -->
-<!-- 		<listener> -->
-<!-- 			<listener-class>com.awethumb.filter.VisitCounter</listener-class> -->
-<!-- 			<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> -->
-<!-- 		</listener> -->
-
-<!-- 		<context-param> -->
-<!-- 			<param-name>contextConfigLocation</param-name> -->
-<!-- 			<param-value> -->
-<!-- 				classpath:config/spring/context-*.xml -->
-<!-- 			</param-value> -->
-<!-- 		</context-param> -->
-<!-- 	</PRE> -->
   
   
 </web-app>

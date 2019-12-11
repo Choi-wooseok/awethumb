@@ -20,13 +20,19 @@ public class VisitCounter implements HttpSessionListener{
 		HttpSession session = se.getSession();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());
         //등록되어있는 빈을 사용할수 있도록 설정해준다
-        HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+        ServletRequestAttributes sra = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest req = sra.getRequest();
+        		
         //request를 파라미터에 넣지 않고도 사용할수 있도록 설정
         StatsDAO statsDAO = (StatsDAO)wac.getBean("statsDAO");
         VisitCount vc = new VisitCount();
-        vc.setVisit_ip(req.getRemoteAddr());
-        vc.setVisit_agent(req.getHeader("User-Agent"));//브라우저 정보
-        vc.setVisit_refer(req.getHeader("referer"));//접속 전 사이트 정보
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null) {
+        	ip = req.getRemoteAddr();
+        }
+        vc.setVisitIp(ip);
+        vc.setVisitAgent(req.getHeader("User-Agent"));//브라우저 정보
+        vc.setVisitRefer(req.getHeader("referer"));//접속 전 사이트 정보
         statsDAO.insertVisitCount(vc);
 	}
 
@@ -35,3 +41,5 @@ public class VisitCounter implements HttpSessionListener{
 	}
 	
 }
+
+

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class VisitCount {
-	 private int visit_id;
-     private String visit_ip;
-     private String visit_time;
-     private String visit_refer;
-     private String visit_agent;
+	 private int visitId;
+     private String visitIp;
+     private String visitTime;
+     private String visitRefer;
+     private String visitAgent;
 }

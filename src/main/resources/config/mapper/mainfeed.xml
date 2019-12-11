@@ -47,11 +47,24 @@
   		  from user_tb u
  		 where u.user_nickname like CONCAT(#{searchWord},'%')
   		 union all
-		select count(h.hashtag_content) , h.hashtag_content, 'h' 
+		select count(distinct h.post_no) , h.hashtag_content, 'h' 
   		  from hashtag_tb h
  		 group by h.hashtag_content
 		having h.hashtag_content like CONCAT(#{searchWord},'%')
 	</select>
+	<!-- 해시태그 ==================================================== -->
+	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
+		select * 
+		  from hashtag_tb 
+		 where post_no = #{postNo}
+		   <if test="searchWord != null">
+		 	   or hashtag_content like #{searchWord} || '%'
+		   </if>
+	</select>
+	<insert id="insertHashtag" parameterType="Hashtag">
+		insert into hashtag_tb(post_no, hashtag_content)
+		 values (#{postNo}, #{hashtagContent})
+	</insert>
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
@@ -69,19 +82,17 @@
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
+		    <if test="searchWord != null">
+		 where exists (select post_no 
+								   from hashtag_tb 
+								  where hashtag_content like CONCAT(#{searchWord}, '%')
+								    and b.post_no = post_no)		
+		    </if>
      	   <if test="searchWord != null">
-		       or u.user_nickname like #{searchWord} || '%'
+		       or u.user_nickname like concat(#{searchWord}, '%')
      	   </if>
 		 order by b.post_no desc
 		 limit #{pageIndex} , #{pageCount} 
-	</select>
-	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
-		select * 
-		  from hashtag_tb 
-		 where post_no = #{postNo}
-		   <if test="searchWord != null">
-		 	   or hashtag_content like #{searchWord} || '%'
-		   </if>
 	</select>
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap" flushCache="true" useCache="true">
 		select b.*, u.*
@@ -130,7 +141,7 @@
 		) values (
 			#{cmtContent}, #{userNo}, #{postNo}
 		)
-	</insert>	
+	</insert>
 	<update id="updateComment" parameterType="comment">
 	    update comment_tb
 	       set cmt_content = #{cmtContent}

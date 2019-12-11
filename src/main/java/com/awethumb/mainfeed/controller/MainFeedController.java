@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,12 @@ public class MainFeedController {
 		return service.listMainFeed(pageCount);
 	}
 	
+//	@RequestMapping("/mainfeedList.do?hashtagContent=")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
+//	@ResponseBody  // jsp를 호출하는게 아닌 데이터만 호출 : ajax를 호출할때 
+//	public List<MainFeed> mainFeedList(FeedPage pageCount) {
+//		return service.listMainFeed(pageCount);
+//	}
+	
 	@GetMapping("/detailmainfeed.do")
 	@ResponseBody
 	public MainFeed mainFeeddetail(int postNo) {
@@ -39,7 +46,9 @@ public class MainFeedController {
 	
 	@RequestMapping("/insertComment.do")
 	@ResponseBody
+	@Transactional
 	public MainFeed commentRegistAjax(Comment comment) {
+		service.insertHashtag(comment);
 		service.insertComment(comment);
 //		System.out.println("인서트 들어옴");
 		return service.detailMainFeed(comment.getPostNo());

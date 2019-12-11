@@ -52,6 +52,4 @@ public class MainFeed {
     // 해시태그를 리스트로
     private List<Hashtag> hashtagList;
     
-//    // 댓글 작성 시간 보여주기(~분 전/ ~시간 전) / collection 사용
-//    private List<Comment> commentDt;
 }

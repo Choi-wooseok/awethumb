@@ -31,6 +31,9 @@ public interface MainFeedDAO {
 	
 	/* 검색 파트 ============================================*/
 	List<MainFeed> search(String searchWord);
+//	List<MainFeed> searchHashFeed(FeedPage pageCount);
+	/* 해시태그 =============================================*/
+	void insertHashtag(Comment comment);
 }
 
 

@@ -45,70 +45,94 @@ let scrollTop = 0;
 	   }
 	   
 // mainfeed 생성 및 페이징 --------------------------------------
-	   function MainfeedMakeAjax(srchWord) {
+	   function MainfeedMakeAjax(searchWord) {
 			$.getJSON({
 				url: "mainfeedList.do",
 				data: {
 					pageIndex,
-					srchWord
+					searchWord
 				},
 				success: list => {
 					if(list.length == 0) {
 						$(window).off('scroll');
 						return;
 					}
-					if (srchWord === "undefined")
-					makeMainFeedList(list);
-					else makeMainFeedList(list, 'srch');
+//					console.log("1", searchWord);
+					if (searchWord === undefined) {
+						
+						makeMainFeedList(list);
+					}
+					else {
+						$.getJSON({
+							url: "mainfeedList.do?hashtag=" + searchWord,
+							data: {
+								pageIndex,
+								searchWord
+							},
+							success: list => {
+								console.log("ab", list)
+								makeMainFeedList(list, searchWord);
+								console.log("ac", searchWord)
+							}
+						});
+					}
 				}
 			})
 		}
 	   
-		function makeMainFeedList(list, type) {
-			if (type) {
-				
-			}
-//			console.log(list);
-			$.each(list, (i, c) => {
-//				console.log(c.commentList);
-				$("#feedsWrap").append(`
-					<div class="feedsList msrItem" id="feedsList">
-						<div class="feedsInfo">
-							<div class="feedUserImg">
-								<img src="${pageContextURI}/images/test_user.jpg" alt="">
+		function makeMainFeedList(list, resultType) {
+			function mainList() {
+				$.each(list, (i, c) => {
+//					console.log("1", searchWord)
+//					console.log("2", c.searchWord)
+//					console.log(c.commentList);
+					$("#feedsWrap").append(`
+						<div class="feedsList msrItem" id="feedsList">
+							<div class="feedsInfo">
+								<div class="feedUserImg">
+									<img src="${pageContextURI}/images/test_user.jpg" alt="">
+								</div>
+								<div>
+									<a href="#">${c.userNickname}</a>
+								</div>
 							</div>
-							<div>
-								<a href="#">${c.userNickname}</a>
+
+							<div class="feedsImgWrap">
+								<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
+								</a>
 							</div>
-						</div>
 
-						<div class="feedsImgWrap">
-							<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
-							</a>
-						</div>
-
-						<div class="feedsPlay" id="feedsPlay${c.postNo}">
-							<div class="feedsContWrap">${c.postContent}</div>
-							`)
-						$.each(c.hashtagList, (i, h) => {
-							if (`${h.hashtagContent}` != 'null') {
+							<div class="feedsPlay" id="feedsPlay${c.postNo}">
+								<div class="feedsContWrap">${c.postContent}</div>
+								`)
+							$.each(c.hashtagList, (i, h) => {
+								if (`${h.hashtagContent}` != 'null') {
+									$(`#feedsPlay${c.postNo}`).append(`
+									<span class="hashTag">
+										<a href="#">#${h.hashtagContent}</a>
+									</span>`)
+								}
+							});
 								$(`#feedsPlay${c.postNo}`).append(`
-								<span class="hashTag">
-									<a href="#">#${h.hashtagContent}</a>
-								</span>`)
-							}
-						});
-							$(`#feedsPlay${c.postNo}`).append(`
-							<div class="playInfo">
-								댓글 <span>${c.commentCount}</span>개
-								<button>
-									<i class="far fa-heart"></i> <span>${c.likeCount}</span>
-								</button>
+								<div class="playInfo">
+									댓글 <span>${c.commentCount}</span>개
+									<button>
+										<i class="far fa-heart"></i> <span>${c.likeCount}</span>
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				`);
-			});
+					`);
+					});
+				}
+//			console.log("3", list);
+			if (resultType) {
+				$(".feedsList").remove()
+//				console.log("0", resultType);
+				mainList();
+			} else {
+				mainList();
+			};
 //			console.log($(window).scrollTop());
 			setTimeout(() => {masonry(); 
 //			console.log($(window).scrollTop());
@@ -121,7 +145,7 @@ let scrollTop = 0;
 		$.ajax({
 			url: "detailmainfeed.do",
 			data: {
-				postNo:$(e.target).data("postno")
+				postNo:$(e.target).data("postno"),
 			},
 			dataType: "JSON",
 			success: result => {
@@ -153,10 +177,23 @@ let scrollTop = 0;
 									</div>
 							        <div class="userName">
 							            <a href="#">${detail.userNickname}</a>
-							            <button id="myBoard"><i class="fas fa-bars"></i></button>
+							            `)
+							   if(typeof userNo !== 'undefined'){
+							         $(`.userName`).append(`
+								            <button id="myBoard">
+								            	<i class="fas fa-bars"></i>
+								            </button>
 							        </div>
 								</div>
-							</div>
+							</div>`)
+							   } else {
+								   $(`.userName`).append(`
+										   </div>
+									   </div>
+								   </div>
+								   `)
+							   }
+						$(`.modal_content`).append(`
 							<div class="modalContWrap">
 								<div id="boxSize">
 									<img id="image" src="./../images/test_img3.jpg" alt="">
@@ -176,52 +213,67 @@ let scrollTop = 0;
 							}		
 						});
 							$(`#rightBox`).append(`
-								<div class="comment">
+									<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
             			if (`${c.cmtContent}` != 'null'){
-            				console.log(c.agoRegDt);
+//            				console.log(c.agoRegDt);
             				$(`.comment`).append(`
-        								<div class="commentList">
+    									<div class="commentList">
 			                				<div class="commentUserImg">
 			                    				<img src="./../images/test_user.jpg" alt="">
 		                					</div>
 		                					<div class="commentWrap" id="commentWrap${c.cmtNo}">
-		                					<div class="cmtModal${c.cmtNo}">
-		                						<div class="cmtInfo">
-		                							<span>${c.cmtUserNickname}</span>
-		                							<span>${c.agoRegDt}</span>
-		                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
-		                								<i class="fas fa-ellipsis-h"></i>
-		                							</button>
-            									</div>
-		                						<div class="cmtContent">
-		                							${c.cmtContent}
-            									</div>
-				                			</div>
-		        						</div>
+		                						<div class="cmtModal${c.cmtNo}">
+		                							<div class="cmtInfo">
+			                							<span>${c.cmtUserNickname}</span>
+			                							<span>${c.agoRegDt}</span>
+			                							`)
+			                						if(typeof userNo !== 'undefined'){	
+	            										$(`.cmtInfo`).append(`
+				                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
+				                								<i class="fas fa-ellipsis-h"></i>
+				                							</button>
+	            										</div>`)
+			                						}
+            										$(`.cmtModal${c.cmtNo}`).append(`
+			                						<div class="cmtContent">
+			                							${c.cmtContent}
+	            									</div>
+					                			</div>
+			        						</div>
+			            				</div>
 		            				</div>`)
 		                } else {
 		                	$(`.comment`).append(`
 		                				<span>등록된 댓글이 없습니다.</span>
-	                				</div>
-        						</div>
-            				</div>
+                				</div>  // rightbox 끝
+    						</div>  // modalcontwrap
+        				</div> // modalcontent
+        			</div> // modal_content_container
 		                			`)
 		                		}
             })
-            $(`#rightBox`).append(`
-			            	<div class="insertComment">
-				            	<form id="crForm" method="post" action="insertComment.do" >
-	            					<input type="hidden" id="postNo" value="${detail.postNo}" />	
-				                    <input type="text" id="cmtContent"/>
-				                    <input type="submit" value="등록" class="cmtRegist"/>
-            					</form>
-			                </div>
-            			</div>
-            		</div>
-        		</div>
-            `)
+            if (typeof userNo !== 'undefined'){
+	            $(`#rightBox`).append(`
+				            	<div class="insertComment">
+					            	<form id="crForm" method="post" action="insertComment.do" >
+		            					<input type="hidden" id="postNo" value="${detail.postNo}" />	
+					                    <input type="text" id="cmtContent"/>
+					                    <input type="submit" value="등록" class="cmtRegist" data-postNo="${c.postNo}"/>
+	            					</form>
+				                </div>
+	            			</div>
+	            		</div>
+	        		</div>
+	            `)
+            } else {
+            	$(`#rightBox`).append(`
+	            			</div>
+	        			</div>
+	    			</div>
+            	`)
+            }
     		$(`.modal_content_container`).append(`
     				<i class="fas fa-caret-left arw-btn"></i>
     				<i class="fas fa-caret-right arw-btn"></i>
@@ -229,14 +281,7 @@ let scrollTop = 0;
             $(`#modal${detail.postNo}`).append(`
 	            </div>
 	        </div>
-
-	    <div id="modalBoard" class="board">
-	        <div class="board-modal">
-	            <div> <button id="report" class="report" type="button">신 고</button></div>
-	            <div> <button id="share">퍼가기</button></div>
-	            <div class="boardClose">취 소 </div>
-	        </div>
-	    </div>`)
+	    `)
 	}
 	detailListAjax();
 	// x버튼 클릭시 모달창 닫힘
@@ -373,7 +418,7 @@ let scrollTop = 0;
 					cmtNo: $(e.target).data("cmtno"),
 					postNo: $("#postNo").val()
 				},
-				dateType:"json",
+				dataType:"json",
 				success: result => {
 					makeDetailFeed(result);
 					setTimeout(() => {
@@ -420,42 +465,97 @@ let scrollTop = 0;
         }
 	
 	// 댓글 등록
-		$(document).on('submit', '#crForm', () => {
-			$.ajax({
-				url: "insertComment.do",
-				method:"POST",
-				data: {cmtContent: $("#cmtContent").val(), 
-					userNo: userNo, 
-					postNo:$("#postNo").val()},
-				dataType: "JSON",
-				success: result => {
-					$.ajax({
-		                  url: "detailmainfeed.do",
-		                  data: {
-		                     postNo:$("#postNo").val()
-		                  },
-		                  dataType: "JSON",
-		                  success: result => {
-		                     makeDetailFeed(result);
-		                     setTimeout(() => {
-		                        makemodalattribute({
-		                           w: $("#image").width(),
-		                           h: $("#image").height()
-		                        })
-		                     }, 100);
-		                  }
-		               })
-
-		        }
-			});
-			$("#cmtContent").val("");
-			return false;
-		});
+//		$(document).on('submit', '#crForm', () => {
+//			$.ajax({
+//				url: "insertComment.do",
+//				method:"POST",
+//				data: {cmtContent: $("#cmtContent").val(), 
+//					userNo: userNo, 
+//					postNo:$("#postNo").val()},
+//				dataType: "JSON",
+//				success: result => {
+//					$.ajax({
+//		                  url: "detailmainfeed.do",
+//		                  data: {
+//		                     postNo:$("#postNo").val()
+//		                  },
+//		                  dataType: "JSON",
+//		                  success: result => {
+////		                	 makeAlarm(3, cmtNo)
+//		                     makeDetailFeed(result);
+//		                     setTimeout(() => {
+//		                        makemodalattribute({
+//		                           w: $("#image").width(),
+//		                           h: $("#image").height()
+//		                        })
+//		                     }, 100);
+//		                  }
+//		               })
+//		        }
+//			});
+//			$("#cmtContent").val("");
+//			return false;
+//		});
 		
-//		검색기능
-//		$(document).on("click", ".search", () => {
-//			
+//		해시태그 등록
+//		$(document).on('keyup', '#cmtContent', () => {
+				$(document).on('submit', '#crForm', () => {
+					let hashWord = $("#cmtContent").val();
+					let hashSplit = new Array();
+					let hash = new Array();
+					let saveHash = new Array();
+					if (hashWord.includes('#')) {
+//				console.log("#", hashWord);
+						let hashSplit = hashWord.split(' ');
+						for (let i = 0; i < hashSplit.length; i++) {
+//					console.log(hashSplit[i]);
+							if (hashSplit[i].includes('#')){
+								hash.push(hashSplit[i]);
+								let hashSp = hash.split(' ');
+								for (let j = 0; j < hashSp.length; j++) {
+									saveHash.push(hashSp[i]);
+								}
+							}
+						}
+//						console.log(hash);
+						console.log(saveHash);
+//						console.log(hashSplit);
+					}
+//					console.log(hash);
+					$.ajax({
+						url: "insertComment.do",
+						method:"POST",
+						data: {cmtContent: $("#cmtContent").val(), 
+							userNo: userNo, 
+							postNo:$("#postNo").val(),
+							hashtagContent: saveHash},
+						dataType: "JSON",
+						success: result => {
+							$.ajax({
+				                  url: "detailmainfeed.do",
+				                  data: {
+				                     postNo:$("#postNo").val()
+				                  },
+				                  dataType: "JSON",
+				                  success: result => {
+//				                	 makeAlarm(3, cmtNo)
+				                     makeDetailFeed(result);
+				                     setTimeout(() => {
+				                        makemodalattribute({
+				                           w: $("#image").width(),
+				                           h: $("#image").height()
+				                        })
+				                     }, 100);
+				                  }
+				               })
+				        }
+					});
+					$("#cmtContent").val("");
+					return false;
+			});
 //		})
+//		}
+//		검색기능
 		$("#search").keyup(() => {
 			let searchWord = $("#search").val().replace(/ /g, '');
 //				console.log(searchWord)
@@ -473,17 +573,18 @@ let scrollTop = 0;
 					dataType: 'JSON',
 					contentType: 'application/json; charset=UTF-8',
 					success: result => {
-//							console.log(result)
+							console.log(result)
 //							console.log(result.length)
 //							console.log("search", searchWord, searchWord.startsWith('#'));
 						if (result.length > 0) {
 							let str = '';
 							if (searchWord.startsWith('#')){
-//									console.log("search", searchWord);
+									console.log("search", searchWord);
 								for (let i = 0; i < result.length; i++) {
 									console.log(result[i].hashtagAndNickname);
 									if (result[i].resultType == 'h'){
-										str += '<div class="resultSearch" data-serchType="h" data-hashtagContent=' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+										console.log("aa", result[i].resultType);
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
 									else {
 										str = '';
@@ -493,33 +594,30 @@ let scrollTop = 0;
 								for (let i = 0; i < result.length; i++) {
 									if (result[i].resultType == 'u'){
 										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
+										console.log("ab", result[i].resultType)
 									} else if (result[i].resultType == 'h') {
+										console.log("ac", result[i].resultType)
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
 								}
 							}
-//								console.log(str);
 							$("#searchResults").css("display", "block")
 							$("#searchResults").html(str);
 							window.onclick = () => {
 								$("#searchResults").css("display", "none")
 					        }
-							// 검색 결과 클릭시 화면 이동
-							$(document).on('click', '.resultSearch', (e) => {
+							$(".resultSearch").click((e) => {
 								let searchType = $(e.target).data("searchtype")
 								console.log("b", searchType);
 								if (searchType == 'u'){
 									let searchU = $(e.target).data("usernickname");
 									location.href = pageContextURI + '/profile/' + searchU;
-									console.log("c", searchU);
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
-									location.href = pageContextURI + '/mainfeed/mainfeed.do?searchWord=' + searchH;
-									$(".feedsList").remove();
-									MainfeedMakeAjax(tempSearchWord);
-//									console.log(list);
 									console.log("a", searchH);
+//									location.href = pageContextURI + '/mainfeed/mainfeed.do?hashtagContent=' + searchH;
+									MainfeedMakeAjax(searchH)
 								}
 							});
 						} else {

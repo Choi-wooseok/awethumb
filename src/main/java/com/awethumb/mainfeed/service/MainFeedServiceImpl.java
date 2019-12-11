@@ -40,6 +40,11 @@ public class MainFeedServiceImpl implements MainFeedService {
 		dao.deleteComment(cmtNo);
 	}
 	
+	// 해시태그 ----------------------------------------------
+	public void insertHashtag(Comment comment) {
+		dao.insertHashtag(comment);
+	}
+	
 	// 검색 -------------------------------------------------
 	public List<MainFeed> search(String serchWord) {
 		return dao.search(serchWord);

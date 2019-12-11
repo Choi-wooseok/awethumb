@@ -85,19 +85,19 @@
   </welcome-file-list>
   
   <!-- 세션 발생시마다 데이터 쌓아주는 -->
-	<PRE class=brush:xml>
-		<listener>
-			<listener-class>com.awethumb.filter.VisitCounter</listener-class>
-			<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-		</listener>
+<!-- 	<PRE class=brush:xml> -->
+<!-- 		<listener> -->
+<!-- 			<listener-class>com.awethumb.filter.VisitCounter</listener-class> -->
+<!-- 			<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> -->
+<!-- 		</listener> -->
 
-		<context-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>
-				classpath:config/spring/context-*.xml
-			</param-value>
-		</context-param>
-	</PRE>
+<!-- 		<context-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value> -->
+<!-- 				classpath:config/spring/context-*.xml -->
+<!-- 			</param-value> -->
+<!-- 		</context-param> -->
+<!-- 	</PRE> -->
   
   
 </web-app>

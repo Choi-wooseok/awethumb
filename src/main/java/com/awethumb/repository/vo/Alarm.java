@@ -37,6 +37,11 @@ public class Alarm {
     // 알림 타입 1. 구독 2. 좋아요 3. 댓글 4. 공유 수락
     private int alarmType;
     
+    private int countPerPage;
+	private int currentPageNo;
+	
+	private String timeAgo;
+    
     public static Alarm convertMessage(String source) {
 		Alarm alarm = new Alarm();
 		Gson gson = new Gson();

@@ -39,10 +39,9 @@ function prependDropdownAlarm(alarm) {
 				<div class="alarm-content ac-${alarm.alarmNo}">
 					<span class="ac-usernick">${alarm.userNickname}</span>${appendLine}
 				</div>
-				<span>
-				</span>
 			</article>
 			<button class="alarm-dropdown-delbtn" data-alarmno="${alarm.alarmNo}">X</button>
+			<span class="alarm-dropdown-time">${alarm.timeAgo}</span>
 		</li>
 	`)
 	getAlarmThumbAjax(alarm.sendUserNo);

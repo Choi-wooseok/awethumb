@@ -21,12 +21,10 @@ li > article{
     font-size: 18px;
 }
 .alarm-list > li{
+	display: block;
 	padding: 12px;
-	height: 40px;
 	border-bottom: 1px solid #dbdbdb;
 	cursor:pointer;
-	align-items: center;
-	justify-content: space-between;
 }
 .alarm-content{
 	font-size: 14px;
@@ -42,11 +40,23 @@ li > article{
 	vertical-align: middle;
 }
 .alarm-dropdown-delbtn{
+    position: absolute;
+    top: 67px;
+    left: 290px;
 }
 .dropdown-showmore{
 	display: block;
     text-align: center;
     cursor: pointer;
+}
+.alarm-dropdown-time{
+	position: absolute;
+    top: -25px;
+    left: 214px;
+    font-size: 12px;
+    width: 100px;
+    text-align: right;
+    height:0px;
 }
 
 

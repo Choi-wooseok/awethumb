@@ -195,7 +195,7 @@
                 <div class="w3-card-4 w3-panel w3-twothird w3-auto dc-card w3-content w3-cell w3-cell-middle">
                   <h5 style="text-align:center;">오늘 가입한 회원수</h5>
                   <hr>
-                  <p style="text-align:center; font-size:3em;">641명</p>
+                  <p style="text-align:center; font-size:3em;">${totalUserToday}명</p>
                 </div>
               </div>
             </div> <!-- 일간탭끝 -->

@@ -217,25 +217,25 @@
           <p class="centered"><a href="profile.html"><img src="<c:url value='/admin/img/ui-sam.jpg' />" class="img-circle" width="80"></a></p>
           <h5 class="centered">관리자</h5>
           <li class="mt">
-            <a class="active" href="<c:url value='/admin/adminMain.do'/>">
+            <a class="" href="<c:url value='/admin/adminMain.do'/>">
               <i class="fa fa-dashboard"></i>
-              <span>대시보드</span>
+              <span class="menu-font-dc">대시 보드</span>
               </a>
           </li>
-          <li class="mt">
-            <a class="active" href="<c:url value='/admin/manageUser.do'/>">
-              <i class="fa fa-dashboard"></i>
-              <span>회원 관리</span>
+          <li class="">
+            <a class="" href="<c:url value='/admin/manageUser.do'/>">
+              <i class="fa fa fa-user-circle-o"></i>
+              <span class="menu-font-dc">회원 관리</span>
               </a>
           </li>
-          <li class="mt">
-            <a class="active" href="<c:url value='/admin/adminMain.do'/>">
-              <i class="fa fa-dashboard"></i>
-              <span>대시보드</span>
+          <li class="">
+            <a class="" href="<c:url value='/admin/reportList.do'/>">
+              <i class="fa fa fa-ban"></i>
+              <span class="menu-font-dc">신고 현황</span>
               </a>
           </li>
           <!-- 신고,회원관련 메뉴 -->
-          <li class="sub-menu">
+          <%-- <li class="sub-menu">
             <a href="<c:url value='/admin/adminMain.do'/>">
               <i class="fa fa-desktop"></i>
               <span>회원 관리</span>
@@ -244,7 +244,7 @@
               <li><a href="<c:url value='/admin/reportList.do'/>">불량회원 신고현황</a></li>
               <li><a href="<c:url value='/admin/manageUser.do'/>">회원 관리</a></li>
             </ul>
-          </li>         
+          </li> --%>         
  
          
         </ul>

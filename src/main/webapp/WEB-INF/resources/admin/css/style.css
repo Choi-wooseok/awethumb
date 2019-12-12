@@ -13,6 +13,13 @@ Website: http://Alvarez.is/
 
 /* Import fonts */
 @import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900);
+@import url('https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap');
+/* 추가한 CSS*/
+.menu-font-dc {
+	font-family: 'Gamja Flower', cursive;
+	font-size: 2.1em;
+	font-weight: 700;
+}
 
 /* BASIC THEME CONFIGURATION */
 body {

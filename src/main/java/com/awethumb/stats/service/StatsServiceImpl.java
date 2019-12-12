@@ -26,6 +26,10 @@ public class StatsServiceImpl implements StatsService {
 	public int totalPostToday() {
 		return dao.totalPostToday();
 	}
+	@Override
+	public int totalUserToday() {
+		return dao.totalUserToday();
+	}
 	
 	
 }

@@ -37,6 +37,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("totalVisitToday", statsService.totalVisitToday());
 		mav.addObject("totalPostToday", statsService.totalPostToday());
+		mav.addObject("totalUserToday", statsService.totalUserToday());
 		mav.setViewName("admin/adminMain");
 		return mav;
 	};

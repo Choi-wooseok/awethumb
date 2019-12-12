@@ -6,4 +6,5 @@ public interface StatsDAO {
 	public void insertVisitCount(VisitCount vc);
 	public int totalVisitToday();
 	public int totalPostToday();
+	public int totalUserToday();
 }

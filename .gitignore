@@ -45,3 +45,4 @@ Servers/
 bin/
 
 spring-oauth2.xml
+.factorypath

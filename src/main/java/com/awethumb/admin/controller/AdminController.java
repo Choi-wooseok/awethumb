@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.admin.service.AdminService;
 import com.awethumb.repository.vo.Block;
@@ -19,6 +20,7 @@ import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.PageMaker;
 import com.awethumb.repository.vo.Report;
 import com.awethumb.repository.vo.UserVO;
+import com.awethumb.stats.service.StatsService;
 
 @Controller("com.awethumb.admin.controller.AdminController")
 @RequestMapping("/admin")
@@ -27,45 +29,58 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	@Autowired
+	private StatsService statsService;
+
+	@RequestMapping("/adminMain.do")
+	public ModelAndView adminMain() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("totalVisitToday", statsService.totalVisitToday());
+		mav.addObject("totalPostToday", statsService.totalPostToday());
+		mav.setViewName("admin/adminMain");
+		return mav;
+	};
+
 	@RequestMapping("/userManageAjax.do")
 	@ResponseBody
 	public Map<String, Object> userManageAjax(int userNo) {
-		//여기서 리절트에 json으로 담아줘야 하는 정보는
+		// 여기서 리절트에 json으로 담아줘야 하는 정보는
 		// 번호에 해당하는 user객체
 		// 그 유저가 정지중인지의 여부와 정지중이라면 정지마감날짜
 		// 번호로 유저를 뽑아야하고, 블락테이블에 유저no로 접근하는 메서드 사용해야함.
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+
 		UserVO user = service.selectOneUserUsingUserNo(userNo);
 		result.put("user", user);
 		Block block = service.selectBlock(userNo);
-		if(block != null) {
+		if (block != null) {
 			result.put("block", block);
-		};
+		}
+		;
 		return result;
 	}
-	
+
 	@RequestMapping("/manageUser.do")
 	public void manageUser() {
-		
+
 	};
+
 	@RequestMapping("/userListAjaxPaging.do")
 	@ResponseBody
 	public Map<String, Object> userListAjaxPaging(Criteria cri) {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.userCount());
-		
-		
-		//유저하나하나마다 그 자신과 연관된 정지상태와 정지기한이 있다. 편의를 위해 UserVO에 이 정보를 연결하고 출력할때 같이 뽑아준다.
-		
+
+		// 유저하나하나마다 그 자신과 연관된 정지상태와 정지기한이 있다. 편의를 위해 UserVO에 이 정보를 연결하고 출력할때 같이 뽑아준다.
+
 		List<UserVO> uList = service.selectUserPaging(cri);
 		/* 스크립트 단에서 편리한 출력을 위해 리스트에 데이터를 가공해서 주입. */
 		// 필요한 정보 :회원번호/회원아이디/정지상태/정지 기한
 		// 회원번호를 이용해 Block테이블에서 Block을 골라서 각각의 UserVO에 해당하는 Block을 세팅해준다.
 		for (UserVO u : uList) {
-			if(service.selectBlock(u.getUserNo()) != null) {
+			if (service.selectBlock(u.getUserNo()) != null) {
 				u.setBlock(service.selectBlock(u.getUserNo()));
 				u.setBlockEnabled("Y");
 			} else {
@@ -77,7 +92,7 @@ public class AdminController {
 		map.put("pageMaker", pageMaker);
 		return map;
 	}
-	
+
 	@RequestMapping("/updateBlock.do")
 	@ResponseBody
 	public Map<String, String> updateBlock(@RequestBody Map<String, Object> map) {
@@ -85,11 +100,11 @@ public class AdminController {
 		System.out.println(map.get("userNo"));
 		System.out.println(map.get("userNo").toString());
 		System.out.println(Integer.parseInt(map.get("userNo").toString()));
-		
+
 		Block block = service.selectBlock(Integer.parseInt(map.get("userNo").toString()));
 		System.out.println("block :" + block);
 		String endDt = map.get("blockDate").toString();
-		if(block != null) {
+		if (block != null) {
 			rmap.put("userNo", Integer.parseInt(map.get("userNo").toString()));
 			rmap.put("blockDate", endDt);
 			service.updateBlcok(rmap);
@@ -105,16 +120,12 @@ public class AdminController {
 			return result;
 		}
 	};
+
 	@RequestMapping("/deleteUser.do")
 	@ResponseBody
 	public void deleteUser(int userNo) {
 		service.deleteUser(userNo);
 	}
-	
-		
-	@RequestMapping("/adminMain.do")
-	public void adminMain() {
-	};
 
 	@RequestMapping("/reportList.do")
 	public void reportList() {
@@ -132,10 +143,9 @@ public class AdminController {
 				r.setReportReason(r.getReportContent());
 			}
 			String reportTitle = service.selectPostContent(r.getPostNo());
-			if( reportTitle != null) {
+			if (reportTitle != null) {
 				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
-			}
-			else {
+			} else {
 				reportTitle = "삭제된 게시물 입니다.";
 			}
 			r.setReportTitle(reportTitle);
@@ -206,7 +216,7 @@ public class AdminController {
 		int userNo = report.getUserNo();
 		return service.deleteBlock(userNo);
 	}
-	
+
 	@RequestMapping("/cancelBlockByUserNo.do")
 	@ResponseBody
 	public List<Report> cancelBlockByUserNo(String userNo) {
@@ -219,14 +229,14 @@ public class AdminController {
 		service.updateReportStatus(rmap);
 		return service.insertBlock(rmap);
 	}
-	
+
 	@RequestMapping("/reportListAjaxPaging.do")
 	@ResponseBody
 	public Map<String, Object> reportListAjaxPaging(Criteria cri) {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.reportCount());
-		
+
 		List<Report> rList = service.selectReportPaging(cri);
 		/* 스크립트 단에서 편리한 출력을 위해 리스트에 데이터를 가공해서 주입. */
 		for (Report r : rList) {
@@ -236,10 +246,9 @@ public class AdminController {
 				r.setReportReason(r.getReportContent());
 			}
 			String reportTitle = service.selectPostContent(r.getPostNo());
-			if(reportTitle == null) {
+			if (reportTitle == null) {
 				reportTitle = "삭제된 게시물 입니다.";
-			}
-			else {
+			} else {
 				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
 			}
 			r.setReportTitle(reportTitle);
@@ -250,18 +259,17 @@ public class AdminController {
 				r.setBlockEnabled("N");
 			}
 		}
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("rList", rList);
 		map.put("pageMaker", pageMaker);
 		return map;
 	}
-	
+
 	@RequestMapping("/deleteReport.do")
 	@ResponseBody
 	public void deleteReport(int reportNo) {
 		service.deleteReport(reportNo);
 	}
-	 
 
 }

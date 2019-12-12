@@ -217,7 +217,19 @@
           <p class="centered"><a href="profile.html"><img src="<c:url value='/admin/img/ui-sam.jpg' />" class="img-circle" width="80"></a></p>
           <h5 class="centered">관리자</h5>
           <li class="mt">
-            <a class="active" href="#">
+            <a class="active" href="<c:url value='/admin/adminMain.do'/>">
+              <i class="fa fa-dashboard"></i>
+              <span>대시보드</span>
+              </a>
+          </li>
+          <li class="mt">
+            <a class="active" href="<c:url value='/admin/manageUser.do'/>">
+              <i class="fa fa-dashboard"></i>
+              <span>회원 관리</span>
+              </a>
+          </li>
+          <li class="mt">
+            <a class="active" href="<c:url value='/admin/adminMain.do'/>">
               <i class="fa fa-dashboard"></i>
               <span>대시보드</span>
               </a>

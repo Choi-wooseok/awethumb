@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.StatsDAO">
-	 <insert id="insertVisitCount" parameterType="VisitCount">
+    <!-- 세션에서 자동으로 방문자수 추가 -->
+    <insert id="insertVisitCount" parameterType="VisitCount">
             INSERT
-            INTO TB_VISITOR
+            INTO visitor_tb
             (
                 visit_ip,
                 visit_refer,
@@ -17,4 +17,16 @@
                 #{visitAgent}
             )
         </insert>
+    <!-- 오늘 총방문자수 셀렉 -->
+    <select id="totalVisitToday" resultType="int">
+		select count(*)
+		  from visitor_tb
+		 where LEFT(visit_time, 10) IN (LEFT(NOW(),10))
+	</select>
+	<!-- 오늘 작성된 총글수 셀렉 -->
+	<select id="totalPostToday" resultType="int">
+		select count(*)
+		  from board_tb
+		 where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
+	</select>
 </mapper>

@@ -16,5 +16,16 @@ public class StatsServiceImpl implements StatsService {
 	public void insertVisitCount(VisitCount vc) {
 		dao.insertVisitCount(vc);
 	}
+
+	@Override
+	public int totalVisitToday() {
+		return dao.totalVisitToday();
+	}
+
+	@Override
+	public int totalPostToday() {
+		return dao.totalPostToday();
+	}
+	
 	
 }

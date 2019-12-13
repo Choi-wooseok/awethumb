@@ -61,12 +61,13 @@
       FROM shared_project_tb
      WHERE project_no = #{projectNo}
 </select>
-<select id="selectAlarmList" parameterType="int" resultType="Alarm">
+<select id="selectAlarmList" parameterType="Alarm" resultType="Alarm">
 	SELECT a.*, u.user_nickname user_nickname, time_ago_func(a.reg_date, NOW()) time_ago
       FROM alarm_tb a, user_tb u
      WHERE a.send_user_no = u.user_no
-	   AND receive_user_no = #{userNo}
-	 order by reg_date asc
+	   AND receive_user_no = #{receiveUserNo}
+	 order by reg_date desc
+	 LIMIT #{currentPageNo}, #{countPerPage}
 </select>
 <update id="updateAlarm" parameterType="int">
 	UPDATE alarm_tb

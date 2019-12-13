@@ -57,7 +57,7 @@
 	    		<ul class="alarm-list">
 	    		</ul>
 	    		<div>
-	    			<a class="dropdown-showmore" href="${pageContext.request.contextPath}/alarm/veiwall">View all notifications</a>
+	    			<a class="dropdown-showmore" href="${pageContext.request.contextPath}/alarm/viewall">View all notifications</a>
 	    		</div>
 	    	</div>
 	    	<div></div>

@@ -38,8 +38,8 @@ public class AlarmServiceImpl implements AlarmService{
 	}
 
 	@Override
-	public List<Alarm> selectAlarmList(int userNo) {
-		return dao.selectAlarmList(userNo);
+	public List<Alarm> selectAlarmList(Alarm alarm) {
+		return dao.selectAlarmList(alarm);
 	}
 
 	@Override

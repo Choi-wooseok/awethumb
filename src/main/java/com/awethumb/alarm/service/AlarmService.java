@@ -16,12 +16,12 @@ public interface AlarmService {
 
 	List<Integer> selectUserNoListByProjectNo(int projectNo);
 
-	List<Alarm> selectAlarmList(int userNo);
+	List<Alarm> selectAlarmList(Alarm alarm);
 
 	void updateAlarm(int userNo);
 
 	void deleteAlarm(int alarmNo);
 
 	Alarm selectLatestAlarm();
-	
+
 }

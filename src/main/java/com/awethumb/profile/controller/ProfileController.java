@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,42 +78,42 @@ public class ProfileController {
 		return "redirect:" + user.getUserNickname();
 	}
 	
-	@RequestMapping("/checksub.do")
+	@GetMapping("/checksub.do")
 	@ResponseBody
-	public int checkSub(@RequestBody Subscribe sub) {
+	public int checkSub(Subscribe sub) {
 		return service.checkSub(sub);
 	}
 	
-	@RequestMapping("/deletesub.do")
+	@DeleteMapping("/deletesub.do")
 	@ResponseBody
-	public void deleteSub(@RequestBody Subscribe sub) {
+	public void deleteSub(Subscribe sub) {
 		service.deleteSub(sub);
 	}
 	
-	@RequestMapping("/insertsub.do")
+	@PostMapping("/insertsub.do")
 	@ResponseBody
 	public void insertSub(@RequestBody Subscribe sub) {
 		service.insertSub(sub);
 	}
 	
-	@RequestMapping("/getfollowinglist.do")
+	@GetMapping("/getfollowinglist.do")
 	@ResponseBody
-	public List<UserVO> getFollowingList(@RequestBody Follow fol) {
+	public List<UserVO> getFollowingList(Follow fol) {
 		return service.getFollowingList(fol);
 	}
-	@RequestMapping("/getfollowerlist.do")
+	@GetMapping("/getfollowerlist.do")
 	@ResponseBody
-	public List<UserVO> getFollowerList(@RequestBody Follow fol) {
+	public List<UserVO> getFollowerList(Follow fol) {
 		return service.getFollowerList(fol);
 	}
-	@RequestMapping("/getsearchfollowerlist.do")
+	@GetMapping("/getsearchfollowerlist.do")
 	@ResponseBody
-	public List<UserVO> getSearchFollowerList(@RequestBody Follow fol) {
+	public List<UserVO> getSearchFollowerList(Follow fol) {
 		return service.getSearchFollowerList(fol);
 	}
-	@RequestMapping("/getsearchfollowinglist.do")
+	@GetMapping("/getsearchfollowinglist.do")
 	@ResponseBody
-	public List<UserVO> getSearchFollowingList(@RequestBody Follow fol) {
+	public List<UserVO> getSearchFollowingList(Follow fol) {
 		return service.getSearchFollowingList(fol);
 	}
 	
@@ -203,25 +204,25 @@ public class ProfileController {
 		return "redirect:" + p.getUserNickname();
 	}
 	
-	@RequestMapping("/getprogressprojects.do")
+	@GetMapping("/getprogressprojects.do")
 	@ResponseBody
 	public List<Project> getProgressProjects(Project p){
 		return service.selectProgressProjects(p);
 	}
 
-	@RequestMapping("/getsharedprojects.do")
+	@GetMapping("/getsharedprojects.do")
 	@ResponseBody
 	public List<Project> getSharedProjects(Project p){
 		return service.selectSharedProjects(p);
 	}
 
-	@RequestMapping("/getsavedprojects.do")
+	@GetMapping("/getsavedprojects.do")
 	@ResponseBody
 	public List<Project> getSavedProjects(Project p){
 		return service.selectSavedProjects(p);
 	}
 	
-	@RequestMapping("/getprojectthumb.do")
+	@GetMapping("/getprojectthumb.do")
 	@ResponseBody
 	public String getProjectThumb(int projectNo)  {
 		ProjectFile pf = service.getProjectThumb(projectNo);
@@ -250,15 +251,21 @@ public class ProfileController {
 		return "data:image/jpg;base64," + eString;
 	}
 	
-	@RequestMapping("/gettokenusers.do")
+	@GetMapping("/gettokenusers.do")
 	@ResponseBody
 	public List<TokenUser> getTokenUsers (@RequestParam(value="userNickname" ) String userNickname) {
 		return service.selectTokenUsers(userNickname);
 	}
 	
-	@RequestMapping("/currentsharedprojectno")
+	@GetMapping("/currentsharedprojectno.do")
 	@ResponseBody
 	public int currentSharedProjectNo(int userNo) {
 		return service.selectCurrentSharedProjectNo(userNo);
+	}
+	
+	@GetMapping("/getfollowercount")
+	@ResponseBody
+	public int getFollwerCount(int userNo) {
+		return service.selectFollowerCount(userNo);
 	}
 }

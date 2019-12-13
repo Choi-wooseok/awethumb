@@ -1,9 +1,9 @@
 $(".alarm-dropdown-btn").click(() => {
 	// 알림 목록을 가져온다
-	getAlarmListAjax();
+	getDropdownAlarmListAjax();
 	
 	// 안읽은 알림을 전부 읽음처리한다.
-	if($(".alarm-dropdown-wrap").hasClass("alarmhidden")) readAlarmAjax();
+	readAlarmAjax();
 	
 	toggleAlarmDropdown();
 })
@@ -13,23 +13,27 @@ function toggleAlarmDropdown(){
 	$(".alarm-list").text("");
 }
 
-function getAlarmListAjax(){
+function getDropdownAlarmListAjax(){
 	$.ajax({
 		url: pageContextPath + "/alarm/getalarmlist.do",
-		data:{userNo: connectedUserNo},
+		data:{
+			receiveUserNo: connectedUserNo,
+			countPerPage: 3,
+			currentPageNo: 0
+		},
 		dataType: "json"
 	})
 	.done((list) =>{
 		for (alarm of list){
-			prependDropdownAlarm(alarm);
+			appendDropdownAlarm(alarm);
 		}
 	})
 }
 
-function prependDropdownAlarm(alarm) {
+function appendDropdownAlarm(alarm) {
 	const appendLine = alarmTypeAppender(alarm.alarmType);
-	$(".alarm-list").prepend(`
-		<li>
+	$(".alarm-list").append(`
+		<li class="alarm-${alarm.alarmNo}">
 			<article>
 				<div>
 					<a class="alarm-profile-link" href="${pageContextPath}/profile/${alarm.userNickname}">
@@ -37,18 +41,38 @@ function prependDropdownAlarm(alarm) {
 					</a>
 				</div>
 				<div class="alarm-content ac-${alarm.alarmNo}">
-					<span class="ac-usernick">${alarm.userNickname}</span>${appendLine}
+					<span class="ac-usernick">${alarm.userNickname}</span>님이 ${appendLine}
 				</div>
 			</article>
-			<button class="alarm-dropdown-delbtn" data-alarmno="${alarm.alarmNo}">X</button>
+			<button class="alarm-dropdown-delbtn alarm-delbtn" data-alarmno="${alarm.alarmNo}">X</button>
 			<span class="alarm-dropdown-time">${alarm.timeAgo}</span>
 		</li>
 	`)
-	getAlarmThumbAjax(alarm.sendUserNo);
+	getDropdownAlarmThumbAjax(alarm.sendUserNo);
+}
+function prependDropdownAlarm(alarm) {
+	const appendLine = alarmTypeAppender(alarm.alarmType);
+	$(".alarm-list").prepend(`
+			<li class="alarm-${alarm.alarmNo}">
+			<article>
+			<div>
+			<a class="alarm-profile-link" href="${pageContextPath}/profile/${alarm.userNickname}">
+			<img class="alarm-dropdown-thumb adt-${alarm.sendUserNo}">
+			</a>
+			</div>
+			<div class="alarm-content ac-${alarm.alarmNo}">
+			<span class="ac-usernick">${alarm.userNickname}</span>님이 ${appendLine}
+			</div>
+			</article>
+			<button class="alarm-dropdown-delbtn alarm-delbtn" data-alarmno="${alarm.alarmNo}">X</button>
+			<span class="alarm-dropdown-time">${alarm.timeAgo}</span>
+			</li>
+	`)
+	getDropdownAlarmThumbAjax(alarm.sendUserNo);
 }
 
 // 알림의 프로필 사진을 가져온다.
-function getAlarmThumbAjax(userNo) {
+function getDropdownAlarmThumbAjax(userNo) {
 	$.ajax({
 		url: pageContextPath + "/profile/getprofileimg.do",
 		data:{userNo},
@@ -62,10 +86,10 @@ function getAlarmThumbAjax(userNo) {
 function alarmTypeAppender(type){
 	let appendLine = "";
 	switch(type){
-	case 1: appendLine = "님이 구독을 시작했습니다."; break;
-	case 2: appendLine = "님이 게시글을 좋아합니다."; break;
-	case 3: appendLine = "님이 게시글에 댓글을 남겼습니다."; break;
-	case 4: appendLine = "님이 프로젝트를 공유했습니다."; break;
+	case 1: appendLine = "구독을 시작했습니다."; break;
+	case 2: appendLine = "게시글을 좋아합니다."; break;
+	case 3: appendLine = "게시글에 댓글을 남겼습니다."; break;
+	case 4: appendLine = "프로젝트를 공유했습니다."; break;
 	}
 	return appendLine;
 }
@@ -73,19 +97,22 @@ function alarmTypeAppender(type){
 // 알림을 읽음처리 하는 ajax
 function readAlarmAjax(){
 	$.ajax({
-		url: pageContextPath + "/alarm/readalarm/" + connectedUserNo,
+		url: pageContextPath + "/alarm/readalarm",
 		type: "PUT",
 		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({userNo : connectedUserNo}),
 		success: $(".alarmCnt").text("0")
 	})
 }
 
 // 알림 삭제하는 이벤트
-$(document).on("click", ".alarm-dropdown-delbtn", (e)=>{
+$(document).on("click", ".alarm-delbtn", (e)=>{
+	const alarmNo = $(e.target).data("alarmno");
+	console.log("alarmno = ", alarmNo)
 	$.ajax({
-		url: pageContextPath + "/alarm/deletealarm/" + $(e.target).data("alarmno"),
+		url: pageContextPath + "/alarm/deletealarm/" + alarmNo,
 		method: "DELETE",
-		success: $(e.target).parents("li").remove()
+		success: $(`.alarm-${alarmNo}`).remove()
 	})
 })
 

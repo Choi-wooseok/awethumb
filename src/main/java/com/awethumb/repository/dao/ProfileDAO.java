@@ -61,4 +61,6 @@ public interface ProfileDAO {
 
 	public int selectCurrentSharedProjectNo(int userNo);
 
+	public int selectFollowerCount(int userNo);
+
 }

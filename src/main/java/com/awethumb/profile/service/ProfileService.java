@@ -33,4 +33,5 @@ public interface ProfileService {
 	public int selectProjectCount(int userNo);
 	public List<TokenUser> selectTokenUsers(String userNickname);
 	public int selectCurrentSharedProjectNo(int userNo);
+	public int selectFollowerCount(int userNo);
 }

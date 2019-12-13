@@ -131,4 +131,9 @@ public class ProfileServiceImpl implements ProfileService{
 	public int selectCurrentSharedProjectNo(int userNo) {
 		return dao.selectCurrentSharedProjectNo(userNo);
 	}
+
+	@Override
+	public int selectFollowerCount(int userNo) {
+		return dao.selectFollowerCount(userNo);
+	}
 }

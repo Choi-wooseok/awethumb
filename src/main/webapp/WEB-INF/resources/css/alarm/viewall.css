@@ -1,0 +1,112 @@
+.alarmWrap{
+	padding: 0px 30px;
+}
+.alarmWrap > h1{
+	font-size: 32px;
+}
+.alarmListWrap{
+	margin-top: 15px;
+}
+.alarm-item-wrap{
+	border-top: 1px solid #f2f2f2;
+	padding: 20px 0;
+}
+.alarm-item-wrap > article{
+	display: flex;
+	align-items: flex-start
+}
+.alarm-item-time{
+	position: absolute;
+    right: 0;
+    top: 8px;
+    color: #999;
+    font-size: 12px;
+}
+.alarm-item-image{
+	position: relative;
+    margin-right: 10px;
+}
+.feedContWrap{
+	background-color: #fff;
+}
+.alarm-item-image-thumb{
+	width:100px
+}
+.alarm-item-content{
+	flex:1;
+}
+.alarm-item-content-top{
+	border-bottom: 1px solid #f2f2f2;
+	margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.alarm-user{
+	border-right: 1px solid #f2f2f2;
+    float: left;
+    padding: 0 10px 7px 0;
+    width: 240px;
+}
+.user-wrap{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.user-meta{
+	display: flex;
+}
+.meta-status{
+	flex-grow:1;
+}
+.meta-btn{
+	flex-shrink:1;
+}
+.alarm-item-content-down{
+	display:flex;
+}
+.alarm-item-content-down > h3{
+	flex:1;	
+}
+.meta-status{
+	display: flex;
+    align-items: flex-end;
+    color:#999;
+    font-size: 12px
+}
+.fa-users{
+	font-size: 14px;
+    margin-right: 6px;
+}
+.follower-count{
+	font-size: 12px;
+}
+.sub_btn, .unsub_btn {
+    all: unset;
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 30px;
+    box-sizing: border-box;
+}
+.sub_btn {
+    background-color: #6dd5bc;
+    color: #fff;
+}
+.unsub_btn {
+    background-color: #ffffff;
+    color: #6dd5bc;
+    border: 1px solid #6dd5bc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -55,12 +55,10 @@ $(".follower_following_btn").click(() => {
 function getFollowingListAjax() {
 	$.ajax({
 		url: "getfollowinglist.do",
-		type: "POST",
-		contentType: "application/json",
-		data: JSON.stringify({
+		data: {
 			userNo,
 			currentPageNo : currentFollowingPageNo
-		})
+		}
 	})
 	.done((e) => {
 		currentFollowingPageNo += countPerPage;
@@ -70,12 +68,10 @@ function getFollowingListAjax() {
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify({
+				data: {
 					subUserNo,
 					oppUserNo
-				})
+				}
 			})
 			.done((e) => {
 				$(".following_ul").append(
@@ -116,12 +112,10 @@ function getFollowingListAjax() {
 function getFollowerListAjax() {
 	$.ajax({
 		url: "getfollowerlist.do",
-		type: "POST",
-		contentType: "application/json",
-		data: JSON.stringify({
+		data: {
 			userNo,
 			currentPageNo: currentFollowerPageNo
-		})
+		}
 	})
 	.done((e) => {
 		currentFollowerPageNo += countPerPage;
@@ -131,12 +125,10 @@ function getFollowerListAjax() {
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify({
+				data: {
 					subUserNo,
 					oppUserNo
-				})
+				}
 			})
 			.done((e) => {
 				// 팔로워 이미지를 설정해준다.
@@ -179,13 +171,8 @@ function addUnsubEvent() {
 	$(document).on("click", ".mod_unsub_btn", (e) => {
 		const oppUserNo = $(e.target).data("userno");
 		$.ajax({
-    		url: "deletesub.do",
-    		type: "POST",
-			contentType: "application/json",
-    		data: JSON.stringify({
-    			subUserNo,
-    			oppUserNo
-    		})
+    		url: `deletesub.do?subUserNo=${subUserNo}&oppUserNo=${oppUserNo}`,
+    		type: "DELETE"
     	})
     	.done(() => {
     		const fBtnEle = `<button class="mod_sub_btn sub_btn" type="button" data-userno="${oppUserNo}">
@@ -338,13 +325,11 @@ function getFollowProfileImgAjax(type, userNo){
 function getSearchFollowerListAjax(){
 	$.ajax({
 		url: "getsearchfollowerlist.do",
-		type: "POST",
-		contentType: "application/json",
-		data: JSON.stringify({
+		data: {
 			userNo,
 			searchName: searchFollowerName,
 			currentPageNo: currentSearchFollowerPageNo
-		})
+		}
 	})
 	.done((e) => {
 		currentSearchFollowerPageNo += countPerPage;
@@ -354,12 +339,10 @@ function getSearchFollowerListAjax(){
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify({
+				data: {
 					subUserNo,
 					oppUserNo
-				})
+				}
 			})
 			.done((e) => {
 				$(".srch_follower_ul").append(
@@ -399,13 +382,11 @@ function getSearchFollowerListAjax(){
 function getSearchFollowingListAjax(){
 	$.ajax({
 		url: "getsearchfollowinglist.do",
-		type: "POST",
-		contentType: "application/json",
-		data: JSON.stringify({
+		data: {
 			userNo,
 			searchName: searchFollowingName,
 			currentPageNo: currentSearchFollowingPageNo
-		})
+		}
 	})
 	.done((e) => {
 		currentSearchFollowingPageNo += countPerPage;
@@ -415,12 +396,10 @@ function getSearchFollowingListAjax(){
 			const oppUserNo = user.userNo;
 			$.ajax({
 				url: "checksub.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify({
+				data: {
 					subUserNo,
 					oppUserNo
-				})
+				}
 			})
 			.done((e) => {
 				$(".srch_following_ul").append(

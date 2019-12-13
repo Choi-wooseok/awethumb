@@ -26,6 +26,20 @@
 		 LIMIT #{pageIndex} , #{pageCount}
 	</select>
 	
+	<select id="selectFeedBoardCount" parameterType="String" resultType="int">
+		     SELECT COUNT(*)
+		  FROM board_tb bt 
+		 INNER JOIN project_tb pt
+		    ON bt.project_no= pt.project_no 
+		 INNER JOIN user_tb ut 
+		    ON ut.user_no = pt.user_no 
+		 WHERE ut.user_no = any (SELECT opp_user_no
+								   FROM subscribe_tb
+								  WHERE sub_user_no = (SELECT user_no
+						  								 FROM user_tb
+													    WHERE user_id = #{userId} )) 
+	</select>
+	
 	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">
 		 SELECT ct.*,
 				ut.user_nickname
@@ -138,7 +152,25 @@
 	    LIMIT #{sidePageIndex} , #{sidePageCount}																   
 	</select>
 
-
+	<select id="selectFollowMeCount" parameterType="String" resultType="int">
+		SELECT COUNT(user_no)
+		  FROM user_tb
+		 WHERE user_no = any (SELECT a.user_no
+					    		FROM (   SELECT sub_user_no AS user_no
+									       FROM subscribe_tb
+									      WHERE opp_user_no = (SELECT user_no
+															     FROM user_tb 
+															    WHERE user_id =  #{userId}) ) AS a
+	      LEFT JOIN (SELECT user_no
+					      FROM user_tb
+					     WHERE user_no = any (SELECT opp_user_no
+										        FROM subscribe_tb
+										       WHERE sub_user_no = (SELECT user_no
+																      FROM user_tb 
+															         WHERE user_id =  #{userId}) ) )	AS b
+	       ON a.user_no = b.user_no
+	    WHERE b.user_no IS NULL )
+	</select>
 
 </mapper>
 

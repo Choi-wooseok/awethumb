@@ -152,7 +152,14 @@ public class FeedServiceImpl implements FeedService {
 		return dao.selectFollowMe(followmeuser);
 	}
 	
+	// 맞팔안한 사람들 전체수 
+	public int selectFollowMeCount(String userId) {
+		return dao.selectFollowMeCount(userId);
+	}
 	
+	public int selectFeedBoardCount(String userId) {
+		return dao.selectFeedBoardCount(userId);
+	}
 }
 
 

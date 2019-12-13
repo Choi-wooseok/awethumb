@@ -35,7 +35,8 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		model.addAttribute("categorylist", service.selectUserCategoryList(userId));
 		model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
 		
-		
+		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
+		model.addAttribute("boardCount", service.selectFeedBoardCount(userId));
 	} // feed.do 
 	
 	// 게시글

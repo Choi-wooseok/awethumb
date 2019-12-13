@@ -22,6 +22,9 @@
 				<input type="hidden" class="loginUserNickName" value="${u.userNickname}" />
 				<input type="hidden" class="loginUserId" value="${u.userId}" />
 				<input type="hidden" class="imageState" value="${imageState}" />
+				<input type="hidden" class="userFollowMeCount" value="${userFollowMeCount}" />
+				<input type="hidden" class="boardCount" value="${boardCount}" />
+<%-- 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${postNoList}"/> --%>
 				<c:forEach var="p" items="${postNoList}">
 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
 				</c:forEach>
@@ -59,7 +62,7 @@
 <!-- 					</div> -->
 <!-- 			</div> -->
 			<div class="feedSide aaa" id="side">
-					<div>나를 팔로우 하는 사람</div>
+					<div id="followa">나를 팔로우 하는 사람</div>
 <%-- 					<c:if test="${empty followme}"> --%>
 <!-- 						<h3>팔로우 하는 사람이 없습니다.</h3> -->
 <%-- 					</c:if> --%>

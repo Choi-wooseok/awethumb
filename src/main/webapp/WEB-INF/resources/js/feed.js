@@ -1,56 +1,74 @@
+// <i class="far fa-heart"></i> 좋아요누르기전
+// <i class="fas fa-heart"></i> 좋아요 누른 후
+
 let pageIndex = 0; // 시작
-const pageCount = 5; // 범위 5개
+const pageCount = 5; // 개수
 let scrollTop = 0;
 let loginUserNo = $(".loginUserNo").val();
 let loginUserNickName = $(".loginUserNickName").val();
 let loginUserId = $(".loginUserId").val();
 let sidePageIndex = 0; // 시작
-const sidePageCount = 4; // 범위 5개
+const sidePageCount = 3; // 범위
+
+let followCount = $(".userFollowMeCount").val(); // 맞팔안한 나를 전체팔로우하는사람 count
+let followAddCount = 0; // 더보기 창 없애기위한 변수 
+let boardCount = $(".boardCount").val();
+let boardAddCount = 0;
 $(document).ready(function(){ 
 	    boardList();
 	    sideFollowList();
 });
-//$(document).on('click', '.addBtn', () => {
-//	sideFollowList();
-//});
-//$(document).on('click', ".aaa",() => {
-//	alert("asdf");
-//	sideFollowList();
-//});
-// infinity scroll
-$("#feedSideUserList").scroll(() => {
-	console.log("1 : " + $("#feedSideUserList").height());
-	console.log("2 : " + $("#feedSideUserList").height());
-	console.log("3 : " + Math.ceil($("#feedSideUserList").scrollTop()));
-	if ($("#feedSideUserList").height() == $("#feedSideUserList").height() - Math.ceil($("#feedSideUserList").scrollTop())) {
-		sidePageIndex += sidePageCount;
-		sideFollowList();
-	}
+$(document).on('click', '.addBtn', () => {
+	sidePageIndex += sidePageCount;
+	$(".addBtn").remove();
+	sideFollowList();
 });
+// infinity scroll
+//$("#feedSideUserList").scroll(() => {
+//	console.log("1 : " + $("#feedSideUserList").height()); 280 235 
+//	console.log("2 : " + $("#side").height());
+//	console.log("22 : " + $(document).height());
+//	console.log("3 : " + Math.ceil($("#feedSideUserList").scrollTop()));
+//	console.log("4 : " + $("#feedSideUserList").scrollTop());
+//	console.log("5 : " + $("#followa").height());
+//	scrollz = Math.ceil($("#feedSideUserList").scrollTop());
+////	console.log("7 : " + $("#feedSideUserList").scrollTop($("#feedSideUserList").height()));
+////	if ($("#feedSideUserList").height() === $("#side").height() - Math.ceil($("#followa").height())) {
+//	if(scrollz == 20) {
+//		sidePageIndex += sidePageCount;
+//		console.log("---------------------------------")
+//		sideFollowList();
+//	}
+//});
 $(window).scroll(() => {
+//	console.log("1 : " + $(window).height()); // 757
+//	console.log("2 : " + $(document).height()); // 7027 13000
+//	console.log("3 : " + Math.ceil($(window).scrollTop())); //6100
+//	console.log("4 : " + $(window).scrollTop()); //6100
 	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 		pageIndex += pageCount;
   		boardList();
   	}
  });
 function boardList(){
+	scrollz = 0;
 	$.getJSON({
 		url: "feedlist.do",
 		dataType:"JSON",
 		data:{
 			pageIndex : pageIndex,
 			pageCount : pageCount,
-			subUserNo:loginUserNo
+			subUserNo: loginUserNo
 		},
 		success: list =>{
 			if(list.length === 0) {
 				$(window).off('scroll');
 				$("#feedWrap").append(`
-					<div style="min-height: 615px;">
-						<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
-					</div>
+						<div class="noBoard" style="min-height: 615px;">
+							<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
+						</div>
 				`);
-				return;
+//				feedList(list);
 			}
 			feedList(list);
 		}
@@ -68,57 +86,54 @@ function sideFollowList(){
 		},
 		success: list => {
 //			if(Object.keys(list).length === 0) {
-			if(list.length === 0) {
-				$("#addBtn").css("display","none");
-//				alert("list 0개")
-//				$(".addBtn").off('click');
-				feedSideFollowMe(list);
-				return;
-			}
-//			sidePageIndex += sidePageCount;
+//			if(list.length === 0) {
+////				$("#feedSideUserList").off('scroll');
+//				$("#addBtn").css("display","none");
+////				alert("list 0개")
+//				$(".addBtn").remove();
+////				$(".addBtn").off('click');
+//				feedSideFollowMe(list);
+////				sideFollowList();
+//				return;
+//			}
+			$(".addBtn").css("display","none");
 			feedSideFollowMe(list);
 		}
 	})
 };
 function feedSideFollowMe(list) {
+	let count = 0 ;
 	$.each(list, (i, sl) => {
+		followAddCount += 1;
 		$("#feedSideUserList").append(`
-			<div class="feedInfo">
-				<div class="feedUserImg">
-					<img src="./../images/test_user.jpg" alt="">
+				<div class="feedInfo">
+					<div class="feedUserImg">
+						<img src="./../images/test_user.jpg" alt="">
+					</div>
+					<div class="feedUserName">
+						<a href="/awethumb/profile/${sl.userNickname}">${sl.userNickname}</a>
+					</div>
 				</div>
-				<div class="feedUserName">
-					<a href="/awethumb/profile/${sl.userNickname}">${sl.userNickname}</a>
-				</div>
-			</div>
 		`);
+		count = followAddCount;
 	})
-//	if (list.length !== 0){
-//		$("#addBtn").remove();
-//		$("#feedSideUserList").append(`
-//				<div class="addBtn" id="addBtn" style="text-align:center;">
-//				<button type="button" style=" border:none; background-color:transparent">
-//				더보기
-//				</button>
-//				</div>
-//		`);
-//	}
-//		$("#addBtn").css("display","none");
-//	}
+	$("#feedSideUserList").append(`
+			<div class="addBtn" id="addBtn" style="text-align:center;">
+				<button type="button" style=" border:none; background-color:transparent">
+				더보기
+				</button>
+			</div>
+	`);
+	if(count == followCount) {
+		$(".addBtn").remove();
+	}
 }
 let imageState = $(".imageState").val();
 function feedList(list){
-//	if(list) {
-//	if(Object.keys(list).length === 0) {
-//		alert("씨바왜나와")
-//		$("#feedWrap").append(`
-//				<div style="min-height: 615px;">
-//					<h2>구독중인 사람이 없거나 게시글이 없습니다.</h2>
-//				</div>
-//		`);
-//	}
+	let count = 0;
 	if (list.length !== 0) {
 		$.each(list, (i, bl) => {
+			boardAddCount += 1;
 			if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
 				$("#feedWrap").append(`
 						<div class="feedList">
@@ -145,6 +160,17 @@ function feedList(list){
 								</div>
 							</div>
 							<div class="feedText">
+								<div id="testdiv">
+									<button 
+									type="button"
+									class="likeBtn"
+									id="buttona"
+									data-postNo="${bl.postNo}"
+									data-click="1"
+									style="border:none; background-color:transparent;">
+									<i class="far fa-heart"></i>
+									</button>
+								</div>
 								<div>
 								게시판 내용 : ${bl.postContent}
 								게시판 번호 : ${bl.postNo}
@@ -161,6 +187,7 @@ function feedList(list){
 							</div>
 						</div>
 				`)
+				count = boardAddCount ;
 			}
 			else {
 				$("#feedWrap").append(`
@@ -171,8 +198,8 @@ function feedList(list){
 								</div>
 								<div>
 									<a href="/awethumb/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
-									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
-									<i class="fas fa-ellipsis-h"></i>
+									<button type="button" class="boardModal" data-postNo="${bl.postNo}" style="border:none; background-color: transparent;">
+										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</div>
 							</div>
@@ -194,9 +221,16 @@ function feedList(list){
 							</div>
 						</div>
 					`);
+				count = boardAddCount ;
 			}; // else
 		}); // each
 	} // else
+	console.log("co : " + count);
+	console.log("bc : " + boardCount);
+//	if (count == boardCount) {
+//		$(".noBoard").css("display","none");
+//		alert("??");
+//	}
 }; // feedList
 
 // 댓글
@@ -391,8 +425,23 @@ $(document).on("click", ".report",(e) => {
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
+$(document).on("click", ".likeBtn",(e) => {
+	 let click = $(e.target).data("click");
+	 if(click === 1){
+		 $(".likeBtn").remove();
+		 $("#testdiv").append(`
+				 <button 
+				 type="button"
+				 class="likeBtn"
+				 id="buttona"
+				 data-click="2"
+				 style="border:none; background-color:transparent;">
+				 <i class="fas fa-heart"></i>
+				 </button>
+		 `)
+	 }
 
-
+})
 
 
 

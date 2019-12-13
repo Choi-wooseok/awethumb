@@ -23,7 +23,8 @@ public interface FeedDAO {
 	CategoryList selectLoginUserCategory(String userId); // 로그인한유저의 카테고리
 	String selectCategoryTitle(int categoryNo); // 카테고리번호로 카테고리title뽑기
 	List<FollowMeUser> selectFollowMe(FollowMeUser followmeuser); // 나를 팔로우하는 사람중에 맞팔이아닌 userNo랑 usernickname
-	
+	int selectFollowMeCount(String userId);
+	int selectFeedBoardCount(String userId);
 	
 }
 

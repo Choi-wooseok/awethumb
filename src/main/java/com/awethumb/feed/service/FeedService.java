@@ -18,5 +18,6 @@ public interface FeedService {
 	List<CategoryList> selectUserCategoryList(String userId);
 	String selectLoginUserCategory(String userId);
 	List<FollowMeUser> selectFollowMe(FollowMeUser followmeuser);
-	
+	int selectFollowMeCount(String userId);
+	int selectFeedBoardCount(String userId);
 }

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.feed.service.FeedService;
-import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.FollowMeUser;
+import com.awethumb.repository.vo.Like;
 
 @Controller("com.awethumb.feed.controller.FeedController")
 @RequestMapping("/feed")
@@ -78,6 +78,24 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	public void boardReport() {
 		System.out.println("신고");
 	}
+	
+	@RequestMapping("/boardLike.do")
+	@ResponseBody
+	public void boardLike(@RequestBody Like like){ 
+		System.out.println("insert");
+		System.out.println("글 : " + like.getPostAndCmtNo());
+		System.out.println("유저 : " + like.getUserNo());
+		System.out.println("코드값 : " + like.getCodeValue());
+	}
+	@RequestMapping("/boardLikeDelete.do")
+	@ResponseBody
+	public void boardLikeDelete(@RequestBody Like like){ 
+		System.out.println("delete");
+		System.out.println("글 : " + like.getPostAndCmtNo());
+		System.out.println("유저 : " + like.getUserNo());
+		System.out.println("코드값 : " + like.getCodeValue());
+	}
+	
 	
 }
 

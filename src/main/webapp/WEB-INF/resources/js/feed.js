@@ -1,6 +1,3 @@
-// <i class="far fa-heart"></i> 좋아요누르기전
-// <i class="fas fa-heart"></i> 좋아요 누른 후
-
 let pageIndex = 0; // 시작
 const pageCount = 5; // 개수
 let scrollTop = 0;
@@ -164,9 +161,10 @@ function feedList(list){
 									<button 
 									type="button"
 									class="likeBtn"
-									id="buttona"
+									id="unlike"
 									data-postNo="${bl.postNo}"
-									data-click="1"
+									data-likestate="1"
+									data-type="1"
 									style="border:none; background-color:transparent;">
 									<i class="far fa-heart"></i>
 									</button>
@@ -250,7 +248,7 @@ function aaa () {
 			$bcla = $(`<div></div>`);
 			$.each(list, (i	, c) => {
 				if(c.postNo == postnum){
-					if (loginUserNo == c.userNo){
+					if (loginUserNo == c.userNo){ // 로그인유저랑 댓글유저 같을경우
 						$bcla.append(
 								`<div class="commentList${c.cmtNo} commentList" id="commentList">
 									<div class="commentUserImg">
@@ -426,19 +424,71 @@ $(document).on("click", ".report",(e) => {
 	}
 });
 $(document).on("click", ".likeBtn",(e) => {
-	 let click = $(e.target).data("click");
-	 if(click === 1){
-		 $(".likeBtn").remove();
+	// <i class="far fa-heart"></i> 좋아요누르기전
+	// <i class="fas fa-heart"></i> 좋아요 누른 후
+
+	 let likestate = $(".likeBtn").data("likestate"); // 1-> 안클릭 2-> 클릭
+	 let type = $(".likeBtn").data("type");
+	 let pnum = $(".likeBtn").data("postno");
+	 
+	 console.log("글번호 : " + pnum);
+	 console.log("좋아요상태 : " + likestate);
+	 console.log("타입 : " + type);
+	 
+	 if(likestate === 1){ // 누름
+		 $("#unlike").remove();
 		 $("#testdiv").append(`
 				 <button 
 				 type="button"
 				 class="likeBtn"
-				 id="buttona"
-				 data-click="2"
+				 id="like"
+				 data-postNo="${pnum}"
+				 data-likestate="2"
+				 data-type="${type}"
 				 style="border:none; background-color:transparent;">
 				 <i class="fas fa-heart"></i>
 				 </button>
 		 `)
+		 $.ajax({
+				url: "boardLike.do",
+				contentType : "application/json", 
+				method:"POST",
+				data: JSON.stringify({
+					postAndCmtNo: pnum,
+					userNo : loginUserNo,
+					codeValue : type
+				}),
+				dataType: "json",
+				success: list =>  aaa()
+				
+			});
+	 }
+	 else {
+		 $("#like").remove();
+		 $("#testdiv").append(`
+				 <button 
+				 type="button"
+				 class="likeBtn"
+				 id="unlike"
+				 data-postNo="${pnum}"
+				 data-type="${type}"
+				 data-likestate="2"
+				 style="border:none; background-color:transparent;">
+				 	<i class="far fa-heart"></i>
+				</button>
+		 `);
+		 $.ajax({
+				url: "boardLikeDelete.do",
+				contentType : "application/json", 
+				method:"POST",
+				data: JSON.stringify({
+					postAndCmtNo: pnum,
+					userNo : loginUserNo,
+					codeValue : type
+				}),
+				dataType: "json",
+				success: list =>  aaa()
+			});
 	 }
 
 })

@@ -29,12 +29,12 @@
 		  from board_tb
 		 where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
 	</select>
-	<!-- 오늘 총 글 조회수 셀렉 -->
-	<select id="totalViewCntToday" resultType="int">
-		select count(*)
-		  from board_tb
-		 where LEFT(join_dt, 10) IN (LEFT(NOW(),10))
-	</select>
+ 	<!-- 오늘 총 글 조회수 셀렉 -->
+<!-- 	<select id="totalViewCntToday" resultType="int"> -->
+<!-- 		select sum() -->
+<!-- 		  from board_tb -->
+<!-- 		 where LEFT(join_dt, 10) IN (LEFT(NOW(),10)) -->
+<!-- 	</select> -->
 	<!-- 오늘 가입한 총 회원수 셀렉 -->
 	<select id="totalUserToday" resultType="int">
 		select count(*)

@@ -19,6 +19,8 @@ public class Message {
 
     // 받는 사람 
     private int takeUser;
+    
+    private String userNickname;
 
     // 보낸 시간 
     private Date sendTime;
@@ -28,8 +30,5 @@ public class Message {
 
     // 메세지 내용 
     private String messageContent;
-    
-    // 읽지 않은 메세지 수
-    private int unReadCnt;
     
 }

@@ -12,12 +12,23 @@
 	<result property="sendTime" column="send_time" />
 	<result property="readTime" column="read_time" />
 	<result property="messageContent" column="message_content" />
-	
-	
+</resultMap>
+
+<resultMap type="UserVO" id="userMap">
+	<result property="userNo" column="user_no" />
+	<result property="userId" column="user_id" />
+	<result property="userName" column="user_name" />
+	<result property="userPass" column="user_pass" />
+	<result property="userNickname" column="user_nickname" />
+	<result property="categoryList" column="category_list" />
+	<result property="userEmailKey" column="user_email_key" />
 </resultMap>
 
 <resultMap type="Chatroom" id="chatroomMap">
 	<result property="chatroomNo" column="chatroom_no" />
+	<result property="unReadCnt" column="un_read_cnt" />
+	<result property="sendUser" column="send_user" />
+	<association property="user" select="selectSendUser" column="{chatroomNo=chatroom_no, sendUser=send_user}"/>
 	<collection property="messageList" select="selectAllMessage" column="{chatroomNo=chatroom_no, sendUser=send_user}"/>
 </resultMap>	
 
@@ -29,6 +40,7 @@
 	 WHERE (send_user = #{sendUser} AND take_user = #{takeUser})
 	    OR (send_user = #{takeUser} AND take_user = #{sendUser}) 
 </select>
+
 <!-- 방 조회 -->
 <select id="selectRoom" resultType="int" parameterType="Message" flushCache="true" useCache="true">
 	SELECT DISTINCT chatroom_no
@@ -39,25 +51,42 @@
 
  <!-- 유저 당 개설된 방 조회 -->
 <select id="selectAllChatRoom" resultMap="chatroomMap" parameterType="int" flushCache="true" useCache="true">
-	SELECT DISTINCT c.*, (select user_no from user_tb where user_no = #{sendUser}) as send_user
+	SELECT DISTINCT c.*, (select user_no from user_tb where user_no = #{sendUser}) as send_user,					 
+					 (SELECT COUNT(*)
+					   FROM message_tb
+					  WHERE read_time is null
+					    AND chatroom_no = c.chatroom_no
+					    AND take_user = #{sendUser}) as un_read_cnt
+					 
 	  FROM chatroom_tb c
 	 INNER JOIN message_tb m
-	 	ON c.chatroom_no = m.chatroom_no
+	 	ON c.chatroom_no = m.chatroom_no	
 	 WHERE m.send_user = #{sendUser}
 	    OR m.take_user = #{sendUser} 
 </select>
  
+<select id="selectSendUser" resultMap="userMap" parameterType="Message" flushCache="true" useCache="true">
+
+	 SELECT DISTINCT u.* FROM user_tb u
+      INNER JOIN message_tb m
+         ON u.user_no = m.send_user 
+      WHERE u.user_no != #{sendUser} AND chatroom_no = #{chatroomNo}
+      UNION
+     SELECT DISTINCT us.* FROM user_tb us		
+      INNER JOIN message_tb m
+         ON us.user_no = m.take_user
+	  WHERE us.user_no != #{sendUser} AND chatroom_no = #{chatroomNo}
+	  
+</select> 
+ 
  <!-- 유저 당 메세지 조회 -->
 <select id="selectAllMessage" resultMap="messageMap" parameterType="Message" flushCache="true" useCache="true">
-	SELECT m.*, 
-				(SELECT COUNT(*)
-				   FROM message_tb
-				  WHERE read_time is null
-				    AND chatroom_no = m.chatroom_no
-				    AND take_user = #{sendUser}) as un_read_cnt
-	  FROM message_tb m
-	 WHERE chatroom_no = #{chatroomNo}      
+	SELECT *
+	  FROM message_tb
+	 WHERE chatroom_no = #{chatroomNo}   
+	   
 </select>
+
 
 <!-- 방 생성 -->
 <insert id="createRoom" useGeneratedKeys="true" keyProperty="chatroomNo" parameterType="Chatroom">
@@ -77,6 +106,26 @@
 	   AND chatroom_no = #{chatroomNo}
 </update>
 
+<!-- 닉네임 조회 -->
+<select id="searchNickname" parameterType="SearchUser" resultType="UserVO">
+	SELECT user_no, user_nickname
+	  FROM user_tb
+	 WHERE user_nickname like CONCAT(#{searchWord}, '%')
+	 <if test="existUser.size != 0">
+	   AND user_no NOT IN 
+	   <foreach collection="existUser" item="user"  open="(" close=")" separator=",">
+	   		#{user}
+	   </foreach>
+	 </if>  
+	 LIMIT 10
+</select>
+
+<!-- 처음 사용자에게 메세지 왔을 때 -->
+<select id="selectNickname" parameterType="int" resultType="string">
+	SELECT user_nickname
+	  FROM user_tb
+	 WHERE user_no = #{userNo}
+</select>
 
 </mapper>
 

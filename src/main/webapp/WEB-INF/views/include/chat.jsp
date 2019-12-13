@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
-<html>
+<html class="chat">
 <head>
 
 
@@ -30,6 +30,7 @@
 	<c:forEach var="ssss" items="${chatList}">
 		<p>방번호 : ${ssss.chatroomNo}</p> <br />
 		<c:forEach var="ggg" items="${ssss.messageList}">
+			${ggg}
 			내용 : ${ggg.messageContent} , 안읽은 수 : ${ggg.unReadCnt} <br />
 		</c:forEach>
 	</c:forEach>

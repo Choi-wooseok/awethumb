@@ -19,6 +19,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.awethumb.repository.vo.Chatroom;
 import com.awethumb.repository.vo.Message;
 import com.awethumb.repository.vo.SecurityUser;
+import com.awethumb.repository.vo.UserVO;
 import com.awethumb.websocket.service.WebSocketService;
 import com.google.gson.Gson;
 
@@ -53,7 +54,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		System.out.println("보낸 아이디 : " + session.getId());
 		System.out.println("보낸 데이터 : " + message.getPayload());
 		
-		session.sendMessage(new TextMessage("에코 메세지 : " + message.getPayload()));
+		
+		
+//		session.sendMessage(new TextMessage("에코 메세지 : " + message.getPayload()));
 		
 //		 ConvertMessage에 sendUser나 takeUser가 ""일 경우에 convert 하지 않도록 처리해야 함.
 		 Message messageVO = new Gson().fromJson(message.getPayload(), Message.class);
@@ -66,6 +69,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		System.out.println("받는 사용자 아이디 : " + messageVO.getTakeUser());
 		System.out.println("보낸 내용 : " + messageVO.getMessageContent());
 		
+		// 최초 방 생성 여부
+		boolean flag = false;
 		
 		//WebSocketSession wSession = users.get(messageVO.getSendUser());
 		
@@ -75,6 +80,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 //		// 사용자 간 방이 없다면 방 생성
 		if (socService.isRoom(messageVO) == 0) {
 			roomNo = socService.createRoom(new Chatroom());
+			flag = true;
 		} else {
 			roomNo = socService.selectRoom(messageVO);
 		}
@@ -91,17 +97,25 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if (sendResult == 0) throw new Exception("message send fail");
 		
 //		
-		
+		String userNick = socService.selectNickname(messageVO.getSendUser());
 		
 		// 세션 체크 후에 받을 사람이 있다면 받을 사람에게 전송 - 명시적 값 넣어서 테스트 완료
 		for (WebSocketSession socSession : connectedUsers) {
 			
 			int id = getId(socSession);
-	         //받는사람
-	         if (id == messageVO.getTakeUser()) {
+	         // 받는사람
+	        if (id == messageVO.getTakeUser()) {
+	        	if (flag) messageVO.setUserNickname(userNick);
 	            Gson gson = new Gson();
 	            String msgJson = gson.toJson(messageVO);
 	            socSession.sendMessage(new TextMessage(msgJson));
+	        }
+	        // 보낸사람 - 방번호 추가 해야 함.
+	        if (flag) {
+	        	 if (id == messageVO.getSendUser()) {
+	 	            socSession.sendMessage(new TextMessage("{\"roomNo\" : " + roomNo + ", \"takeUser\" : " + messageVO.getTakeUser() + "}"));
+	 	        }
+	        	
 	        }
 		}
 		

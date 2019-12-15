@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -12,10 +13,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.awethumb.repository.dao.StatsDAO;
 import com.awethumb.repository.vo.VisitCount;
-
-public class VisitCounter implements HttpSessionListener{
+import com.awethumb.stats.service.UpdateDailyLog;
+@Component
+public class VisitCounterImpl implements HttpSessionListener{
 
 	@Override
+	@UpdateDailyLog
 	public void sessionCreated(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());
@@ -33,6 +36,7 @@ public class VisitCounter implements HttpSessionListener{
         vc.setVisitIp(ip);
         vc.setVisitAgent(req.getHeader("User-Agent"));//브라우저 정보
         vc.setVisitRefer(req.getHeader("referer"));//접속 전 사이트 정보
+        
         statsDAO.insertVisitCount(vc);
 	}
 

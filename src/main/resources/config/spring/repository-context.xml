@@ -72,6 +72,8 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="tranMethod" />
 	</aop:config>
 	-->
+	<!-- 에스펙트J 오토프록시 사용을 위한 설정추가 -->
+	<aop:aspectj-autoproxy/>
 	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	

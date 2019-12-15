@@ -30,6 +30,26 @@ public class StatsServiceImpl implements StatsService {
 	public int totalUserToday() {
 		return dao.totalUserToday();
 	}
+
+	@Override
+	public int dailyVisitUpdate() {
+		return dao.dailyVisitUpdate();
+	}
+
+	@Override
+	public int dailyJoinUpdate() {
+		return dao.dailyJoinUpdate();
+	}
+
+	@Override
+	public int dailyViewUpdate() {
+		return dao.dailyViewUpdate();
+	}
+
+	@Override
+	public int dailyPostUpdate() {
+		return dao.dailyPostUpdate();
+	}
 	
 	
 }

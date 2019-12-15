@@ -35,7 +35,7 @@
   </listener>
 	<!-- 세션 발생시마다 데이터 쌓아주는 리스너 -->
 	<listener>
-		<listener-class>com.awethumb.filter.VisitCounter</listener-class>
+		<listener-class>com.awethumb.filter.VisitCounterImpl</listener-class>
 	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>

@@ -41,4 +41,32 @@
 		  from user_tb
 		 where LEFT(join_dt, 10) IN (LEFT(NOW(),10))
 	</select>
+	
+	<!-- 방문자 발생시 일일 로그의 방문자수 업데이트 -->
+	<update id="dailyVisitUpdate">
+		update daily_log_tb
+		   set daily_visit_cnt = daily_visit_cnt + 1
+		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+	</update>
+	<!-- 회원가입 발생시 일일 로그의 가입자수 업데이트 -->
+	<update id="dailyJoinUpdate">
+		update daily_log_tb
+		   set daily_join_cnt = daily_join_cnt + 1
+		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+	</update>
+	<!-- 포스트 조회수 증가 발생시 일일 로그의 방문자수 업데이트 -->
+	<update id="dailyViewUpdate">
+		update daily_log_tb
+		   set daily_view_cnt = daily_view_cnt + 1
+		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+	</update>
+	<!-- 포스트 글작성 발생시 일일 로그의 방문자수 업데이트 -->
+	<update id="dailyPostUpdate">
+		update daily_log_tb
+		   set daily_post_cnt = daily_post_cnt + 1
+		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+	</update>
+	
+	
+	
 </mapper>

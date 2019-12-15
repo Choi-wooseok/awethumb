@@ -7,4 +7,8 @@ public interface StatsService {
 	public int totalVisitToday();
 	public int totalPostToday();
 	public int totalUserToday();
+	public int dailyVisitUpdate();
+	public int dailyJoinUpdate();
+	public int dailyViewUpdate();
+	public int dailyPostUpdate();
 }

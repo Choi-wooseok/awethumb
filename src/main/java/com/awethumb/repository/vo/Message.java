@@ -22,13 +22,19 @@ public class Message {
     
     private String userNickname;
 
-    // 보낸 시간 
-    private Date sendTime;
+    // 보낸 날짜 
+    private String sendDate;
+    
+    // 보낸 시간
+    private String sendTime;
 
     // 읽은 시간 
-    private Date readTime;
+    private String readTime;
 
     // 메세지 내용 
     private String messageContent;
+    
+    // 페이징
+    private Page page;
     
 }

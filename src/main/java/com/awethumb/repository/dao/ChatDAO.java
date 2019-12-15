@@ -16,4 +16,5 @@ public interface ChatDAO {
 	int isRoom(Message message);
 	List<UserVO> searchNickname(SearchUser srchUser);
 	String selectNickname(int userNo);
+	List<Message> selectAllMessage(Message message); 
 }

@@ -1,34 +1,23 @@
 $.ajax({
 	url: pageContextPath + "/chat/chat_list.do",
-	
+	data:{
+		userNo: connectedUserNo
+	}
 })
 .done((e) =>{
-		makeChatList(e);
+		console.log(e);
 //		$(".alarmCnt").text(e)
 	}
 )
-let unReadTotCnt = 0;
+
 function makeChatList(list) {
-	$.each(list, (idx, val) => {
-		// 왼쪽 바 채팅 친구 목록 생성
-		$(".list-friends").append(createFriend(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt));
-		// 채팅방 생성
-		unReadTotCnt += val.unReadCnt;
-		$(".chat").append(createRoom(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt));
-		let chatData = "#msg" + val.chatroomNo;
-		// 채팅방 안에 채팅 내용 생성
-		$.each(val.messageList, (idx, value) => {
-			$(chatData).children(".messages").append(msgList(value.sendUser == connectedUserNo ? "friend-with-a-SVAGina" : "i", value.sendDate, value.sendTime, value.messageContent));
-		})
-	})
+	
 }
 
-$("#chatServer").click(() => {
-	$(".chatting").toggleClass("chat-hidden");
-});
 
 
-let sock = new WebSocket('ws://localhost:8000' + pageContextPath + '/chat.do');
+
+let sock = new WebSocket('ws://localhost:8000' + path + '/chat.do');
 
 
 
@@ -106,34 +95,30 @@ $(document).ready(function () {
   	connect();
 });
 
-$(document).ready(function () {
-    topInViewport($(".messages"));
- 
-});
-function topInViewport(selector) {
-	$(selector).scroll(function (e) {
-		let scTop = $(this).scrollTop();
-		console.log("scTop => " + scTop);
-		if (scTop < 1) {
-			// 채팅 내용이 더이상 없다면
-			if ($(this).data("isprev") == "false") return;
-			let pageIdx = $(this).data("pageidx");
-			if (pageIdx) {
-				$(this).data("pageidx", parseInt(pageIdx + 1));
-				loadMore($(this).data("pageidx"), 10 , $(this).parent().data("room"), this);
-				
-			}
+
+$(".messages").scroll(function (e) {
+	let scTop = $(this).scrollTop();
+
+	if (scTop < 1) {
+		// 채팅 내용이 더이상 없다면
+		if ($(this).data("isprev") == "false") return;
+		let pageIdx = $(this).data("pageidx");
+		if (pageIdx) {
+			$(this).data("pageidx", parseInt(pageIdx + 1));
+			loadMore($(this).data("pageidx"), 10 , $(this).parent().data("room"), this);
 			
 		}
 		
-	});
-}
+	}
+	
+});
 
-//페이징 처리
-function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
-	 console.log(pageIndex, pageCount, chatroomNo, prependMessage);
+
+
+ // 페이징 처리
+ function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
 	 $.ajax({
-		url: pageContextPath + "/chat/select_message_more.do",
+		url: "select_message_more.do",
 		type: "POST",
 		data: JSON.stringify({
 				"chatroomNo" : chatroomNo,
@@ -146,14 +131,14 @@ function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
 		contentType: 'application/json; charset=UTF-8',
 		success: result => {
 			let prependList = "";
-			console.log(result);
 			if (result.length == 0) {
 				$(prependMessage).data("isprev", "false");
 				return;
 			}
 			$(result).each((idx, val) => {
 				let sendType
-				prependList += sendMsg(val.sendUser == connectedUserNo ? "friend-with-a-SVAGina" : "i", val.messageContent, val.sendDate, val.sendTime);
+				prependList += sendMsg(val.sendUser == loginUserNo ? "friend-with-a-SVAGina" : "i", val.messageContent, val.sendDate, val.sendTime);
+				
 				
 			});
 			let screenPinning = $(prependMessage).children("li:first");
@@ -161,9 +146,7 @@ function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
 			$(prependMessage).scrollTop(screenPinning.offset().top);
 		}
 	 })
-}
-
- 
+ }
 
 
  // 보낸 메세지 화면에 append 하기
@@ -184,7 +167,7 @@ function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
   if(msg != ""){
 	  message = {};
 	  message.messageContent = msg;
-	  message.sendUser = connectedUserNo;
+	  message.sendUser = loginUserNo;
 	  message.takeUser = takeUserNo;
 	  message.sendDate = sendDate;
 	  message.sendTime = sendTime;
@@ -243,10 +226,10 @@ $("#srchNickname").keyup(() => {
 			
 		});
 		// 자기 자신도 제외
-		existUser.push(connectedUserNo);
+		existUser.push(loginUserNo);
 		
 		$.ajax({
-				url: pageContextPath + "/chat/searchNickname.do",
+				url: "searchNickname.do",
 				method: 'POST',
 				data: JSON.stringify({"searchWord": searchWord, "existUser": existUser}),
 				dataType: 'JSON',
@@ -341,9 +324,9 @@ function msgRead(chatroomNo) {
 	// 읽지 않은 메세지 읽을 시에 waitMe 기능 끄기
 	$("#waitme-status").attr("class", "waitme-container-none");
 	$.ajax({
-		url: pageContextPath + "/chat/read_msg.do",
+		url: "read_msg.do",
 		method: 'POST',
-		data: {takeUser : connectedUserNo, chatroomNo: chatroomNo},
+		data: {takeUser : loginUserNo, chatroomNo: chatroomNo},
 		dataType: 'JSON',
 		success: result => {
 				// 읽었다면 waitMe 기능 켜기
@@ -368,28 +351,15 @@ $(document).on("click", ".result-search", function() {
 function createFriend(userNo, userNickname, chatroomNo, unReadCnt) {
 	chatroomNo = chatroomNo || 0;
 	unReadCnt = unReadCnt || 0;
-	let readStatus = unReadCnt ? "off" : "on";
 	return `<li class="selectmsg" data-room="${chatroomNo}" data-userno="${userNo}">
 			<img width="50" height="50" src="http://cs625730.vk.me/v625730358/1126a/qEjM1AnybRA.jpg">
 			<div class="info">
-				<div class="user-chat">${userNickname}</div>
-			
-				<div class="status ${readStatus}">안읽은수:<span>${unReadCnt}</span></div>
+				<div class="user">${userNickname}</div>
+				<div class="status on">안읽은수:<span>${unReadCnt}</span></div>
 			</div>
 		</li>`;
 }
 
-function msgList(sendType, sendDate, sendTime, messageContent) {
-	return `
-			<li class="${sendType}">
-				<div class="head">
-					<span class="time">${sendDate}</span>
-					<span class="name">${sendTime}</span>
-				</div>
-				<div class="message">${messageContent}</div>
-			</li>
-		  `;
-}
 
 // 사용자 검색 후에 방 만들기
 function createRoom(userNo, userNickname, chatroomNo, unReadCnt) {

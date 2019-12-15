@@ -9,6 +9,7 @@
 	<result property="chatroomNo" column="chatroom_no" />
 	<result property="sendUser" column="send_user" />
 	<result property="takeUser" column="take_user" />
+	<result property="sendDate" column="send_date" />
 	<result property="sendTime" column="send_time" />
 	<result property="readTime" column="read_time" />
 	<result property="messageContent" column="message_content" />
@@ -81,10 +82,29 @@
  
  <!-- 유저 당 메세지 조회 -->
 <select id="selectAllMessage" resultMap="messageMap" parameterType="Message" flushCache="true" useCache="true">
-	SELECT *
-	  FROM message_tb
-	 WHERE chatroom_no = #{chatroomNo}   
-	   
+	SELECT * 
+	  FROM (
+				SELECT message_no, chatroom_no, send_user, take_user, 
+				       DATE_FORMAT(send_time, '%Y년 %m월 %d일') AS send_date,
+				       CONCAT(
+							       case DATE_FORMAT(send_time, '%p') when 'AM' then '오전 '
+							       else '오후 '
+							       end
+							       ,
+							       DATE_FORMAT(send_time, '%h:%i')
+							 ) AS send_time,
+				       read_time, message_content
+				  FROM message_tb
+				 WHERE chatroom_no = #{chatroomNo}   
+				 ORDER BY message_no desc
+				 <if test="page == null">
+				 LIMIT 0, 10
+				 </if>
+				 <if test="page != null">
+				 LIMIT #{page.pageIndex}, #{page.pageCount}
+				 </if>
+		   ) m
+	 ORDER BY m.message_no
 </select>
 
 

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alarm/alarmheader.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/chat.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <header>
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="su"/>
@@ -46,6 +48,14 @@
 	                   	<div class="alarmCnt"></div>
                 	</div>
                 </button>
+                <sec:authorize access="isAuthenticated()">
+	                <button id="chatServer">
+	                	<div>
+		                   	<i class="far fa-paper-plane"></i>
+		                   	<div id="chatCnt"></div>
+	                	</div>
+	                </button>
+                </sec:authorize>
             </div>
         </div>
     </div>
@@ -62,6 +72,24 @@
 	    	</div>
 	    	<div></div>
 	    </div>
+	    
+	    <!-- 채팅 화면 -->
+	    <div class="chatting chat-hidden">
+	    	<div id="waitme-status" class="waitme-container">
+			  	<div class="ui">
+					<div class="left-menu">		
+						<div class="search" style="margin: 0 5px;">
+							<input placeholder="search..." type="search" name="" id="srchNickname">
+							<div id="searchResult" class="search-val"></div>
+						</div>
+						<menu class="list-friends">
+						</menu>
+					</div>
+				<div class="chat">
+				</div>		
+				</div>
+			</div>
+	    </div>
     	<!-- 알림 js -->
 	    <script>
 	    	const connectedUserNo= ${su.userNo};
@@ -70,5 +98,7 @@
         <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>
         <!-- 알림 dropdown js -->
         <script src="${pageContext.request.contextPath}/js/alarm/dropdown.js"></script>
+        <!-- 채팅 js -->
+        <script src="${pageContext.request.contextPath}/js/chat.js"></script>
     </sec:authorize>
 </header>

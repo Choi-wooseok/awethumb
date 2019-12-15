@@ -1,202 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+    pageEncoding="UTF-8"%>
 
-
-<html class="chat">
-<head>
-
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/sockjs.min.js"></script>
-<%@ include file="/WEB-INF/views/include/cssScript.jsp"%>  
-<style>
-</style>
-</head>
-
-<body>
-
-	<sec:authorize access="isAuthenticated()">
-			<sec:authentication property="principal.user" var="su"/>
-	</sec:authorize>
-	<div>
-	대화 목록 및 안읽은 메세지 값 <br />
-	<c:forEach var="ssss" items="${chatList}">
-		<p>방번호 : ${ssss.chatroomNo}</p> <br />
-		<c:forEach var="ggg" items="${ssss.messageList}">
-			${ggg}
-			내용 : ${ggg.messageContent} , 안읽은 수 : ${ggg.unReadCnt} <br />
-		</c:forEach>
-	</c:forEach>
+	<div id="waitme-status" class="waitme-container">
+	  	<div class="ui">
+				<div class="left-menu">		
+					<div class="search" style="margin: 0 5px;">
+						<input placeholder="search..." type="search" name="" id="srchNickname">
+						<div id="searchResult" class="search-val"></div>
+					</div>
+					
+					
+					<c:set var="unReadTotCnt" value="0" />
+					
+					<menu class="list-friends">
+						<c:forEach var="ssss" items="${chatList}">
+						
+								<li class="selectmsg" data-room="${ssss.chatroomNo}" data-userno="${ssss.user.userNo}">
+									<img width="50" height="50" src="http://cs625730.vk.me/v625730358/1126a/qEjM1AnybRA.jpg">
+									<div class="info">
+										<div class="user">${ssss.user.userNickname}</div>
+										<c:choose>
+											<c:when test="${ssss.unReadCnt eq 0}">
+												<div class="status on">
+											</c:when>
+											<c:otherwise>
+												<div class="status off">
+											</c:otherwise>
+										</c:choose>
+										안읽은수:<span>${ssss.unReadCnt}</span></div>
+										<c:set var="unReadTotCnt" value="${unReadTotCnt +  ssss.unReadCnt}" />
+									</div>
+								</li>
+						</c:forEach>
+					</menu>
+				</div>
+				<div class="chat">
+					<c:forEach var="ssss" items="${chatList}">
+							<div class="msglist" id="msg${ssss.chatroomNo}" data-room="${ssss.chatroomNo}" data-userno="${ssss.user.userNo}" data-unreadcnt="${ssss.unReadCnt}">
+								<div class="top">
+									<div class="avatar">
+											<img width="50" height="50" src="http://cs625730.vk.me/v625730358/1126a/qEjM1AnybRA.jpg">
+									</div>
+									<div class="info">
+										<div class="name">${ssss.user.userNickname}</div>
+									</div>
+								</div>
+								
+								<ul class="messages" data-pageidx="1" data-isprev="true">
+									<c:forEach var="msg" items="${ssss.messageList}">
+										<c:choose> 
+											<c:when test="${su.userNo eq msg.sendUser}"><li class="friend-with-a-SVAGina"></c:when>
+											<c:otherwise><li class="i"></c:otherwise>
+										</c:choose>
+										<div class="head">
+											<span class="time">${msg.sendDate}</span>
+											<span class="name">${msg.sendTime}</span>
+										</div>
+										<div class="message">${msg.messageContent}</div>
+										</li>
+									</c:forEach>
+								</ul>
+								
+								<div class="write-form">
+									<textarea placeholder="보낼 메세지 입력" name="e" id="texxt"  rows="2"></textarea>
+									<span class="send">Send</span>
+								</div>
+							</div>
+						
+					</c:forEach>
+				</div>
+			</div>
 	
-	</div>
-
- 	<div class="col-12 row justify-content-center align-items-center my-5 ">
-		<a href=""><img src="../../../resources/image/AlmomLogo.png"
-			alt="Almom Logo" width="180px" class="img-fluid" /></a>
-	</div>
-	<div class="col-12">
-		<div class="col-2" style="float: left">
-			<span> 목록 </span>
-		</div>
-		
-		<div class="col-2" style="float: right">
-			<span> 닫기 </span>
-		</div>
+	<script>
+		let sendUserNo = 0;
+		//let unReadTotCnt = ${unReadTotCnt};
+	</script>
 
 
 
-	</div>
-
-	<!-- 채팅 내용 -->
-	<div class="col-12">
-		<div class="col-11"
-			style="margin: 0 auto; border: 1px solid #01D1FE; height: 400px; border-radius: 10px; overflow:scroll" id = "chatArea">
-
-			<div id="chatMessageArea" style = "margin-top : 10px; margin-left:10px;"></div>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/chat.js"></script>
+	
 
 
 
-
-		</div>
-	</div>
-
-	<!-- 채팅 입력창 -->
-	<div class="col-12" style="margin-top: 20px; margin-bottom: 15px;">
-		<div class="col-12" style="float: left">
-			<textarea class="form-control"
-				style="border: 1px solid #01D1FE; height: 65px; float: left; width: 80%"
-				placeholder="Enter ..." id = "message">
-
-
-				</textarea>
-			<span
-				style="float: right; width: 18%; height: 65px; text-align: center; background-color: #01D1FE; border-radius: 5px;">
-				<a
-				style="margin-top: 30px; text-align: center; color: white; font-weight: bold;" id = "sendBtn"><br>전송</a>
-			</span>
-		</div>
-
-	</div>
-
-
-
- <input type="button" id="enterBtn" value="입장" style = "display:none">
- <input type="button" id="exitBtn" value="나가기" style = "display:none">
-<script type="text/javascript">
- let sock = new WebSocket('ws://localhost:8000${pageContext.request.contextPath}/chat.do');
- let message = "";
-function connect() {
-    sock.onopen = function() {
-        console.log('open');
-    };
-    sock.onmessage = function(evt) {
-   	 var data = evt.data;
- 	   let obj = JSON.parse(data)  	   
-   	   console.log(obj)
-   	   appendMessage("보낸사람 :" + obj.sendUser + ", 받은 사람 :" + obj.takeUser + "보낸 내용 :" + obj.messageContent);
-   	   
-    };
-    sock.onclose = function() {
-        console.log('close');
-    };
-}
-
-$(document).ready(function () {
-  	connect();
-});
-
-
- function send() {
-  var msg = $("#message").val();
-  console.log(msg);
-  if(msg != ""){
-	  message = {};
-	  message.messageContent = $("#message").val();
-	  message.sendUser = '${su.userNo}';
-	  message.takeUser = '10';
-	  
-//   	  message.TUTOR_USER_user_id = '${TUTOR_USER_user_id}'
-//   	  message.USER_user_id = '${profile.user_id}'
-//   	  message.CLASS_class_id = '${class_id}'
-//   	  message.message_sender = '${profile.user_id}'
-  }
-
-
-  sock.send(JSON.stringify(message));
-  $("#message").val("");
- }
-
-
-
-
- function getTimeStamp() {
-   var d = new Date();
-   var s =
-     leadingZeros(d.getFullYear(), 4) + '-' +
-     leadingZeros(d.getMonth() + 1, 2) + '-' +
-     leadingZeros(d.getDate(), 2) + ' ' +
-
-     leadingZeros(d.getHours(), 2) + ':' +
-     leadingZeros(d.getMinutes(), 2) + ':' +
-     leadingZeros(d.getSeconds(), 2);
-
-   return s;
- }
-
- function leadingZeros(n, digits) {
-   var zero = '';
-   n = n.toString();
-
-   if (n.length < digits) {
-     for (i = 0; i < digits - n.length; i++)
-       zero += '0';
-   }
-   return zero + n;
- }
-
-
-
-
-
-
-
- function appendMessage(msg) {
-
-	 if(msg == ''){
-		 return false;
-	 }else{
-
-
-	 var t = getTimeStamp();
-	 $("#chatMessageArea").append("<div class='col-12 row' style = 'height : auto; margin-top : 5px;'><div class='col-2' style = 'float:left; padding-right:0px; padding-left : 0px;'><img id='profileImg' class='img-fluid' src='/displayFile?fileName=${userImage}&directory=profile' style = 'width:50px; height:50px; '><div style='font-size:9px; clear:both;'>${user_name}</div></div><div class = 'col-10' style = 'overflow : y ; margin-top : 7px; float:right;'><div class = 'col-12' style = ' background-color:#ACF3FF; padding : 10px 5px; float:left; border-radius:10px;'><span style = 'font-size : 12px;'>"+msg+"</span></div><div col-12 style = 'font-size:9px; text-align:right; float:right;'><span style ='float:right; font-size:9px; text-align:right;' >"+t+"</span></div></div></div>")		 
-
-	  var chatAreaHeight = $("#chatArea").height();
-	  var maxScroll = $("#chatMessageArea").height() - chatAreaHeight;
-	  $("#chatArea").scrollTop(maxScroll);
-
-	 }
- }
- $(document).ready(function() {
-  $('#message').keypress(function(event){
-   var keycode = (event.keyCode ? event.keyCode : event.which);
-   if(keycode == '13'){
-    send();
-   }
-   event.stopPropagation();
-  });
-
-
-
-  $('#sendBtn').click(function() { send(); });/* $('#enterBtn').click(function() { connect(); }); $('#exitBtn').click(function() { disconnect(); }); */
- });
-</script>
-
-</body>
-</html>

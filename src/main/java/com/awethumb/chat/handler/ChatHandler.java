@@ -1,11 +1,9 @@
-package com.awethumb.websocket.handler;
+package com.awethumb.chat.handler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,18 +14,17 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.awethumb.chat.service.ChatService;
 import com.awethumb.repository.vo.Chatroom;
 import com.awethumb.repository.vo.Message;
 import com.awethumb.repository.vo.SecurityUser;
-import com.awethumb.repository.vo.UserVO;
-import com.awethumb.websocket.service.WebSocketService;
 import com.google.gson.Gson;
 
-@Component("soc_client")
-public class WebSocketHandler extends TextWebSocketHandler {
+@Component("ChatHandler")
+public class ChatHandler extends TextWebSocketHandler {
 	
 	@Autowired
-	WebSocketService socService;
+	ChatService socService;
 	
 	// 연결된 유저 목록
 	private List<WebSocketSession> connectedUsers;
@@ -35,7 +32,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	// 멀티쓰레드 유저 등록 - 세션에 등록 된 유저 정보를 구분 짓기 위한 멤버변수
 	private Map<Integer, WebSocketSession> users = new ConcurrentHashMap<Integer, WebSocketSession>();
 	
-	public WebSocketHandler() {
+	public ChatHandler() {
 		this.connectedUsers = new ArrayList<>();
 	}
 	
@@ -43,7 +40,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		// WebSocketSession => 웹소켓 연결한 브라우저의 정보를 가지고 있다. 페이지가 이동됬을 경우 웹소켓이 끊긴다.
-		System.out.println(session.getId() + " 연결되었음..");
 		int senderId = getId(session);
 		users.put(senderId, session);
 		connectedUsers.add(session);
@@ -51,12 +47,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println("보낸 아이디 : " + session.getId());
-		System.out.println("보낸 데이터 : " + message.getPayload());
 		
 		
 		
-//		session.sendMessage(new TextMessage("에코 메세지 : " + message.getPayload()));
 		
 //		 ConvertMessage에 sendUser나 takeUser가 ""일 경우에 convert 하지 않도록 처리해야 함.
 		 Message messageVO = new Gson().fromJson(message.getPayload(), Message.class);
@@ -65,17 +58,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if (messageVO.getSendUser() == 0 || messageVO.getSendUser() == 0) return;
 		
 		
-		System.out.println("보낸 사용자 아이디 : " + messageVO.getSendUser());
-		System.out.println("받는 사용자 아이디 : " + messageVO.getTakeUser());
-		System.out.println("보낸 내용 : " + messageVO.getMessageContent());
 		
 		// 최초 방 생성 여부
 		boolean flag = false;
 		
-		//WebSocketSession wSession = users.get(messageVO.getSendUser());
 		
 		// 사용자 방 조회
-//		
 		int roomNo = 0;
 //		// 사용자 간 방이 없다면 방 생성
 		if (socService.isRoom(messageVO) == 0) {
@@ -84,7 +72,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		} else {
 			roomNo = socService.selectRoom(messageVO);
 		}
-		System.out.println("selectRoom?" + roomNo);
 		
 		
 		// 방 번호 추가
@@ -99,7 +86,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 //		
 		String userNick = socService.selectNickname(messageVO.getSendUser());
 		
-		// 세션 체크 후에 받을 사람이 있다면 받을 사람에게 전송 - 명시적 값 넣어서 테스트 완료
+		// 세션 체크 후에 받을 사람이 있다면 받을 사람에게 전송
 		for (WebSocketSession socSession : connectedUsers) {
 			
 			int id = getId(socSession);
@@ -110,7 +97,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	            String msgJson = gson.toJson(messageVO);
 	            socSession.sendMessage(new TextMessage(msgJson));
 	        }
-	        // 보낸사람 - 방번호 추가 해야 함.
+	        // 처음 개설한 방 일 경우 보낸사람에게도 방 번호 알려줘야 함 
 	        if (flag) {
 	        	 if (id == messageVO.getSendUser()) {
 	 	            socSession.sendMessage(new TextMessage("{\"roomNo\" : " + roomNo + ", \"takeUser\" : " + messageVO.getTakeUser() + "}"));
@@ -120,27 +107,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		}
 		
 		
-		// db insert 작업 해야 함.
-		
-		
-//		if (wSession != null) {
-//			String msgJson = new Gson().toJson(messageVO);
-//			wSession.sendMessage(new TextMessage(msgJson));
-//		}
-		
-//		System.out.println(p.getName()); 
-//		System.out.println("user");
-		
 
 	}
 	
 	private int getId(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
 		
-		 for (String key : httpSession.keySet()) {
-	            Object value = httpSession.get(key);
-	            System.out.println("[key]:" + key + ", [value]:" + value);
-	     }
 		SecurityContextImpl pp = (SecurityContextImpl) httpSession.get("SPRING_SECURITY_CONTEXT");
 		int socLoginUserNo = 0;
 		if (pp != null) { 
@@ -157,7 +129,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println(session.getId() + " 연결 종료되었음..");
 		users.remove(getId(session));
 		connectedUsers.remove(session);
 	}

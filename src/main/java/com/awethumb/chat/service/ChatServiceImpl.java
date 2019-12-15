@@ -1,9 +1,7 @@
-package com.awethumb.websocket.service;
+package com.awethumb.chat.service;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +12,7 @@ import com.awethumb.repository.vo.SearchUser;
 import com.awethumb.repository.vo.UserVO;
 
 @Service
-public class WebSocketServiceImpl implements WebSocketService {
+public class ChatServiceImpl implements ChatService {
 	@Autowired
 	ChatDAO dao;
 	
@@ -49,5 +47,9 @@ public class WebSocketServiceImpl implements WebSocketService {
 	
 	public String selectNickname(int userNo) {
 		return dao.selectNickname(userNo);
+	}
+	
+	public List<Message> selectAllMessage(Message message) {
+		return dao.selectAllMessage(message);
 	}
 }

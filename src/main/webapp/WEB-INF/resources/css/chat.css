@@ -33,7 +33,9 @@
   top: 27px;
   color: white;
 }
-
+.selectmsg {
+	line-height: unset;
+}
 .ui .search input[type=search] {
   background-color: #696c75;
   border-radius: 3px;
@@ -60,7 +62,8 @@
   display: inline-flex;
   flex-direction: column;
   vertical-align: 40px;
-  width: calc(100% - 65px - 50px);
+/*   width: calc(100% - 65px - 50px); */
+  width: 135px;
 }
 .ui .chat .info .name {
   font-weight: 600;
@@ -84,12 +87,14 @@
   font-size: 13px;
   height: 88%;
   overflow: auto;
+  display: inline-block;
 }
 .ui .list-friends::-webkit-scrollbar {
 	display: none;
 }
 .ui .list-friends img {
-  margin: 5px;
+  margin: 10px 5px;
+}
 }
 .ui .list-friends > li {
   display: flex;
@@ -98,15 +103,21 @@
 }
 .ui .list-friends .info {
   flex: 1;
+  display: inline-block;
 }
-.ui .list-friends .user {
+
+.ui .list-friends .user-chat {
   color: #fff;
-  margin-top: 12px;
+  top: 54px;
+  border-radius: unset;
+  margin-left: 14px;
+  width: 100px;
 }
 .ui .list-friends .status {
   position: relative;
   margin-left: 14px;
   color: #a8adb3;
+  margin-top: 10px;
 }
 .ui .list-friends .off:after,
 .ui .list-friends .on:after {
@@ -222,9 +233,9 @@
   height: 150px;
 }
 .ui .write-form textarea {
-  height: 75px;
+  height: 61px;
 /*   margin: 17px 5%; */
-  width: 91%;
+  width: 100%;
   outline: none;
   padding: 15px;
   border: none;
@@ -251,6 +262,7 @@
   margin-right: 5%;
   cursor: pointer;
   user-select: none;
+  margin-top: 2%;
 }
 .ui i.fa-file-o {
   margin-left: 15px;
@@ -281,3 +293,10 @@
 		color: #6dd5bc;
 		cursor: pointer;
 }
+.chatting.chat-hidden {
+	display: none;
+}
+
+/* .chatting.chat-block { */
+/* 	display: block; */
+/* } */

@@ -14,11 +14,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.awethumb.admin.service.AdminServiceImpl;
+import com.awethumb.repository.vo.Block;
 import com.awethumb.repository.vo.SecurityUser;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
 	LoginFailureHandler fail;
+	@Autowired
+	AdminServiceImpl adminServiceImpl;
 	
 	
 	@SuppressWarnings("serial")
@@ -42,6 +46,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			fail.onAuthenticationFailure(request, response, new AuthenticationException("이메일 인증 후에 로그인 가능합니다.") {});
 			return;
 		}
+		
+		Block block = adminServiceImpl.selectBlock(user.getUser().getUserNo());
+		System.out.println("block : " + block);
+		if (block != null) {
+			fail.onAuthenticationFailure(request, response, new AuthenticationException("정지된 회원입니다.") {});
+			return;
+		}
+		
 
 		// /user/logout.do
 		response.sendRedirect(request.getContextPath() + "/feed/feed.do");

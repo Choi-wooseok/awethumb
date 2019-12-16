@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.awethumb.repository.vo.Block;
+import com.awethumb.repository.vo.BlockReason;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
@@ -36,7 +37,7 @@ public interface AdminDAO {
 	void cancelBlockByUserNo(int userNo);
 	void insertBlockByAdmin(Map<String, Object> rmap);
 	void deleteUser(int userNo);
-	
+	BlockReason selectReportReasonTwo(int userNo);
 	
 	/* 페이징 관련 */
 	@SuppressWarnings("unchecked")

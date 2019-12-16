@@ -90,6 +90,13 @@
 					  text: '<spring:message code="userlogin.oauth.fail.changeduserid" />'
 				})
 			}
+			else if ('${errCode}' == 7) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '로그인 실패',
+					  text: '<spring:message code="userlogin.block" />사유 : ${blockMsg.blockReason} 정지 날짜 : ${blockMsg.block.blockStartDt} ~ ${blockMsg.block.blockEndDt}'
+				})
+			}
 			
 			
 			

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.awethumb.repository.vo.Block;
+import com.awethumb.repository.vo.BlockReason;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
@@ -42,4 +43,6 @@ public interface AdminService {
 	List<UserVO> selectUserPaging(Criteria cri);
 	int userCount();
 	void deleteUser(int userNo);
+	
+	BlockReason selectReportReasonTwo(int userNo);
 }

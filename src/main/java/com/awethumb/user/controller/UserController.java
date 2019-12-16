@@ -3,6 +3,7 @@ package com.awethumb.user.controller;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
@@ -25,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.awethumb.admin.service.AdminService;
 import com.awethumb.auth.SnsLogin;
 import com.awethumb.auth.SnsValue;
 import com.awethumb.common.service.CommonService;
+import com.awethumb.repository.vo.SecurityUser;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.security.CustomAuthenticationProvider;
 import com.awethumb.user.service.UserService;
@@ -44,6 +48,8 @@ public class UserController {
 	private CommonService commService;
 	@Autowired
 	private CustomAuthenticationProvider customAuthenticationProvider;
+	@Autowired
+	private AdminService adminService;
 	@Inject
 	private SnsValue googleSns;
 	@Inject
@@ -54,6 +60,7 @@ public class UserController {
 	private GoogleConnectionFactory googleConnectionFactory;
 	@Inject
 	private OAuth2Parameters googleOAuth2Parameters;
+	
 	
 	@RequestMapping("/login_main.do")
 	public void loginMain(Model model, @ModelAttribute(value="user") UserVO user) throws JsonProcessingException {
@@ -164,8 +171,19 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login_fail.do")
-	public String loginFail(String errCode, RedirectAttributes attr) {
+	public String loginFail(String errCode, String blockCode, RedirectAttributes attr, HttpServletRequest request) {
 		attr.addFlashAttribute("errCode", errCode);
+		System.out.println("blockCode : " + blockCode);
+		if (blockCode != null) {
+			HttpSession session = request.getSession();
+			SecurityContextImpl pp = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+			Authentication auth = pp.getAuthentication();
+			SecurityUser secUser = (SecurityUser) auth.getPrincipal();
+			secUser.getUser().getUserNo();
+			System.out.println(adminService.selectReportReasonTwo(secUser.getUser().getUserNo()));
+			attr.addFlashAttribute("blockMsg", adminService.selectReportReasonTwo(secUser.getUser().getUserNo()));
+			session.invalidate();
+		}
 		return "redirect:/user/login_main.do";
 	}
 

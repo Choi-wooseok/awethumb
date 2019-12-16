@@ -3,12 +3,23 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.AdminDAO">
 
-
+<resultMap type="BlockReason" id="blockReasonMap">
+	<result property="block_code" column="blockCode" />
+	<result property="block_reason" column="blockReason" />
+	<association property="block" resultMap="blockMap" />
+</resultMap>
+<resultMap type="Block" id="blockMap">
+	<result property="blockNo" column="block_no" />
+	<result property="userNo" column="user_no" />
+	<result property="blockCode" column="block_code" />
+	<result property="blockStartDt" column="block_start_dt" />
+	<result property="blockEndDt" column="block_end_dt" />
+</resultMap>	
 <!-- 신고목록 셀렉 처리안된거부터 셀렉하고 밑에다가 처리된거 끌어오는 쿼리-->
 <select id="selectReport" resultType="Report">
 	select *
 	  from report_tb
-  order by report_status ASC, report_no DESC;
+  order by report_status ASC, report_no DESC
 </select>
 
 <!-- 유저 아이디 셀렉 -->
@@ -98,6 +109,13 @@
 	select *
 	  from report_tb
 	 where report_no = #{reportNo}
+</select>
+<select id="selectReportReasonTwo" parameterType="int" resultMap="blockReasonMap">
+	SELECT b.user_no, r.block_code, b.block_start_dt, b.block_end_dt, r.block_reason
+	  FROM block_tb b
+	 INNER join block_reason_tb r
+	    ON b.block_code = r.block_code
+	 WHERE user_no = #{userNo}
 </select>
 
 <!-- 지금부터 코멘트와 유저와 포스트 객체를 매칭하는걸로 하나씩 뽑아오는 쿼리를 시작한다. -->

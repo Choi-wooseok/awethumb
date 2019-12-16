@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.AdminDAO;
 import com.awethumb.repository.vo.Block;
+import com.awethumb.repository.vo.BlockReason;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
@@ -163,6 +164,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public void deleteUser(int userNo) {
 		dao.deleteUser(userNo);
+	}
+
+	@Override
+	public BlockReason selectReportReasonTwo(int userNo) {
+		return dao.selectReportReasonTwo(userNo);
 	}
 
 	

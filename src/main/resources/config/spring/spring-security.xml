@@ -16,8 +16,10 @@
 	<bean id="loginSuccessHandler" class="com.awethumb.security.LoginSuccessHandler" />	  
 	<bean id="loginFailureHandler" class="com.awethumb.security.LoginFailureHandler" />	  
 	<bean id="userAuthProvider" class="com.awethumb.security.CustomAuthenticationProvider"/>
+	<bean id="adminServiceImpl" class="com.awethumb.admin.service.AdminServiceImpl"/>
 
-	<bean id="myBatisUserDetailsService" class="com.awethumb.security.MyBatisUserDetailsService" />	  
+	<bean id="myBatisUserDetailsService" class="com.awethumb.security.MyBatisUserDetailsService" />	 
+
 	<security:http> 
 		<security:csrf disabled="true" />
 <!-- 		<security:intercept-url pattern="/security/user.do" access="hasRole('ROLE_U')" /> -->

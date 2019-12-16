@@ -16,7 +16,7 @@ import com.awethumb.repository.vo.VisitCount;
 import com.awethumb.stats.service.UpdateDailyLog;
 @Component
 public class VisitCounterImpl implements HttpSessionListener{
-
+	
 	@Override
 	@UpdateDailyLog
 	public void sessionCreated(HttpSessionEvent se) {
@@ -37,7 +37,14 @@ public class VisitCounterImpl implements HttpSessionListener{
         vc.setVisitAgent(req.getHeader("User-Agent"));//브라우저 정보
         vc.setVisitRefer(req.getHeader("referer"));//접속 전 사이트 정보
         
-        statsDAO.insertVisitCount(vc);
+        int result = statsDAO.insertVisitCount(vc);
+        System.out.println(result);
+        if(result != 0) {
+        	int logResult = statsDAO.dailyVisitUpdate();
+        	if(logResult != 0) {
+        		System.out.println("일일 방문자수 업데이트 성공");
+        	}
+        }
 	}
 
 	@Override

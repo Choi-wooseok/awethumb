@@ -11,6 +11,7 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.UserVO;
+import com.awethumb.stats.service.UpdateDailyLog;
 
 @Service
 public class DetailBoardServiceImpl implements DetailBoardService {
@@ -28,6 +29,7 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	};
 	
 	// 글 등록하기
+	@UpdateDailyLog
 	public void insertBoard(Board board) {
 		dao.insertBoard(board);
 	}

@@ -6,7 +6,9 @@
 
 <head>
   <%@ include file="/WEB-INF/views/include/adminInclude.jsp" %>
+  <script src="<c:url value='/js/montlyChart.js' />"></script>
 </head>
+
 <style>
   .dc-card {
     margin-left: 15%;
@@ -202,8 +204,9 @@
 
             <!-- 월간탭 시작 -->
             <div id="Monthly" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
-              <h2>Tokyo</h2>
-              <p>Tokyo is the capital of Japan.</p>
+              	<!-- 이곳에선 최근 한달간 4가지 주요항목들의의 데이터를 볼 수 있다. -->
+              	<!-- 주식차트처럼 가로축 현재달의 총일수. 세로축은 각 일자마다의 4자리항목을 막대로 표시해서 보여준다. -->
+              <canvas id="myChart" width="100%" height="100%"></canvas>
             </div> <!-- 월간탭끝 -->
           </div>
 
@@ -244,7 +247,8 @@
   <script src="lib/zabuto_calendar.js"></script>
   <script src="lib/adminMain.js"></script>
   <script src="<c:url value='/js/insertReport.js' />"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+<!--   <script src="https://raw.githubusercontent.com/nnnick/Chart.js/master/Chart.min.js" ></script> -->
   <script>
 
     //insertReport는 대상 신고버튼 id, postNo, commentNo만 있으면 작동한다.

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awethumb.repository.dao.UserDAO;
 import com.awethumb.repository.vo.Auth;
 import com.awethumb.repository.vo.UserVO;
+import com.awethumb.stats.service.UpdateDailyLog;
 import com.awethumb.util.CommUtil;
 
 @Service
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
 		return dao.chkUser(map);
 	}
 	
-	
+	@UpdateDailyLog
 	@Transactional
 	public int registUser(UserVO user) {
 		int result = 0;
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return result;
 	}
+	
 	
 	@Transactional
 	public int registFinishUser(UserVO user) {

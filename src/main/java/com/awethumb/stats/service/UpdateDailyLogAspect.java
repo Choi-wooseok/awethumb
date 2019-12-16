@@ -1,7 +1,7 @@
 package com.awethumb.stats.service;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,34 +30,26 @@ public class UpdateDailyLogAspect{
 //	@annotation(com.awethumb.stats.service.UpdateDailyLog)
 //	execution(* com.awethumb..*Impl.*(..) || com.awethumb..*DAO.*(..))
 //	@Around("@annotation(UpdateDailyLog)")
-	public int updateDailyLog(ProceedingJoinPoint joinPoint) throws Throwable {
+	@After("@annotation(UpdateDailyLog)")
+	public int updateDailyLog(JoinPoint joinPoint) throws Throwable {
 		System.out.println("에프터 진입테스트");
-		int result = -1;
-		
-		Object proceed = joinPoint.proceed();
-		System.out.println(proceed);
+		int result = 0;
 		String targetMethod = joinPoint.getSignature().getName();
 		System.out.println("타겟메서드 : " + targetMethod);
-		if(targetMethod.equals("insertVisitCount")) {
-			System.out.println("타겟메서드가 인설트 비짓 카운트라는거 확인 완료");
-			if(result != -1) {
-				System.out.println("일일 방문자수 로그 업데이트 성공");
-			}
-			System.out.println("일일 방문자수 로그 업데이트 성공");
-		}
+		
 		switch(targetMethod) {
-			case "insertVisitCount" :
-				System.out.println(proceed);
-				result = service.dailyVisitUpdate();
-				if(result != -1) {
-					System.out.println("일일 방문자수 로그 업데이트 성공");
-				}
-				break;
 			case "insertBoard" :
 				System.out.println("인설트 보드 진입성공");
 				result = service.dailyPostUpdate();
-				if(result != -1) {
+				if(result != 0) {
 					System.out.println("일일 글작성수 로그 업데이트 성공");
+				}
+				break;
+			case "registUser" :
+				System.out.println("회원가입 완료 진입성공");
+				result = service.dailyJoinUpdate();
+				if(result != 0) {
+					System.out.println("일일 회원가입수 로그 업데이트 성공");
 				}
 				break;
 		}

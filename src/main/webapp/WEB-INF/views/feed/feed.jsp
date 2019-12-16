@@ -1,20 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%@ include file="/WEB-INF/views/include/header.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
+	<%@ include file="/WEB-INF/views/include/cssScript.jsp"%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<!-- 로그인 user 정보 -->
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="u"/>
 	</sec:authorize>
-	<c:import url="/WEB-INF/views/include/cssScript.jsp"></c:import>
+	
 	<div id="waitme-container" class="waitme-container">
 	<section id="feed">
 		<div class="feedContWrap">

@@ -4,7 +4,7 @@ $.ajax({
 })
 .done((e) =>{
 		makeChatList(e);
-//		$(".alarmCnt").text(e)
+		$("#chatCnt").text(unReadTotCnt);
 	}
 )
 let unReadTotCnt = 0;
@@ -48,7 +48,7 @@ function connect() {
 	  // 처음 보내서 유저 닉네임 없다면(받은 사용자 입장)
 	   if (obj.userNickname) {
 		    $(".list-friends").append(createFriend(sendUser, obj.userNickname, obj.chatroomNo, 0));
-			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 0));
+			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 1));
 	   } 
 	   
 	   // 보낸사람이 방을 개설했을 경우(방 번호 추가)
@@ -80,6 +80,7 @@ function connect() {
 					  $(val).children(".info").children(".status").addClass("off");
 					  $(val).children(".info").children(".status").children("span").text(cnt + 1);
 					  unReadTotCnt += 1;
+					  $("#chatCnt").text(unReadTotCnt);
 				  // 보낸/받는 채팅방이 열려 있을 경우 처리
 				  } else {
 					  msgRead(roomNo);
@@ -89,7 +90,7 @@ function connect() {
 		}); 
 	 	  
 	   	// 받은 메세지 처리
-		  $(".msglist").each((idx, val) => {
+	   $(".msglist").each((idx, val) => {
 		  if (sendUser == $(val).data("userno")) {
 			  let sendData = sendMsg("i", obj.messageContent, obj.sendDate, obj.sendTime);
 			  $(val).children(".messages").append(sendData);
@@ -121,7 +122,6 @@ function topInViewport(selector) {
 			if (pageIdx) {
 				$(this).data("pageidx", parseInt(pageIdx + 1));
 				loadMore($(this).data("pageidx"), 10 , $(this).parent().data("room"), this);
-				
 			}
 			
 		}
@@ -303,6 +303,7 @@ $(document).on("click", ".selectmsg", function (e) {
 			return;
 		}
 	});
+	$("#chatCnt").text(unReadTotCnt);
 });
 
 	
@@ -405,7 +406,7 @@ function createRoom(userNo, userNickname, chatroomNo, unReadCnt) {
 									<div class="name">${userNickname}</div>
 								</div>
 							</div>
-							<ul class="messages" data-pageidx="0">
+							<ul class="messages" data-pageidx="1">
 									
 							</ul>
 							<div class="write-form">

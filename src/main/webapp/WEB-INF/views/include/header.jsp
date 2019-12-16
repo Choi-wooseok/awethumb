@@ -3,7 +3,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alarm/alarmheader.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/chat.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <header>
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="su"/>

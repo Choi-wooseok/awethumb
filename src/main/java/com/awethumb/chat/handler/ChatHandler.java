@@ -92,7 +92,10 @@ public class ChatHandler extends TextWebSocketHandler {
 			int id = getId(socSession);
 	         // 받는사람
 	        if (id == messageVO.getTakeUser()) {
-	        	if (flag) messageVO.setUserNickname(userNick);
+	        	if (flag)  {
+	        		messageVO.setUserNickname(userNick);
+	        	}
+	        	messageVO.setUserImgPath(socService.selectUserImgPath(messageVO.getSendUser()));
 	            Gson gson = new Gson();
 	            String msgJson = gson.toJson(messageVO);
 	            socSession.sendMessage(new TextMessage(msgJson));

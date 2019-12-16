@@ -1,9 +1,5 @@
 package com.awethumb.repository.vo;
 
-import java.util.Date;
-
-import com.google.gson.Gson;
-
 import lombok.Data;
 
 @Data
@@ -36,5 +32,8 @@ public class Message {
     
     // 페이징
     private Page page;
+    
+    // 처음 메세지 보냈을 경우 보낸 사람의 프로필 이미지 경로
+    private String userImgPath;
     
 }

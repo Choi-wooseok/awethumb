@@ -19,7 +19,7 @@ public class UserVO {
 	private int followerCnt;
 	private boolean oauth;
 	private String oauthType;
-	
+	private String userImgPath;
 	//User정지관련
 	private Block block;
 	private String blockEnabled;

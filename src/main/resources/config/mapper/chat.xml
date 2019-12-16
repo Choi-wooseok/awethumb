@@ -23,6 +23,7 @@
 	<result property="userNickname" column="user_nickname" />
 	<result property="categoryList" column="category_list" />
 	<result property="userEmailKey" column="user_email_key" />
+	<association property="userImgPath" select="selectUserImgPath" column="user_no" />
 </resultMap>
 
 <resultMap type="Chatroom" id="chatroomMap">
@@ -128,11 +129,24 @@
 
 <!-- 닉네임 조회 -->
 <select id="searchNickname" parameterType="SearchUser" resultType="UserVO">
-	SELECT user_no, user_nickname
-	  FROM user_tb
+	SELECT u.user_no, user_nickname,
+					IFNULL( 
+							CONCAT(
+									substring(user_file_path,LENGTH('c:/java/upload/') + 1, 
+				                    		  LENGTH(
+				                    		  			(SELECT user_file_path FROM user_file_tb
+														WHERE user_no = u.user_no)
+													)
+											  ), user_file_sys_name
+								  )
+						 , 'profile/default-profile-picture.png'
+						  ) as user_img_path
+	  FROM user_tb u
+	  LEFT OUTER JOIN user_file_tb f
+	    ON u.user_no = f.user_no  
 	 WHERE user_nickname like CONCAT(#{searchWord}, '%')
 	 <if test="existUser.size != 0">
-	   AND user_no NOT IN 
+	   AND u.user_no NOT IN 
 	   <foreach collection="existUser" item="user"  open="(" close=")" separator=",">
 	   		#{user}
 	   </foreach>
@@ -147,8 +161,24 @@
 	 WHERE user_no = #{userNo}
 </select>
 
-</mapper>
+<select id="selectUserImgPath" parameterType="int" resultType="string">
+	SELECT IFNULL( 
+							CONCAT(
+									substring(user_file_path,LENGTH('c:/java/upload/') + 1, 
+				                    		  LENGTH(
+				                    		  			(SELECT user_file_path FROM user_file_tb
+														WHERE user_no = #{userNo})
+													)
+											  ), user_file_sys_name
+								  )
+					, 'profile/default-profile-picture.png'
+				  ) as user_file_path 
+	  FROM user_file_tb
+     RIGHT OUTER JOIN (SELECT '') as d
+		ON user_no = #{userNo}
+</select>
 
+</mapper>
 
 
 

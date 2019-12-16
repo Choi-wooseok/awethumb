@@ -16,4 +16,5 @@ public interface ChatService {
 	List<UserVO> searchNickname(SearchUser srchUser);
 	String selectNickname(int userNo);
 	List<Message> selectAllMessage(Message message);
+	String selectUserImgPath(int userNo);
 }

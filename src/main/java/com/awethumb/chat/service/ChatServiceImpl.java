@@ -52,4 +52,8 @@ public class ChatServiceImpl implements ChatService {
 	public List<Message> selectAllMessage(Message message) {
 		return dao.selectAllMessage(message);
 	}
+	
+	public String selectUserImgPath(int userNo) {
+		return dao.selectUserImgPath(userNo);
+	}
 }

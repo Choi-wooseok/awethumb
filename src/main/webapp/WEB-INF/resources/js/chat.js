@@ -11,10 +11,10 @@ let unReadTotCnt = 0;
 function makeChatList(list) {
 	$.each(list, (idx, val) => {
 		// 왼쪽 바 채팅 친구 목록 생성
-		$(".list-friends").append(createFriend(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt));
+		$(".list-friends").append(createFriend(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt, val.user.userImgPath));
 		// 채팅방 생성
 		unReadTotCnt += val.unReadCnt;
-		$(".chat").append(createRoom(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt));
+		$(".chat").append(createRoom(val.user.userNo, val.user.userNickname, val.chatroomNo, val.unReadCnt, val.user.userImgPath));
 		let chatData = "#msg" + val.chatroomNo;
 		// 채팅방 안에 채팅 내용 생성
 		$.each(val.messageList, (idx, value) => {
@@ -47,8 +47,8 @@ function connect() {
 	  
 	  // 처음 보내서 유저 닉네임 없다면(받은 사용자 입장)
 	   if (obj.userNickname) {
-		    $(".list-friends").append(createFriend(sendUser, obj.userNickname, obj.chatroomNo, 0));
-			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 1));
+		    $(".list-friends").append(createFriend(sendUser, obj.userNickname, obj.chatroomNo, 0, obj.userImgPath));
+			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 1, obj.userImgPath));
 	   } 
 	   
 	   // 보낸사람이 방을 개설했을 경우(방 번호 추가)
@@ -255,7 +255,8 @@ $("#srchNickname").keyup(() => {
 							if (result.length > 0) {
 									let str = "";
 									for (let i = 0; i < result.length; i++) {
-										str += ('<div class="result-search height" data-userNo="' + result[i].userNo + '">' + result[i].userNickname + '</div>');
+										// path 넣기
+										str += ('<div class="result-search height" data-userNo="' + result[i].userNo + '" data-imgpath="' + result[i].userImgPath + '">' + result[i].userNickname + '</div>');
 									}
 									$("#searchResult").html(str);
 									$("#searchResult").css("display", "block")
@@ -355,23 +356,30 @@ function msgRead(chatroomNo) {
 
 // 유저 닉네임으로 검색하여 채팅하기 - 이미 채팅중인 사용자는 제외
 $(document).on("click", ".result-search", function() {
+	console.log($(this));
 	let userNick = $(this).text();
 	let userNo = $(this).data("userno");
-	$(".list-friends").append(createFriend(userNo, userNick));
-	$(".ui > .chat").append(createRoom(userNo, userNick))
+	let imgPath = $(this).data("imgpath");
+	$(".list-friends").append(createFriend(userNo, userNick, 0, 0, imgPath));
+	$(".ui > .chat").append(createRoom(userNo, userNick, 0, 0, imgPath));
 	
 	$("#searchResult").css("display","none");
 	$("#srchNickname").val("");
 })
 
+// 채팅창 닫기
+$(document).on("click", ".fas.fa-times", function() {
+	$(".chatting").toggleClass("chat-hidden");
+})
+
 
 // 메시지 이용자 추가 - 사용자 닉네임 검색했 을 경우
-function createFriend(userNo, userNickname, chatroomNo, unReadCnt) {
+function createFriend(userNo, userNickname, chatroomNo, unReadCnt, userImgPath) {
 	chatroomNo = chatroomNo || 0;
 	unReadCnt = unReadCnt || 0;
 	let readStatus = unReadCnt ? "off" : "on";
 	return `<li class="selectmsg" data-room="${chatroomNo}" data-userno="${userNo}">
-			<img width="50" height="50" src="http://cs625730.vk.me/v625730358/1126a/qEjM1AnybRA.jpg">
+			<img width="50" height="50" src="${pageContextPath}/image/${userImgPath}">
 			<div class="info">
 				<div class="user-chat">${userNickname}</div>
 			
@@ -393,17 +401,20 @@ function msgList(sendType, sendDate, sendTime, messageContent) {
 }
 
 // 사용자 검색 후에 방 만들기
-function createRoom(userNo, userNickname, chatroomNo, unReadCnt) {
+function createRoom(userNo, userNickname, chatroomNo, unReadCnt, userImgPath) {
 	chatroomNo = chatroomNo || 0;
 	unReadCnt = unReadCnt || 0;
 	return `
 			<div class="msglist" id="msg${chatroomNo}" data-room="${chatroomNo}" data-userno="${userNo}" data-unreadcnt="${unReadCnt}" style="display: none">
 							<div class="top">
 								<div class="avatar">
-										<img width="50" height="50" src="http://cs625730.vk.me/v625730358/1126a/qEjM1AnybRA.jpg">
+										<img width="50" height="50" src="${pageContextPath}/image/${userImgPath}">
 								</div>
 								<div class="info">
 									<div class="name">${userNickname}</div>
+								</div>
+								<div class="exitchat">
+									<i class="fas fa-times"></i>
 								</div>
 							</div>
 							<ul class="messages" data-pageidx="1">

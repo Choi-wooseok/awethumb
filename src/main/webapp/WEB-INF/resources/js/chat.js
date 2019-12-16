@@ -4,7 +4,6 @@ $.ajax({
 })
 .done((e) =>{
 		makeChatList(e);
-//		$(".alarmCnt").text(e)
 		$("#chatCnt").text(unReadTotCnt);
 	}
 )
@@ -29,7 +28,7 @@ $("#chatServer").click(() => {
 });
 
 
-let sock = new WebSocket('ws://192.168.0.151:8000' + pageContextPath + '/chat.do');
+let sock = new WebSocket('ws://localhost:8000' + pageContextPath + '/chat.do');
 
 
 
@@ -49,7 +48,7 @@ function connect() {
 	  // 처음 보내서 유저 닉네임 없다면(받은 사용자 입장)
 	   if (obj.userNickname) {
 		    $(".list-friends").append(createFriend(sendUser, obj.userNickname, obj.chatroomNo, 0));
-			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 0));
+			$(".ui > .chat").append(createRoom(sendUser, obj.userNickname, obj.chatroomNo, 1));
 	   } 
 	   
 	   // 보낸사람이 방을 개설했을 경우(방 번호 추가)
@@ -91,7 +90,7 @@ function connect() {
 		}); 
 	 	  
 	   	// 받은 메세지 처리
-		  $(".msglist").each((idx, val) => {
+	   $(".msglist").each((idx, val) => {
 		  if (sendUser == $(val).data("userno")) {
 			  let sendData = sendMsg("i", obj.messageContent, obj.sendDate, obj.sendTime);
 			  $(val).children(".messages").append(sendData);

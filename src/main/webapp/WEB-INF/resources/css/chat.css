@@ -34,7 +34,8 @@
   color: white;
 }
 .selectmsg {
-	line-height: unset;
+	line-height: initial;
+	margin: 10px 5px;
 }
 .ui .search input[type=search] {
   background-color: #696c75;
@@ -88,12 +89,13 @@
   height: 88%;
   overflow: auto;
   display: inline-block;
+  width: 100%;
 }
 .ui .list-friends::-webkit-scrollbar {
 	display: none;
 }
 .ui .list-friends img {
-  margin: 10px 5px;
+  
 }
 }
 .ui .list-friends > li {
@@ -104,20 +106,20 @@
 .ui .list-friends .info {
   flex: 1;
   display: inline-block;
+  position: absolute;
+  margin-left: 5px;
 }
 
 .ui .list-friends .user-chat {
   color: #fff;
-  top: 54px;
   border-radius: unset;
-  margin-left: 14px;
   width: 100px;
 }
 .ui .list-friends .status {
   position: relative;
-  margin-left: 14px;
   color: #a8adb3;
-  margin-top: 10px;
+  margin-top: 3px;
+  margin-left: 13px;
 }
 .ui .list-friends .off:after,
 .ui .list-friends .on:after {

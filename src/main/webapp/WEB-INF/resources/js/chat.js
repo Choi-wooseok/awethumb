@@ -5,6 +5,7 @@ $.ajax({
 .done((e) =>{
 		makeChatList(e);
 //		$(".alarmCnt").text(e)
+		$("#chatCnt").text(unReadTotCnt);
 	}
 )
 let unReadTotCnt = 0;
@@ -28,7 +29,7 @@ $("#chatServer").click(() => {
 });
 
 
-let sock = new WebSocket('ws://localhost:8000' + pageContextPath + '/chat.do');
+let sock = new WebSocket('ws://192.168.0.151:8000' + pageContextPath + '/chat.do');
 
 
 
@@ -80,6 +81,7 @@ function connect() {
 					  $(val).children(".info").children(".status").addClass("off");
 					  $(val).children(".info").children(".status").children("span").text(cnt + 1);
 					  unReadTotCnt += 1;
+					  $("#chatCnt").text(unReadTotCnt);
 				  // 보낸/받는 채팅방이 열려 있을 경우 처리
 				  } else {
 					  msgRead(roomNo);
@@ -121,7 +123,6 @@ function topInViewport(selector) {
 			if (pageIdx) {
 				$(this).data("pageidx", parseInt(pageIdx + 1));
 				loadMore($(this).data("pageidx"), 10 , $(this).parent().data("room"), this);
-				
 			}
 			
 		}
@@ -303,6 +304,7 @@ $(document).on("click", ".selectmsg", function (e) {
 			return;
 		}
 	});
+	$("#chatCnt").text(unReadTotCnt);
 });
 
 	
@@ -405,7 +407,7 @@ function createRoom(userNo, userNickname, chatroomNo, unReadCnt) {
 									<div class="name">${userNickname}</div>
 								</div>
 							</div>
-							<ul class="messages" data-pageidx="0">
+							<ul class="messages" data-pageidx="1">
 									
 							</ul>
 							<div class="write-form">

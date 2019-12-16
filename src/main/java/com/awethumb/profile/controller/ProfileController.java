@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.awethumb.profile.service.ProfileService;
 import com.awethumb.repository.vo.Follow;
@@ -174,7 +175,7 @@ public class ProfileController {
 	}
 	
 	@RequestMapping("/insertproj.do")
-	public String insertProj(Project p) throws IllegalStateException, IOException {
+	public String insertProj(Project p, RedirectAttributes rttr) throws IllegalStateException, IOException {
 		ProjectFile pf = new ProjectFile();
 		
 		MultipartFile mf = p.getProjectFile();
@@ -201,6 +202,13 @@ public class ProfileController {
 		}
 		
 		service.insertProj(p, pf);
+		
+		// 알림을 보내기 위해 1회성 변수를 보내준다
+		if(p.getProjectType() == 2) {
+			int projectNo = service.selectCurrentSharedProjectNo(p.getUserNo());
+			rttr.addFlashAttribute("test", "makeAlarm(4," + projectNo + ")");
+		}
+		
 		return "redirect:" + p.getUserNickname();
 	}
 	

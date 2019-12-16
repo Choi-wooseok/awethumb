@@ -3,6 +3,7 @@ package com.awethumb.alarm.service;
 import java.util.List;
 
 import com.awethumb.repository.vo.Alarm;
+import com.awethumb.repository.vo.SharedProject;
 
 public interface AlarmService {
 
@@ -23,5 +24,7 @@ public interface AlarmService {
 	void deleteAlarm(int alarmNo);
 
 	Alarm selectLatestAlarm();
+
+	SharedProject selectSharedProject(SharedProject sp);
 
 }

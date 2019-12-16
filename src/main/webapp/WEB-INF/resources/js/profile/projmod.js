@@ -112,15 +112,8 @@ function onTokenInput( e ){
 // submit 하기 전에 인풋 태그를 만들어줘서 닉네임을 보내준다
 $(".add_proj_form").submit((e) => {
 	if(projType === 2){
-		e.preventDefault();
-			for (let val of JSON.parse(tokenInput.value)){
-				$(".add_proj_form").prepend(`<input name="sharedUserNoList" hidden="hidden" value="${val.no}">`)
-			}
-		e.target.submit();
-		$.ajax({
-			url: "currentsharedprojectno.do",
-			data: {userNo},
-			success: e => makeAlarm(4, e)
-		})
+		for (let val of JSON.parse(tokenInput.value)){
+			$(".add_proj_form").prepend(`<input name="sharedUserNoList" hidden="hidden" value="${val.no}">`)
+		}
 	}
 })

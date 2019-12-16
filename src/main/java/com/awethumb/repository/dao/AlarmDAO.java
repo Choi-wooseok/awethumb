@@ -3,6 +3,7 @@ package com.awethumb.repository.dao;
 import java.util.List;
 
 import com.awethumb.repository.vo.Alarm;
+import com.awethumb.repository.vo.SharedProject;
 
 public interface AlarmDAO {
 
@@ -23,4 +24,6 @@ public interface AlarmDAO {
 	void deleteAlarm(int alarmNo);
 
 	Alarm selectLatestAlarm();
+
+	SharedProject selectSharedProject(SharedProject sp);
 }

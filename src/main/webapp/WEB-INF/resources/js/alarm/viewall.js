@@ -24,6 +24,7 @@ function getAlarmListAjax(){
 }
 function appendAlarm(alarm) {
 	const appendLine = alarmTypeAppender(alarm.alarmType);
+	const appendLink = alarmTypeLink(alarm);
 	$(".alarmList").append(`
 		<li class="alarm-item-wrap alarm-${alarm.alarmNo}">
 			<article>
@@ -52,7 +53,7 @@ function appendAlarm(alarm) {
 						</div>
 					</div>
 					<div class="alarm-item-content-down">
-						<h3><a href="#">${appendLine}</a></h3>
+						<h3><a href="${appendLink}">${appendLine}</a></h3>
 						<div><button class="alarm-delbtn" data-alarmno="${alarm.alarmNo}">X</button></div>
 					</div>
 				</div>
@@ -139,4 +140,16 @@ $(window).scroll(function() {
     	}
     }
 });
+
+// 알림 타입에 따라 들어갈 링크를 다르게 해준다
+function alarmTypeLink(alarm){
+	let appendLink = "";
+	switch(alarm.alarmType){
+	case 1: appendLink = `${pageContextPath}/profile/${alarm.userNickname}`; break;
+	case 2: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&boardNo=${alarm.boardNo}`; break;
+	case 3: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&commentNo=${alarm.commentNo}`; break;
+	case 4: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&projectNo=${alarm.projectNo}&receiveUserNo=${alarm.receiveUserNo}`; break;
+	}
+	return appendLink;
+}
 	

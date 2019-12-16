@@ -41,4 +41,6 @@ public class Project {
 	private int currentPageNo;
 	
 	private List<Integer> sharedUserNoList;
+	
+	private String invitationUrl;
 }

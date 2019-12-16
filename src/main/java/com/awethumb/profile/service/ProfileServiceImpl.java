@@ -2,6 +2,7 @@ package com.awethumb.profile.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +89,9 @@ public class ProfileServiceImpl implements ProfileService{
 		
 		// 프로젝트 번호가 2일 경우 공유 유저 리스트를 넣어준다
 		if(p.getProjectType() == 2) {
+			// 초대 URL 생성
+			p.setInvitationUrl(RandomStringUtils.randomAlphanumeric(10));
+
 			dao.insertSharedUserList(p);
 		}
 		

@@ -28,6 +28,7 @@
 }
 .feedContWrap{
 	background-color: #fff;
+	min-height: 899px;
 }
 .alarm-item-image-thumb{
 	width:100px
@@ -95,6 +96,9 @@
     background-color: #ffffff;
     color: #6dd5bc;
     border: 1px solid #6dd5bc;
+}
+.alarmList:last-child{
+	border-bottom: 1px solid #f2f2f2;
 }
 
 

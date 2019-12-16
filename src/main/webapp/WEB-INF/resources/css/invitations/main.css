@@ -1,0 +1,43 @@
+#feed{
+	height: 100%;
+}
+.invitationWrap{
+	background-color: #fff;
+	width: 500px;
+	display:flex;
+	flex-direction: column;
+}
+.feedContWrap{
+	padding: 0px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+}
+.project-thumb{
+	width: 200px	
+}
+.user-thumb{
+	width:60px
+}
+.invitation-meta{
+	display:flex;
+	align-items:center;
+}
+.invitation-userNick{
+	margin-right: 6px;
+	display: inline-block;
+}
+.project-thumb-wrap{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 300px;
+}
+.invitation-btn-wrap{
+	height: 70px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

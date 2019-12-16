@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.AlarmDAO;
 import com.awethumb.repository.vo.Alarm;
+import com.awethumb.repository.vo.SharedProject;
 
 @Service
 public class AlarmServiceImpl implements AlarmService{
@@ -55,5 +56,10 @@ public class AlarmServiceImpl implements AlarmService{
 	@Override
 	public Alarm selectLatestAlarm() {
 		return dao.selectLatestAlarm();
+	}
+
+	@Override
+	public SharedProject selectSharedProject(SharedProject sp) {
+		return dao.selectSharedProject(sp);
 	}
 }

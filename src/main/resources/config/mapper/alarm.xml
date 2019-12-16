@@ -2,89 +2,94 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.AlarmDAO">
-
-<insert id="insertAlarm" parameterType="Alarm">
-	INSERT INTO alarm_tb(
-		receive_user_no, 
-		send_user_no, 
-		alarm_type
-		<if test="boardNo != null">
-            , board_no
-        </if>
-		<if test="commentNo != null">
-            , comment_no
-        </if>
-		<if test="projectNo != null">
-            , project_no
-        </if>
-	)
-	VALUES (
-		#{receiveUserNo}, 
-		#{sendUserNo}, 
-		#{alarmType}
-		<if test="boardNo != null">
-            , #{boardNo}
-        </if>
-		<if test="commentNo != null">
-            , #{commentNo}
-        </if>
-		<if test="projectNo != null">
-            , #{projectNo}
-        </if>
-	)
-</insert>
-
-<select id="selectAlarmCnt" parameterType="int" resultType="int">
-	select count(*)
-	  from alarm_tb
-	 where receive_user_no = #{userNo}
-	   and alarm_check = 'N'
-</select>
-
-<select id="selectUserNoByBoardNo" parameterType="int" resultType="int">
-	SELECT ut.user_no
-      FROM user_tb ut, project_tb pt, board_tb bt
-     WHERE ut.user_no = pt.user_no
-       AND pt.project_no = bt.project_no
-       AND bt.post_no = #{boardNo}
-</select>
-<select id="selectUserNoByCommentNo" parameterType="int" resultType="int">
-	SELECT ut.user_no
-      FROM user_tb ut, project_tb pt, board_tb bt, comment_tb ct
-     WHERE ut.user_no = pt.user_no
-       AND pt.project_no = bt.project_no
-       AND bt.post_no = ct.post_no
-       AND ct.cmt_no = #{commentNo}
-</select>
-<select id="selectUserNoListByProjectNo" parameterType="int" resultType="int">
-	SELECT shared_user_no
-      FROM shared_project_tb
-     WHERE project_no = #{projectNo}
-</select>
-<select id="selectAlarmList" parameterType="Alarm" resultType="Alarm">
-	SELECT a.*, u.user_nickname user_nickname, time_ago_func(a.reg_date, NOW()) time_ago
-      FROM alarm_tb a, user_tb u
-     WHERE a.send_user_no = u.user_no
-	   AND receive_user_no = #{receiveUserNo}
-	 order by reg_date desc
-	 LIMIT #{currentPageNo}, #{countPerPage}
-</select>
-<update id="updateAlarm" parameterType="int">
-	UPDATE alarm_tb
-	   SET alarm_check = 'Y'
-	 WHERE receive_user_no = #{userNo}
-</update>
-<delete id="deleteAlarm" parameterType="int">
-	delete from alarm_tb
-	 where alarm_no = #{alarmNo}
-</delete>
-<select id="selectLatestAlarm" resultType="Alarm" >
-	SELECT a.*, u.user_nickname user_nickname, time_ago_func(a.reg_date, NOW()) time_ago
-      FROM alarm_tb a, user_tb u
-     WHERE a.send_user_no = u.user_no
-     ORDER BY reg_date DESC
-     LIMIT 1
-</select>
+	<insert id="insertAlarm" parameterType="Alarm">
+		INSERT INTO alarm_tb(
+			receive_user_no, 
+			send_user_no, 
+			alarm_type
+			<if test="boardNo != null">
+	            , board_no
+	        </if>
+			<if test="commentNo != null">
+	            , comment_no
+	        </if>
+			<if test="projectNo != null">
+	            , project_no
+	        </if>
+		)
+		VALUES (
+			#{receiveUserNo}, 
+			#{sendUserNo}, 
+			#{alarmType}
+			<if test="boardNo != null">
+	            , #{boardNo}
+	        </if>
+			<if test="commentNo != null">
+	            , #{commentNo}
+	        </if>
+			<if test="projectNo != null">
+	            , #{projectNo}
+	        </if>
+		)
+	</insert>
+	
+	<select id="selectAlarmCnt" parameterType="int" resultType="int">
+		select count(*)
+		  from alarm_tb
+		 where receive_user_no = #{userNo}
+		   and alarm_check = 'N'
+	</select>
+	
+	<select id="selectUserNoByBoardNo" parameterType="int" resultType="int">
+		SELECT ut.user_no
+	      FROM user_tb ut, project_tb pt, board_tb bt
+	     WHERE ut.user_no = pt.user_no
+	       AND pt.project_no = bt.project_no
+	       AND bt.post_no = #{boardNo}
+	</select>
+	<select id="selectUserNoByCommentNo" parameterType="int" resultType="int">
+		SELECT ut.user_no
+	      FROM user_tb ut, project_tb pt, board_tb bt, comment_tb ct
+	     WHERE ut.user_no = pt.user_no
+	       AND pt.project_no = bt.project_no
+	       AND bt.post_no = ct.post_no
+	       AND ct.cmt_no = #{commentNo}
+	</select>
+	<select id="selectUserNoListByProjectNo" parameterType="int" resultType="int">
+		SELECT shared_user_no
+	      FROM shared_project_tb
+	     WHERE project_no = #{projectNo}
+	</select>
+	<select id="selectAlarmList" parameterType="Alarm" resultType="Alarm">
+		SELECT a.*, u.user_nickname user_nickname, time_ago_func(a.reg_date, NOW()) time_ago
+	      FROM alarm_tb a, user_tb u
+	     WHERE a.send_user_no = u.user_no
+		   AND receive_user_no = #{receiveUserNo}
+		 order by reg_date desc
+		 LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<update id="updateAlarm" parameterType="int">
+		UPDATE alarm_tb
+		   SET alarm_check = 'Y'
+		 WHERE receive_user_no = #{userNo}
+	</update>
+	<delete id="deleteAlarm" parameterType="int">
+		delete from alarm_tb
+		 where alarm_no = #{alarmNo}
+	</delete>
+	<select id="selectLatestAlarm" resultType="Alarm" >
+		SELECT a.*, u.user_nickname user_nickname, time_ago_func(a.reg_date, NOW()) time_ago
+	      FROM alarm_tb a, user_tb u
+	     WHERE a.send_user_no = u.user_no
+	     ORDER BY reg_date DESC
+	     LIMIT 1
+	</select>
+	<select id="selectSharedProject" parameterType="SharedProject" resultType="SharedProject">
+		SELECT *
+	      FROM shared_project_tb
+	     WHERE shared_user_no = #{sharedUserNo}
+	       AND project_no = #{projectNo}
+	</select>
 </mapper>
 
 

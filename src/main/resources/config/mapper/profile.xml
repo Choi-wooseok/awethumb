@@ -114,10 +114,10 @@
 		    SELECT max(project_no)
 		      from project_tb
 		</selectKey>
-		insert into shared_project_tb(project_no, shared_user_no)
+		insert into shared_project_tb(project_no, shared_user_no, invitation_url)
 		values
 		<foreach collection="sharedUserNoList" item="sharedUserNo" separator=",">
-			(#{projectNo}, #{sharedUserNo})
+			(#{projectNo}, #{sharedUserNo}, #{invitationUrl})
         </foreach>
 	</insert>
 	

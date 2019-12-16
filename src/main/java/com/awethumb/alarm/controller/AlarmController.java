@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.awethumb.alarm.service.AlarmService;
 import com.awethumb.repository.vo.Alarm;
+import com.awethumb.repository.vo.SharedProject;
 import com.awethumb.repository.vo.UserVO;
 
 @RequestMapping("/alarm")
@@ -52,4 +54,29 @@ public class AlarmController {
 	
 	@GetMapping("/viewall")
 	public void viewAll() {}
+	
+	@RequestMapping("/relocate")
+	public String relocate(Alarm alarm, RedirectAttributes rttr) {
+		String loc = "redirect:";
+		
+		switch(alarm.getAlarmType()) {
+		case 2: break;
+		case 3: break;
+		case 4: 
+			SharedProject sp = new SharedProject();
+			sp.setProjectNo(alarm.getProjectNo());
+			sp.setSharedUserNo(alarm.getReceiveUserNo());
+			sp = service.selectSharedProject(sp);
+			if(sp.getShareCheck() == 'Y') {
+				loc += "/detailProject/" + alarm.getProjectNo();
+			}else {
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getProjectNo());
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getSharedUserNo());
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getInvitationUrl());
+				loc += "/invitations/" + sp.getInvitationUrl();
+			}
+		}
+		
+		return loc;
+	}
 }

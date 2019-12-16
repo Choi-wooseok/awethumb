@@ -11,4 +11,6 @@ public class SharedProject {
     private int sharedUserNo;
     
     private char shareCheck;
+    
+    private String invitationUrl;
 }

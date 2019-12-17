@@ -75,8 +75,8 @@ $(function () {
 					maintainAspectRatio: true,
 					label: '방문자수',
 					data: monthlyStats.visitCntList,
-					backgroundColor: '#489CFF',
-					borderColor: '#489CFF',
+					backgroundColor: '#FF6384',
+					borderColor: '#FF6384',
 					borderWidth: 1,
 				}
 				,
@@ -85,8 +85,8 @@ $(function () {
 					maintainAspectRatio: true,
 					label: '글 조회수',
 					data: monthlyStats.viewCntList,
-					backgroundColor: '#BCE55C',
-					borderColor: '#BCE55C',
+					backgroundColor: '#FF9F40',
+					borderColor: '#FF9F40',
 					borderWidth: 1,
 				}
 				, {
@@ -94,8 +94,8 @@ $(function () {
 					maintainAspectRatio: true,
 					label: '회원 가입',
 					data: monthlyStats.joinCntList,
-					backgroundColor: '#FF77FB',
-					borderColor: '#FF77FB',
+					backgroundColor: '#4BC0C0',
+					borderColor: '#4BC0C0',
 					borderWidth: 1,
 				}
 				,
@@ -104,8 +104,8 @@ $(function () {
 					maintainAspectRatio: true,
 					label: '글작성수',
 					data: monthlyStats.postCntList,
-					backgroundColor: '#77FF70',
-					borderColor: '#77FF70',
+					backgroundColor: '#C9CBCF',
+					borderColor: '#C9CBCF',
 					borderWidth: 1,
 				}
 			]

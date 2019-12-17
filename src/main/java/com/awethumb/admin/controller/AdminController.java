@@ -38,6 +38,10 @@ public class AdminController {
 		mav.addObject("totalVisitToday", statsService.totalVisitToday());
 		mav.addObject("totalPostToday", statsService.totalPostToday());
 		mav.addObject("totalUserToday", statsService.totalUserToday());
+		
+		//30일 통계에 필요한 데이터 삽입
+		mav.addObject("monthlyStats", statsService.selectDailyLogOneMonth());
+//		System.out.println(statsService.selectDailyLogOneMonth().get("logDtList"));
 		mav.setViewName("admin/adminMain");
 		return mav;
 	};

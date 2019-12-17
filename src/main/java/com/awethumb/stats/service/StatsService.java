@@ -1,5 +1,8 @@
 package com.awethumb.stats.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.awethumb.repository.vo.VisitCount;
 
 public interface StatsService {
@@ -11,4 +14,5 @@ public interface StatsService {
 	public int dailyJoinUpdate();
 	public int dailyViewUpdate();
 	public int dailyPostUpdate();
+	public Map<String, List<?>> selectDailyLogOneMonth();
 }

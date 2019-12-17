@@ -68,5 +68,13 @@
 	</update>
 	
 	
+	<!-- 데일리 로그 1달 셀렉 -->
+	<select id="selectDailyLogOneMonth" resultType="DailyLog">
+		select *
+		  from daily_log_tb
+	  order by log_dt desc
+	  limit 0, 30
+	</select>
+	
 	
 </mapper>

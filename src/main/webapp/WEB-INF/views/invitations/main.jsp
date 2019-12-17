@@ -26,18 +26,18 @@
 		<div class="feedContWrap" >
 			<div class="invitationWrap">
 				<div class="project-thumb-wrap">
-					<img class="project-thumb" src="/awethumb/images/test_user.jpg">
+					<img class="project-thumb">
 				</div>
 				<div class="invitation-meta">
 					<div class="user-thumb-wrap">
-						<a href="#">
-							<img class="user-thumb" src="/awethumb/images/test_user.jpg">
+						<a class="user-link" href="#">
+							<img class="user-thumb">
 						</a>
 					</div>
 					<div class="invitation-content">
 						<h2 class="invitation-userNick">jae</h2>
 						<span>has invited you to</span>
-						<a href="#">프로젝트 이름</a>
+						<a href="#" class="projectTitle">프로젝트 이름</a>
 					</div>
 				</div>
 				<div class="invitation-btn-wrap">
@@ -48,6 +48,45 @@
 		</div>
     </section>
     <script>
+    	$.ajax({
+    		url: pageContextPath + "/api/project/" + ${sp.projectNo},
+    		dataType: "json"
+    	})
+    	.done(e => {
+    		// 프로젝트 타이틀
+    		$(".projectTitle").text(e.projectTitle);
+    		getUserNick(e.userNo);
+    		getUserThumb(e.userNo);
+    		getProjectThumb(e.projectNo)
+    	})
+    	
+    	function getUserThumb(userNo){
+    		$.ajax({
+    			url: pageContextPath + "/api/user/" + userNo + "/thumb",
+        	})
+        	.done(e => {
+        		$(".user-thumb").attr("src", e);
+        	})
+    	}
+    	
+    	function getProjectThumb(projectNo){
+    		$.ajax({
+        		url: pageContextPath + "/api/project/" + ${sp.projectNo} + "/thumb"
+        	})
+        	.done(e => {
+        		$(".project-thumb").attr("src", e);
+        	})
+    	}
+    	
+    	function getUserNick(userNo){
+    		$.ajax({
+        		url: pageContextPath + "/api/user/" + ${sp.projectNo},
+        		dataType: "json"
+        	})
+        	.done(e => {
+        		$(".invitation-userNick").text(e.userNickname);
+        	})
+    	}
     </script>
 </body>
 </html>

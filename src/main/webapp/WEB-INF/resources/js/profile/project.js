@@ -17,7 +17,7 @@ const projCountPerPage = 9;
 function getProgressProjectsAjax(){
 	const projectType = 1;
 	$.ajax({
-		url: "getprogressprojects.do",
+		url: pageContextPath + "/api/project/progress",
 		dataType: "json",
 		data: {
 			userNo, 
@@ -30,7 +30,7 @@ function getProgressProjectsAjax(){
 function getSharedProjectsAjax(){
 	const projectType = 2;
 	$.ajax({
-		url: "getsharedprojects.do",
+		url: pageContextPath + "/api/project/shared",
 		dataType: "json",
 		data: {
 			userNo, 
@@ -43,7 +43,7 @@ function getSharedProjectsAjax(){
 function getSavedProjectsAjax(){
 	const projectType = 3;
 	$.ajax({
-		url: "getsavedprojects.do",
+		url: pageContextPath + "/api/project/saved",
 		dataType: "json",
 		data: {
 			userNo, 
@@ -99,7 +99,7 @@ $(document).on("click", ".proj-thumb-cont", (e) => {
 // 프로젝트 썸네일을 가져오는 함수
 function getProjectThumb(projectNo) {
 	$.ajax({
-		url: "getprojectthumb.do",
+		url: pageContextPath + `/api/project/${projectNo}/thumb`,
 		dataType: "text",
 		data: {
 			projectNo

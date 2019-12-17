@@ -74,8 +74,7 @@ function prependDropdownAlarm(alarm) {
 // 알림의 프로필 사진을 가져온다.
 function getDropdownAlarmThumbAjax(userNo) {
 	$.ajax({
-		url: pageContextPath + "/profile/getprofileimg.do",
-		data:{userNo},
+		url: pageContextPath + `/api/user/${userNo}/thumb`
 	})
 	.done((src) =>{
 		$(`.adt-${userNo}`).attr("src", src)

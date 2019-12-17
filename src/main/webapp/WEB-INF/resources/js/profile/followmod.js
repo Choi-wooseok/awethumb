@@ -54,9 +54,9 @@ $(".follower_following_btn").click(() => {
 // 팔로잉 리스트를 불러오는 ajax
 function getFollowingListAjax() {
 	$.ajax({
-		url: "getfollowinglist.do",
+		url: pageContextPath + `/api/subscribe/${userNo}/following`,
 		data: {
-			userNo,
+			countPerPage,
 			currentPageNo : currentFollowingPageNo
 		}
 	})
@@ -67,7 +67,7 @@ function getFollowingListAjax() {
 		for (let user of e){
 			const oppUserNo = user.userNo;
 			$.ajax({
-				url: "checksub.do",
+				url: pageContextPath + "/api/subscribe",
 				data: {
 					subUserNo,
 					oppUserNo
@@ -111,10 +111,10 @@ function getFollowingListAjax() {
 // 팔로워 리스트를 불러오는 ajax
 function getFollowerListAjax() {
 	$.ajax({
-		url: "getfollowerlist.do",
+		url: pageContextPath + `/api/subscribe/${userNo}/follower`,
 		data: {
-			userNo,
-			currentPageNo: currentFollowerPageNo
+			countPerPage,
+			currentPageNo : currentFollowerPageNo
 		}
 	})
 	.done((e) => {
@@ -124,7 +124,7 @@ function getFollowerListAjax() {
 		for (let user of e){
 			const oppUserNo = user.userNo;
 			$.ajax({
-				url: "checksub.do",
+				url: pageContextPath + "/api/subscribe",
 				data: {
 					subUserNo,
 					oppUserNo
@@ -171,7 +171,7 @@ function addUnsubEvent() {
 	$(document).on("click", ".mod_unsub_btn", (e) => {
 		const oppUserNo = $(e.target).data("userno");
 		$.ajax({
-    		url: `deletesub.do?subUserNo=${subUserNo}&oppUserNo=${oppUserNo}`,
+    		url: pageContextPath + `/api/subscribe?subUserNo=${subUserNo}&oppUserNo=${oppUserNo}`,
     		type: "DELETE"
     	})
     	.done(() => {
@@ -193,7 +193,7 @@ function addSubEvent() {
 	$(document).on("click", ".mod_sub_btn",(e) => {
 		const oppUserNo = $(e.target).data("userno");
 		$.ajax({
-    		url: "insertsub.do",
+    		url: pageContextPath + "/api/subscribe",
     		type: "POST",
 			contentType: "application/json",
     		data: JSON.stringify({
@@ -314,9 +314,7 @@ $(".following_srch").keyup(() => {
 // 팔로우 리스트의 프로필 이미지를 가져오는 함수
 function getFollowProfileImgAjax(type, userNo){
 	$.ajax({
-		url: "getprofileimg.do",
-		dataType: "text",
-		data: {userNo},
+		url: pageContextPath + `/api/user/${userNo}/thumb`,
 		success: function(data) {$(`#${type}_user_img_${userNo}`).attr("src", data)}
 	})
 }
@@ -324,9 +322,9 @@ function getFollowProfileImgAjax(type, userNo){
 // 팔로워 리스트 검색 ajax
 function getSearchFollowerListAjax(){
 	$.ajax({
-		url: "getsearchfollowerlist.do",
+		url: pageContextPath + `/api/subscribe/${userNo}/follower`,
 		data: {
-			userNo,
+			countPerPage,
 			searchName: searchFollowerName,
 			currentPageNo: currentSearchFollowerPageNo
 		}
@@ -338,7 +336,7 @@ function getSearchFollowerListAjax(){
 		for (let user of e){
 			const oppUserNo = user.userNo;
 			$.ajax({
-				url: "checksub.do",
+				url: pageContextPath + "/api/subscribe",
 				data: {
 					subUserNo,
 					oppUserNo
@@ -381,9 +379,9 @@ function getSearchFollowerListAjax(){
 // 팔로잉 리스트 검색 ajax
 function getSearchFollowingListAjax(){
 	$.ajax({
-		url: "getsearchfollowinglist.do",
+		url: pageContextPath + `/api/subscribe/${userNo}/following`,
 		data: {
-			userNo,
+			countPerPage,
 			searchName: searchFollowingName,
 			currentPageNo: currentSearchFollowingPageNo
 		}
@@ -395,7 +393,7 @@ function getSearchFollowingListAjax(){
 		for (let user of e){
 			const oppUserNo = user.userNo;
 			$.ajax({
-				url: "checksub.do",
+				url: pageContextPath + "/api/subscribe",
 				data: {
 					subUserNo,
 					oppUserNo

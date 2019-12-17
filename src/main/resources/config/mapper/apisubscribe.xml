@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awethumb.repository.dao.APISubscribeDAO">
+	<select id="selectSubscribe" parameterType="Subscribe" resultType="int">
+		select count(*)
+		  from subscribe_tb
+		 where sub_user_no = #{subUserNo}
+		   and opp_user_no = #{oppUserNo}
+	</select>
+	<delete id="deleteSubscribe" parameterType="Subscribe">
+		delete from subscribe_tb
+		 where sub_user_no = #{subUserNo}
+		   and opp_user_no = #{oppUserNo}
+	</delete>
+	<insert id="insertSubscribe" parameterType="Subscribe">
+		insert into subscribe_tb (sub_user_no, opp_user_no)
+		values (#{subUserNo}, #{oppUserNo})
+	</insert>
+	<select id="selectFollowingList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT opp_user_no, sub_date FROM subscribe_tb WHERE sub_user_no = #{userNo}) o
+         WHERE u.user_no = o.opp_user_no
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<select id="selectFollowerList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT sub_user_no, sub_date FROM subscribe_tb WHERE opp_user_no = #{userNo}) o
+         WHERE u.user_no = o.sub_user_no
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<select id="selectSearchFollowerList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT sub_user_no, sub_date FROM subscribe_tb WHERE opp_user_no = #{userNo}) o
+         WHERE u.user_no = o.sub_user_no
+           AND u.user_nickname like CONCAT('%',#{searchName},'%')
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<select id="selectSearchFollowingList" parameterType="Follow" resultType="UserVO">
+		SELECT u.user_no, u.user_nickname, u.user_name
+          FROM user_tb u, (SELECT opp_user_no, sub_date FROM subscribe_tb WHERE sub_user_no = #{userNo}) o
+         WHERE u.user_no = o.opp_user_no
+           AND u.user_nickname like CONCAT('%',#{searchName},'%')
+         ORDER BY o.sub_date desc
+         LIMIT #{currentPageNo}, #{countPerPage}
+	</select>
+	<select id="selectFollowerCount" parameterType="int" resultType="int">
+		select count(*)
+		  from subscribe_tb
+		 where opp_user_no = #{userNo}
+	</select>
+</mapper>
+
+
+
+

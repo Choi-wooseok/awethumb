@@ -70,9 +70,6 @@ public class AlarmController {
 			if(sp.getShareCheck() == 'Y') {
 				loc += "/detailProject/" + alarm.getProjectNo();
 			}else {
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getProjectNo());
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getSharedUserNo());
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+ sp.getInvitationUrl());
 				loc += "/invitations/" + sp.getInvitationUrl();
 			}
 		}

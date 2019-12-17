@@ -37,53 +37,6 @@ public class ProfileServiceImpl implements ProfileService{
 	}
 
 	@Override
-	public int checkSub(Subscribe sub) {
-		return dao.selectSubscribe(sub);
-	}
-
-	@Override
-	public void deleteSub(Subscribe sub) {
-		dao.deleteSubscribe(sub);
-	}
-
-	@Override
-	public void insertSub(Subscribe sub) {
-		dao.insertSubscribe(sub);
-	}
-
-	@Override
-	public List<UserVO> getFollowingList(Follow fol) {
-		return dao.selectFollowingList(fol);
-	}
-
-	@Override
-	public List<UserVO> getFollowerList(Follow fol) {
-		return dao.selectFollowerList(fol);
-	}
-
-	@Override
-	public List<UserVO> getSearchFollowerList(Follow fol) {
-		return dao.selectSearchFollowerList(fol);
-	}
-
-	@Override
-	public List<UserVO> getSearchFollowingList(Follow fol) {
-		return dao.selectSearchFollowingList(fol);
-	}
-
-	@Override
-	public void updateUserFile(UserFile uf) {
-		if(dao.selectUserFile(uf.getUserNo()) == 0) dao.insertUserFile(uf);
-		else dao.updateUserFile(uf);
-		
-	}
-
-	@Override
-	public UserFile getProfileImg(int userNo) {
-		return dao.selectUserFileVO(userNo);
-	}
-
-	@Override
 	public void insertProj(Project p, ProjectFile pf) {
 		dao.insertProject(p);			
 		
@@ -102,33 +55,8 @@ public class ProfileServiceImpl implements ProfileService{
 	}
 
 	@Override
-	public ProjectFile getProjectThumb(int projectNo) {
-		return dao.selectProjectThumb(projectNo);
-	}
-
-	@Override
-	public List<Project> selectProgressProjects(Project p) {
-		return dao.selectProgressProjects(p);
-	}
-
-	@Override
-	public List<Project> selectSharedProjects(Project p) {
-		return dao.selectSharedProjects(p);
-	}
-
-	@Override
-	public List<Project> selectSavedProjects(Project p) {
-		return dao.selectSavedProjects(p);
-	}
-
-	@Override
 	public int selectProjectCount(int userNo) {
 		return dao.selectProjectCount(userNo);
-	}
-
-	@Override
-	public List<TokenUser> selectTokenUsers(String userNickname) {
-		return dao.selectTokenUsers(userNickname);
 	}
 
 	@Override
@@ -136,8 +64,4 @@ public class ProfileServiceImpl implements ProfileService{
 		return dao.selectCurrentSharedProjectNo(userNo);
 	}
 
-	@Override
-	public int selectFollowerCount(int userNo) {
-		return dao.selectFollowerCount(userNo);
-	}
 }

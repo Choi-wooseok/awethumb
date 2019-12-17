@@ -19,35 +19,11 @@ public interface ProfileDAO {
 
 	public void updateUser(UserVO user);
 
-	public int selectSubscribe(Subscribe sub);
-
-	public void deleteSubscribe(Subscribe sub);
-
-	public void insertSubscribe(Subscribe sub);
-
-	public List<UserVO> selectFollowingList(Follow fol);
-
-	public List<UserVO> selectFollowerList(Follow fol);
-
-	public List<UserVO> selectSearchFollowerList(Follow fol);
-
-	public List<UserVO> selectSearchFollowingList(Follow fol);
-
 	public int selectUserFile(int userNo);
-
-	public void insertUserFile(UserFile uf);
-
-	public void updateUserFile(UserFile uf);
-
-	public UserFile selectUserFileVO(int userNo);
 
 	public void insertProject(Project p);
 
 	public void insertProjectFile(ProjectFile pf);
-
-	public ProjectFile selectProjectThumb(int projectNo);
-
-	public List<Project> selectProgressProjects(Project p);
 
 	public List<Project> selectSharedProjects(Project p);
 
@@ -55,12 +31,7 @@ public interface ProfileDAO {
 
 	public int selectProjectCount(int userNo);
 
-	public List<TokenUser> selectTokenUsers(String userNickname);
-
 	public void insertSharedUserList(Project p);
 
 	public int selectCurrentSharedProjectNo(int userNo);
-
-	public int selectFollowerCount(int userNo);
-
 }

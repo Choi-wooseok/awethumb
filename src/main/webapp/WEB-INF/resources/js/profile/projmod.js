@@ -100,7 +100,7 @@ function onTokenInput( e ){
 	controller = new AbortController();
 	
 	$.ajax({
-		url: "gettokenusers.do",
+		url: pageContextPath + "/api/user/token",
 		data: {userNickname: tokenValue}
 	})
 	.done((whitelist) => {

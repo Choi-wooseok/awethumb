@@ -7,6 +7,6 @@ public class Follow {
 	private int userNo;
 	private String searchName;
 	
-	private int countPerPage = 6;
+	private int countPerPage;
 	private int currentPageNo;
 }

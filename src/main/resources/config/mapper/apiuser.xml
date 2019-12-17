@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awethumb.repository.dao.APIUserDAO">
+	<select id="selectUser" parameterType="int" resultType="UserVO">
+		select *
+		  from user_tb
+		 where user_no = #{userNo}
+	</select>
+	<select id="selectUserThumb" parameterType="int" resultType="UserFile">
+		SELECT *
+		  FROM user_file_tb 
+		 WHERE user_no = #{userNo};
+	</select>
+	<insert id="insertUserThumb" parameterType="UserFile">
+		insert into user_file_tb (user_no, user_file_sys_name, user_file_org_name, user_file_path, user_file_size, user_file_exe)
+		values (#{userNo}, #{userFileSysName}, #{userFileOrgName}, #{userFilePath}, #{userFileSize}, #{userFileExe})
+	</insert>
+	<update id="updateUserThumb" parameterType="UserFile">
+		update user_file_tb
+		   set user_file_sys_name = #{userFileSysName},
+		       user_file_org_name = #{userFileOrgName},
+		       user_file_path = #{userFilePath},
+		       user_file_size = #{userFileSize},
+		       user_file_exe = #{userFileExe}
+		 where user_no = #{userNo}   
+	</update>
+	<select id="selectTokenUsers" parameterType="string" resultType="TokenUser">
+		select user_nickname value, user_no no
+		  from user_tb
+		 where user_nickName like CONCAT('%',#{userNickname},'%')
+	</select>
+</mapper>
+
+
+
+

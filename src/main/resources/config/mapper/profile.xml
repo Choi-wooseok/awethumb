@@ -29,77 +29,8 @@
 		 where user_no = #{userNo}
 	</update>
 	
-	<select id="selectSubscribe" parameterType="Subscribe" resultType="int">
-		select count(*)
-		  from subscribe_tb
-		 where sub_user_no = #{subUserNo}
-		   and opp_user_no = #{oppUserNo}
-	</select>
-	
-	<delete id="deleteSubscribe" parameterType="Subscribe">
-		delete from subscribe_tb
-		 where sub_user_no = #{subUserNo}
-		   and opp_user_no = #{oppUserNo}
-	</delete>
-	
-	<insert id="insertSubscribe" parameterType="Subscribe">
-		insert into subscribe_tb (sub_user_no, opp_user_no)
-		values (#{subUserNo}, #{oppUserNo})
-	</insert>
-	
-	<select id="selectFollowingList" parameterType="Follow" resultType="UserVO">
-		SELECT u.user_no, u.user_nickname, u.user_name
-          FROM user_tb u, (SELECT opp_user_no, sub_date FROM subscribe_tb WHERE sub_user_no = #{userNo}) o
-         WHERE u.user_no = o.opp_user_no
-         ORDER BY o.sub_date desc
-         LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	<select id="selectFollowerList" parameterType="Follow" resultType="UserVO">
-		SELECT u.user_no, u.user_nickname, u.user_name
-          FROM user_tb u, (SELECT sub_user_no, sub_date FROM subscribe_tb WHERE opp_user_no = #{userNo}) o
-         WHERE u.user_no = o.sub_user_no
-         ORDER BY o.sub_date desc
-         LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	
-	<select id="selectSearchFollowerList" parameterType="Follow" resultType="UserVO">
-		SELECT u.user_no, u.user_nickname, u.user_name
-          FROM user_tb u, (SELECT sub_user_no, sub_date FROM subscribe_tb WHERE opp_user_no = #{userNo}) o
-         WHERE u.user_no = o.sub_user_no
-           AND u.user_nickname like CONCAT('%',#{searchName},'%')
-         ORDER BY o.sub_date desc
-         LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	<select id="selectSearchFollowingList" parameterType="Follow" resultType="UserVO">
-		SELECT u.user_no, u.user_nickname, u.user_name
-          FROM user_tb u, (SELECT opp_user_no, sub_date FROM subscribe_tb WHERE sub_user_no = #{userNo}) o
-         WHERE u.user_no = o.opp_user_no
-           AND u.user_nickname like CONCAT('%',#{searchName},'%')
-         ORDER BY o.sub_date desc
-         LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	
 	<select id="selectUserFile" parameterType="int" resultType="int">
 		SELECT COUNT(*) 
-		  FROM user_file_tb 
-		 WHERE user_no = #{userNo};
-	</select>
-	<insert id="insertUserFile" parameterType="UserFile">
-		insert into user_file_tb (user_no, user_file_sys_name, user_file_org_name, user_file_path, user_file_size, user_file_exe)
-		values (#{userNo}, #{userFileSysName}, #{userFileOrgName}, #{userFilePath}, #{userFileSize}, #{userFileExe})
-	</insert>
-	<update id="updateUserFile" parameterType="UserFile">
-		update user_file_tb
-		   set user_file_sys_name = #{userFileSysName},
-		       user_file_org_name = #{userFileOrgName},
-		       user_file_path = #{userFilePath},
-		       user_file_size = #{userFileSize},
-		       user_file_exe = #{userFileExe}
-		 where user_no = #{userNo}   
-	</update>
-	
-	<select id="selectUserFileVO" parameterType="int" resultType="UserFile">
-		SELECT *
 		  FROM user_file_tb 
 		 WHERE user_no = #{userNo};
 	</select>
@@ -130,48 +61,6 @@
 		values (#{projectNo}, #{projectFileSysName}, #{projectFileOrgName}, #{projectFilePath}, #{projectFileSize}, #{projectFileExe})
 	</insert>
 	
-	<select id="selectProgressProjects" parameterType="Project" resultType="Project">
-		select *
-		  from project_tb
-		 where user_no = #{userNo}
-		   and project_type = #{projectType}
-		 order by project_no desc
-		 LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	
-	<select id="selectSharedProjects" parameterType="Project" resultType="Project">
-		SELECT project_no, project_title, user_no, project_public_enabled, category_no, project_type
-		  FROM (SELECT project_no, project_title, user_no, project_public_enabled, category_no, project_type
-                  FROM project_tb
-                 WHERE user_no = #{userNo}
-                   AND project_type = #{projectType}
-                UNION
-                SELECT p.project_no, p.project_title, p.user_no, p.project_public_enabled, p.category_no, p.project_type
-                  FROM project_tb p,
-                       (SELECT project_no
-                          FROM shared_project_tb
-                         WHERE shared_user_no = #{userNo}) sp
-                 WHERE p.project_no = sp.project_no) project
-         ORDER BY project_no desc
-		 LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	
-	<select id="selectSavedProjects" parameterType="Project" resultType="Project">
-		SELECT p.project_no, p.project_title, p.user_no, p.project_public_enabled, p.category_no, p.project_type
-  		  FROM project_tb p, (SELECT project_no, saved_date 
-  		                        FROM project_subscribe_tb 
-  		                       WHERE user_no = #{userNo}) ps
-         WHERE p.project_no = ps.project_no
-         ORDER BY ps.saved_date desc
-         LIMIT #{currentPageNo}, #{countPerPage}
-	</select>
-	
-	<select id="selectProjectThumb" parameterType="int" resultType="ProjectFile">
-		select *
-		  from project_file_tb
-		 where project_no = #{projectNo}
-	</select>
-	
 	<select id="selectProjectCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		  FROM 
@@ -185,21 +74,10 @@
 			    WHERE shared_user_no = #{userNo}) p
 	</select>
 	
-	<select id="selectTokenUsers" parameterType="string" resultType="TokenUser">
-		select user_nickname value, user_no no
-		  from user_tb
-		 where user_nickName like CONCAT('%',#{userNickname},'%')
-	</select>
 	<select id="selectCurrentSharedProjectNo" parameterType="int" resultType="int">
 		select max(project_no)
 		  from project_tb
 		 where user_no = #{userNo}
 		   and project_type = 2
-	</select>
-	
-	<select id="selectFollowerCount" parameterType="int" resultType="int">
-		select count(*)
-		  from subscribe_tb
-		 where opp_user_no = #{userNo}
 	</select>
 </mapper>

@@ -1,7 +1,7 @@
 const $sBtn = $(".sBtn");
 // 구독여부 확인하는 스크립트
 $.ajax({
-	url: "checksub.do",
+	url: pageContextPath + "/api/subscribe",
 	data: {
 		subUserNo,
 		oppUserNo : userNo
@@ -13,7 +13,7 @@ $.ajax({
 // 구독 취소
 $(".unsub_btn").click(() => {
 	$.ajax({
-		url: `deletesub.do?subUserNo=${subUserNo}&oppUserNo=${userNo}`,
+		url: pageContextPath + `/api/subscribe?subUserNo=${subUserNo}&oppUserNo=${userNo}`,
 		type: "DELETE"
 	}).done(() => {
 		$sBtn.toggleClass("myHidden");
@@ -24,7 +24,7 @@ $(".unsub_btn").click(() => {
 // 구독
 $(".sub_btn").click(() => {
 	$.ajax({
-		url: "insertsub.do",
+		url: pageContextPath + "/api/subscribe",
 		type: "POST",
 		contentType: "application/json",
 		data: JSON.stringify({

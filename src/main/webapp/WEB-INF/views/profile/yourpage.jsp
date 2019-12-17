@@ -159,9 +159,7 @@
 	    function getProfileImgAjax(){
 	    	console.log("in")
 	    	$.ajax({
-	    		url: "getprofileimg.do",
-	    		dataType: "text",
-	    		data: {userNo},
+	    		url: pageContextPath + "/api/user/" + userNo + "/thumb",
 	    		success: function(data) {$("#main_profile_img").attr("src", data)}
 	    	})	
 	    }

@@ -34,11 +34,10 @@ $("#upload-result").click(()=>{
 function uploadProfileImgAjax(data){
 	$.ajax({
         cache : false,
-        url : "updateprofileimg.do",
+        url : pageContextPath + `/api/user/${data.get("userNo")}/thumb`,
         processData: false,
         contentType: false,
         type : 'POST',
-        dataType: 'text',
         data
     })
     .done(() => {
@@ -49,9 +48,7 @@ function uploadProfileImgAjax(data){
 //프로필 이미지를 갖고오는 ajax
 function getProfileImgAjax(){
 	$.ajax({
-		url: "getprofileimg.do",
-		dataType: "text",
-		data: {userNo},
+		url: pageContextPath + `/api/user/${userNo}/thumb`,
 		success: function(data) {
 			// 메인 프로필 이미지
 			$("#main_profile_img").attr("src", data);

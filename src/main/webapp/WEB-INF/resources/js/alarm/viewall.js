@@ -69,8 +69,7 @@ function appendAlarm(alarm) {
 // 썸네일 가져오기
 function getAlarmThumbAjax(userNo) {
 	$.ajax({
-		url: pageContextPath + "/profile/getprofileimg.do",
-		data:{userNo},
+		url: pageContextPath + `/api/user/${userNo}/thumb`
 	})
 	.done((src) =>{
 		$(`.adt-${userNo}`).attr("src", src)
@@ -80,7 +79,7 @@ function getAlarmThumbAjax(userNo) {
 // 구독 여부 확인하기
 function checkSubAjax(subUserNo, oppUserNo){
 	$.ajax({
-		url: pageContextPath + "/profile/checksub.do",
+		url: pageContextPath + "/api/subscribe",
 		data: {
 			subUserNo,
 			oppUserNo
@@ -95,7 +94,7 @@ function checkSubAjax(subUserNo, oppUserNo){
 $(document).on("click", ".unsub_btn",(e) => {
 	const oppUserNo = $(e.target).data("oppuserno");
 	$.ajax({
-		url: pageContextPath + `/profile/deletesub.do?subUserNo=${connectedUserNo}&oppUserNo=${oppUserNo}`,
+		url: pageContextPath + `/api/subscribe?subUserNo=${connectedUserNo}&oppUserNo=${oppUserNo}`,
 		type: "DELETE"
 	}).done(() => {
 		$(`.userNo-${oppUserNo}-btn`).removeClass("unsub_btn").addClass("sub_btn").text("구독")
@@ -106,7 +105,7 @@ $(document).on("click", ".unsub_btn",(e) => {
 $(document).on("click", ".sub_btn",(e) => {
 	const oppUserNo = $(e.target).data("oppuserno");
 	$.ajax({
-		url: pageContextPath + "/profile/insertsub.do",
+		url: pageContextPath + "/api/subscribe",
 		type: "POST",
 		contentType: "application/json",
 		data: JSON.stringify({
@@ -122,7 +121,7 @@ $(document).on("click", ".sub_btn",(e) => {
 // 팔로우 숫자 구해오기
 function getFollowerCount(userNo){
 	$.ajax({
-		url: pageContextPath + "/profile/getfollowercount",
+		url: pageContextPath + `/api/subscribe/${userNo}/follower/count`,
 		data: {userNo}
 	})
 	.done((e) => {

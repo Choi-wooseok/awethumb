@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.invitations.service.InvitationsService;
 import com.awethumb.repository.vo.Invitations;
@@ -38,5 +41,12 @@ public class InvitationsController {
 		model.addAttribute("sp", sp);
 		
 		return "invitations/main";
+	}
+	
+	// 공유 수락
+	@PutMapping
+	@ResponseBody
+	public void updateSharedProject(@RequestBody SharedProject sp) {
+		service.updateSharedProject(sp);
 	}
 }

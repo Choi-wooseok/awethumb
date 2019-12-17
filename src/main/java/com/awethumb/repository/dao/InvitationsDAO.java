@@ -6,4 +6,6 @@ import com.awethumb.repository.vo.SharedProject;
 public interface InvitationsDAO {
 
 	SharedProject selectSharedProject(Invitations inv);
+
+	void updateSharedProject(SharedProject sp);
 }

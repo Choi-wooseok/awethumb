@@ -35,31 +35,39 @@
 						</a>
 					</div>
 					<div class="invitation-content">
-						<h2 class="invitation-userNick">jae</h2>
+						<h2 class="invitation-userNick"></h2>
 						<span>has invited you to</span>
-						<a href="#" class="projectTitle">프로젝트 이름</a>
+						<a href="${pageContext.request.contextPath}/detailProject/${sp.projectNo}" class="projectTitle">프로젝트 이름</a>
 					</div>
 				</div>
 				<div class="invitation-btn-wrap">
-					<button>수락</button>
-					<button>거절</button>
+					<button class="approve">수락</button>
+					<button class="disapprove">거절</button>
 				</div>
 			</div>
 		</div>
     </section>
     <script>
+    	const sp = {
+    			projectNo: ${sp.projectNo},
+    			sharedUserNo: ${sp.sharedUserNo},
+    			shareCheck: '${sp.shareCheck}',
+    			invitationUrl: '${sp.invitationUrl}'
+    	};
+    	console.log(sp)
     	$.ajax({
-    		url: pageContextPath + "/api/project/" + ${sp.projectNo},
+    		url: pageContextPath + "/api/project/" + sp.projectNo,
     		dataType: "json"
     	})
     	.done(e => {
     		// 프로젝트 타이틀
     		$(".projectTitle").text(e.projectTitle);
-    		getUserNick(e.userNo);
+    		getUser(e.userNo);
     		getUserThumb(e.userNo);
     		getProjectThumb(e.projectNo)
     	})
     	
+    	// 유저 썸네일 
     	function getUserThumb(userNo){
     		$.ajax({
     			url: pageContextPath + "/api/user/" + userNo + "/thumb",
@@ -69,24 +77,51 @@
         	})
     	}
     	
+    	// 프로젝트 썸네일
     	function getProjectThumb(projectNo){
     		$.ajax({
-        		url: pageContextPath + "/api/project/" + ${sp.projectNo} + "/thumb"
+        		url: pageContextPath + "/api/project/" + sp.projectNo + "/thumb"
         	})
         	.done(e => {
         		$(".project-thumb").attr("src", e);
         	})
     	}
     	
-    	function getUserNick(userNo){
+    	// 유저 정보
+    	function getUser(userNo){
     		$.ajax({
-        		url: pageContextPath + "/api/user/" + ${sp.projectNo},
+        		url: pageContextPath + "/api/user/" + userNo,
         		dataType: "json"
         	})
         	.done(e => {
         		$(".invitation-userNick").text(e.userNickname);
+        		$(".user-link").attr("href", pageContextPath + "/profile/" + e.userNickname)
         	})
     	}
+    	
+    	// 수락 버튼 눌렀을 때
+    	$(".approve").click(() => {
+    		sp.shareCheck = 'Y'
+    		$.ajax({
+    			url: pageContextPath + "/invitations",
+    			type: "PUT",
+    			contentType: 'application/json; charset=utf-8',
+    			data: JSON.stringify(sp)
+    		})
+    		.done(() => {
+    			location.href = pageContextPath + "/detailProject/" + sp.projectNo;
+    		})
+    	})
+    	// 거절 버튼 클릭시 프로필로 돌아감
+    	$(".disapprove").click(() => {
+    		$.ajax({
+        		url: pageContextPath + "/api/user/" + sp.sharedUserNo,
+        		dataType: "json"
+        	})
+        	.done(e => {
+	    		location.href = pageContextPath + "/profile/" + e.userNickname;
+        	})
+    	})
     </script>
 </body>
 </html>

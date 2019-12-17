@@ -7,4 +7,6 @@ public interface InvitationsService {
 
 	SharedProject selectSharedProject(Invitations inv);
 
+	void updateSharedProject(SharedProject sp);
+
 }

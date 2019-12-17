@@ -10,6 +10,12 @@
 	     						  where user_id = #{userId})
 	       AND invitation_url = #{invitationUrl}
 	</select>
+	<update id="updateSharedProject" parameterType="SharedProject">
+		UPDATE shared_project_tb
+	       SET share_check = #{shareCheck}
+	     WHERE project_no = #{projectNo}
+	       AND shared_user_no = #{sharedUserNo}
+	</update>
 </mapper>
 
 

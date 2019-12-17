@@ -18,4 +18,9 @@ public class InvitationsServiceImpl implements InvitationsService{
 		return dao.selectSharedProject(inv);
 	}
 
+	@Override
+	public void updateSharedProject(SharedProject sp) {
+		dao.updateSharedProject(sp);
+	}
+
 }

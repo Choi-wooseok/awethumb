@@ -31,7 +31,8 @@
                   FROM project_tb p,
                        (SELECT project_no
                           FROM shared_project_tb
-                         WHERE shared_user_no = #{userNo}) sp
+                         WHERE shared_user_no = #{userNo}
+                           AND share_check = 'Y') sp
                  WHERE p.project_no = sp.project_no) project
          ORDER BY project_no desc
 		 LIMIT #{currentPageNo}, #{countPerPage}

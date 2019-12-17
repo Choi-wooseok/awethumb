@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -11,5 +13,5 @@ public class Comment {
 	int postNo; // 글번호
 	String cmtUserNickname; // 댓글 유저닉네임
 	String agoRegDt; // ~분 전, ~시간 전, ~일 전 표시
-	String hashtagContent;
+	List<Hashtag> hashtag;  // 해시태그 리스트로 받기
 }

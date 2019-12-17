@@ -143,5 +143,13 @@
 	}
 	.resultSearch > a {
 		color: #6dd5bc;
-		
 	}
+	.cmtContent > span {
+		color: #6dd5bc;
+	}
+	.ht {
+		cursor: pointer;
+	}
+/* 	.insertComment { */
+/* 		display: block; */
+/* 	}	 */

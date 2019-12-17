@@ -30,16 +30,18 @@
 		<result column="user_no" property="userNo" />
 		<result column="post_no" property="postNo" />
 		<result column="ago_reg_dt" property="agoRegDt" />
+		<collection property="hashtag" select="selectHashtagList" column="post_no"/>
 	</resultMap>
 	<resultMap id="hashtagMap" type="Hashtag">
 		<result column="hashtag_content" property="hashtagContent" />
 		<result column="post_no" property="postNo" />
+		<result column="hash_type" property="hashType" />
 	</resultMap>
 	<resultMap id="searchMap" type="Search">
 		<result column="hashtag_count_and_user_no" property="hashtagCountAndUserNo"/>
-		<result column="hashtag_and_nickname" property=""/>
+		<result column="hashtag_and_nickname" property="hashtagAndNickname"/>
 		<result column="result_type" property="resultType"/>
-		<result column="result_type" property="searchWord"/>
+		<result column="search_word" property="searchWord"/>
 	</resultMap>
 	<!-- 검색 ======================================================== -->
 	<select id="search" resultType="Search" flushCache="true" useCache="true">
@@ -54,16 +56,27 @@
 	</select>
 	<!-- 해시태그 ==================================================== -->
 	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
-		select * 
+		select post_no, concat('#', hashtag_content) as hashtag_content
 		  from hashtag_tb 
 		 where post_no = #{postNo}
+		   and hash_type = #{hashType}
 		   <if test="searchWord != null">
 		 	   or hashtag_content like #{searchWord} || '%'
 		   </if>
 	</select>
-	<insert id="insertHashtag" parameterType="Hashtag">
-		insert into hashtag_tb(post_no, hashtag_content)
-		 values (#{postNo}, #{hashtagContent})
+	<insert id="insertHashtag" parameterType="Comment">
+			insert into hashtag_tb(
+			post_no, 
+			hashtag_content,
+			hash_type
+			) values 
+			<foreach collection="hashtag" item="hash" separator="," >
+			(
+				#{postNo}, 
+				#{hash.hashtagContent},
+				2	<!-- 1은 게시물 해시태그 / 2는 댓글 해시태그 -->
+			)
+			</foreach>
 	</insert>
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
@@ -112,17 +125,9 @@
  	<!-- 댓글 파트 ============================================= --> 
 	<select id="selectComment" parameterType="int" resultMap="commentMap" flushCache="true" useCache="true">
 	    select c.*, 
-	    	(select
-			<![CDATA[
-			  case when TIMESTAMPDIFF(hour, cmt_reg_dt, NOW())<1 
- 			  	   then CONCAT(TIMESTAMPDIFF(MINUTE, cmt_reg_dt, NOW()), '분 전')
- 			  	   when TIMESTAMPDIFF(hour, cmt_reg_dt, NOW())<24
-			  	   then CONCAT(TIMESTAMPDIFF(HOUR, cmt_reg_dt, NOW()), '시간 전')
-			  	   else CONCAT(DATEDIFF(NOW(), cmt_reg_dt), '일 전') 
-		 	]]> 
-			   end
-			  from comment_tb
-			 where cmt_no = c.cmt_no) as ago_reg_dt,
+	    	(select time_ago_func(cmt_reg_dt, NOW())
+			   from comment_tb
+			  where cmt_no = c.cmt_no) as ago_reg_dt,
 			 (select u.user_nickname
 			   from user_tb u
 			  where u.user_no = c.user_no) as cmt_user_nickname

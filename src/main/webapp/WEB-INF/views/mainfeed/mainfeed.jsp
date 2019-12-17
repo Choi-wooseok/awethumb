@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kor">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
@@ -19,8 +19,6 @@
 <link rel="stylesheet" href="./../css/common.css">
 <link rel="stylesheet" href="./../css/mainfeed.css">
 <!-- Jquery -->
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script src="//code.jquery.com/jquery-2.2.2.min.js"></script>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
@@ -34,8 +32,13 @@
 
 <!-- grid -->
 <link rel="stylesheet" href="<c:url value='/js/brick/masonry.css' />">
-
+<link rel="stylesheet" href="<c:url value='/css/hashtag.css' />" />
 </head>
+<style>
+	.theSelector {
+		overflow: hidden; overflow-wrap: break-word; height: 48px;
+	}
+</style>
 <body>
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="su"/>
@@ -78,16 +81,24 @@
 				<div id="modalBoard" class="board">
 		        	<div class="board-modal">
 			            <div> <button id="report" class="report" type="button">신 고</button></div>
+
 			            <div> <button id="share">퍼가기</button></div>
 		            	<div class="boardClose">취 소 </div>
 			        </div>
 			    </div>
+			    
+<!-- 			    <div class="insertComment"> -->
+<!-- 	            	<form id="crForm" method="post" action="insertComment.do" > -->
+<!--          				<input type="hidden" id="postNo" />	 -->
+<!-- 	                    <textarea id="cmtContent"></textarea> -->
+<!-- 	                    <input type="submit" value="등록" class="cmtRegist"/> -->
+<!--     				</form> -->
+<!--                 </div> -->
 			</section>	
 				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
 		<script>
 			const userNo = ${su.userNo}
-// 			console.log("un", userNo);
 		</script>
 		<script>
 			let pageContextURI = '${pageContext.request.contextPath}';
@@ -100,8 +111,8 @@
 					clearTimeout(time);
 				})
 		</script>
-		
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
-	
+		<script type="text/javascript" src="../js/hashtag/jquery.hashtags.js"></script>
+		<script type="text/javascript" src="../js/hashtag/autosize.min.js"></script>
 </body>
 </html>

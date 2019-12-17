@@ -31,12 +31,6 @@ public class MainFeedController {
 		return service.listMainFeed(pageCount);
 	}
 	
-//	@RequestMapping("/mainfeedList.do?hashtagContent=")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
-//	@ResponseBody  // jsp를 호출하는게 아닌 데이터만 호출 : ajax를 호출할때 
-//	public List<MainFeed> mainFeedList(FeedPage pageCount) {
-//		return service.listMainFeed(pageCount);
-//	}
-	
 	@GetMapping("/detailmainfeed.do")
 	@ResponseBody
 	public MainFeed mainFeeddetail(int postNo) {
@@ -47,10 +41,11 @@ public class MainFeedController {
 	@RequestMapping("/insertComment.do")
 	@ResponseBody
 	@Transactional
-	public MainFeed commentRegistAjax(Comment comment) {
-		service.insertHashtag(comment);
+	public MainFeed commentRegistAjax(@RequestBody Comment comment) {
+		System.out.println("인서트 들어옴");
+		System.out.println(comment);
 		service.insertComment(comment);
-//		System.out.println("인서트 들어옴");
+		service.insertHashtag(comment);
 		return service.detailMainFeed(comment.getPostNo());
 	}
 	@RequestMapping("/updateComment.do")
@@ -70,8 +65,8 @@ public class MainFeedController {
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
 	public List<MainFeed> search(@RequestBody String searchWord) {
-//		System.out.println("search 들어옴");
-//		System.out.println(searchWord);
+		System.out.println("search 들어옴");
+		System.out.println(searchWord);
 		return service.search(searchWord);
 	}
 	

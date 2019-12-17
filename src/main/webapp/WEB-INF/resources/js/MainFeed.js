@@ -59,7 +59,6 @@ let scrollTop = 0;
 					}
 //					console.log("1", searchWord);
 					if (searchWord === undefined) {
-						
 						makeMainFeedList(list);
 					}
 					else {
@@ -70,9 +69,9 @@ let scrollTop = 0;
 								searchWord
 							},
 							success: list => {
-								console.log("ab", list)
+//								console.log("ab", list)
 								makeMainFeedList(list, searchWord);
-								console.log("ac", searchWord)
+//								console.log("ac", searchWord)
 							}
 						});
 					}
@@ -109,7 +108,7 @@ let scrollTop = 0;
 								if (`${h.hashtagContent}` != 'null') {
 									$(`#feedsPlay${c.postNo}`).append(`
 									<span class="hashTag">
-										<a href="#">#${h.hashtagContent}</a>
+										<a href="javascript:;">${h.hashtagContent}</a>
 									</span>`)
 								}
 							});
@@ -142,6 +141,7 @@ let scrollTop = 0;
 // --------------- detail -------------
 	function detailListAjax() {
 	$(document).on('click', '.detailFeed', (e) => {
+		$("#detailFeedModal").css("display", "block")
 		$.ajax({
 			url: "detailmainfeed.do",
 			data: {
@@ -207,7 +207,7 @@ let scrollTop = 0;
 							if (`${h.hashtagContent}` !=  'null') {
 								$(`.modalCont`).append(`
 									<span class="hashtag">
-									<a href="#">#${h.hashtagContent}</a>
+									<a href="javascript:;">${h.hashtagContent}</a>
 									</span>
 								`)
 							}		
@@ -216,6 +216,9 @@ let scrollTop = 0;
 									<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
+            	// 커멘트 받아옴
+            	const newContent = renderHashtag(c.cmtContent);
+            	
             			if (`${c.cmtContent}` != 'null'){
 //            				console.log(c.agoRegDt);
             				$(`.comment`).append(`
@@ -237,9 +240,7 @@ let scrollTop = 0;
 	            										</div>`)
 			                						}
             										$(`.cmtModal${c.cmtNo}`).append(`
-			                						<div class="cmtContent">
-			                							${c.cmtContent}
-	            									</div>
+			                						<div class="cmtContent">${newContent} </div>
 					                			</div>
 			        						</div>
 			            				</div>
@@ -256,13 +257,13 @@ let scrollTop = 0;
             })
             if (typeof userNo !== 'undefined'){
 	            $(`#rightBox`).append(`
-				            	<div class="insertComment">
+					            <div class="insertComment">
 					            	<form id="crForm" method="post" action="insertComment.do" >
-		            					<input type="hidden" id="postNo" value="${detail.postNo}" />	
-					                    <input type="text" id="cmtContent"/>
-					                    <input type="submit" value="등록" class="cmtRegist" data-postNo="${c.postNo}"/>
-	            					</form>
-				                </div>
+				         				<input type="hidden" id="postNo" value="${detail.postNo}"/>	
+					                    <textarea id="cmtContent"></textarea>
+					                    <input type="submit" value="등록" class="cmtRegist"/>
+				    				</form>
+				                </div>	
 	            			</div>
 	            		</div>
 	        		</div>
@@ -282,8 +283,63 @@ let scrollTop = 0;
 	            </div>
 	        </div>
 	    `)
+	    
+
+	    
+//	          로그인시 해시태그.js파일 호출
+        if (typeof userNo !== 'undefined'){
+        	$("textarea").hashtags();
+        }
+//		비로그인시 댓글등록창 숨김
+    	if (typeof userNo === 'undefined'){
+    		$(".insertComment").css("display", "none");
+    	}
 	}
 	detailListAjax();
+	
+//		댓글 중 #이 존재할 시 해시태그 a링크로 변경
+	function renderHashtag(cmtContent){
+		let newContent = "";
+		let ht = cmtContent.split(' ');
+	//	console.log("ht", ht);
+		for (let i = 0; i < ht.length; i++) {
+			if ((ht[i]).includes('#')){
+//				console.log("ht[i]", ht[i]);
+				ht[i] = `<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>`
+			}
+		}
+		for (let j = 0; j < ht.length; j++) {
+			newContent += ht[j] + " "
+		}
+		return newContent
+	}
+	
+//	해시태그 클릭시 검색화면으로 이동
+	$(document).on("click", ".ht", (e) => {
+		let hashSrch = $(e.target).data("ht")
+		let hashTg = hashSrch.split('#');
+		let htg = hashTg[1];
+		$.ajax({
+				url: "search.do",
+				method: 'POST',
+				data: htg,
+				dataType: 'JSON',
+				contentType: 'application/json; charset=UTF-8',
+				success: result => {
+					console.log("result", result);
+					console.log("hashTg", hashTg[1]);
+					for (let i = 0; i < result.length; i++){
+//						console.log("1", result[i].hashtagAndNickname)
+						if (result[i].hashtagAndNickname == hashTg[1]){
+//							console.log("2")
+							MainfeedMakeAjax(hashTg[1])
+							$("#detailFeedModal").css("display", "none")
+						}
+					}
+				}
+		})
+	});
+	
 	// x버튼 클릭시 모달창 닫힘
 	$(document).on('click', '.modalClose', (e) => {
 		let postNum = $(e.target).data("postnum");
@@ -334,6 +390,7 @@ let scrollTop = 0;
             event.stopPropagation();
             return false;
         });
+            
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
         $(".commentModal").click((e) => {
@@ -464,97 +521,104 @@ let scrollTop = 0;
 	        }
         }
 	
-	// 댓글 등록
-//		$(document).on('submit', '#crForm', () => {
-//			$.ajax({
-//				url: "insertComment.do",
-//				method:"POST",
-//				data: {cmtContent: $("#cmtContent").val(), 
-//					userNo: userNo, 
-//					postNo:$("#postNo").val()},
-//				dataType: "JSON",
-//				success: result => {
-//					$.ajax({
-//		                  url: "detailmainfeed.do",
-//		                  data: {
-//		                     postNo:$("#postNo").val()
-//		                  },
-//		                  dataType: "JSON",
-//		                  success: result => {
-////		                	 makeAlarm(3, cmtNo)
-//		                     makeDetailFeed(result);
-//		                     setTimeout(() => {
-//		                        makemodalattribute({
-//		                           w: $("#image").width(),
-//		                           h: $("#image").height()
-//		                        })
-//		                     }, 100);
-//		                  }
-//		               })
-//		        }
-//			});
-//			$("#cmtContent").val("");
-//			return false;
-//		});
-		
-//		해시태그 등록
-//		$(document).on('keyup', '#cmtContent', () => {
-				$(document).on('submit', '#crForm', () => {
-					let hashWord = $("#cmtContent").val();
-					let hashSplit = new Array();
-					let hash = new Array();
-					let saveHash = new Array();
-					if (hashWord.includes('#')) {
-//				console.log("#", hashWord);
-						let hashSplit = hashWord.split(' ');
-						for (let i = 0; i < hashSplit.length; i++) {
-//					console.log(hashSplit[i]);
-							if (hashSplit[i].includes('#')){
-								hash.push(hashSplit[i]);
-								let hashSp = hash.split(' ');
-								for (let j = 0; j < hashSp.length; j++) {
-									saveHash.push(hashSp[i]);
-								}
-							}
-						}
-//						console.log(hash);
-						console.log(saveHash);
-//						console.log(hashSplit);
-					}
-//					console.log(hash);
-					$.ajax({
-						url: "insertComment.do",
-						method:"POST",
-						data: {cmtContent: $("#cmtContent").val(), 
-							userNo: userNo, 
-							postNo:$("#postNo").val(),
-							hashtagContent: saveHash},
-						dataType: "JSON",
-						success: result => {
-							$.ajax({
-				                  url: "detailmainfeed.do",
-				                  data: {
-				                     postNo:$("#postNo").val()
-				                  },
-				                  dataType: "JSON",
-				                  success: result => {
-//				                	 makeAlarm(3, cmtNo)
-				                     makeDetailFeed(result);
-				                     setTimeout(() => {
-				                        makemodalattribute({
-				                           w: $("#image").width(),
-				                           h: $("#image").height()
-				                        })
-				                     }, 100);
-				                  }
-				               })
-				        }
-					});
-					$("#cmtContent").val("");
-					return false;
-			});
-//		})
+//	$(document).on('keyup', '#cmtContent', (e) => {
+//		// 해시태그 스플릿
+//		let cmtVal= $("#cmtContent").val();
+//		let hashSplit = new Array();  // 처음 띄어쓰기로 스플릿
+//		let hashSp = new Array();	  // 띄어쓰기로 자른걸 담아서 #을 포함하는지 검사
+//		let hash = new Array();		  // #포함된걸 담는 배열
+//		let hashWord = new Array();  // #포함된걸 담은 배열 중 2번째(#뒤의 단어)를 담음
+//		if (cmtVal.includes('#')) {
+//			hashSplit = cmtVal.split(' ');
+//			for (let i = 0; i < hashSplit.length; i++) {
+//				hashSp = hashSplit[i];
+//				if (hashSp.includes('#')){
+//					hash = hashSp.split('#');
+//					hashWord.push(hash[1]);
+//				}
+//			}
+//			$("#cmtContent").attr("data-hash", hashWord)
+////					console.log("hash", hash);
+//			console.log("hashWord", hashWord);
 //		}
+////		let hash = new Array();
+////		console.log($(e.target));
+//		hash = $(e.target).attr("data-hash")
+//		console.log(hash);
+////		hash.push($(e.target).data("hash"))
+//		let hashT = [];
+//	})
+	
+	function hashSplitFn() {
+		// 해시태그 스플릿
+			let cmtVal= $("#cmtContent").val();
+			let pN = $("#postNo").val();
+			let hashSplit = new Array();  // 처음 띄어쓰기로 스플릿
+			let hashSp = new Array();	  // 띄어쓰기로 자른걸 담아서 #을 포함하는지 검사
+			let hash = new Array();		  // #포함된걸 담는 배열
+			let hashWord = new Array();  // #포함된걸 담은 배열 중 2번째(#뒤의 단어)를 담음
+			let hashT  = {}; 
+			if (cmtVal.includes('#')) {
+				hashSplit = cmtVal.split(' ');
+				for (let i = 0; i < hashSplit.length; i++) {
+					hashSp = hashSplit[i];
+					if (hashSp.includes('#')){
+						hash = hashSp.split('#');
+						hashT = {postNo: pN, hashtagContent: '#' + hash[1], hashType: 2}
+						hashWord.push(hashT);
+					}
+					console.log("hashSp", hashSp)
+				}
+//				$("#cmtContent").attr("data-hash", hashWord)
+//						console.log("hash", hash);
+			}
+			console.log("hashT", hashT);
+			console.log("hashWord", hashWord);
+			
+			return hashWord;
+	};
+	
+	// 댓글 등록
+//	----------------------
+		$(document).on('submit', '#crForm', (e) => {
+			let hashWord = hashSplitFn();
+			$.ajax({
+				url: "insertComment.do",
+				method:"POST",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					'cmtContent': $("#cmtContent").val(), 
+					'userNo': userNo, 
+					'postNo': $("#postNo").val(),
+					'hashtag' : hashWord // 배열로 넣음
+					}),
+				dataType: "JSON",
+				success: result => {
+//					console.log("11", hashWord)
+					$.ajax({
+		                  url: "detailmainfeed.do",
+		                  data: {
+		                     postNo:$("#postNo").val()
+		                  },
+		                  dataType: "JSON",
+		                  success: result => {
+		                	 console.log("12", hashWord)
+//		                	 makeAlarm(3, cmtNo)
+		                     makeDetailFeed(result);
+		                     setTimeout(() => {
+		                        makemodalattribute({
+		                           w: $("#image").width(),
+		                           h: $("#image").height()
+		                        })
+		                     }, 100);
+		                  }
+		               })
+		        }
+			});
+			$("#cmtContent").val("");
+			$(".hashtag").remove();
+			return false;
+		});
 //		검색기능
 		$("#search").keyup(() => {
 			let searchWord = $("#search").val().replace(/ /g, '');
@@ -563,9 +627,9 @@ let scrollTop = 0;
 				let tempSearchWord = searchWord;
 				if (tempSearchWord.charAt(0) == '#') {
 					tempSearchWord = searchWord.substring(1);
+					console.log("tsw", tempsearchWord)
 				}
 				if (tempSearchWord.length == 0) return;
-//					alert(tempsearchWord)
 				$.ajax({
 					url: "search.do",
 					method: 'POST',
@@ -573,17 +637,17 @@ let scrollTop = 0;
 					dataType: 'JSON',
 					contentType: 'application/json; charset=UTF-8',
 					success: result => {
-							console.log(result)
+							console.log("result", result)
 //							console.log(result.length)
 //							console.log("search", searchWord, searchWord.startsWith('#'));
 						if (result.length > 0) {
 							let str = '';
 							if (searchWord.startsWith('#')){
-									console.log("search", searchWord);
+//									console.log("search", searchWord);
 								for (let i = 0; i < result.length; i++) {
-									console.log(result[i].hashtagAndNickname);
+//									console.log(result[i].hashtagAndNickname);
 									if (result[i].resultType == 'h'){
-										console.log("aa", result[i].resultType);
+//										console.log("aa", result[i].resultType);
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
 									else {
@@ -594,9 +658,9 @@ let scrollTop = 0;
 								for (let i = 0; i < result.length; i++) {
 									if (result[i].resultType == 'u'){
 										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
-										console.log("ab", result[i].resultType)
+//										console.log("ab", result[i].resultType)
 									} else if (result[i].resultType == 'h') {
-										console.log("ac", result[i].resultType)
+//										console.log("ac", result[i].resultType)
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
@@ -609,14 +673,13 @@ let scrollTop = 0;
 					        }
 							$(".resultSearch").click((e) => {
 								let searchType = $(e.target).data("searchtype")
-								console.log("b", searchType);
+//								console.log("b", searchType);
 								if (searchType == 'u'){
 									let searchU = $(e.target).data("usernickname");
 									location.href = pageContextURI + '/profile/' + searchU;
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
-									console.log("a", searchH);
-//									location.href = pageContextURI + '/mainfeed/mainfeed.do?hashtagContent=' + searchH;
+//									console.log("searchH", searchH);
 									MainfeedMakeAjax(searchH)
 								}
 							});

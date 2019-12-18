@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.awethumb.admin.service.AdminServiceImpl;
@@ -48,9 +49,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		}
 		
 		Block block = adminServiceImpl.selectBlock(user.getUser().getUserNo());
-		System.out.println("block : " + block);
 		if (block != null) {
-			fail.onAuthenticationFailure(request, response, new AuthenticationException("정지된 회원입니다.") {});
+			int userNo = user.getUser().getUserNo();
+			HttpSession session = request.getSession();
+			session.invalidate();
+			fail.onAuthenticationFailure(request, response, new AuthenticationException("정지된 회원입니다. 유저번호:" + userNo) {});
 			return;
 		}
 		

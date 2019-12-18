@@ -85,6 +85,9 @@
 						</menu>
 					</div>
 				<div class="chat">
+					<div class="exitchat">
+							<i class="fas fa-times"></i>
+					</div>
 				</div>		
 				</div>
 			</div>

@@ -22,8 +22,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		} else if("이메일 인증 후에 로그인 가능합니다.".equals(exception.getMessage())) {
 			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=2");
 			return;
-		} else if("정지된 회원입니다.".equals(exception.getMessage())) {
-			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=7&blockCode=block");
+		} else if(exception.getMessage().indexOf("정지된 회원입니다.") != -1) {
+		    String[] userNo = exception.getMessage().split("유저번호:");
+			response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=7&userNo=" + userNo[1]);
 			return;
 		} 
 		response.sendRedirect(request.getContextPath() + "/user/login_fail.do?errCode=3");

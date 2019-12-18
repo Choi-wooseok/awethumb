@@ -4,8 +4,8 @@
 <mapper namespace="com.awethumb.repository.dao.AdminDAO">
 
 <resultMap type="BlockReason" id="blockReasonMap">
-	<result property="block_code" column="blockCode" />
-	<result property="block_reason" column="blockReason" />
+	<result property="blockCode" column="block_code" />
+	<result property="blockReason" column="block_reason" />
 	<association property="block" resultMap="blockMap" />
 </resultMap>
 <resultMap type="Block" id="blockMap">
@@ -111,7 +111,7 @@
 	 where report_no = #{reportNo}
 </select>
 <select id="selectReportReasonTwo" parameterType="int" resultMap="blockReasonMap">
-	SELECT b.user_no, r.block_code, b.block_start_dt, b.block_end_dt, r.block_reason
+	SELECT r.block_code, r.block_reason, b.user_no, b.block_start_dt, b.block_end_dt
 	  FROM block_tb b
 	 INNER join block_reason_tb r
 	    ON b.block_code = r.block_code

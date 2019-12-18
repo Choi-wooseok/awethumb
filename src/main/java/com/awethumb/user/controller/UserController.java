@@ -1,5 +1,6 @@
 package com.awethumb.user.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ import com.awethumb.admin.service.AdminService;
 import com.awethumb.auth.SnsLogin;
 import com.awethumb.auth.SnsValue;
 import com.awethumb.common.service.CommonService;
+import com.awethumb.repository.vo.BlockReason;
 import com.awethumb.repository.vo.SecurityUser;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.security.CustomAuthenticationProvider;
@@ -171,18 +173,15 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login_fail.do")
-	public String loginFail(String errCode, String blockCode, RedirectAttributes attr, HttpServletRequest request) {
+	public String loginFail(String errCode, @RequestParam(required = false, defaultValue = "0") int userNo, RedirectAttributes attr, HttpServletRequest request) {
 		attr.addFlashAttribute("errCode", errCode);
-		System.out.println("blockCode : " + blockCode);
-		if (blockCode != null) {
-			HttpSession session = request.getSession();
-			SecurityContextImpl pp = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-			Authentication auth = pp.getAuthentication();
-			SecurityUser secUser = (SecurityUser) auth.getPrincipal();
-			secUser.getUser().getUserNo();
-			System.out.println(adminService.selectReportReasonTwo(secUser.getUser().getUserNo()));
-			attr.addFlashAttribute("blockMsg", adminService.selectReportReasonTwo(secUser.getUser().getUserNo()));
-			session.invalidate();
+		System.out.println("errCode : " + errCode);
+		if (userNo != 0) {
+			BlockReason breason = adminService.selectReportReasonTwo(userNo);
+			attr.addFlashAttribute("blockMsg", breason);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일 hh시mm분ss초");
+			attr.addFlashAttribute("blockStart", sdf.format(breason.getBlock().getBlockStartDt()));
+			attr.addFlashAttribute("blockEnd", sdf.format(breason.getBlock().getBlockEndDt()));
 		}
 		return "redirect:/user/login_main.do";
 	}

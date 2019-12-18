@@ -368,7 +368,7 @@ $(document).on("click", ".result-search", function() {
 })
 
 // 채팅창 닫기
-$(document).on("click", ".fas.fa-times", function() {
+$(document).on("click", ".exitchat", function() {
 	$(".chatting").toggleClass("chat-hidden");
 })
 
@@ -412,9 +412,6 @@ function createRoom(userNo, userNickname, chatroomNo, unReadCnt, userImgPath) {
 								</div>
 								<div class="info">
 									<div class="name">${userNickname}</div>
-								</div>
-								<div class="exitchat">
-									<i class="fas fa-times"></i>
 								</div>
 							</div>
 							<ul class="messages" data-pageidx="1">

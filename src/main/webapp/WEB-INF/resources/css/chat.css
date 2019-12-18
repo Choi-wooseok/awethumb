@@ -315,10 +315,11 @@
 .exitchat {
 	cursor: pointer;
 	line-height: initial;
-    display: inline-flex;
     flex-direction: column;
-    vertical-align: 40px;
-    margin-left: 32%;
+    text-align: right;
+    position: absolute;
+    right: 0.5rem;
+    z-index: 1;
 }
 /* .chatting.chat-block { */
 /* 	display: block; */

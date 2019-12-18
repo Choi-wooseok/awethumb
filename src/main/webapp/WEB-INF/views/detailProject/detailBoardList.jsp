@@ -126,12 +126,12 @@
         </form>
     </div>
     
-
 	<div class="optionModalWrap modalMini">
         <div>
-            <div class="deleteCommentBoard">글 삭제</div>
+            <!-- <div class="deleteCommentBoard">글 삭제</div>
             <div class="updateCommentBoard">글 수정</div>
-            <div class="updatecancel">취소</div>
+     		<div class="report">부적절한 컨텐츠 신고</div>
+            <div class="updatecancel">취소</div> -->
         </div>
     </div>
     
@@ -142,7 +142,11 @@
             <i class="fas fa-caret-right arw-btn"></i>
         </div>
     </div>
-    <script>let loginNo = ${su.userNo}</script>
+    <script>
+    	window.onload = function(){${makeAlarm}};
+    	window.onload = function(){${flashBoardClick}};    	
+    	let loginNo = ${su.userNo}
+    </script>
                 
 	<!-- grid Js -->
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>

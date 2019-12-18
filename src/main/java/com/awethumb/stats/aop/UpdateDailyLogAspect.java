@@ -1,10 +1,12 @@
-package com.awethumb.stats.service;
+package com.awethumb.stats.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.awethumb.stats.service.StatsService;
 
 @Component
 @Aspect

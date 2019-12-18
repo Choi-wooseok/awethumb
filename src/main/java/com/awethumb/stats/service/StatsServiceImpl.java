@@ -90,6 +90,11 @@ public class StatsServiceImpl implements StatsService {
 		
 		return map;
 	}
+
+	@Override
+	public void insertSearchLog(String keyword) {
+		dao.insertSearchLog(keyword);
+	}
 	
 	
 }

@@ -1,4 +1,4 @@
-package com.awethumb.stats.service;
+package com.awethumb.stats.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

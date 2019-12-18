@@ -13,7 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.awethumb.repository.dao.StatsDAO;
 import com.awethumb.repository.vo.VisitCount;
-import com.awethumb.stats.service.UpdateDailyLog;
+import com.awethumb.stats.aop.UpdateDailyLog;
 @Component
 public class VisitCounterImpl implements HttpSessionListener{
 	

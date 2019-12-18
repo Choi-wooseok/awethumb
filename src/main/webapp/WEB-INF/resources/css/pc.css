@@ -64,6 +64,30 @@ header > div > div:nth-child(2) {
     right: 25px;
     cursor: pointer;
 }
+#searchBtn {
+		top: -68px;
+    	left: 265px;
+}
+.resultSearch:hover {
+	background-color: #F7F7F7;
+	color: #6dd5bc;
+	cursor: pointer;
+}
+#searchResults {
+		display: none;
+    	top: -85px;
+    	background-color: white;
+	    border: 1px solid #dadada;
+        text-align: center;
+        overflow-y: scroll;
+    	height: 300px;
+}
+#resultCount {
+	height: 30px;
+}
+.resultSearch > a {
+	color: #6dd5bc;
+}
 .user {
     position: absolute;
     left: 0;

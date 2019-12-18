@@ -128,33 +128,10 @@
 	.playInfo {
 		margin-top: 5px;
 	}
-	#searchResults {
-		display: none;
-    	top: -85px;
-    	background-color: white;
-	    border: 1px solid #dadada;
-        text-align: center;
-        overflow-y: scroll;
-    	height: 300px;
-	}
 	#needLogin:hover {
 		color: #6dd5bc;
 	}
-	#searchBtn {
-		top: -68px;
-    	left: 265px;
-	}
-	.resultSearch:hover {
-		background-color: #F7F7F7;
-		color: #6dd5bc;
-		cursor: pointer;
-	}
-	#resultCount {
-		height: 30px;
-	}
-	.resultSearch > a {
-		color: #6dd5bc;
-	}
+	
 	.cmtContent > span {
 		color: #6dd5bc;
 	}

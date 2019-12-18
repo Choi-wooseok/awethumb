@@ -82,7 +82,7 @@
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
-		select b.*, u.*,
+		select b.*, u.*, p.project_no,
 			(select count(c.cmt_no)
 		   	   from comment_tb c
 		  	  where c.post_no = b.post_no

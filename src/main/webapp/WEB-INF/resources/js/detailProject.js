@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 	$.ajax({
     	data: {pjtNo : $("#updateBtn").data("pjtno")},
     	type: "post",
@@ -44,10 +43,13 @@ $("#insertImg").change((e) => {
 				success: (bfile) => {
 					// 가져온 url로 이미지 그리기
 					$(".imageViewWrap").append(`
-							<img class="imgPos" src="${bfile.url}" />
+						<img class="imgPos" src="${bfile.url}" />
 					`)
 					// 이미지가 모두 append된 후에 작업
 					if (i == images.length-1) {
+						for (let j = 0; j < images.length; j++) {
+							console.log( $(".imgPos")[j] )
+						}
 						$(".imageViewWrap").slick();
 						$("#insertImg").addClass("movePos");
 					}
@@ -59,36 +61,6 @@ $("#insertImg").change((e) => {
 		$("#insertImg").removeClass("movePos");
 	}
 })
-
-//function sendFile(file, editor) {
-//	var data = new FormData();
-//	data.append('file', file);
-//	$.ajax({
-//		data: data,
-//		type: "POST",
-//		url: 'imageUpload.do',
-//		cache: false,
-//		contentType: false,
-//		enctype: 'multipart/form-data',
-//		processData: false,
-//		success: (bfile) => {
-//			$(".summernote1").summernote('insertImage', `${bfile.url}`);
-//			imageSlide();
-////			setTimeout(() => {
-////				$('.single-item-wrap').slick();
-//				
-//				// 이미지 resize 모듈화 해서 해야됨
-////				alert($(".single-item-wrap").children("img").length);
-////				imgReSize({
-////					w : $(imgSize).width(),
-////					h : $(imgSize).height()
-////				})
-////			}, 100)
-//		}
-//	})
-//}
-
-
 
 // 이미지 등록 시 이미지 이미지 선택화면에서 이미지 띄우는 화면으로 전환
 function imageSlide() {
@@ -131,12 +103,12 @@ $("#insertBtn").click(() => {
 		<input type="hidden" name="projectNo" value="${pjtNo}" />
 	`)
 })
+
 // x버튼 클릭 시 모달창 제거
 $(".closeBtn").click(() => {
 	$(".modalInsertWrap").removeClass("block");
 	$(".imageViewWrap").html('');
-//	.slick('unslick')
-	$("#insertImg").removeClass("hide");
+	$("#insertImg").removeClass("hide").removeClass("movePos")
 })
 
 // 모달창이 띄어졌을 시 스크롤 방지
@@ -148,8 +120,8 @@ $(".modalInsertWrap").on('scroll touchmove mousewheel', function(event) {
 
 // ... 버튼 클릭 시 모달창 생성
 $(".optionModalBtn").click((e) => {
-	let thisNo = $(e.target).data("msg");
-    $(".optionF").addClass("block");
+	let postNo = $(e.target).data("msg");
+    $(".optionF").addClass("block").attr("data-postNo", postNo);
     $(".modal").removeClass("block");
 })
 // 취소 버튼 클릭 시 모달창 제거
@@ -177,28 +149,18 @@ $(".detailBtn").click((e) => {
 		   		$(".modalContWrap").height()-($(".modalCont").height()-31)
 		    )
 		    
-//				setTimeout(() => {
-//				이미지 resize 모듈화 해서 사용
-//					let images = $(".single-item-wrap").children;
-//					console.log("detailImage width : ", $("#image").width())
-//					imgReSize({
-//						w : $("#image").width(),
-//						h : $("#image").height()
-//					})
-//					$('.single-item').slick();
-//					$("#boxSize").slick();
-//				}, 100)
-			
+		    // Comment 불러오는 ajax
 			$.ajax({
 				url: "selectCommentList.do",
 				data: {postNo: board.postNo},
 				success : (cList) => {
 					for (let i = 0; i < cList.length; i++) {
-						commentListAjax(cList[i])						
+						commentListAjax(cList[i])
 					}
 				}
 			});
 			
+			// image 불러오는 ajax
 			$.ajax({
 				url: "imageDownload.do",
 				data: {postNo: board.postNo},
@@ -210,25 +172,11 @@ $(".detailBtn").click((e) => {
 							`)
 						}
 					}
-//						$("#boxSize").slick();
-					
-//						console.log($(".detailImage"))
-//						for (let i = 0; i <sArr.length; i++) {
-//							console.log($(".detailImage")[i].width)
-//						}
-//						imgReSize({
-//							w : $(".detailImage").width(),
-//							h : $(".detailImage").height()
-//						})
-//					console.log($(".detailImage").height())
 				}
 			})
 		}
 	})
 	$(".modal").addClass("block");
-	$(document).on("ready", "#boxSize", () => {
-		console.log(this)
-	})
 })
 
 // 댓글 등록버튼 클릭 시 Ajax로 댓글 등
@@ -247,6 +195,7 @@ $(document).on("click", "#cmtInsertBtn", (e) => {
 		})
 	}
 });
+
 // 댓글 삭제 버튼 클릭 시 
 $(document).on("click", ".deleteCommentBoard", (e) => {
 	let cmtNo = $(".modalMini").data("cmtno");
@@ -260,9 +209,6 @@ $(document).on("click", ".deleteCommentBoard", (e) => {
 		}
 	})
 });
-
-
-
 
 // 댓글 수정 버튼 클릭 시
 $(document).on("click", ".updateCommentBoard", (e) => {
@@ -322,9 +268,25 @@ function commentListViewAjax(postNo) {
 // 댓글 ... 클릭 시 선택창 생성
 $(document).on("click", ".cmtBtn", (e) => {
 	$(".modal").removeClass("block");
-	$(".modalMini").addClass("block");
-	$(".modalMini").attr("data-cmtNo", $(e.target).data("cmtno"));
-	$(".modalMini").attr("data-postNo", $("#cmtInsertBtn").data("postno"));	
+	$(".modalMini").addClass("block")
+				   .attr("data-cmtNo", $(e.target).data("cmtno"))
+				   .attr("data-postNo", $("#cmtInsertBtn").data("postno"));
+	
+	// 유저넘버 필요
+	console.log(loginNo);
+	console.log($(e.target).data("uno"));
+	if (loginNo == $(e.target).data("uno")) {
+		$(".modalMini > div").html(`
+			<div class="deleteCommentBoard">글 삭제</div>
+            <div class="updateCommentBoard">글 수정</div>
+            <div class="updatecancel">취소</div>
+		`)
+	} else {
+		$(".modalMini > div").html(`
+			<div class="report">부적절한 컨텐츠 신고</div>
+            <div class="updatecancel">취소</div>
+		`)
+	}
 })
 // 취소버튼 클릭 시 선택창 제거
 $(document).on("click", ".updatecancel", (e) => {
@@ -334,7 +296,7 @@ $(document).on("click", ".updatecancel", (e) => {
 
 // DOM
 function commentListAjax(cList) {
-	if (loginNo == cList.userNo) {
+//	if (loginNo == cList.userNo) {
 		$(".comment").append(
 			`
 			<div class="commentList">
@@ -346,7 +308,7 @@ function commentListAjax(cList) {
 						<span>${cList.cmtUserNickname}</span>
 						<span>${cList.cmtRegDt}</span>
 						<button class="cmtBtn">
-							<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}"></i>
+							<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}" data-uNo="${cList.userNo}"></i>
 						</button>
 					</div>
 					<div class="cmtContent">${cList.cmtContent}</div>
@@ -355,24 +317,24 @@ function commentListAjax(cList) {
 			</div>
 			`
 		)
-	} else {
-		$(".comment").append(
-			`
-			<div class="commentList">
-				<div class="commentUserImg">
-					<img src="./../images/test_user.jpg" alt="">
-				</div>
-				<div class="commentWrap">
-					<div class="cmtInfo">
-						<span>${cList.cmtUserNickname}</span>
-						<span>${cList.cmtRegDt}</span>
-					</div>
-					<div class="cmtContent">${cList.cmtContent}</div>
-				</div>
-			</div>
-			`
-		)
-	}
+//	} else {
+//		$(".comment").append(
+//			`
+//			<div class="commentList">
+//				<div class="commentUserImg">
+//					<img src="./../images/test_user.jpg" alt="">
+//				</div>
+//				<div class="commentWrap">
+//					<div class="cmtInfo">
+//						<span>${cList.cmtUserNickname}</span>
+//						<span>${cList.cmtRegDt}</span>
+//					</div>
+//					<div class="cmtContent">${cList.cmtContent}</div>
+//				</div>
+//			</div>
+//			`
+//		)
+//	}
 }
 function viewBoardAjax(board) {
 	$(".modal_content").html(
@@ -411,6 +373,29 @@ function viewBoardAjax(board) {
 	})
 }
 
+// 신고하기
+$(".report").click(() => {
+	let postNo = $(".optionF").data("postno");
+	if (cmtNo == null) { // 게시글 신고
+		let newWindow = window.open("about:blank");
+		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+	}
+	let commNo = "";
+})
+//("click", ".report",(e) => {
+//	console.log($(e.target).children("i").data())
+//	let postNo = $(e.target).children("i");
+//	let cmtNo = $(e.target).data("commentno");
+//	if (cmtNo == null) { // 게시글 신고
+//		let newWindow = window.open("about:blank");
+//		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+//	}
+//	else { // 댓글 신고
+//		let newWindow = window.open("about:blank");
+//		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+//	}
+//});
+
 
 // 이미지 띄우는 스크립트
 //function imgReSize({w, h}) {
@@ -434,10 +419,5 @@ function viewBoardAjax(board) {
 //        box.Size.style.height = maxSize+"px";
 //        image.style.height = "100%";
 //    }
-//    rightBox.style.height = boxSize.style.height;
-//    
-//    $(".comment").height(
-//   		$(".modalContWrap").height()-($(".modalCont").height()+18+51)
-//    )
 //}
 

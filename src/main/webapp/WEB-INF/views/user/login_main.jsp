@@ -42,7 +42,7 @@
 			let naverURL = "${naver_url}";
 			let kakaoURL = "${kakao_url}";
 			let profile = "${profile}";
-			
+			let conPath = "${pageContext.request.contextPath}";
 			if ('${errCode}' == 1) {
 				Swal.fire({
 					  icon: 'error',

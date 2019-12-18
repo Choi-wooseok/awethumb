@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$("p.title").css("cursor","pointer");
 	let maxSize = 300;
 	let boxSize = $("#boxSize");
 	let image = $("#image");
@@ -384,6 +385,12 @@ $(document).ready(function() {
 	
 	$("#closeModal").click(() => {
 		$(".modal").css("display","none");
+	});
+	
+	
+	
+	$("p.title").click(() => {
+		location.href=conPath + "/mainfeed/mainfeed.do"
 	});
 	
 });

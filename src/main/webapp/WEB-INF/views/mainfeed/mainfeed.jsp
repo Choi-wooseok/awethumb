@@ -88,19 +88,17 @@
 				<div id="modalBoard" class="board">
 		        	<div class="board-modal">
 			            <div> <button id="report" class="report" type="button">신 고</button></div>
-
 			            <div> <button id="share">퍼가기</button></div>
 		            	<div class="boardClose">취 소 </div>
 			        </div>
 			    </div>
+				<div id="LoginModalBoard" class="LoginModalBoard">
+		        	<div class="board-modal">
+			            <div> <button id="updateBtn" class="updateBtn" type="button">수정 및 삭제</button></div>
+		            	<div class="boardClose">취 소 </div>
+			        </div>
+			    </div>
 			    
-<!-- 			    <div class="insertComment"> -->
-<!-- 	            	<form id="crForm" method="post" action="insertComment.do" > -->
-<!--          				<input type="hidden" id="postNo" />	 -->
-<!-- 	                    <textarea id="cmtContent"></textarea> -->
-<!-- 	                    <input type="submit" value="등록" class="cmtRegist"/> -->
-<!--     				</form> -->
-<!--                 </div> -->
 			</section>	
 				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>

@@ -31,6 +31,9 @@ public class MainFeed {
     // 글 공개 여부 
     private String postPublicEnabled;
 
+    // 유저 번호 (게시글 작성자)
+    private String userNo;
+    
     // 유저 닉네임 
     private String userNickname;
 

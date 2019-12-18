@@ -149,6 +149,7 @@ let scrollTop = 0;
 			},
 			dataType: "JSON",
 			success: result => {
+				console.log("re", result);
 				makeDetailFeed(result);
 				setTimeout(() => {
 					makemodalattribute({
@@ -180,8 +181,8 @@ let scrollTop = 0;
 							            `)
 							   if(typeof connectedUserNo !== 'undefined'){
 							         $(`.userName`).append(`
-								            <button id="myBoard">
-								            	<i class="fas fa-bars"></i>
+								            <button id="myBoard" >
+								            	<i class="fas fa-bars" data-postUserNo="${detail.userNo}"></i>
 								            </button>
 							        </div>
 								</div>
@@ -372,7 +373,6 @@ let scrollTop = 0;
            		$("#rightBox").height()-$(".modalCont").height()-66
             )
          // makemodalattribute() 끝
-		
 // 		모달창이 띄워졌을 시 스크롤 방지
         $('.form-control').focus(function() {  
             $('#detailFeedModal').on('scroll touchmove mousewheel', function(e){
@@ -380,29 +380,11 @@ let scrollTop = 0;
                 e.stopPropagation();
 	        })
 		});	
-//        $("#detailFeedModal").on('scroll touchmove mousewheel', function(e) {
-//            e.preventDefault();
-//            e.stopPropagation();
-//            return false;
-//        });
             
 //      모달창에서 댓글부분 클릭시 스크롤 활성화
         $('.form-control').focusout(function() {
             $('#detailFeedModal').unbind();
         });
-//        $(".commentList").click(() => {
-////    	$(".commentList").focus(() => {
-//        	$(".feedsWrap").on('scroll touchmove mousewheel', (e) => {
-//        		e.preventDefault();
-//                e.stopPropagation();
-//        	})
-//        	$("#detailFeedModal").unbind();
-//        })
-//        $(".comment").on('scroll touchmove mousewheel', function(event) {
-//            event.preventDefault();
-//            event.stopPropagation();
-//            return false;
-//        })    
             
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
@@ -504,6 +486,7 @@ let scrollTop = 0;
         
         // Get the modal
         var boardModal = document.getElementById('modalBoard');
+        var LoginModalBoard = document.getElementById('LoginModalBoard');
 
         // Get the button that opens the modal
         var btn = document.getElementById("myBoard");
@@ -512,12 +495,19 @@ let scrollTop = 0;
         var bc = document.getElementsByClassName("boardClose")[0];
 
         // When the user clicks on the button, open the modal
-        $("#myBoard").click(() => {
-        	boardModal.style.display = "block";
+        $("#myBoard").click((e) => {
+        	console.log("1", connectedUserNo);
+        	console.log("2", $(e.target).data("postuserno"));
+        	if (connectedUserNo == $(e.target).data("postuserno")){
+        		$(LoginModalBoard).css("display", "block");
+        	} else {
+        		boardModal.style.display = "block";
+        	}
         }) 
 
         // When the user clicks on <span> (x), close the modal
         $(".boardClose").click(() => {
+        	$(LoginModalBoard).css("display", "none");
             boardModal.style.display = "none";
         })
 
@@ -525,7 +515,8 @@ let scrollTop = 0;
         window.onclick = function (event) {
             if (event.target == boardModal) {
                 boardModal.style.display = "none";
-            }
+            } else if (event.target == LoginModalBoard)
+            	LoginModalBoard.style.display = "none";
         }
 
         // 신고 모달창

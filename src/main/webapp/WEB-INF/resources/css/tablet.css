@@ -1347,8 +1347,8 @@ section#feeds {
   box-sizing: border-box;
   border-bottom: 1px solid #a9a9a9;
 }
-.slick-list {
-  background-color: #333;
+.imageViewWrap > .slick-list {
+	background-color: #333;
 }
 .note-editor.note-frame {
   box-sizing: border-box;

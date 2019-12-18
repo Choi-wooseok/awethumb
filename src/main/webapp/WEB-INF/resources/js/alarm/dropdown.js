@@ -49,6 +49,10 @@ function appendDropdownAlarm(alarm) {
 		</li>
 	`)
 	getDropdownAlarmThumbAjax(alarm.sendUserNo);
+	// li 클릭시 해당 알림으로 이동
+	$(`.alarm-${alarm.alarmNo}`).click(() => {
+		location.href= alarmTypeLink(alarm)
+	})
 }
 function prependDropdownAlarm(alarm) {
 	const appendLine = alarmTypeAppender(alarm.alarmType);
@@ -69,6 +73,10 @@ function prependDropdownAlarm(alarm) {
 			</li>
 	`)
 	getDropdownAlarmThumbAjax(alarm.sendUserNo);
+	// li 클릭시 해당 알림으로 이동
+	$(`.alarm-${alarm.alarmNo}`).click(() => {
+		location.href= alarmTypeLink(alarm)
+	})
 }
 
 // 알림의 프로필 사진을 가져온다.
@@ -124,4 +132,16 @@ function getLatestAlarm(){
 	.done(alarm => {
 		prependDropdownAlarm(alarm)
 	})
+}
+
+// 알림 타입에 따라 들어갈 링크를 다르게 해준다
+function alarmTypeLink(alarm){
+	let appendLink = "";
+	switch(alarm.alarmType){
+	case 1: appendLink = `${pageContextPath}/profile/${alarm.userNickname}`; break;
+	case 2: appendLink = `${pageContextPath}/alarm/relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&boardNo=${alarm.boardNo}`; break;
+	case 3: appendLink = `${pageContextPath}/alarm/relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&commentNo=${alarm.commentNo}`; break;
+	case 4: appendLink = `${pageContextPath}/alarm/relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&projectNo=${alarm.projectNo}&receiveUserNo=${alarm.receiveUserNo}`; break;
+	}
+	return appendLink;
 }

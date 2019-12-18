@@ -28,4 +28,6 @@ public interface AlarmDAO {
 	SharedProject selectSharedProject(SharedProject sp);
 
 	int selectProjectNoByBoardNo(int boardNo);
+
+	int selectBoardNoByCommentNo(int commentNo);
 }

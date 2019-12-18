@@ -29,4 +29,6 @@ public interface AlarmService {
 
 	int selectProjectNoByBoardNo(int boardNo);
 
+	int selectBoardNoByCommentNo(int commentNo);
+
 }

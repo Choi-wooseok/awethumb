@@ -67,4 +67,9 @@ public class AlarmServiceImpl implements AlarmService{
 	public int selectProjectNoByBoardNo(int boardNo) {
 		return dao.selectProjectNoByBoardNo(boardNo);
 	}
+
+	@Override
+	public int selectBoardNoByCommentNo(int commentNo) {
+		return dao.selectBoardNoByCommentNo(commentNo);
+	}
 }

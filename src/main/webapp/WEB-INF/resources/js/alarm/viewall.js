@@ -45,7 +45,7 @@ function appendAlarm(alarm) {
 								<div class="user-meta">
 									<div class="meta-status">
 										<i class="fas fa-users"></i>
-										<span class="follower-count user-${alarm.sendUserNo}-folcnt">1</span>
+										<span class="follower-count user-${alarm.sendUserNo}-folcnt"></span>
 									</div>
 									<div class="meta-btn"></div>
 								</div>
@@ -140,15 +140,5 @@ $(window).scroll(function() {
     }
 });
 
-// 알림 타입에 따라 들어갈 링크를 다르게 해준다
-function alarmTypeLink(alarm){
-	let appendLink = "";
-	switch(alarm.alarmType){
-	case 1: appendLink = `${pageContextPath}/profile/${alarm.userNickname}`; break;
-	case 2: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&boardNo=${alarm.boardNo}`; break;
-	case 3: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&commentNo=${alarm.commentNo}`; break;
-	case 4: appendLink = `relocate?alarmNo=${alarm.alarmNo}&alarmType=${alarm.alarmType}&projectNo=${alarm.projectNo}&receiveUserNo=${alarm.receiveUserNo}`; break;
-	}
-	return appendLink;
-}
+
 	

@@ -26,6 +26,9 @@ li > article{
 	border-bottom: 1px solid #dbdbdb;
 	cursor:pointer;
 }
+.alarm-list > li:hover{
+	background-color: #dbdbdb;
+}
 .alarm-content{
 	font-size: 14px;
 	line-height: 18px;

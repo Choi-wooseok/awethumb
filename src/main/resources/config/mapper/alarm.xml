@@ -95,6 +95,12 @@
 		  from board_tb
 		 where post_no = #{boardNo}
 	</select>
+
+	<select id="selectBoardNoByCommentNo" parameterType="int" resultType="int">
+		select post_no
+		  from comment_tb
+		 where cmt_no = #{commentNo}
+	</select>
 </mapper>
 
 

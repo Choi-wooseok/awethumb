@@ -58,15 +58,21 @@ public class AlarmController {
 	@RequestMapping("/relocate")
 	public String relocate(Alarm alarm, RedirectAttributes rttr) {
 		String loc = "redirect:";
-		
+		int commentNo, boardNo, projectNo;
 		switch(alarm.getAlarmType()) {
 		case 2: 
-			int boardNo = alarm.getBoardNo();
-			int projectNo = service.selectProjectNoByBoardNo(boardNo);
-			rttr.addFlashAttribute("flashBoardClick", "$(\"i[data-msg=" + boardNo + "]\").click()");
+			boardNo = alarm.getBoardNo();
+			projectNo = service.selectProjectNoByBoardNo(boardNo);
+			rttr.addFlashAttribute("flashBoardClick", "$(\".detailBtn\").children(\"i[data-msg=" + boardNo + "]\").click()");
 			loc += "/detailProject/" + projectNo;
 			break;
-		case 3: break;
+		case 3: 
+			commentNo = alarm.getCommentNo();
+			boardNo = service.selectBoardNoByCommentNo(commentNo);
+			projectNo = service.selectProjectNoByBoardNo(boardNo);
+			rttr.addFlashAttribute("flashBoardClick", "$(\".detailBtn\").children(\"i[data-msg=" + boardNo + "]\").click()");
+			loc += "/detailProject/" + projectNo;
+			break;
 		case 4: 
 			SharedProject sp = new SharedProject();
 			sp.setProjectNo(alarm.getProjectNo());

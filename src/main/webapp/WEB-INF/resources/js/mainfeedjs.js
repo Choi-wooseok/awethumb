@@ -5,9 +5,7 @@ let scrollTop = 0;
 // back to top
 
 	   $(document).ready(function(){ 
-//		   console.log("시작")
 		    $(window).scroll(function(){ 
-//		    	console.log("씨밯")
 		        if ($(this).scrollTop() > 100) { 
 		            $('#mainfeed-scroll').fadeIn(); 
 		        } else { 
@@ -57,7 +55,6 @@ let scrollTop = 0;
 						$(window).off('scroll');
 						return;
 					}
-//					console.log("1", searchWord);
 					if (searchWord === undefined) {
 						makeMainFeedList(list);
 					}
@@ -69,9 +66,7 @@ let scrollTop = 0;
 								searchWord
 							},
 							success: list => {
-//								console.log("ab", list)
 								makeMainFeedList(list, searchWord);
-//								console.log("ac", searchWord)
 							}
 						});
 					}
@@ -82,9 +77,6 @@ let scrollTop = 0;
 		function makeMainFeedList(list, resultType) {
 			function mainList() {
 				$.each(list, (i, c) => {
-//					console.log("1", searchWord)
-//					console.log("2", c.searchWord)
-//					console.log(c.commentList);
 					$("#feedsWrap").append(`
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
@@ -124,17 +116,13 @@ let scrollTop = 0;
 					`);
 					});
 				}
-//			console.log("3", list);
 			if (resultType) {
 				$(".feedsList").remove()
-//				console.log("0", resultType);
 				mainList();
 			} else {
 				mainList();
 			};
-//			console.log($(window).scrollTop());
 			setTimeout(() => {masonry(); 
-//			console.log($(window).scrollTop());
 			$(window).scrollTop(scrollTop)}, 100);
 		}
 		
@@ -221,7 +209,6 @@ let scrollTop = 0;
             	const newContent = renderHashtag(c.cmtContent);
             	
             			if (`${c.cmtContent}` != 'null'){
-//            				console.log(c.agoRegDt);
             				$(`.comment`).append(`
     									<div class="commentList">
 			                				<div class="commentUserImg">
@@ -328,9 +315,7 @@ let scrollTop = 0;
 					console.log("result", result);
 					console.log("hashTg", hashTg[1]);
 					for (let i = 0; i < result.length; i++){
-//						console.log("1", result[i].hashtagAndNickname)
 						if (result[i].hashtagAndNickname == hashTg[1]){
-//							console.log("2")
 							MainfeedMakeAjax(hashTg[1])
 							$("#detailFeedModal").css("display", "none")
 						}
@@ -389,15 +374,12 @@ let scrollTop = 0;
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
         $(".commentModal").click((e) => {
-//        	console.dir($(e.target).parents("button").attr("id"));
         	const cmtNo = $(e.target).parents("button").data("cmtno");
         	let cmtContent = $(e.target).parents("button").data("cmtcontent");
         	cmtModalDetail.style.display = "block";
         	$(".cmtUpdateBtn").data("cmtno", cmtNo);
         	$(".cmtUpdateBtn").data("cmtcontent", cmtContent);
         	$(".cmtDeleteBtn").data("cmtno", cmtNo);
-//        	console.log($(".cmtDeleteBtn").data("cmtno"))
-//        	console.log($(".cmtUpdateBtn").data("cmtcontent"))
         })
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
@@ -449,7 +431,6 @@ let scrollTop = 0;
         	$(".cmtModalDetail").css("display","none");
 			let cmtNo = $(e.target).data("cmtno");
         	$(".deleteComment").css("display","block");
-//        	$(".cmtModal" + cmtNo).css("display", "none");
         	$("#commentWrap" + cmtNo).append(deleteComment);
     		$(".deleteSubmit").data("cmtno", cmtNo);
         	$(".deleteCancel").data("cmtno", cmtNo);
@@ -462,7 +443,6 @@ let scrollTop = 0;
         })
 //      댓글 삭제
         $(".commentList").on("click", ".deleteSubmit", (e) => {
-//        	console.log($(e.target).data("cmtno"));
 			$.ajax({
 				url: "deleteComment.do",
 				type: "POST",
@@ -481,7 +461,6 @@ let scrollTop = 0;
 					}, 100);
 				}
 			});
-//        	$(".cmtModalDetail").css("display","none");
 		});
         
         // Get the modal
@@ -496,8 +475,6 @@ let scrollTop = 0;
 
         // When the user clicks on the button, open the modal
         $("#myBoard").click((e) => {
-        	console.log("1", connectedUserNo);
-        	console.log("2", $(e.target).data("postuserno"));
         	if (connectedUserNo == $(e.target).data("postuserno")){
         		$(LoginModalBoard).css("display", "block");
         	} else {
@@ -507,8 +484,11 @@ let scrollTop = 0;
 
         // When the user clicks on <span> (x), close the modal
         $(".boardClose").click(() => {
-        	$(LoginModalBoard).css("display", "none");
             boardModal.style.display = "none";
+        })
+        
+        $(".LoginBoardClose").click(() => {
+        	$(LoginModalBoard).css("display", "none");
         })
 
         // When the user clicks anywhere outside of the modal, close it
@@ -619,16 +599,11 @@ let scrollTop = 0;
 					contentType: 'application/json; charset=UTF-8',
 					success: result => {
 							console.log("result", result)
-//							console.log(result.length)
-//							console.log("search", searchWord, searchWord.startsWith('#'));
 						if (result.length > 0) {
 							let str = '';
 							if (searchWord.startsWith('#')){
-//									console.log("search", searchWord);
 								for (let i = 0; i < result.length; i++) {
-//									console.log(result[i].hashtagAndNickname);
 									if (result[i].resultType == 'h'){
-//										console.log("aa", result[i].resultType);
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
 										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
 									else {
@@ -639,9 +614,7 @@ let scrollTop = 0;
 								for (let i = 0; i < result.length; i++) {
 									if (result[i].resultType == 'u'){
 										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
-//										console.log("ab", result[i].resultType)
 									} else if (result[i].resultType == 'h') {
-//										console.log("ac", result[i].resultType)
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
@@ -654,13 +627,11 @@ let scrollTop = 0;
 					        }
 							$(".resultSearch").click((e) => {
 								let searchType = $(e.target).data("searchtype")
-//								console.log("b", searchType);
 								if (searchType == 'u'){
 									let searchU = $(e.target).data("usernickname");
 									location.href = pageContextURI + '/profile/' + searchU;
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
-//									console.log("searchH", searchH);
 									MainfeedMakeAjax(searchH)
 								}
 							});

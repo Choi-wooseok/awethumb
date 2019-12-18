@@ -94,8 +94,8 @@
 			    </div>
 				<div id="LoginModalBoard" class="LoginModalBoard">
 		        	<div class="board-modal">
-			            <div> <button id="updateBtn" class="updateBtn" type="button">수정 및 삭제</button></div>
-		            	<div class="boardClose">취 소 </div>
+			            <div> <button id="updateBtn" class="updateBtn" type="button">수정 / 삭제</button></div>
+		            	<div class="LoginBoardClose">취 소 </div>
 			        </div>
 			    </div>
 			    
@@ -113,7 +113,7 @@
 					clearTimeout(time);
 				})
 		</script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/MainFeed.js"></script>
+		<script type="text/javascript" src="../js/mainfeedjs.js"></script>
 		<script type="text/javascript" src="../js/hashtag/jquery.hashtags.js"></script>
 		<script type="text/javascript" src="../js/hashtag/autosize.min.js"></script>
 </body>

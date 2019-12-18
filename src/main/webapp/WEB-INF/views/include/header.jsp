@@ -105,7 +105,7 @@
         <!-- 채팅 js -->
         <script src="${pageContext.request.contextPath}/js/chat.js"></script>
         <!-- 검색 및 해시태그 js -->
-        <script src="${pageContext.request.contextPath}/js/mainfeed.js"></script>
+        <script src="${pageContext.request.contextPath}/js/mainfeedjs.js"></script>
     </sec:authorize>
     <script>
 		if (window.location.pathname.indexOf("mainfeed") != -1){

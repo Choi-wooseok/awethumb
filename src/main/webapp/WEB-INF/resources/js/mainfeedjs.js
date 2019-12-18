@@ -81,7 +81,7 @@ let scrollTop = 0;
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
 								<div class="feedUserImg">
-									<img src="${pageContextURI}/images/test_user.jpg" alt="">
+									<img src="${pageContextPath}/images/test_user.jpg" alt="">
 								</div>
 								<div>
 									<a href="#">${c.userNickname}</a>
@@ -89,7 +89,7 @@ let scrollTop = 0;
 							</div>
 
 							<div class="feedsImgWrap">
-								<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
+								<a class="detailFeed" href="javascript:;" > <img src="${pageContextPath}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
 								</a>
 							</div>
 
@@ -629,7 +629,7 @@ let scrollTop = 0;
 								let searchType = $(e.target).data("searchtype")
 								if (searchType == 'u'){
 									let searchU = $(e.target).data("usernickname");
-									location.href = pageContextURI + '/profile/' + searchU;
+									location.href = pageContextPath + '/profile/' + searchU;
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
 									MainfeedMakeAjax(searchH)

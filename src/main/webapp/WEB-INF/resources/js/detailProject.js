@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 	$.ajax({
     	data: {pjtNo : $("#updateBtn").data("pjtno")},
     	type: "post",
@@ -7,39 +8,94 @@ $(document).ready(function() {
     		$(".pjtName").html(`${project.projectTitle}`);
     	}
     })
-	
-    $('#summernote').summernote({
-        height: 300,
+
+	$('#summernote').summernote({
         minHeight: null,
         maxHeight: null,
         focus: true,
-        // 서머노트 이미지 업로드시 필요
-		callbacks: {
-			onImageUpload: function(files, editor, welEditable) {
-				for (var i = files.length - 1; i >= 0; i--) {
-					sendFile(files[i], editor, welEditable);
-				}
-			}
-		}
-    });
+        toolbar : [
+        	['style', ['bold', 'italic', 'underline', 'clear']],
+        	['fontsize', ['fontsize']],
+        ],
+        popover: {},
+        disableDragAndDrop: true,
+	});
 });
 
-function sendFile(file, el, welEditable) {
-	var data = new FormData();
-	data.append('file', file);
-	$.ajax({
-		data: data,
-		type: "POST",
-		url: 'imageUpload.do',
-		cache: false,
-		contentType: false,
-		enctype: 'multipart/form-data',
-		processData: false,
-		success: function(url) {
-			console.log(url)
-			$("#summernote").summernote('insertImage', url)
+// 이미지 선택 버튼 클릭 시 이미지 초기화
+$("#insertImg").change((e) => {
+	$(".imageViewWrap").html("").removeClass("slick-slider").removeClass("slick-initialized");
+	let images = $(e.target).get(0).files;
+	
+	// 이미지가 1개이상 선택 되었을 경우
+	if (images.length != 0) {
+		for (let i = 0; i < images.length; i++) {
+			var data = new FormData();
+			data.append('file', images[i]);
+			$.ajax({
+				data: data,
+				url: "imageUpload.do",
+				type: "POST",
+				dataType: "json",
+				contentType: false,
+				processData: false,
+				async: false,
+				cache: false,
+				success: (bfile) => {
+					// 가져온 url로 이미지 그리기
+					$(".imageViewWrap").append(`
+							<img class="imgPos" src="${bfile.url}" />
+					`)
+					// 이미지가 모두 append된 후에 작업
+					if (i == images.length-1) {
+						$(".imageViewWrap").slick();
+						$("#insertImg").addClass("movePos");
+					}
+				}
+			})
 		}
-    });
+	// 이미지가 0개 선택인 경우
+	} else if (images.length == 0) {
+		$("#insertImg").removeClass("movePos");
+	}
+})
+
+//function sendFile(file, editor) {
+//	var data = new FormData();
+//	data.append('file', file);
+//	$.ajax({
+//		data: data,
+//		type: "POST",
+//		url: 'imageUpload.do',
+//		cache: false,
+//		contentType: false,
+//		enctype: 'multipart/form-data',
+//		processData: false,
+//		success: (bfile) => {
+//			$(".summernote1").summernote('insertImage', `${bfile.url}`);
+//			imageSlide();
+////			setTimeout(() => {
+////				$('.single-item-wrap').slick();
+//				
+//				// 이미지 resize 모듈화 해서 해야됨
+////				alert($(".single-item-wrap").children("img").length);
+////				imgReSize({
+////					w : $(imgSize).width(),
+////					h : $(imgSize).height()
+////				})
+////			}, 100)
+//		}
+//	})
+//}
+
+
+
+// 이미지 등록 시 이미지 이미지 선택화면에서 이미지 띄우는 화면으로 전환
+function imageSlide() {
+	let imgWrap = ".insertCont > div.note-editor:nth-child(2) > ";
+	$(imgWrap + ".note-toolbar").addClass("hide");
+	$(imgWrap + ".note-editing-area").addClass("block")
+									 .addClass("imgBoxSize");
 }
 
 $(function () {
@@ -69,6 +125,7 @@ $(".grid-stack-item").resize((e) => {
 // 등록 버튼 클릭 시 모달창 생성
 $("#insertBtn").click(() => {
 	$(".modalInsertWrap").addClass("block");
+	$(".note-editable").html("");
 	let pjtNo = $("#insertBtn").data("pjtno");
 	$(".inpjtNo").html(`
 		<input type="hidden" name="projectNo" value="${pjtNo}" />
@@ -77,6 +134,9 @@ $("#insertBtn").click(() => {
 // x버튼 클릭 시 모달창 제거
 $(".closeBtn").click(() => {
 	$(".modalInsertWrap").removeClass("block");
+	$(".imageViewWrap").html('');
+//	.slick('unslick')
+	$("#insertImg").removeClass("hide");
 })
 
 // 모달창이 띄어졌을 시 스크롤 방지
@@ -110,16 +170,24 @@ $(".detailBtn").click((e) => {
 		url: "selectOneBoard.do",
 		data : {postNo: posNo},
 		success : (board) => {
-			promise.done(
-				viewBoardAjax(board),
-				setTimeout(() => {
-					imgReSize({
-						w : $("#image").width(),
-						h : $("#image").height()
-					})
-					$('.single-item').slick();
-				}, 100)
-			);
+			viewBoardAjax(board)
+			
+			// 오른쪽 Comment 높이 지정 (Content높이에 따라 변경됨)
+			$(".comment").height(
+		   		$(".modalContWrap").height()-($(".modalCont").height()-31)
+		    )
+		    
+//				setTimeout(() => {
+//				이미지 resize 모듈화 해서 사용
+//					let images = $(".single-item-wrap").children;
+//					console.log("detailImage width : ", $("#image").width())
+//					imgReSize({
+//						w : $("#image").width(),
+//						h : $("#image").height()
+//					})
+//					$('.single-item').slick();
+//					$("#boxSize").slick();
+//				}, 100)
 			
 			$.ajax({
 				url: "selectCommentList.do",
@@ -129,10 +197,38 @@ $(".detailBtn").click((e) => {
 						commentListAjax(cList[i])						
 					}
 				}
+			});
+			
+			$.ajax({
+				url: "imageDownload.do",
+				data: {postNo: board.postNo},
+				success: (sArr) => {
+					if (sArr != null) {
+						for (let i = 0; i < sArr.length; i++) {
+							$("#boxSize").append(`
+								<img class="detailImage" src=${sArr[i]} />
+							`)
+						}
+					}
+//						$("#boxSize").slick();
+					
+//						console.log($(".detailImage"))
+//						for (let i = 0; i <sArr.length; i++) {
+//							console.log($(".detailImage")[i].width)
+//						}
+//						imgReSize({
+//							w : $(".detailImage").width(),
+//							h : $(".detailImage").height()
+//						})
+//					console.log($(".detailImage").height())
+				}
 			})
 		}
 	})
 	$(".modal").addClass("block");
+	$(document).on("ready", "#boxSize", () => {
+		console.log(this)
+	})
 })
 
 // 댓글 등록버튼 클릭 시 Ajax로 댓글 등
@@ -204,25 +300,7 @@ $(document).on("click", ".upCmtBtn", (e) => {
 			}
 		})
 	};
-//	$(".cmtWrap").removeClass("block");
 })
-
-// 참고
-$(document).on("click", "#cmtInsertBtn", (e) => {
-	let postNo = $(e.target).data("postno");
-	if ($("#upCmtCont").val().length != 0) {
-		$.ajax({
-			type: "post",
-			url: "insertComment.do",
-			data: {
-				postNo : postNo,
-				cmtContent : $("#cmtCont").val()
-			},
-			success: () => {commentListViewAjax(postNo)}
-		})
-	}
-});
-
 
 // 댓글 등록 후 다시 뿌리는 Ajax
 function commentListViewAjax(postNo) {
@@ -327,12 +405,6 @@ function viewBoardAjax(board) {
 	</div>
 	`
 	);
-	
-	if ($(".modalCont > p").children("img").length != 0) {
-		$("#boxSize").html(
-			$(".modalCont > p").children("img")
-		)
-	}
 	$("#modalClose").click(() => {
 		$(".modal").removeClass("block");
 		$("#boxSize").html(``);
@@ -341,31 +413,31 @@ function viewBoardAjax(board) {
 
 
 // 이미지 띄우는 스크립트
-function imgReSize({w, h}) {
-	let maxSize = 550;
-	let boxSize = document.getElementById("boxSize");
-	let rightBox = document.getElementById("rightBox");
-    if (w > maxSize && h > maxSize) {
-        if (w > h) {
-            boxSize.style.width = maxSize+"px";
-            boxSize.style.height = "auto";
-            image.style.width = "100%";
-        } else {
-	        boxSize.style.width = "auto";
-	        boxSize.style.height = maxSize+"px";
-	        image.style.height = "100%";
-        }
-    } else if (w > maxSize && h < maxSize) {
-        boxSize.style.width = maxSize+"px";
-        image.style.width =  "100%";
-    } else if (w < maxSize && h > maxSize) {
-        box.Size.style.height = maxSize+"px";
-        image.style.height = "100%";
-    }
-    rightBox.style.height = boxSize.style.height;
-    
-    $(".comment").height(
-   		$(".modalContWrap").height()-($(".modalCont").height()+18+51)
-    )
-}
+//function imgReSize({w, h}) {
+//	let maxSize = 550;
+//	let boxSize = document.getElementById("boxSize");
+//	let rightBox = document.getElementById("rightBox");
+//    if (w > maxSize && h > maxSize) {
+//        if (w > h) {
+//            boxSize.style.width = maxSize+"px";
+//            boxSize.style.height = "auto";
+//            image.style.width = "100%";
+//        } else {
+//	        boxSize.style.width = "auto";
+//	        boxSize.style.height = maxSize+"px";
+//	        image.style.height = "100%";
+//        }
+//    } else if (w > maxSize && h < maxSize) {
+//        boxSize.style.width = maxSize+"px";
+//        image.style.width =  "100%";
+//    } else if (w < maxSize && h > maxSize) {
+//        box.Size.style.height = maxSize+"px";
+//        image.style.height = "100%";
+//    }
+//    rightBox.style.height = boxSize.style.height;
+//    
+//    $(".comment").height(
+//   		$(".modalContWrap").height()-($(".modalCont").height()+18+51)
+//    )
+//}
 

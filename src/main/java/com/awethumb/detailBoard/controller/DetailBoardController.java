@@ -1,16 +1,19 @@
 package com.awethumb.detailBoard.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,20 +26,22 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.UserVO;
-import com.awethumb.util.FileUploadUtil;
+import com.awethumb.util.FileUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
 @RequestMapping("/detailProject")
 public class DetailBoardController {
-	
+
 	@Autowired
 	private DetailBoardService service;
-	
+
 	@GetMapping("/{projectNo}")
-	public ModelAndView DetailBoardList(@PathVariable int projectNo) {
+	public ModelAndView DetailBoardList(@PathVariable int projectNo, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("detailProject/detailBoardList");
-		
+		HttpSession session = req.getSession();
+		List<BoardFile> bfList = new ArrayList<>();
+		session.setAttribute("bfList", bfList);
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
@@ -45,20 +50,30 @@ public class DetailBoardController {
 		mav.addObject("list", bList);
 		return mav;
 	}
-	
+
 	@RequestMapping("write.do")
-	public String insertBoard(Board board) {
+	public String insertBoard(Board board, HttpServletRequest req) {
 		int pjtNo = board.getProjectNo();
+		HttpSession session = req.getSession();
+		List<BoardFile> bfList = (List<BoardFile>) session.getAttribute("bfList");
+		board.setListFile(bfList);
 		service.insertBoard(board);
+		int postNo = service.postNoSelect(); 
+		for (int i = 0; i < bfList.size(); i++ ) {
+			BoardFile bfile = bfList.get(i);
+			bfile.setPostNo(postNo);
+			service.insertImage(bfile);
+		}
+		session.removeAttribute("bfList");
 		return "redirect:" + pjtNo;
 	}
-	
+
 	@PostMapping("delete.do")
 	public String deleteBoard(int postNo, int pjtNo) {
 		service.deleteBoard(postNo);
-		return "redirect:"+pjtNo;
+		return "redirect:" + pjtNo;
 	}
-	
+
 	@RequestMapping("updateListForm.do")
 	public void updateListForm(@RequestParam("projectNo") int projectNo, Model model) {
 		List<Board> bList = service.selectBoardList(projectNo);
@@ -74,70 +89,92 @@ public class DetailBoardController {
 	public String updateBoard(Board board) {
 		int pjtNo = board.getProjectNo();
 		service.updateBoard(board);
-		return "redirect:updateListForm.do?projectNo="+pjtNo;
+		return "redirect:updateListForm.do?projectNo=" + pjtNo;
 	}
-	
+
 	@RequestMapping("updateList.do")
 	@ResponseBody
 	public void updateList(int postNo, int x_coord, int y_coord, int width, int hight) {
 		service.updateList(postNo, x_coord, y_coord, width, hight);
 	}
-	
+
 	@RequestMapping("selectOneBoard.do")
 	@ResponseBody
 	public Board selectOneBoard(int postNo) {
+		service.viewCount(postNo);
 		Board board = service.selectOneBoard(postNo);
 		UserVO writer = service.selectWriter(postNo);
 		board.setWriter(writer.getUserName());
 		return board;
 	}
-	
+
+//	@SuppressWarnings("unchecked")
 	@PostMapping("imageUpload.do")
 	@ResponseBody
-	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-		try {
-			int postNo = service.postNoSelect();
-			System.out.println("postNo = " + postNo);
-			BoardFile uploadedFile = FileUploadUtil.store(file, postNo, req);
-			service.insertImage(uploadedFile);
-			return ResponseEntity.ok().body(uploadedFile.getUrl());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
-		}
-	}
+	public BoardFile imageUpload (
+			@RequestParam("file") MultipartFile file,
+			HttpServletResponse res,
+			HttpServletRequest req) throws Exception {
+
+		FileUtil fu = new FileUtil();
+		BoardFile bfile = fu.UploadImage(file, res);			
+		bfile.setUrl(req.getContextPath() + "/image/" + bfile.getBoardFilePath() + bfile.getBoardFileSysName());
+		HttpSession session = req.getSession();
+		List<BoardFile> bfList = (List<BoardFile>)session.getAttribute("bfList");
+		bfList.add(bfile);
+		session.setAttribute("bfList", bfList);
+		return bfile;
+	};
 	
+	@RequestMapping("imageDownload.do")
+	@ResponseBody
+	public List<String> imageDownload(@RequestParam("postNo") int postNo,
+			HttpServletRequest req,
+			HttpServletResponse res
+			) throws Exception  {
+		List<BoardFile> bfList = service.selectImages(postNo);
+		String url = req.getRequestURL().toString().split(req.getContextPath())[0];
+		List<String> sArr = new ArrayList<>();;
+		for (int i = 0; i < bfList.size(); i++) {
+			String path = bfList.get(i).getBoardFilePath();
+			String sysName = bfList.get(i).getBoardFileSysName();
+			String realPath = url + req.getContextPath()  + "/image/" + path + sysName;
+			sArr.add(realPath);
+		}
+		return sArr;
+	}
+
 	@PostMapping("selectProjectName.do")
 	@ResponseBody
 	public Project selectProjectName(@RequestParam("pjtNo") int pjtNo) {
 		return service.selectProjectName(pjtNo);
 	}
-	
+
 	@PostMapping("updateProjectName.do")
 	public String updateProjectName(int pjtNo, String pjtName) {
 		Project pjt = service.selectProjectName(pjtNo);
 		pjt.setProjectTitle(pjtName);
 		service.updateProjectName(pjt);
-		return "redirect:updateListForm.do?projectNo="+pjtNo;
+		return "redirect:updateListForm.do?projectNo=" + pjtNo;
 	}
-	
+
 	@RequestMapping("selectCommentList.do")
 	@ResponseBody
 	public List<Comment> commentList(@RequestParam("postNo") int postNo) {
 		List<Comment> comments = service.commentList(postNo);
-		for(int i = 0; i < comments.size(); i++) {
+		for (int i = 0; i < comments.size(); i++) {
 			Comment uVo = comments.get(i);
 			uVo.setCmtUserNickname(service.selectUser(uVo.getUserNo()));
 		}
 		return comments;
 	}
-	
+
 	@RequestMapping("insertComment.do")
 	@ResponseBody
 	public void insertComment(Comment comment) {
 		service.insertComment(comment);
 	}
-	
+
 	@RequestMapping("deleteComment.do")
 	@ResponseBody
 	public void deleteComment(@RequestParam("cmtNo") int cmtNo) {

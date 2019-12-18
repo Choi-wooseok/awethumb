@@ -20,7 +20,6 @@
   	<link rel="stylesheet" href="<c:url value='/js/slide/slick.css' /> ">
   	<link rel="stylesheet" href="<c:url value='/js/slide/slick-theme.css' /> ">    
     <script src="<c:url value='/js/slide/slick.js' />"></script>
-	
 
 </head>
 <body>
@@ -103,7 +102,7 @@
     </div> 
 
     <div class="modalInsertWrap">
-        <form method="post" action="write.do">
+       <form method="post" action="write.do">
             <div class="insertFormWrap">
                 <div class="insertTitle">
                    	 글 등록하기
@@ -112,6 +111,11 @@
                     </button>
                 </div>
                 <div class="insertCont">
+              		<div>
+	              		<input id="insertImg" name="isnertImg" type="file" multiple="multiple" />
+              			<div class="imageViewWrap"></div>
+              		</div>
+                	
                 	<textarea id="summernote" name="postContent"></textarea>
                 </div>
                 <div class="inpjtNo"></div>

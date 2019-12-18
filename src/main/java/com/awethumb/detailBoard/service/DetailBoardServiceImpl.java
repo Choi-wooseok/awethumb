@@ -104,4 +104,12 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public String selectUser(int userNo) {
 		return dao.selectUser(userNo);
 	}
+	
+	public List<BoardFile> selectImages(int postNo) {
+		return dao.selectImages(postNo);
+	}
+	
+	public void viewCount(int postNo) {
+		dao.viewCount(postNo);
+	};
 }

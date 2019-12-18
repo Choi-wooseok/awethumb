@@ -2,1310 +2,1366 @@
 /* header Css */
 /* -------------------------------- */
 header {
-    position: fixed !important;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 70px;
-    line-height: 70px !important;
-    z-index: 10;
-    background-color: #fff;
-    border-bottom: 1px solid #dbdbdb !important;
-    box-sizing: border-box;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  line-height: 70px !important;
+  z-index: 10;
+  background-color: #fff;
+  border-bottom: 1px solid #dbdbdb !important;
+  box-sizing: border-box;
 }
 header > div {
-    width: 769px;
-    margin: 0 auto;
-    overflow: hidden;
+  width: 769px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 header > div > div:nth-child(2) {
-    padding-left: 55px;
+  padding-left: 55px;
 }
 .title > span {
-    display: block;
-    box-sizing: border-box;
-    padding: 0 15px;
-    font-size: 24px;
-    font-weight: 900;
-    float: left;
-    text-decoration: none;
-    color: #333;
+  display: block;
+  box-sizing: border-box;
+  padding: 0 15px;
+  font-size: 24px;
+  font-weight: 900;
+  float: left;
+  text-decoration: none;
+  color: #333;
 }
 .search {
-    display: block;
-    box-sizing: border-box;
-    padding: 0 15px;
-    float: left;
-    letter-spacing: 1px;
+  display: block;
+  box-sizing: border-box;
+  padding: 0 15px;
+  float: left;
+  letter-spacing: 1px;
 }
 .search > form {
-    position: relative;
+  position: relative;
 }
 .search > form > input {
-    width: 300px;
-    height: 33px;
-    border-radius: 3px;
-    border: 1px solid #dadada;
-    box-shadow: none;
-    box-sizing: border-box;
-    padding: 0 38px 0 8px;
+  width: 300px;
+  height: 33px;
+  border-radius: 3px;
+  border: 1px solid #dadada;
+  box-shadow: none;
+  box-sizing: border-box;
+  padding: 0 38px 0 8px;
 }
 .search > form > input:focus {
-    border: 1px solid;
-    border-color: #6dd5bc;
+  border: 1px solid;
+  border-color: #6dd5bc;
 }
 .search > form > label {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 12px;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+  cursor: pointer;
 }
 .user {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 8px;
-    overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 8px;
+  overflow: hidden;
 }
 .user > img {
-    position: relative;
-    /* top:-1px; */
-    width: 100%;
-    height: 100%;
+  position: relative;
+  /* top:-1px; */
+  width: 100%;
+  height: 100%;
 }
 .layout_right > a {
-    text-decoration: none;
-    color: #333;
+  text-decoration: none;
+  color: #333;
 }
 .optBtn {
-    position: relative;
-    float: right;
-    margin: 0 10px 0 30px;
+  position: relative;
+  float: right;
+  margin: 0 10px 0 30px;
 }
 .optBtn > button {
-    margin: 0 3px;
-    border: none;
-    background-color: transparent;
-    color: #666;
+  margin: 0 3px;
+  border: none;
+  background-color: transparent;
+  color: #666;
 }
 .optBtn > button > i {
-    font-size: 20px;
-    font-weight: 400;
+  font-size: 20px;
+  font-weight: 400;
 }
 .optBtn > button:hover {
-    color: #6dd5bc;
-} 
+  color: #6dd5bc;
+}
 .options {
-    height: 65px;
-    box-sizing: border-box;
-    padding: 0 10px;
-    overflow: hidden;
-    margin: 0 5px 15px 5px;
-    background-color: #6dd5bc;
-    border-radius: 4px;
+  height: 65px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  overflow: hidden;
+  margin: 0 5px 15px 5px;
+  background-color: #6dd5bc;
+  border-radius: 4px;
 }
 .options > div > button {
-    padding: 20px 25px;
-    border: none;
-    border-radius: 5px;
-    background-color: transparent;
-    margin-left: 5px;
-    font-size: 16px;
-    height: 65px;
+  padding: 20px 25px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  margin-left: 5px;
+  font-size: 16px;
+  height: 65px;
 }
 .options > div > button > i {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .options > div > button:hover {
-    color: #fff;
+  color: #fff;
 }
 
 /* -------------------------------- */
 /* index Css */
 /* -------------------------------- */
 section#index {
-    position: relative;
-    width: 100%;
-    height: 100vh;
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
 .indexBg {
-    width: 100%;
-    height: 100%;
-    background-image: url("./../images/main_bg.jpg");
-    background-position: center;
-    background-size: cover;
+  width: 100%;
+  height: 100%;
+  background-image: url("./../images/main_bg.jpg");
+  background-position: center;
+  background-size: cover;
 }
 .login {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 460px;
-    background-color: #00000065;
-    box-sizing: border-box;
-    box-shadow:0 3px 6px rgba(0,0,0,0.16);
-    padding: 30px;
-    border-radius: 3px;
-    color: #fff;
-    border: 2px solid #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 460px;
+  background-color: #00000065;
+  box-sizing: border-box;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 30px;
+  border-radius: 3px;
+  color: #fff;
+  border: 2px solid #fff;
 }
 .login .title {
-    text-align: center;
-    font-size: 38px;
-    margin-top: 20px;
+  text-align: center;
+  font-size: 38px;
+  margin-top: 20px;
 }
 .login > form {
-    width: 275px;
-    margin: 55px auto;
+  width: 275px;
+  margin: 55px auto;
 }
 .login > form > input {
-    width: 100%;
-    height: 40px;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid #ffffff;
-    box-sizing: border-box;
-    padding-left: 8px;
-    margin-top: 25px;
-    color: #fff;
-    font-size: 16px;
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #ffffff;
+  box-sizing: border-box;
+  padding-left: 8px;
+  margin-top: 25px;
+  color: #fff;
+  font-size: 16px;
 }
 .input-focus {
-    color: #6dd5bc;
+  color: #6dd5bc;
 }
 .login > form > input::placeholder {
-    color: #fff;
+  color: #fff;
 }
 .login > form > input:focus {
-    border-bottom: 2px solid #6dd5bc;
-    background-color: #6dd5bc33;
+  border-bottom: 2px solid #6dd5bc;
+  background-color: #6dd5bc33;
 }
 .login > form > button {
-    background-color: transparent;
-    color: #6dd5bc;
-    border: none;
-    width: 100%;
-    margin-top: 35px;
-    line-height: 35px;
-    border-radius: 3px;
-    font-size: 17px;
+  background-color: transparent;
+  color: #6dd5bc;
+  border: none;
+  width: 100%;
+  margin-top: 35px;
+  line-height: 35px;
+  border-radius: 3px;
+  font-size: 17px;
 }
 .login > form > button:hover {
-    background-color: #6dd5bc;
-    color: #fff;
+  background-color: #6dd5bc;
+  color: #fff;
 }
 .loginText {
-    font-size: 14px;
-    text-align: center;
+  font-size: 14px;
+  text-align: center;
 }
 .loginText > a {
-    text-decoration: none;
-    color: #6dd5bc;
-    font-size: 17px;
+  text-decoration: none;
+  color: #6dd5bc;
+  font-size: 17px;
 }
-
 
 /* -------------------------------- */
 /* mypage Css */
 /* -------------------------------- */
 section#mypage {
-    background-color: #dadada35;
+  background-color: #dadada35;
 }
 .userWrap {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    padding: 15px 0 25px 0;
-    border-radius: 15px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 15px 0 25px 0;
+  border-radius: 15px;
 }
 .userWrap > div {
-    width: 600px;
-    margin: 0 auto;
+  width: 600px;
+  margin: 0 auto;
 }
 .userImg {
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 280px;
-    height: 280px;
-    border-radius: 10px;
-    overflow: hidden;
-    z-index: 1;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 280px;
+  height: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1;
 }
 .userImg > img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .userInfo {
-    width: 100%;
-    height: 260px;
-    box-sizing: border-box;
-    padding: 15px 15px 15px 295px;
-    background-color: #fff;
-    box-shadow: 5px 10px 10px 3px #00000035;
+  width: 100%;
+  height: 260px;
+  box-sizing: border-box;
+  padding: 15px 15px 15px 295px;
+  background-color: #fff;
+  box-shadow: 5px 10px 10px 3px #00000035;
 }
 .userInfo > h1 {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 24px;
-    font-weight: 900;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 24px;
+  font-weight: 900;
 }
 .userInfo > p {
-    text-align: center;
-    margin-top: 8px;
-    font-size: 18px;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 18px;
 }
 .userInfo > div {
-    display: table;
-    width: 300px;
-    margin: 35px auto 0;
-    text-align: center;
+  display: table;
+  width: 300px;
+  margin: 35px auto 0;
+  text-align: center;
 }
 .userInfo > div > span {
-    width: 100px;
-    display: table-cell;
-    vertical-align: middle;
+  width: 100px;
+  display: table-cell;
+  vertical-align: middle;
 }
 .userInfo > div > div.line {
-    width: 2px;
-    margin-top: 6px;
-    height: 36px;
-    background-color: #dadada;
+  width: 2px;
+  margin-top: 6px;
+  height: 36px;
+  background-color: #dadada;
 }
 .userInfo > div > span:last-child {
-    border: none;
+  border: none;
 }
 .userInfo > div > span > span {
-    display: block;
-    margin-top: 10px;
-    font-size: 22px;
-    color: #6dd5bc;
+  display: block;
+  margin-top: 10px;
+  font-size: 22px;
+  color: #6dd5bc;
 }
 
 /* -------------------------------- */
 /* mypageDetail Css */
 /* -------------------------------- */
 .min_layout > .grid-stack-item-content {
-	overflow: hidden;
+  overflow: hidden;
 }
 .min_layout > .grid-stack-item-content > .detailImg {
-	width: 100%;
-	
-	/* display: none; */
+  width: 100%;
+
+  /* display: none; */
 }
 .detailImg > img {
-	width: 100%;
+  width: 100%;
 }
 .detailCont {
-	position: relative;
-	box-sizing: border-box;
-	padding: 0 5px;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .bgWrap {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: -1;
 }
 .bgWrap > img {
-    position: absolute;
-    height: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .pjtTitle {
-	display: block;
-	height: 65px;
-    padding-lefT: 5px;
-    font-size: 18px;
-    font-weight: 900;
-    line-height: 65px;
-    float: left;
+  display: block;
+  height: 65px;
+  padding-left: 5px;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 65px;
+  float: left;
 }
 section > div.content {
-    position: relative;
-    width: 769px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding: 85px 0 15px 0;
+  position: relative;
+  width: 769px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 85px 0 15px 0;
 }
 .modalInsertWrap {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100vh;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: #00000085;
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #00000085;
 }
 .modalInsertWrap > form {
-    width: 100%;
-    height: 100%;
- }
+  width: 100%;
+  height: 100%;
+}
 .insertFormWrap {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%); 
-    background-color: #fff;
-    border-radius: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 4px;
 }
 .block {
-    display: block !important;
+  display: block !important;
 }
 .insertTitle {
-    line-height: 45px;
-    box-sizing: border-box;
-    padding-left: 15px;
-    border-bottom: 2px solid #6dd5bc;
-    font-weight: 900;
+  line-height: 45px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  border-bottom: 2px solid #6dd5bc;
+  font-weight: 900;
 }
 .insertTitle > button {
-    border: none;
-    background-color: transparent;
-    float: right;
-    width: 45px;
-    height: 45px;
+  border: none;
+  background-color: transparent;
+  float: right;
+  width: 45px;
+  height: 45px;
 }
 .insertCont {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 15px;
+  width: 700px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.insertCont > div {
+  position: relative;
+  overflow: hidden;
+  float: left;
 }
 .insertCont label {
-    display: block;
-    margin-bottom: 8px;
+  display: block;
+  margin-bottom: 8px;
 }
 .insertCont input {
-    margin-bottom: 15px;
-    width: 100%;
-    padding: 5px 8px;
-    box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-bottom: 15px;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  z-index: 1;
 }
 .note-view,
 .note-statusbar {
-    display: none !important;
+  display: none !important;
 }
 .btnWrap {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 #okBtn {
-    border: none;
-    /* border: 1px solid #a9a9a9; */
-    background-color: transparent;
-    width: 120px;
-    height: 35px;
-    margin-bottom: 15px;
+  border: none;
+  /* border: 1px solid #a9a9a9; */
+  background-color: transparent;
+  width: 120px;
+  height: 35px;
+  margin-bottom: 15px;
 }
 #okBtn:hover {
-    border: 1px solid #6dd5bc;
-    background-color: #6dd5bc;
+  border: 1px solid #6dd5bc;
+  background-color: #6dd5bc;
 }
 .optionModalBtn {
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    width: 25px;
-    height: 25px;
-    background-color: transparent;
-    border: none;
-    display: none;
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: none;
+  display: none;
 }
 .grid-stack-item-content:hover .optionModalBtn,
 .grid-stack-item-content:hover .detailBtn {
-    display: block;
+  display: block;
 }
 .detailBtn {
-	position: absolute;
-	top: 5px;
-	right: 35px;
-	width: 25px;
-	height: 25px;
-	background-color: transparent;
-	border: none;
-	display: none;
+  position: absolute;
+  top: 5px;
+  right: 35px;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: none;
+  display: none;
 }
 .optionModalWrap {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #00000085;
-    z-index:100;
-    display: none;
-    cursor: pointer;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000085;
+  z-index: 100;
+  display: none;
+  cursor: pointer;
 }
 
 .optionModalWrap > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform:translate(-50%, -50%);
-    width: 360px;
-    background-color: #fff;
-    border-radius: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  background-color: #fff;
+  border-radius: 4px;
 }
 .optionModalWrap > div > div {
-    width: 100%;
-    line-height: 48px;
-    border-bottom: 1px solid #a9a9a9;
-    text-align: center;
-    font-size: 14px;
+  width: 100%;
+  line-height: 48px;
+  border-bottom: 1px solid #a9a9a9;
+  text-align: center;
+  font-size: 14px;
 }
 .optionModalWrap > div > div > a {
-	width: 100%;
-	height: 100%;
-	display: block;
-	text-decoration: none;
-	color: #000;
-	font-size: 14px;
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
 }
 .optionModalWrap > div > div:hover {
-    background-color: #6dd5bc;
+  background-color: #6dd5bc;
 }
 .report {
-    color: red;
+  color: red;
 }
 .followcancel {
-    color:
+  color: ;
 }
 
 /* -------------------------------- */
 /* myProject Css */
 /* -------------------------------- */
 .myprojectWrap {
-    box-sizing: border-box;
-    padding-top: 15px;
-    background-color: #fafafa;
-    min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 15px;
+  background-color: #fafafa;
+  min-height: 100vh;
 }
 .myprojectWrap > div {
-    width: 769px;
-    height: 100%;
-    margin: 0 auto;
+  width: 769px;
+  height: 100%;
+  margin: 0 auto;
 }
 .mpjinfo {
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 15px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 15px;
 }
 .mpjinfo > span {
-	box-sizing: border-box;
-	padding-left: 35px;
-    font-size: 45px;
-    letter-spacing: 1px;
-    font-family: 'Passion One', cursive;
+  box-sizing: border-box;
+  padding-left: 35px;
+  font-size: 45px;
+  letter-spacing: 1px;
+  font-family: "Passion One", cursive;
 }
 .myprojectContWrap {
-    width: 950px;
-    box-sizing: border-box;
-    /* padding-top: 30px; */
-    margin: 0 auto;
-    overflow: hidden;
+  width: 950px;
+  box-sizing: border-box;
+  /* padding-top: 30px; */
+  margin: 0 auto;
+  overflow: hidden;
 }
 .myprojectContWrap > p {
-    box-sizing: border-box;
-    padding-left: 15px;
+  box-sizing: border-box;
+  padding-left: 15px;
 }
 .mpjcont {
-    width: 749px;
-    margin: 0 auto;
-    overflow: hidden;
+  width: 749px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 .mpjcont > .mpjlist {
-    box-sizing: border-box;
-    padding: 8px;
-    width: 249px;
-    height: 249px;
-    float: left;
+  box-sizing: border-box;
+  padding: 8px;
+  width: 249px;
+  height: 249px;
+  float: left;
 }
 .mpjlist > div:hover .bg_gray {
-    display: table;
+  display: table;
 }
 .bg_gray {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,.4);
-    z-index: 1;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 .bg_gray > div {
-    opacity: 0;
-    display: table-cell;
-    vertical-align: middle;
-    padding-top: 15px;
-    transition: 0.3s;
-    text-align: center;
-    cursor: pointer;
+  opacity: 0;
+  display: table-cell;
+  vertical-align: middle;
+  padding-top: 15px;
+  transition: 0.3s;
+  text-align: center;
+  cursor: pointer;
 }
 .bg_gray p {
-    color: #fff;
-    font-size: 20px;
-    box-sizing: border-box;
-    padding: 0 25px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  color: #fff;
+  font-size: 20px;
+  box-sizing: border-box;
+  padding: 0 25px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .bg_gray span {
-    display: block;
-    margin-top: 25px;
-    color: #fff;
+  display: block;
+  margin-top: 25px;
+  color: #fff;
 }
 .bg_gray span > i {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .bg_gray:hover > div {
-    opacity: 1;
-    padding-top: 0;
+  opacity: 1;
+  padding-top: 0;
 }
 .mpjlist > div:last-child {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .mpjlist > div > img {
-    height: 100%;
+  height: 100%;
 }
 .slick-prev,
 .slick-next {
-    top: 18px !important;
-    z-index: 1;
+  top: 18px !important;
+  z-index: 1;
 }
 .slick-prev {
-    content: none !important;
-    left: 15px !important;
+  content: none !important;
+  left: 15px !important;
 }
 .slick-next {
-    right: 15px !important;
+  right: 15px !important;
 }
 .slick-prev::before,
 .slick-next::before {
-    content: none !important;
-    font-stretch: 50%;
-    font-size: 70px !important;
-    color: #333 !important;
+  content: none !important;
+  font-stretch: 50%;
+  font-size: 70px !important;
+  color: #333 !important;
 }
 .myprojectSlide > button > .fas {
-    color: #6dd5bc;
-    font-size: 55px;
+  color: #6dd5bc;
+  font-size: 55px;
 }
 
 /* -------------------------------- */
 /* Image Modal Css */
 /* -------------------------------- */
-.modal_btn{
-    all:unset;
-    background-color: steelblue;
-    color: white;
-    padding: 5px 20px;
-    border-radius: 30px;
-    cursor: pointer;
+.modal_btn {
+  all: unset;
+  background-color: steelblue;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 30px;
+  cursor: pointer;
 }
 .close_btn {
-    float: right;
-    margin: 10px;
-    z-index: 2;
+  float: right;
+  margin: 10px;
+  z-index: 2;
 }
-.modal{
-    position: fixed;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: #00000035;
-    z-index: 100;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000035;
+  z-index: 100;
 }
 .modal_overlay {
-    background-color: rgba(0,0,0,0.19);
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  background-color: rgba(0, 0, 0, 0.19);
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 .modal_content_container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .arw-btn {
-    font-size: 6rem;
-    color: rgba(0,0,0,0.40);
-    z-index: 1;
-    margin: 35px;
+  font-size: 6rem;
+  color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  margin: 35px;
 }
 .modal_content {
-    background-color: white;
-    position: relative;
-    display: table;
-    min-width: 700px;
+  background-color: white;
+  position: relative;
+  display: table;
+  min-width: 700px;
 }
 .modal_content > #boxSize {
-    position: relative;
-    display: table-cell;
-    vertical-align: middle;
-    line-height: 0;
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  line-height: 0;
 }
 /* #boxSize > img {
 	max-width: 600px;
 	max-height: 600px;
 } */
 .modal_content_container > .fa-caret-left {
-	position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: -105px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -105px;
 }
 .modal_content_container > .fa-caret-right {
-	position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -105px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -105px;
 }
 .ModaluserInfo > div {
-	float: left
+  float: left;
 }
 .userName {
-	box-sizing: border-box;
-	padding-lefT: 15px;
-	line-height: 32px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  line-height: 32px;
 }
 
 .modalContWrap > div:last-child {
-    width: 350px;
-    min-height: 400px;
-    max-height: 450px;
-    box-sizing: border-box;
-    float: right;
-    background-color: #fff;
+  width: 350px;
+  min-height: 400px;
+  max-height: 450px;
+  box-sizing: border-box;
+  float: right;
+  background-color: #fff;
 }
 .ModaluserInfo {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 9px 15px;
-    border-bottom: 1px solid #efefef;
-    overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 15px;
+  border-bottom: 1px solid #efefef;
+  overflow: hidden;
 }
 .modal_content > div:last-child > div.ModaluserInfo > div {
-    display: table-cell;
-    vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 .modalCont {
-	width: 100%;
-	min-height: 80px;
-    max-height: 150px;
-    overflow: auto;
-    box-sizing: border-box;
-    padding: 8px;
+  width: 100%;
+  min-height: 80px;
+  max-height: 150px;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 8px;
 }
 .modal_content > div:last-child > div.ModaluserInfo > div:first-child {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    line-height: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 0;
 }
 .modal_content > div:last-child > div > div:first-child > img {
-    width: 100%;
+  width: 100%;
 }
 .modal_content > div:last-child > div > div.userName {
-    text-align: left;
-    box-sizing: border-box;
-    padding-left: 20px;
+  text-align: left;
+  box-sizing: border-box;
+  padding-left: 20px;
 }
 .modal_content a {
-    text-decoration: none;
-    color: #333;
+  text-decoration: none;
+  color: #333;
 }
 .hidden {
-    display: none;
+  display: none;
 }
 .commentList {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 9px 10px;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  overflow: hidden;
 }
-.commentList::before{
-    position: absolute;
-    top: 23px;
-    left: 46px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
-    content: "";
-    display: block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
+.commentList::before {
+  position: absolute;
+  top: 23px;
+  left: 46px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
 }
 .commentList::after {
-    position: absolute;
-    top: 15px;
-    left: 59px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+  position: absolute;
+  top: 15px;
+  left: 59px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 .commentUserImg {
-    width: 32px;
-    height: 32px;
-    line-height: 0;
-    border-radius: 50%;
-    overflow: hidden;
-    float: left;
-    margin-top: 15px;
+  width: 32px;
+  height: 32px;
+  line-height: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  float: left;
+  margin-top: 15px;
 }
 /* .comment {
 	max-height: calc(100% - 201px);
 	overflow: auto;
 } */
 .commentUserImg > img {
-    width: 100%;
+  width: 100%;
 }
 #modalClose {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	width: 25px;
-	height: 25px;
-	background-color: transparent;
-	border: none;
-	z-index: 1;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: none;
+  z-index: 1;
 }
 .commentWrap {
-    position: relative;
-    box-sizing: border-box;
-    float: right;
-    width: calc(100% - 68px);
-    padding: 8px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  position: relative;
+  box-sizing: border-box;
+  float: right;
+  width: calc(100% - 68px);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 .commentWrap > div {
-	margin-top: 8px;
+  margin-top: 8px;
 }
 .insertComment {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 .insertComment > input {
-    width: 100%;
-    line-height: 50px;
-    box-sizing: border-box;
-    padding: 0 95px 0 15px;
-    border: none;
-    border-top: 1px solid #efefef;
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 0 95px 0 15px;
+  border: none;
+  border-top: 1px solid #efefef;
 }
 .insertComment > button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 80px;
-    height: 100%;
-    border: none;
-    background-color: transparent;
-    border-left: 1px solid #efefef;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  border-left: 1px solid #efefef;
 }
 .insertComment > button:hover {
-    color:#6dd5bc;
+  color: #6dd5bc;
 }
 .like {
-    border: none;
-    background-color: transparent
+  border: none;
+  background-color: transparent;
 }
 
 /* -------------------------------- */
 /* Feed Page Css */
 /* -------------------------------- */
 section#feed {
-    box-sizing: border-box;
-    padding-top: 70px;
-    background-color: #dadada35;
+  box-sizing: border-box;
+  padding-top: 70px;
+  background-color: #dadada35;
 }
 .feedContWrap {
-    position: relative;
-    width: 769px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding-top: 35px;
-    overflow: hidden;
+  position: relative;
+  width: 769px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: 35px;
+  overflow: hidden;
 }
 .feedWrap {
-    position: relative;
-    box-sizing: border-box;
-    width: 600px;
-    margin: 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  width: 600px;
+  margin: 0 auto;
 }
 .feedList {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #efefef;
-    margin-bottom:35px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #efefef;
+  margin-bottom: 35px;
 }
 .feedInfo,
 .feedsInfo {
-    position: relative;
-    width: 100%;
-    background-color: #fff;
-    box-sizing: border-box;
-    padding: 16px;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow: hidden;
 }
 .feedInfo > div,
 .feedsInfo > div {
-    float: left;
+  float: left;
 }
 .feedInfo > div:first-child,
 .feedsInfo > div:first-child {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    line-height: 0;
-    overflow: hidden;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  line-height: 0;
+  overflow: hidden;
 }
 .feedInfo > div:first-child > img,
-.feedsInfo > div:first-child > img{
-    width: 100%;
+.feedsInfo > div:first-child > img {
+  width: 100%;
 }
 .feedInfo > div:last-child {
-    width: 534px;
-    box-sizing: border-box;
-    padding-left: 15px;
+  width: 534px;
+  box-sizing: border-box;
+  padding-left: 15px;
 }
 .feedInfo > div:last-child > button,
 .feedsInfo > div:last-child > button {
-    border: none;
-    padding: 0 15px;
-    height: 32px;
-    background-color: transparent;
-    float: right;
+  border: none;
+  padding: 0 15px;
+  height: 32px;
+  background-color: transparent;
+  float: right;
 }
 .feedInfo > div:last-child > button:hover {
-    color: #6dd5bc
+  color: #6dd5bc;
 }
-.feedImg, #feedImg {
-    line-height: 0;
+.feedImg,
+#feedImg {
+  line-height: 0;
 }
 #feedImg {
-    max-width: 100%;
-    max-height: 600px;
+  max-width: 100%;
+  max-height: 600px;
 }
 #feedImgWrap {
-    background-color: #999;
-    text-align: center;
+  background-color: #999;
+  text-align: center;
 }
 .feedPlay {
-	box-sizing: border-box;
-	padding-bottom: 51px;
-    background-color: #fff;
+  box-sizing: border-box;
+  padding-bottom: 51px;
+  background-color: #fff;
 }
 .feedPlay > div:first-child {
-    box-sizing: border-box;
-    max-height: 300px;
-    overflow: auto;
+  box-sizing: border-box;
+  max-height: 300px;
+  overflow: auto;
 }
 .hoverWrap {
-    display: none;
+  display: none;
 }
 #feedImgWrap:hover > .hoverWrap {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #00000065;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000065;
 }
 .hoverWrap > div {
-    top: 50%;
-    text-align: center;
-    transform: translateY(-50%);
+  top: 50%;
+  text-align: center;
+  transform: translateY(-50%);
 }
 .hoverWrap > div > button {
-    color: #6dd5bc;
+  color: #6dd5bc;
 }
 .hoverWrap > div > button > i,
 .hoverWrap > div > button > span {
-    font-size: 22px;
-    box-sizing: border-box;
-    padding: 0 3px;
+  font-size: 22px;
+  box-sizing: border-box;
+  padding: 0 3px;
 }
 .feedSide {
-	display: none;
-    position: absolute;
-    top: 35px;
-    right: 0;
-    width: 300px;
-    height: 280px;
-    background-color: #fff;
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  width: 300px;
+  height: 280px;
+  background-color: #fff;
 }
 .feedSide2 {
-	display: none;
-    position: absolute;
-    top: 335px;
-    right: 0;
-    width: 300px;
-    height: 280px;
-    background-color: #fff;
+  display: none;
+  position: absolute;
+  top: 335px;
+  right: 0;
+  width: 300px;
+  height: 280px;
+  background-color: #fff;
 }
 .feedSide > div:first-child,
 .feedSide2 > div:first-child {
-    line-height: 45px;
-    box-sizing: border-box;
-    padding: 0 15px;
-    border-bottom: 1px solid #efefef;
+  line-height: 45px;
+  box-sizing: border-box;
+  padding: 0 15px;
+  border-bottom: 1px solid #efefef;
 }
 .feedSide > div:last-child,
 .feedSide2 > div:last-child {
-    width: 100%;
-    height: 235px;
-    overflow: auto;
+  width: 100%;
+  height: 235px;
+  overflow: auto;
 }
 .feedUserName {
-    width: 219px !important;
+  width: 219px !important;
 }
 .feedUserName > a {
-   text-decoration: none;
-   color: #333;
-   float: left;
-   display: block;
-   height: 32px;
-   line-height: 32px;
-   max-width: 170px;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
+  text-decoration: none;
+  color: #333;
+  float: left;
+  display: block;
+  height: 32px;
+  line-height: 32px;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .feedUserName > span {
-    display: block;
-    font-size: 12px;
-    margin-top: 3px;
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
 }
 .feedInfo > div:last-child > span {
-	display: block;
-    float: left;
-    height: 32px;
-    line-height: 32px;
-    overflow: hidden;
-    max-width: 470px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  display: block;
+  float: left;
+  height: 32px;
+  line-height: 32px;
+  overflow: hidden;
+  max-width: 470px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .feedSideUserList > .feedInfo:hover {
-    background-color: #6dd5bc25;
+  background-color: #6dd5bc25;
 }
 .feedUserName > span {
-	float: right !important;
+  float: right !important;
 }
 #commentModal {
-	position: absolute;
-	bottom: 5px;
-	right: 5px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 .board,
 .cmtModalDetail,
-.commentboard {
-	display: none;
-	position: fixed;
- 	z-index: 100;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
+.unLoginCmtModal,
+.commentboardmodal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .board-modal,
 .comment-modal {
-	background-color: #fefefe;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 360px;
-	border-radius: 4px;
+  background-color: #fefefe;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  border-radius: 4px;
 }
-#commentModal{  
- 	display:none;  
-} 
-#commentList:hover #commentModal{  
-	display:block; 
-	border: none;
-	background-color: transparent; 
+#commentModal {
+  display: none;
+}
+#commentList:hover #commentModal {
+  display: block;
+  border: none;
+  background-color: transparent;
 }
 .board-modal > div,
 .board-modal > div > button,
 .comment-modal > div,
 .comment-modal > div > button {
-	line-height: 48px;
-	background-color: transparent;
-	border: none;
-	text-align: center;
-	font-size: 14px;
+  line-height: 48px;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-size: 14px;
 }
 .board-modal > div:hover,
 .comment-modal > div:hover {
-	background-color: #6dd5bc;
-	cursor: pointer;
+  background-color: #6dd5bc;
+  cursor: pointer;
 }
-.board-modal > div, 
+.board-modal > div,
 .comment-modal > div {
-	border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
 }
 .board-modal > div:last-child,
 .comment-modal > div:last-child {
-	border-bottom: none;
+  border-bottom: none;
 }
 .updateText > input {
-    width: 100%;
-    margin-top: 5px;
-    box-sizing: border-box;
-    padding: 7px 8px;
+  width: 100%;
+  margin-top: 5px;
+  box-sizing: border-box;
+  padding: 7px 8px;
 }
 .updateText > div {
-	text-align: center;
-	margin-top:5px;
+  text-align: center;
+  margin-top: 5px;
 }
 .updateText > div > button {
-	box-sizing: border-box;
-	padding: 5px 13px;
-	border: none;
-	background-color: transparent;
+  box-sizing: border-box;
+  padding: 5px 13px;
+  border: none;
+  background-color: transparent;
 }
 .updateText > div > button:hover {
-	color: #6dd5bc;
+  color: #6dd5bc;
 }
 
 /* -------------------------------- */
 /* Feeds 3-Line Page Css */
 /* -------------------------------- */
 section#feeds {
-    box-sizing: border-box;
-    padding-top: 50px;
-    background-color: #dadada35;
+  box-sizing: border-box;
+  padding-top: 50px;
+  background-color: #dadada35;
 }
 .feedsWrap {
-    width: 749px;
-    margin: 0 auto;
+  width: 749px;
+  margin: 0 auto;
 }
 .feedsList {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 .feedsList > div {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .feedsInfo > div:last-child {
-    width: 172px;
-    line-height: 32px;
-    box-sizing: border-box;
-    padding-left: 15px;
+  width: 172px;
+  line-height: 32px;
+  box-sizing: border-box;
+  padding-left: 15px;
 }
 .feedsInfo > div:last-child > a {
-    text-decoration: none;
-    color: #333;
-    max-width: 111px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
-    float: left;
+  text-decoration: none;
+  color: #333;
+  max-width: 111px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  float: left;
 }
 .feedsImgWrap,
 .feedsImgWrap > a > img {
-    width: 100%;
-    line-height: 0;
+  width: 100%;
+  line-height: 0;
 }
 .feedsPlay {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #fff;
 }
 .feedsContWrap {
-    width:100%;
-    min-height: 60px;
-    max-height: 300px;
-    overflow: hidden;
+  width: 100%;
+  min-height: 60px;
+  max-height: 300px;
+  overflow: hidden;
 }
 .hashTag {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .hashTag > a {
-    text-decoration: none;
-    font-size: 13px;
-    color: #333;
-    margin: 0 2px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #333;
+  margin: 0 2px;
 }
 .hashTag > a:hover {
-    color: #6dd5bc;
+  color: #6dd5bc;
 }
 .playInfo,
 .playInfo > span,
 .playInfo > button,
 .playInfo > button > span {
-    font-size: 12px;
-    overflow: hidden;
+  font-size: 12px;
+  overflow: hidden;
 }
 .playInfo > button {
-    float: right;
-    border: none;
-    background-color: transparent;
+  float: right;
+  border: none;
+  background-color: transparent;
 }
 .commentUser {
-	width: 32px;
-	height: 32px;
-	overflow: hidden;
-	border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 .commentUser > img {
-	width: 100%;
+  width: 100%;
 }
 .modalTitle {
-	width: 100%;
-	height: 50px;
-
+  width: 100%;
+  height: 50px;
 }
 #boxSize {
-	float: left;
-	max-width: 350px;
-	max-height: 450px;
-	background-color: #333;
+  float: left;
+  max-width: 350px;
+  max-height: 450px;
+  background-color: #333;
 }
 .slick-list,
 .slick-track,
 .slick-slide {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
-#boxSize > .slick-prev, 
+#boxSize > .slick-prev,
 #boxSize > .slick-next {
-	left: 15px;
+  left: 15px;
 }
 
 .insertComment2 {
-	position: relative;
+  position: relative;
 }
 .modalContWrap {
-	overflow: hidden;
-	background-color: #333;
+  overflow: hidden;
+  background-color: #333;
 }
 .slick-slide img {
-	display: block !important;	
-}	
+  display: block !important;
+}
 .imgWrap {
-	width: 550px !important;
-	height: 550px !important;
+  width: 550px !important;
+  height: 550px !important;
 }
 .feedText {
-	background-color: #fff;
-    border-bottom: 1px solid #efefef;
-    box-sizing: border-box;
-    padding: 15px
+  background-color: #fff;
+  border-bottom: 1px solid #efefef;
+  box-sizing: border-box;
+  padding: 15px;
 }
 #pjtName {
-	height: 25px;
-    padding: 5px;
-    box-sizing: border-box;
-    background-color: #fff;
-    border: 1px solid #fff;
+  height: 25px;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #fff;
 }
 .udtTitle {
-	box-sizing: border-box;
-    padding: 5px 8px;
-    background-color: transparent;
-    border: none;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  background-color: transparent;
+  border: none;
 }
 .udtTitle:hover {
-	color: #fff;
+  color: #fff;
 }
 
 .cmtWrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    background-color: #fff;
-    box-sizing: border-box;
-    padding: 12px;
-    border-radius: 9px;
-    display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 9px;
+  display: none;
 }
 .comment > span {
-	display: block;
-	width: 100%;
-	text-align: center;
-	margin-top: 30px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
 }
 .cmtInfo {
-	position: relative;
+  position: relative;
 }
 .commentWrap:hover > .cmtInfo > button {
-	display: block;
+  display: block;
 }
 .cmtInfo > span {
-	font-size: 14px;
+  font-size: 14px;
 }
 .cmtInfo > button {
-	display: none;
-	position: absolute;
-	top: 0;
-	right: 0;
-	overflow: hidden;
-	border: none;
-	width: 25px;
-	height: 25px;
-	background-color: transparent;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  border: none;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
 }
 .cmtContent {
-	margin-top: 5px;
-	font-size: 14px;
-	line-height: 1.2;
-	letter-space: 1px;
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-space: 1px;
 }
 .detailBtn > i,
 .optionModalBtn > i,
 .cmtBtn > i {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .detailBtn > i::before,
 .optionModalBtn > i::before,
 .cmtBtn > i::before {
-	line-height: 25px;
+  line-height: 25px;
+}
+.popover-content > .note-btn-group {
+  margin: 0;
+}
+.hide {
+  display: none !important;
+}
+.imgBoxSize {
+  width: 350px;
+  height: 350px;
+}
+.insertCont > div.note-editor:nth-child(2) .single-item-wrap {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  top: 0;
+  left: 0;
+}
+.single-item-wrap > .slick-prev {
+  left: 15px !important;
+}
+.single-item-wrap > .slick-next {
+  right: 15px !important;
+}
+.imageViewWrap {
+  width: 350px;
+  height: 350px;
+  float: left;
+  box-sizing: border-box;
+  border-bottom: 1px solid #a9a9a9;
+}
+.slick-list {
+  background-color: #333;
+}
+.note-editor.note-frame {
+  box-sizing: border-box;
+  border: none !important;
+  border-left: 1px solid #a9a9a9 !important;
+  border-bottom: 1px solid #a9a9a9 !important;
+  box-sizing: border-box;
+  width: 350px;
+  float: right;
+}
+.note-editable {
+  height: 304px;
+}
+.movePos {
+  top: 15px !important;
 }

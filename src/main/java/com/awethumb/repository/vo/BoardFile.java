@@ -1,6 +1,9 @@
 package com.awethumb.repository.vo;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -23,6 +26,5 @@ public class BoardFile {
     // 글 번호 
     private int postNo;
     
-    // 이미지 URL
     private String url;
 }

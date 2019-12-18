@@ -2,6 +2,8 @@ package com.awethumb.detailBoard.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
@@ -34,4 +36,6 @@ public interface DetailBoardService {
 	void deleteComment(int cmtNo);
 	void updateComment(Comment comment);
 	String selectUser(int userNo);
+	List<BoardFile> selectImages(int postNo);
+	void viewCount(int postNo);
 }

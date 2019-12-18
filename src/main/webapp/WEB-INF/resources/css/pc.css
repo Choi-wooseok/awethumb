@@ -311,7 +311,6 @@ section#mypage {
 .detailCont {
 	position: relative;
 	box-sizing: border-box;
-	padding: 0 5px;
 }
 
 .bgWrap {
@@ -381,19 +380,28 @@ section > div.content {
     height: 45px;
 }
 .insertCont {
-    width: 100%;
+    width: 910px;
     box-sizing: border-box;
-    padding: 15px;
+    overflow: hidden;
+}
+.insertCont > div {
+	position: relative;
+	overflow: hidden;
+    float: left;
 }
 .insertCont label {
     display: block;
     margin-bottom: 8px;
 }
 .insertCont input {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
     margin-bottom: 15px;
-    width: 100%;
     padding: 5px 8px;
     box-sizing: border-box;
+    z-index: 1;
 }
 .note-view,
 .note-statusbar {
@@ -783,6 +791,7 @@ section > div.content {
     margin-top: 15px;
 }
 .comment {
+	width: 377px;
 	height: calc(100% - 201px);
 	overflow: auto;
 	box-sizing: border-box;
@@ -817,7 +826,7 @@ section > div.content {
 }
 .insertComment > input {
     width: 100%;
-    line-height: 50px;
+    height: 50px;
     box-sizing: border-box;
     padding: 0 95px 0 15px;
     border: none;
@@ -1029,6 +1038,7 @@ section#feed {
 }
 .board,
 .cmtModalDetail,
+.unLoginCmtModal,
 .commentboardmodal {
 	display: none;
 	position: fixed;
@@ -1185,8 +1195,8 @@ section#feeds {
 }
 #boxSize {
 	float: left;
-	max-width: 550px;
-	max-height: 550px;
+	max-width: 500px;
+	max-height: 500px;
 	background-color: #333;
 }
 .slick-list,
@@ -1298,4 +1308,53 @@ section#feeds {
 .optionModalBtn > i::before,
 .cmtBtn > i::before {
 	line-height: 25px;
+}
+.popover-content > .note-btn-group {
+	margin: 0;
+}
+.hide {
+	display: none !important;
+}
+.imgBoxSize {
+	width: 550px;
+	height: 550px;
+}
+.insertCont > div.note-editor:nth-child(2) .single-item-wrap {
+    position: relative;
+	width: 550px;
+    height: 550px;
+    top: 0;
+    left: 0;
+}
+.single-item-wrap > .slick-prev {
+	left: 15px !important;
+}
+.single-item-wrap > .slick-next {
+	right: 15px !important;
+}
+
+.imageViewWrap {
+	width: 500px;
+	height: 500px;
+	float: left;
+	box-sizing: border-box;
+	border-bottom: 1px solid #a9a9a9;
+}
+.slick-list {
+	background-color: #333;
+}
+.note-editor.note-frame {
+	box-sizing: border-box;
+	border: none !important;
+	border-left: 1px solid #a9a9a9 !important;
+	border-bottom: 1px solid #a9a9a9 !important;
+	box-sizing: border-box;
+	width: 410px;
+	float: right
+}
+.note-editable {
+	height: 454px;
+}
+.movePos {
+	top: 15px !important;
 }

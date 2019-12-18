@@ -128,6 +128,18 @@
 		from user_tb
 		where user_no = ${userNo}
 	</select>
+	
+	<select id="selectImages" resultType="BoardFile" parameterType="int">
+		select *
+		from board_file_tb
+		where post_no = ${postNo}
+	</select>
+	
+	<update id="viewCount" parameterType="int">
+		update board_tb
+		set view_cnt = view_cnt + 1
+		where post_no = ${postNo}
+	</update>
 </mapper>
 
 

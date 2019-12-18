@@ -76,5 +76,10 @@
 	  limit 0, 30
 	</select>
 	
+	<!-- 검색이 일어날시 검색로그테이블에 데이터 삽입 -->
+	<insert id="insertSearchLog" parameterType="string">
+		insert into search_log_tb (search_keyword) values (#{searchKeyword})
+	</insert>
 	
+		
 </mapper>

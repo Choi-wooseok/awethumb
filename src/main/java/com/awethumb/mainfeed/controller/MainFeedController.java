@@ -15,6 +15,7 @@ import com.awethumb.mainfeed.service.MainFeedService;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.stats.aop.insertSearchLog;
 
 @Controller("com.awethumb.mainfeed.controller.mainfeed")
 @RequestMapping("/mainfeed")
@@ -64,6 +65,7 @@ public class MainFeedController {
 	}
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
+	@insertSearchLog
 	public List<MainFeed> search(@RequestBody String searchWord) {
 		System.out.println("search 들어옴");
 		System.out.println(searchWord);

@@ -15,5 +15,6 @@ public interface StatsDAO {
 	public int dailyViewUpdate();
 	public int dailyPostUpdate();
 	public List<DailyLog> selectDailyLogOneMonth();
+	public void insertSearchLog(String keyword);
 	
 }

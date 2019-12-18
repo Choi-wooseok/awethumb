@@ -11,7 +11,7 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.UserVO;
-import com.awethumb.stats.service.UpdateDailyLog;
+import com.awethumb.stats.aop.UpdateDailyLog;
 
 @Service
 public class DetailBoardServiceImpl implements DetailBoardService {

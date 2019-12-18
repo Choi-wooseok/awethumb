@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awethumb.repository.dao.UserDAO;
 import com.awethumb.repository.vo.Auth;
 import com.awethumb.repository.vo.UserVO;
-import com.awethumb.stats.service.UpdateDailyLog;
+import com.awethumb.stats.aop.UpdateDailyLog;
 import com.awethumb.util.CommUtil;
 
 @Service

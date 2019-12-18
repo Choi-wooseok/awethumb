@@ -15,4 +15,5 @@ public interface StatsService {
 	public int dailyViewUpdate();
 	public int dailyPostUpdate();
 	public Map<String, List<?>> selectDailyLogOneMonth();
+	public void insertSearchLog(String keyword);
 }

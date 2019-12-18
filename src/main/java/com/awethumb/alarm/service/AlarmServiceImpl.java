@@ -62,4 +62,9 @@ public class AlarmServiceImpl implements AlarmService{
 	public SharedProject selectSharedProject(SharedProject sp) {
 		return dao.selectSharedProject(sp);
 	}
+
+	@Override
+	public int selectProjectNoByBoardNo(int boardNo) {
+		return dao.selectProjectNoByBoardNo(boardNo);
+	}
 }

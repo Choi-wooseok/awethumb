@@ -60,7 +60,12 @@ public class AlarmController {
 		String loc = "redirect:";
 		
 		switch(alarm.getAlarmType()) {
-		case 2: break;
+		case 2: 
+			int boardNo = alarm.getBoardNo();
+			int projectNo = service.selectProjectNoByBoardNo(boardNo);
+			rttr.addFlashAttribute("flashBoardClick", "$(\"i[data-msg=" + boardNo + "]\").click()");
+			loc += "/detailProject/" + projectNo;
+			break;
 		case 3: break;
 		case 4: 
 			SharedProject sp = new SharedProject();

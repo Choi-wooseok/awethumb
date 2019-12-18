@@ -143,8 +143,10 @@
         </div>
     </div>
     <script>
-    	window.onload = function(){${makeAlarm}};
-    	window.onload = function(){${flashBoardClick}};    	
+    	window.onload = function(){
+    		${makeAlarm}
+    		${flashBoardClick}
+    	};    	
     	let loginNo = ${su.userNo}
     </script>
                 

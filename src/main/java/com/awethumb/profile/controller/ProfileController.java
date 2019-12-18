@@ -92,12 +92,12 @@ public class ProfileController {
 		
 		service.insertProj(p, pf);
 		
+		int projectNo = service.selectCurrentSharedProjectNo(p.getUserNo());
 		// 알림을 보내기 위해 1회성 변수를 보내준다
 		if(p.getProjectType() == 2) {
-			int projectNo = service.selectCurrentSharedProjectNo(p.getUserNo());
-			rttr.addFlashAttribute("test", "makeAlarm(4," + projectNo + ")");
+			rttr.addFlashAttribute("makeAlarm", "makeAlarm(4," + projectNo + ")");
 		}
 		
-		return "redirect:" + p.getUserNickname();
+		return "redirect:/detailProject/" + projectNo;
 	}
 }

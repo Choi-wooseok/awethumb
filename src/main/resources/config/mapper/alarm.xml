@@ -90,6 +90,11 @@
 	     WHERE shared_user_no = #{sharedUserNo}
 	       AND project_no = #{projectNo}
 	</select>
+	<select id="selectProjectNoByBoardNo" parameterType="int" resultType="int">
+		select project_no
+		  from board_tb
+		 where post_no = #{boardNo}
+	</select>
 </mapper>
 
 

@@ -27,4 +27,6 @@ public interface AlarmService {
 
 	SharedProject selectSharedProject(SharedProject sp);
 
+	int selectProjectNoByBoardNo(int boardNo);
+
 }

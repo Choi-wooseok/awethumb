@@ -26,4 +26,6 @@ public interface AlarmDAO {
 	Alarm selectLatestAlarm();
 
 	SharedProject selectSharedProject(SharedProject sp);
+
+	int selectProjectNoByBoardNo(int boardNo);
 }

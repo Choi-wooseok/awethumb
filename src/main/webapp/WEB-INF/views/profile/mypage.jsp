@@ -291,7 +291,6 @@
     	const userNo = ${u.userNo};
     	const subUserNo = ${su.userNo};
     	const contextPath = '<%=request.getContextPath()%>';
-    	window.onload = function(){${test}};
     </script>
     
     <!-- 공유유저 추가 스크립트 -->

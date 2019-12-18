@@ -45,7 +45,7 @@ let scrollTop = 0;
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
 			$.getJSON({
-				url: "mainfeedList.do",
+				url: pageContextPath + "/mainfeed/mainfeedList.do",
 				data: {
 					pageIndex,
 					searchWord
@@ -60,7 +60,7 @@ let scrollTop = 0;
 					}
 					else {
 						$.getJSON({
-							url: "mainfeedList.do?hashtag=" + searchWord,
+							url: pageContextPath + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
 							data: {
 								pageIndex,
 								searchWord
@@ -131,7 +131,7 @@ let scrollTop = 0;
 	$(document).on('click', '.detailFeed', (e) => {
 		$("#detailFeedModal").css("display", "block")
 		$.ajax({
-			url: "detailmainfeed.do",
+			url: pageContextPath + "/mainfeed/detailmainfeed.do",
 			data: {
 				postNo:$(e.target).data("postno"),
 			},
@@ -306,7 +306,7 @@ let scrollTop = 0;
 		let hashTg = hashSrch.split('#');
 		let htg = hashTg[1];
 		$.ajax({
-				url: "search.do",
+				url: pageContextPath + "/mainfeed/search.do",
 				method: 'POST',
 				data: htg,
 				dataType: 'JSON',
@@ -406,7 +406,7 @@ let scrollTop = 0;
 //      댓글 수정
 		$(".commentList").on("click", ".updateSubmit", (e) => {
 			$.ajax({
-				url: "updateComment.do",
+				url: pageContextPath + "/mainfeed/updateComment.do",
 				type: "POST",
 				data: {
 					postNo : $("#postNo").val(),
@@ -444,7 +444,7 @@ let scrollTop = 0;
 //      댓글 삭제
         $(".commentList").on("click", ".deleteSubmit", (e) => {
 			$.ajax({
-				url: "deleteComment.do",
+				url: pageContextPath + "/mainfeed/deleteComment.do",
 				type: "POST",
 				data: {
 					cmtNo: $(e.target).data("cmtno"),
@@ -551,7 +551,7 @@ let scrollTop = 0;
 		$(document).on('submit', '#crForm', (e) => {
 			let hashWord = hashSplitFn();
 			$.ajax({
-				url: "insertComment.do",
+				url: pageContextPath + "/mainfeed/insertComment.do",
 				method:"POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
@@ -563,7 +563,7 @@ let scrollTop = 0;
 				dataType: "JSON",
 				success: result => {
 					$.ajax({
-		                  url: "detailmainfeed.do",
+		                  url: pageContextPath + "/mainfeed/detailmainfeed.do",
 		                  data: {
 		                     postNo:$("#postNo").val()
 		                  },
@@ -592,7 +592,7 @@ let scrollTop = 0;
 			if (searchWord != '') {
 				if (searchWord.length == 0) return;
 				$.ajax({
-					url: "search.do",
+					url: pageContextPath + "/mainfeed/search.do",
 					method: 'POST',
 					data: searchWord,
 					dataType: 'JSON',

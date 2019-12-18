@@ -36,7 +36,8 @@ header > div > div:nth-child(2) {
     box-sizing: border-box;
     padding: 0 15px;
     float: left;
-    margin: 0 25px;
+    margin-left: 10rem;
+    margin-top: -4.2rem;
     letter-spacing: 1px;
 }
 .search > form {
@@ -1037,6 +1038,7 @@ section#feed {
 	right: 5px;
 }
 .board,
+.LoginModalBoard,
 .cmtModalDetail,
 .unLoginCmtModal,
 .commentboardmodal {

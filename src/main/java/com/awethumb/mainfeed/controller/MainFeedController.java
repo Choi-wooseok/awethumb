@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,16 @@ public class MainFeedController {
 	private MainFeedService service;
 	
 	@RequestMapping("/mainfeed.do")
-	public void mainFeed() {}
+	public void mainFeed(String hashtag, Model model) {
+		model.addAttribute("hashtag", hashtag);
+	}
 	
 	@RequestMapping("/mainfeedList.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
 	@ResponseBody  // jsp를 호출하는게 아닌 데이터만 호출 : ajax를 호출할때 
 	public List<MainFeed> mainFeedList(FeedPage pageCount) {
 		return service.listMainFeed(pageCount);
 	}
-	
+
 	@GetMapping("/detailmainfeed.do")
 	@ResponseBody
 	public MainFeed mainFeeddetail(int postNo) {

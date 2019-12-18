@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alarm/alarmheader.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/chat.css">
 <header>
+	<script>const pageContextPath = "${pageContext.request.contextPath}";</script>
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="su"/>
 	</sec:authorize>
@@ -11,9 +12,16 @@
         <div class="layout_left">
             <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title">
             	<span>AweThumb</span>
-            </a>     
-            <div class="search" id="srchBar">
-	         </div>
+            </a>
+            <form id="srchForm" method="post" action="${pageContext.request.contextPath}/mainfeed/mainfeed.do">
+	            <div class="search" id="srchBar">
+		            <input id="search" name="hashtag" type="text" value=""/>
+		            <div id="searchBtn">
+		            	<i class="fas fa-search"></i>
+		            </div>
+		         	<div id="searchResults"></div>
+		         </div>
+            </form>
         </div>
 
         <div class="layout_right">
@@ -97,24 +105,13 @@
     	<!-- 알림 js -->
 	    <script>
 	    	const connectedUserNo= ${su.userNo};
-	    	const pageContextPath = "${pageContext.request.contextPath}";
         </script>
         <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>
         <!-- 알림 dropdown js -->
         <script src="${pageContext.request.contextPath}/js/alarm/dropdown.js"></script>
         <!-- 채팅 js -->
         <script src="${pageContext.request.contextPath}/js/chat.js"></script>
-        <!-- 검색 및 해시태그 js -->
     </sec:authorize>
-    <script>
-		if (window.location.pathname.indexOf("mainfeed") != -1){
-			$("#srchBar").append(`
-				<input id="search" type="text" />
-		             <div id="searchBtn">
-		              <i class="fas fa-search"></i>
-		             </div>
-		         	<div id="searchResults"></div>  
-			`);
-		}
-    </script>
+        <!-- 검색 js -->
+        <script src="${pageContext.request.contextPath}/js/search.js"></script>
 </header>

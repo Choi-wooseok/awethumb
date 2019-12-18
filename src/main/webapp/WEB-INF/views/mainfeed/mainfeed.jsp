@@ -112,6 +112,8 @@
 					}, 200);
 					clearTimeout(time);
 				})
+			let hashtag = '${hashtag}'
+			console.log("hash", hashtag);
 		</script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mainfeedjs.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/hashtag/jquery.hashtags.js"></script>

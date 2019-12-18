@@ -16,7 +16,7 @@ let scrollTop = 0;
 		        $("html, body").animate({ scrollTop: 0 }, 600); 
 		        return false; 
 		    	}); 
-		    MainfeedMakeAjax();
+		    MainfeedMakeAjax(hashtag);
 		});
 	   
 // infinity scroll
@@ -27,7 +27,7 @@ let scrollTop = 0;
 	  
 	  	 if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 	  		 pageIndex += pageCount;
-	  		 MainfeedMakeAjax();
+	  		 MainfeedMakeAjax(hashtag);
 	  	 }
 	   });
 	   
@@ -44,8 +44,9 @@ let scrollTop = 0;
 	   
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
+		   console.log("srchWord", searchWord)
 			$.getJSON({
-				url: pageContextPath + "/mainfeed/mainfeedList.do",
+				url: pageContextURI + "/mainfeed/mainfeedList.do",
 				data: {
 					pageIndex,
 					searchWord
@@ -55,12 +56,12 @@ let scrollTop = 0;
 						$(window).off('scroll');
 						return;
 					}
-					if (searchWord === undefined) {
+					if (searchWord.trim() === '') {
 						makeMainFeedList(list);
 					}
 					else {
 						$.getJSON({
-							url: pageContextPath + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
+							url: pageContextURI + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
 							data: {
 								pageIndex,
 								searchWord
@@ -81,7 +82,7 @@ let scrollTop = 0;
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
 								<div class="feedUserImg">
-									<img src="${pageContextPath}/images/test_user.jpg" alt="">
+									<img src="${pageContextURI}/images/test_user.jpg" alt="">
 								</div>
 								<div>
 									<a href="#">${c.userNickname}</a>
@@ -89,7 +90,7 @@ let scrollTop = 0;
 							</div>
 
 							<div class="feedsImgWrap">
-								<a class="detailFeed" href="javascript:;" > <img src="${pageContextPath}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
+								<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
 								</a>
 							</div>
 
@@ -131,7 +132,7 @@ let scrollTop = 0;
 	$(document).on('click', '.detailFeed', (e) => {
 		$("#detailFeedModal").css("display", "block")
 		$.ajax({
-			url: pageContextPath + "/mainfeed/detailmainfeed.do",
+			url: pageContextURI + "/mainfeed/detailmainfeed.do",
 			data: {
 				postNo:$(e.target).data("postno"),
 			},
@@ -306,7 +307,7 @@ let scrollTop = 0;
 		let hashTg = hashSrch.split('#');
 		let htg = hashTg[1];
 		$.ajax({
-				url: pageContextPath + "/mainfeed/search.do",
+				url: pageContextURI + "/mainfeed/search.do",
 				method: 'POST',
 				data: htg,
 				dataType: 'JSON',
@@ -406,7 +407,7 @@ let scrollTop = 0;
 //      댓글 수정
 		$(".commentList").on("click", ".updateSubmit", (e) => {
 			$.ajax({
-				url: pageContextPath + "/mainfeed/updateComment.do",
+				url: pageContextURI + "/mainfeed/updateComment.do",
 				type: "POST",
 				data: {
 					postNo : $("#postNo").val(),
@@ -444,7 +445,7 @@ let scrollTop = 0;
 //      댓글 삭제
         $(".commentList").on("click", ".deleteSubmit", (e) => {
 			$.ajax({
-				url: pageContextPath + "/mainfeed/deleteComment.do",
+				url: pageContextURI + "/mainfeed/deleteComment.do",
 				type: "POST",
 				data: {
 					cmtNo: $(e.target).data("cmtno"),
@@ -551,7 +552,7 @@ let scrollTop = 0;
 		$(document).on('submit', '#crForm', (e) => {
 			let hashWord = hashSplitFn();
 			$.ajax({
-				url: pageContextPath + "/mainfeed/insertComment.do",
+				url: pageContextURI + "/mainfeed/insertComment.do",
 				method:"POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
@@ -563,7 +564,7 @@ let scrollTop = 0;
 				dataType: "JSON",
 				success: result => {
 					$.ajax({
-		                  url: pageContextPath + "/mainfeed/detailmainfeed.do",
+		                  url: pageContextURI + "/mainfeed/detailmainfeed.do",
 		                  data: {
 		                     postNo:$("#postNo").val()
 		                  },
@@ -585,67 +586,67 @@ let scrollTop = 0;
 			$(".hashtag").remove();
 			return false;
 		});
-//		검색기능
-		$("#search").keyup(() => {
-			let searchWord = $("#search").val().replace(/ /g, '');
-				console.log(searchWord)
-			if (searchWord != '') {
-				if (searchWord.length == 0) return;
-				$.ajax({
-					url: pageContextPath + "/mainfeed/search.do",
-					method: 'POST',
-					data: searchWord,
-					dataType: 'JSON',
-					contentType: 'application/json; charset=UTF-8',
-					success: result => {
-							console.log("result", result)
-						if (result.length > 0) {
-							let str = '';
-							if (searchWord.startsWith('#')){
-								for (let i = 0; i < result.length; i++) {
-									if (result[i].resultType == 'h'){
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
-										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
-									else {
-										str = '';
-									}
-								}
-							} else {
-								for (let i = 0; i < result.length; i++) {
-									if (result[i].resultType == 'u'){
-										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
-									} else if (result[i].resultType == 'h') {
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
-												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
-									}
-								}
-							}
-							$("#searchResults").css("display", "block")
-							$("#searchResults").html(str);
-							window.onclick = () => {
-								$("#searchResults").css("display", "none")
-					        }
-							$(".resultSearch").click((e) => {
-								let searchType = $(e.target).data("searchtype")
-								if (searchType == 'u'){
-									let searchU = $(e.target).data("usernickname");
-									location.href = pageContextPath + '/profile/' + searchU;
-								} else if (searchType == 'h') {
-									let searchH = $(e.target).data("hashtagcontent");
-									MainfeedMakeAjax(searchH)
-								}
-							});
-						} else {
-							$("#searchResults").html("");
-							$("#searchResults").css("display", "none")
-						}
-					}
-				});
-			} else {
-				$("#searchResults").html("");
-				$("#searchResults").css("display", "none")
-			}
-		});
+////		검색기능
+//		$("#search").keyup(() => {
+//			let searchWord = $("#search").val().replace(/ /g, '');
+//				console.log(searchWord)
+//			if (searchWord != '') {
+//				if (searchWord.length == 0) return;
+//				$.ajax({
+//					url: pageContextURI + "/mainfeed/search.do",
+//					method: 'POST',
+//					data: searchWord,
+//					dataType: 'JSON',
+//					contentType: 'application/json; charset=UTF-8',
+//					success: result => {
+//							console.log("result", result)
+//						if (result.length > 0) {
+//							let str = '';
+//							if (searchWord.startsWith('#')){
+//								for (let i = 0; i < result.length; i++) {
+//									if (result[i].resultType == 'h'){
+//										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
+//										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
+//									else {
+//										str = '';
+//									}
+//								}
+//							} else {
+//								for (let i = 0; i < result.length; i++) {
+//									if (result[i].resultType == 'u'){
+//										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
+//									} else if (result[i].resultType == 'h') {
+//										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+//												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
+//									}
+//								}
+//							}
+//							$("#searchResults").css("display", "block")
+//							$("#searchResults").html(str);
+//							window.onclick = () => {
+//								$("#searchResults").css("display", "none")
+//					        }
+//							$(".resultSearch").click((e) => {
+//								let searchType = $(e.target).data("searchtype")
+//								if (searchType == 'u'){
+//									let searchU = $(e.target).data("usernickname");
+//									location.href = pageContextURI + '/profile/' + searchU;
+//								} else if (searchType == 'h') {
+//									let searchH = $(e.target).data("hashtagcontent");
+//									MainfeedMakeAjax(searchH)
+//								}
+//							});
+//						} else {
+//							$("#searchResults").html("");
+//							$("#searchResults").css("display", "none")
+//						}
+//					}
+//				});
+//			} else {
+//				$("#searchResults").html("");
+//				$("#searchResults").css("display", "none")
+//			}
+//		});
 		
 
 		

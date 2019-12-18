@@ -113,8 +113,8 @@
 					clearTimeout(time);
 				})
 		</script>
-		<script type="text/javascript" src="../js/mainfeedjs.js"></script>
-		<script type="text/javascript" src="../js/hashtag/jquery.hashtags.js"></script>
-		<script type="text/javascript" src="../js/hashtag/autosize.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mainfeedjs.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/hashtag/jquery.hashtags.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/hashtag/autosize.min.js"></script>
 </body>
 </html>

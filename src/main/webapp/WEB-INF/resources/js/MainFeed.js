@@ -178,7 +178,7 @@ let scrollTop = 0;
 							        <div class="userName">
 							            <a href="#">${detail.userNickname}</a>
 							            `)
-							   if(typeof userNo !== 'undefined'){
+							   if(typeof connectedUserNo !== 'undefined'){
 							         $(`.userName`).append(`
 								            <button id="myBoard">
 								            	<i class="fas fa-bars"></i>
@@ -232,7 +232,7 @@ let scrollTop = 0;
 			                							<span>${c.cmtUserNickname}</span>
 			                							<span>${c.agoRegDt}</span>
 			                							`)
-			                						if(typeof userNo !== 'undefined'){	
+			                						if(typeof connectedUserNo !== 'undefined'){	
 	            										$(`.cmtInfo`).append(`
 				                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
 				                								<i class="fas fa-ellipsis-h"></i>
@@ -255,7 +255,7 @@ let scrollTop = 0;
 		                			`)
 		                		}
             })
-            if (typeof userNo !== 'undefined'){
+            if (typeof connectedUserNo !== 'undefined'){
 	            $(`#rightBox`).append(`
 					            <div class="insertComment">
 					            	<form id="crForm" method="post" action="insertComment.do" >
@@ -286,12 +286,12 @@ let scrollTop = 0;
 	    
 
 //		비로그인시 댓글등록창 숨김
-	    if (typeof userNo === 'undefined'){
+	    if (typeof connectedUserNo === 'undefined'){
 	    	$(".insertComment").css("display", "none");
 	    }
 	    
 //	          로그인시 해시태그.js파일 호출
-        if (typeof userNo !== 'undefined'){
+        if (typeof connectedUserNo !== 'undefined'){
         	$("textarea").hashtags();
         }
 	}
@@ -601,7 +601,7 @@ let scrollTop = 0;
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
 					'cmtContent': $("#cmtContent").val(), 
-					'userNo': userNo, 
+					'userNo': connectedUserNo, 
 					'postNo': $("#postNo").val(),
 					'hashtag' : hashWord // 배열로 넣음
 					}),
@@ -674,7 +674,7 @@ let scrollTop = 0;
 //										console.log("ab", result[i].resultType)
 									} else if (result[i].resultType == 'h') {
 //										console.log("ac", result[i].resultType)
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
 								}

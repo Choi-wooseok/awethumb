@@ -43,7 +43,7 @@
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="su"/>
 	</sec:authorize>
-		<%@ include file="/WEB-INF/views/include/header2.jsp"%>
+		<%@ include file="/WEB-INF/views/include/header.jsp"%>
 				<div class="waitme-container">
 			<section id="feeds">
 				<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
@@ -104,9 +104,6 @@
 			</section>	
 				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
-		<script>
-			const userNo = ${su.userNo}
-		</script>
 		<script>
 			let pageContextURI = '${pageContext.request.contextPath}';
 			

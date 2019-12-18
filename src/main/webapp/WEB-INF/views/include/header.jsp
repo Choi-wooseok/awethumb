@@ -12,6 +12,8 @@
             <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title">
             	<span>AweThumb</span>
             </a>     
+            <div class="search" id="srchBar">
+	         </div>
         </div>
 
         <div class="layout_right">
@@ -103,4 +105,15 @@
         <!-- 채팅 js -->
         <script src="${pageContext.request.contextPath}/js/chat.js"></script>
     </sec:authorize>
+    <script>
+		if (window.location.pathname.indexOf("mainfeed") != -1){
+			$("#srchBar").append(`
+				<input id="search" type="text" />
+		             <div id="searchBtn">
+		              <i class="fas fa-search"></i>
+		             </div>
+		         	<div id="searchResults"></div>  
+			`);
+		}
+    </script>
 </header>

@@ -1,7 +1,10 @@
 package com.awethumb.feed.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +30,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/feed.do")
 	public void feed(Model model, Principal p) { 
 		model.addAttribute("postNoList", service.postNoList());
-		int imageState = 1; // 더미 이미지 띄우는용
+		int imageState = 0; // 더미 이미지 띄우는용 -> 0 이미지X , 1이미지O
 		model.addAttribute("imageState", imageState);
 		
 		String userId = p.getName(); // 로그인 한 userId
@@ -36,16 +39,23 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
 		
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
-		model.addAttribute("boardCount", service.selectFeedBoardCount(userId));
 	} // feed.do 
+	
+	@RequestMapping("/feedboardNo.do")
+	public List<Integer> feedboard() {
+		return service.postNoList();
+	}
+	
+	
 	
 	// 게시글
 	@RequestMapping("/feedlist.do")
 	@ResponseBody
-	public List<FeedBoard> feedKong(FeedPage feedpage) {
+	public List<FeedBoard> feedList(FeedPage feedpage) {
 		return service.selectFeedBoardPage(feedpage);
 	}
 	
+	// 사이드바 나를팔로우하는사람들
 	@RequestMapping("/feedsidelist.do")
 	@ResponseBody
 	public List<FollowMeUser> feedSideFollow(FollowMeUser followmeuser) {
@@ -61,6 +71,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
 	public List<Comment> commentInsert(@RequestBody Comment comment){ // 댓글등록
+		// return 
 		return service.insertBoardComment(comment);
 	}
 	@RequestMapping("/boardCommentDelete.do")
@@ -73,27 +84,67 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	public List<Comment> commentUpdate(Comment comment){ // 댓글 수정
 		return service.updateBoardComment(comment);
 	}
+	
 	//신고
 	@RequestMapping("/boardReport.do")
 	public void boardReport() {
 		System.out.println("신고");
 	}
 	
-	@RequestMapping("/boardLike.do")
+	@RequestMapping("/boardLikeInsert.do")
 	@ResponseBody
 	public void boardLike(@RequestBody Like like){ 
-		System.out.println("insert");
-		System.out.println("글 : " + like.getPostAndCmtNo());
-		System.out.println("유저 : " + like.getUserNo());
-		System.out.println("코드값 : " + like.getCodeValue());
+		service.insertLike(like);
 	}
 	@RequestMapping("/boardLikeDelete.do")
 	@ResponseBody
 	public void boardLikeDelete(@RequestBody Like like){ 
 		System.out.println("delete");
-		System.out.println("글 : " + like.getPostAndCmtNo());
-		System.out.println("유저 : " + like.getUserNo());
-		System.out.println("코드값 : " + like.getCodeValue());
+		service.deleteLike(like);
+	}
+	@RequestMapping("/likeCheck.do")
+	@ResponseBody
+	public int boardLikeCheck(@RequestBody Like like){
+		return service.likeCheck(like); // 0 -> likeoff, 1 -> likeon
+	}
+	@RequestMapping("/boardLikeCount.do")
+	@ResponseBody
+	public int boardLikeCount(@RequestBody Like like){
+		return service.likeCount(like);
+	}
+	@RequestMapping("/commentLikeInsert.do")
+	@ResponseBody
+	public void commentLikeInsert(@RequestBody Like like){ 
+		service.insertLike(like);
+	}
+	@RequestMapping("/commentLikeDelete.do")
+	@ResponseBody
+	public void commentLikeDelete(@RequestBody Like like){ 
+		service.deleteLike(like);
+	}
+
+	@RequestMapping("/boardFileRead.do")
+	@ResponseBody
+	public List<String> boardFileRead(int postNo, HttpServletRequest req){
+		
+		List<String> name = new ArrayList<>();
+		List<String> bbb = service.boardFile(postNo);
+		
+		for (String a : bbb) {
+			String fileReadName= req.getContextPath() + "/image/";// awethumb/image/
+			fileReadName = fileReadName + a;
+			name.add(fileReadName);
+			System.out.println("fileread : " + fileReadName);
+			System.out.println("name :" + name);
+		}
+		return name;
+	}
+	
+	@RequestMapping("/boardFileCheck.do")
+	@ResponseBody
+	public int boardFileCheck(int postNo) {
+		System.out.println("zz : " + service.boardFileCheck(postNo));
+		return service.boardFileCheck(postNo);
 	}
 	
 	

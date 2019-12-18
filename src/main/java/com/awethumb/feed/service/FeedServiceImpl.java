@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.FeedDAO;
+import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.FollowMeUser;
+import com.awethumb.repository.vo.Like;
 @Service
 public class FeedServiceImpl implements FeedService {
 	@Autowired
@@ -157,9 +161,38 @@ public class FeedServiceImpl implements FeedService {
 		return dao.selectFollowMeCount(userId);
 	}
 	
-	public int selectFeedBoardCount(String userId) {
-		return dao.selectFeedBoardCount(userId);
+	// 좋아요 클릭
+	public void insertLike(Like like) {
+		dao.insertLike(like);
 	}
+	// 좋아요 해제
+	public void deleteLike(Like like) {
+		dao.deleteLike(like);
+	}
+	// 좋아요 체크 
+	public int likeCheck(Like like) {
+		return dao.likeCheck(like);
+	}
+	// 좋아요 개수
+	public int likeCount(Like like) {
+		return dao.likeCount(like);
+	}
+	
+	// 파일경로가져오기
+	public List<String> boardFile(int postNo){
+		List<BoardFile> bf = dao.boardFile(postNo);
+		List<String> msg = new ArrayList<>();;
+		for(BoardFile b : bf) {
+			msg.add(b.getBoardFilePath() + b.getBoardFileSysName());
+		}
+		return msg; 
+	}
+	// 파일체크
+	public int boardFileCheck(int postNo) {
+		return dao.boardFileCheck(postNo);
+	}
+	
+	
 }
 
 

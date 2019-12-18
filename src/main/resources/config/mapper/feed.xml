@@ -10,6 +10,7 @@
 	
 	<select id="selectFeedBoardPage" parameterType="FeedPage" resultType="FeedBoard">
 		SELECT ut.user_nickname,
+			   ut.user_no,	
 			   bt.post_no,
 		       bt.post_content,
 			   bt.view_cnt,
@@ -26,19 +27,6 @@
 		 LIMIT #{pageIndex} , #{pageCount}
 	</select>
 	
-	<select id="selectFeedBoardCount" parameterType="String" resultType="int">
-		     SELECT COUNT(*)
-		  FROM board_tb bt 
-		 INNER JOIN project_tb pt
-		    ON bt.project_no= pt.project_no 
-		 INNER JOIN user_tb ut 
-		    ON ut.user_no = pt.user_no 
-		 WHERE ut.user_no = any (SELECT opp_user_no
-								   FROM subscribe_tb
-								  WHERE sub_user_no = (SELECT user_no
-						  								 FROM user_tb
-													    WHERE user_id = #{userId} )) 
-	</select>
 	
 	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">
 		 SELECT ct.*,
@@ -111,7 +99,8 @@
 																		   INNER JOIN user_tb ut
 																		      ON st.sub_user_no = ut.user_no 
 																		   WHERE ut.user_id = #{userId}) 
-												  ORDER BY st.opp_user_no ) )
+												  ORDER BY st.opp_user_no ) 
+							   AND user_id != #{userId})
 		 ORDER BY rand()
 		 limit 0, 30
 	</select>
@@ -172,6 +161,49 @@
 	    WHERE b.user_no IS NULL )
 	</select>
 
+	<insert id="insertLike" parameterType="Like">
+		INSERT INTO like_tb (post_and_cmt_no, user_no, code_value)
+		VALUES (#{postAndCmtNo}, #{userNo}, #{codeValue})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="Like">
+		DELETE  
+		  from like_tb
+ 	     WHERE post_and_cmt_no = #{postAndCmtNo}
+		   and user_no = #{userNo}
+		   and code_value = #{codeValue}
+	</delete>
+
+	<select id="likeCheck" parameterType="Like" resultType="int">
+		SELECT COUNT(*)
+		  FROM like_tb
+		 WHERE post_and_cmt_no = #{postAndCmtNo}
+		   and user_no = #{userNo}
+		   and code_value = #{codeValue}
+	</select>
+	
+	<select id="likeCount" parameterType="Like" resultType="int">
+			SELECT COUNT(*)
+			  FROM like_tb
+			 WHERE post_and_cmt_no = #{postAndCmtNo}
+	</select>
+
+	<select id="boardFile" parameterType="int" resultType="BoardFile">
+		  SELECT * 
+		    FROM board_file_tb
+		   WHERE post_no = #{postNo}
+	</select>
+
+	<select id="boardFileCheck" parameterType="int" resultType="int">
+	  SELECT COUNT(*)
+	    FROM board_file_tb
+	   WHERE post_no = #{postNo} 
+	</select>
+
+<!-- 	<select id=""> -->
+<!-- 		SELECT MAX(cmt_no)  -->
+<!-- 		  FROM comment_tb  -->
+<!-- 	</select> -->
 </mapper>
 
 

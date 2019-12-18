@@ -10,4 +10,6 @@ public class Like {
     private int userNo;
     // 코드 값 
     private int codeValue;
+    // 좋아요 개수
+    private int likeCount;
 }

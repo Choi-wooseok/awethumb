@@ -9,6 +9,9 @@ public class FeedBoard {
 
     // 프로젝트 번호 
     private int projectNo;
+    
+    // 유저 번호
+    private int userNo;
 
     // 글 내용 
     private String postContent;
@@ -33,6 +36,5 @@ public class FeedBoard {
     
     // 더미
     private int xCoord;
-
     
 }

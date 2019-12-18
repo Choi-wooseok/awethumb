@@ -28,7 +28,7 @@
 				<input type="hidden" class="boardCount" value="${boardCount}" />
 <%-- 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${postNoList}"/> --%>
 				<c:forEach var="p" items="${postNoList}">
-				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
+					<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
 				</c:forEach>
 			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 			<div class="feedWrap" id="feedWrap">
@@ -92,18 +92,24 @@
 			<div class="feedSide2">
 				<div>팔로워 추천</div>
 				<div>
+<!-- 				<script> -->
+<!-- // 					let un = c.userNo; -->
+<!-- // 					userImg(un); -->
+<!-- 				</script> -->
+<%-- 						<c:set var=""> --%>
+<%-- 						</c:set> --%>
 					<c:forEach var="cl" items="${categorylist}">
-						<div class="feedSideUserList">
-							<div class="feedInfo">
-								<div class="feedUserImg">
-									<img src="./../images/test_user.jpg" alt="">
-								</div>
-								<div class="feedUserName">
-									<a href="<c:url value="/profile/${cl.userNickName}"/>">${cl.userNickName}</a>
-									<span style="color:#6dd5bc">${cl.categoryTitle}</span>
+							<div class="feedSideUserList">
+								<div class="feedInfo">
+									<div class="feedUserImg">
+										<img class="userCmtImg${cl.userNo}" alt="">
+									</div>
+									<div class="feedUserName">
+										<a href="<c:url value="/profile/${cl.userNickName}"/>">${cl.userNickName}</a>
+										<span style="color:#6dd5bc">${cl.categoryTitle}</span>
+									</div>
 								</div>
 							</div>
-						</div>
 					</c:forEach>
 				</div>
 			</div>

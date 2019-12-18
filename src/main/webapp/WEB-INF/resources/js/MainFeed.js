@@ -528,39 +528,25 @@ let scrollTop = 0;
             }
         }
 
-        // 신고
+        // 신고 모달창
 	        function doReport() {
 	            boardModal.style.display = "none";
 	        }
+	        
+	     // 신고
+	        $(document).on("click", ".report", (e) => {
+	           let postNo = $("#postNo").val();
+	           let cmtNo = $(e.target).data("cmtno");
+	           if (cmtNo == null) { // 게시글 신고
+	              let newWindow = window.open("about:blank");
+	              newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+	           }
+	           else { // 댓글 신고
+	              let newWindow = window.open("about:blank");
+	              newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+	           }
+	        });
         }
-	
-//	$(document).on('keyup', '#cmtContent', (e) => {
-//		// 해시태그 스플릿
-//		let cmtVal= $("#cmtContent").val();
-//		let hashSplit = new Array();  // 처음 띄어쓰기로 스플릿
-//		let hashSp = new Array();	  // 띄어쓰기로 자른걸 담아서 #을 포함하는지 검사
-//		let hash = new Array();		  // #포함된걸 담는 배열
-//		let hashWord = new Array();  // #포함된걸 담은 배열 중 2번째(#뒤의 단어)를 담음
-//		if (cmtVal.includes('#')) {
-//			hashSplit = cmtVal.split(' ');
-//			for (let i = 0; i < hashSplit.length; i++) {
-//				hashSp = hashSplit[i];
-//				if (hashSp.includes('#')){
-//					hash = hashSp.split('#');
-//					hashWord.push(hash[1]);
-//				}
-//			}
-//			$("#cmtContent").attr("data-hash", hashWord)
-////					console.log("hash", hash);
-//			console.log("hashWord", hashWord);
-//		}
-////		let hash = new Array();
-////		console.log($(e.target));
-//		hash = $(e.target).attr("data-hash")
-//		console.log(hash);
-////		hash.push($(e.target).data("hash"))
-//		let hashT = [];
-//	})
 	
 	function hashSplitFn() {
 		// 해시태그 스플릿
@@ -582,8 +568,6 @@ let scrollTop = 0;
 					}
 					console.log("hashSp", hashSp)
 				}
-//				$("#cmtContent").attr("data-hash", hashWord)
-//						console.log("hash", hash);
 			}
 			console.log("hashT", hashT);
 			console.log("hashWord", hashWord);
@@ -607,7 +591,6 @@ let scrollTop = 0;
 					}),
 				dataType: "JSON",
 				success: result => {
-//					console.log("11", hashWord)
 					$.ajax({
 		                  url: "detailmainfeed.do",
 		                  data: {
@@ -616,7 +599,6 @@ let scrollTop = 0;
 		                  dataType: "JSON",
 		                  success: result => {
 		                	 console.log("12", hashWord)
-//		                	 makeAlarm(3, cmtNo)
 		                     makeDetailFeed(result);
 		                     setTimeout(() => {
 		                        makemodalattribute({
@@ -637,11 +619,6 @@ let scrollTop = 0;
 			let searchWord = $("#search").val().replace(/ /g, '');
 				console.log(searchWord)
 			if (searchWord != '') {
-//				let tempSearchWord = searchWord;
-//				if (tempSearchWord.charAt(0) == '#') {
-//					tempSearchWord = searchWord.substring(1);
-//					console.log("tsw", tempsearchWord)
-//				}
 				if (searchWord.length == 0) return;
 				$.ajax({
 					url: "search.do",

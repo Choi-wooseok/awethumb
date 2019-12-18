@@ -17,7 +17,6 @@
 <!-- <link rel="stylesheet" type="text/css" media="screen and (min-width:768px) and (max-width:1280px)" href="../css/tablet.css"> -->
 <!-- <link rel="stylesheet" type="text/css" media="screen and (max-width:767px)" href="../css/mobile.css"> -->
 <link rel="stylesheet" href="./../css/common.css">
-<link rel="stylesheet" href="./../css/mainfeed.css">
 <!-- Jquery -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
@@ -33,6 +32,7 @@
 <!-- grid -->
 <link rel="stylesheet" href="<c:url value='/js/brick/masonry.css' />">
 <link rel="stylesheet" href="<c:url value='/css/hashtag.css' />" />
+<link rel="stylesheet" href="./../css/mainfeed.css">
 </head>
 <style>
 	.theSelector {
@@ -59,8 +59,15 @@
 				<!-- detail 모달창 -->
 				<div id="cmtModalDetail" class="cmtModalDetail">
 		            <div class="comment-modal">
+		        		<div><button id="report" class="report" type="button">신고</button></div>
 		        		<div><button class ="cmtUpdateBtn" type="button">수정</button></div>
 		        		<div><button class ="cmtDeleteBtn">삭제</button></div>
+		        		<div class="detailModalClose">취 소 </div>
+		    		</div>
+				</div>
+				<div id="unLoginCmtModal" class="unLoginCmtModal">
+		            <div class="comment-modal">
+		        		<div><button id="report" class="report" type="button">신고</button></div>
 		        		<div class="detailModalClose">취 소 </div>
 		    		</div>
 				</div>

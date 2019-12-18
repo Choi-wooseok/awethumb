@@ -56,7 +56,7 @@
 	</select>
 	<!-- 해시태그 ==================================================== -->
 	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
-		select post_no, concat('#', hashtag_content) as hashtag_content
+		select post_no, hashtag_content
 		  from hashtag_tb 
 		 where post_no = #{postNo}
 		   and hash_type = #{hashType}

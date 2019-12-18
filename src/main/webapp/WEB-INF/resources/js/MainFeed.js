@@ -285,26 +285,24 @@ let scrollTop = 0;
 	    `)
 	    
 
+//		비로그인시 댓글등록창 숨김
+	    if (typeof userNo === 'undefined'){
+	    	$(".insertComment").css("display", "none");
+	    }
 	    
 //	          로그인시 해시태그.js파일 호출
         if (typeof userNo !== 'undefined'){
         	$("textarea").hashtags();
         }
-//		비로그인시 댓글등록창 숨김
-    	if (typeof userNo === 'undefined'){
-    		$(".insertComment").css("display", "none");
-    	}
 	}
 	detailListAjax();
 	
-//		댓글 중 #이 존재할 시 해시태그 a링크로 변경
+//		댓글 중 #이 존재할 시 해시태그 링크로 변경
 	function renderHashtag(cmtContent){
 		let newContent = "";
 		let ht = cmtContent.split(' ');
-	//	console.log("ht", ht);
 		for (let i = 0; i < ht.length; i++) {
 			if ((ht[i]).includes('#')){
-//				console.log("ht[i]", ht[i]);
 				ht[i] = `<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>`
 			}
 		}
@@ -346,15 +344,6 @@ let scrollTop = 0;
 		$("#modal" + postNum).css('display', 'none');
 	})
 	
-//	모달창 밖 클릭 시 모달창 종료
-//	window.onclick = function (e) {
-//		let modal = document.querySelector('#detailFeedModal');
-//            if (e.target == modal) {
-//            	modal.style.display = "none";
-//            }
-//        }
-
-
 // --------- detail modal -----------------
         function makemodalattribute({w, h}) {
         	let maxSize = 550;
@@ -385,11 +374,35 @@ let scrollTop = 0;
          // makemodalattribute() 끝
 		
 // 		모달창이 띄워졌을 시 스크롤 방지
-        $("#detailFeedModal").on('scroll touchmove mousewheel', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
+        $('.form-control').focus(function() {  
+            $('#detailFeedModal').on('scroll touchmove mousewheel', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+	        })
+		});	
+//        $("#detailFeedModal").on('scroll touchmove mousewheel', function(e) {
+//            e.preventDefault();
+//            e.stopPropagation();
+//            return false;
+//        });
+            
+//      모달창에서 댓글부분 클릭시 스크롤 활성화
+        $('.form-control').focusout(function() {
+            $('#detailFeedModal').unbind();
         });
+//        $(".commentList").click(() => {
+////    	$(".commentList").focus(() => {
+//        	$(".feedsWrap").on('scroll touchmove mousewheel', (e) => {
+//        		e.preventDefault();
+//                e.stopPropagation();
+//        	})
+//        	$("#detailFeedModal").unbind();
+//        })
+//        $(".comment").on('scroll touchmove mousewheel', function(event) {
+//            event.preventDefault();
+//            event.stopPropagation();
+//            return false;
+//        })    
             
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
@@ -622,18 +635,18 @@ let scrollTop = 0;
 //		검색기능
 		$("#search").keyup(() => {
 			let searchWord = $("#search").val().replace(/ /g, '');
-//				console.log(searchWord)
+				console.log(searchWord)
 			if (searchWord != '') {
-				let tempSearchWord = searchWord;
-				if (tempSearchWord.charAt(0) == '#') {
-					tempSearchWord = searchWord.substring(1);
-					console.log("tsw", tempsearchWord)
-				}
-				if (tempSearchWord.length == 0) return;
+//				let tempSearchWord = searchWord;
+//				if (tempSearchWord.charAt(0) == '#') {
+//					tempSearchWord = searchWord.substring(1);
+//					console.log("tsw", tempsearchWord)
+//				}
+				if (searchWord.length == 0) return;
 				$.ajax({
 					url: "search.do",
 					method: 'POST',
-					data: tempSearchWord,
+					data: searchWord,
 					dataType: 'JSON',
 					contentType: 'application/json; charset=UTF-8',
 					success: result => {
@@ -648,7 +661,7 @@ let scrollTop = 0;
 //									console.log(result[i].hashtagAndNickname);
 									if (result[i].resultType == 'h'){
 //										console.log("aa", result[i].resultType);
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
 										+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';									} 
 									else {
 										str = '';
@@ -661,7 +674,7 @@ let scrollTop = 0;
 //										console.log("ab", result[i].resultType)
 									} else if (result[i].resultType == 'h') {
 //										console.log("ac", result[i].resultType)
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
 								}

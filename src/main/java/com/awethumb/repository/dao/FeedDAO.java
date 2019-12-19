@@ -35,5 +35,7 @@ public interface FeedDAO {
 
 	List<BoardFile> boardFile(int postNo); // 파일경로가져오기
 	int boardFileCheck(int postNo); // 파일 체크 
+	
+	int lastCmtNo(); // 마지막댓글번호 확인
 }
 

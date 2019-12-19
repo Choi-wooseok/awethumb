@@ -54,64 +54,15 @@
 			    </div>
 			
 			<!-- 최신글 리스트 반복 -->
-<!-- 			<div class="feedSide" style="z-index : 1; top:10px ; height:85px; background:red;"> -->
-<%-- 					<c:if test="${empty meCategory}"> --%>
-<!-- 						<h3>카테고리가 없습니다.</h3> -->
-<%-- 					</c:if> --%>
-<!-- 					<div style="text-align: center;">내 카테고리 </div> -->
-<!-- 					<div> -->
-<%-- 						<h3 style="word-break: keep-all;">${meCategory}</h3> --%>
-<!-- 					</div> -->
-<!-- 			</div> -->
 			<div class="feedSide aaa" id="side">
 					<div id="followa">나를 팔로우 하는 사람</div>
-<%-- 					<c:if test="${empty followme}"> --%>
-<!-- 						<h3>팔로우 하는 사람이 없습니다.</h3> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:forEach var="fmu" items="${followme}"> --%>
-<!-- 						<div class="feedSideUserList"> -->
-<!-- 							<div class="feedInfo"> -->
-<!-- 								<div class="feedUserImg"> -->
-<!-- 									<img src="./../images/test_user.jpg" alt=""> -->
-<!-- 								</div> -->
-<!-- 								<div class="feedUserName"> -->
-<%-- 									<a href="<c:url value="/profile/${fmu.userNickname}"/>">${fmu.userNickname}</a> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<%-- 					</c:forEach> --%>
 					<div id="feedSideUserList" class="feedSideUserList">
-<!-- 					<div class="addBtn" id="addBtn" style="text-align:center;"> -->
-<!-- 						<button type="button" style=" border:none; background-color:transparent"> -->
-<!-- 							더보기 -->
-<!-- 						</button> -->
-<!-- 					</div> -->
 					</div>
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">
 				<div>팔로워 추천</div>
-				<div>
-<!-- 				<script> -->
-<!-- // 					let un = c.userNo; -->
-<!-- // 					userImg(un); -->
-<!-- 				</script> -->
-<%-- 						<c:set var=""> --%>
-<%-- 						</c:set> --%>
-					<c:forEach var="cl" items="${categorylist}">
-							<div class="feedSideUserList">
-								<div class="feedInfo">
-									<div class="feedUserImg">
-										<img class="userCmtImg${cl.userNo}" alt="">
-									</div>
-									<div class="feedUserName">
-										<a href="<c:url value="/profile/${cl.userNickName}"/>">${cl.userNickName}</a>
-										<span style="color:#6dd5bc">${cl.categoryTitle}</span>
-									</div>
-								</div>
-							</div>
-					</c:forEach>
-				</div>
+				<div class="categoryListSide"></div>
 			</div>
 		</div>
 	</section>

@@ -33,9 +33,10 @@ public class FeedServiceImpl implements FeedService {
 	public List<Comment> selectFeedBoardComment(int postNo){
 		return CommentTime(postNo);
 	}
-	public List<Comment> insertBoardComment(Comment comment){
+	public int insertBoardComment(Comment comment){
 		dao.insertBoardComment(comment);
-		return CommentTime(comment.getPostNo());
+		int cmtNo = dao.lastCmtNo(); // 알람에필요한 방금단댓글번호 
+		return cmtNo; 
 	}
 	public List<Comment> deleteBoardComment(Comment comment){
 		dao.deleteBoardComment(comment.getCmtNo());
@@ -191,7 +192,6 @@ public class FeedServiceImpl implements FeedService {
 	public int boardFileCheck(int postNo) {
 		return dao.boardFileCheck(postNo);
 	}
-	
 	
 }
 

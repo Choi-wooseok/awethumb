@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.awethumb.feed.service.FeedService;
+import com.awethumb.repository.vo.CategoryList;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
@@ -36,7 +37,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		String userId = p.getName(); // 로그인 한 userId
 		// 내가 팔로우한 사람을 팔로우한 사람들중에 2개이상 카테고리가 중복된 카테고리인 사람들과 카테고리 뽑기  
 		model.addAttribute("categorylist", service.selectUserCategoryList(userId));
-		model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
+		//model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
 		
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
 	} // feed.do 
@@ -45,9 +46,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	public List<Integer> feedboard() {
 		return service.postNoList();
 	}
-	
-	
-	
 	// 게시글
 	@RequestMapping("/feedlist.do")
 	@ResponseBody
@@ -70,7 +68,7 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	}
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
-	public List<Comment> commentInsert(@RequestBody Comment comment){ // 댓글등록
+	public int commentInsert(@RequestBody Comment comment){ // 댓글등록
 		// return 
 		return service.insertBoardComment(comment);
 	}
@@ -126,26 +124,29 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardFileRead.do")
 	@ResponseBody
 	public List<String> boardFileRead(int postNo, HttpServletRequest req){
-		
 		List<String> name = new ArrayList<>();
 		List<String> bbb = service.boardFile(postNo);
-		
 		for (String a : bbb) {
 			String fileReadName= req.getContextPath() + "/image/";// awethumb/image/
 			fileReadName = fileReadName + a;
 			name.add(fileReadName);
-			System.out.println("fileread : " + fileReadName);
-			System.out.println("name :" + name);
 		}
 		return name;
 	}
-	
+	// 이미지 확인유무
 	@RequestMapping("/boardFileCheck.do")
 	@ResponseBody
 	public int boardFileCheck(int postNo) {
-		System.out.println("zz : " + service.boardFileCheck(postNo));
 		return service.boardFileCheck(postNo);
 	}
+
+	@RequestMapping("/categoryListSideBar.do")
+	@ResponseBody
+	public List<CategoryList> categoryListSideBar(String userId) {
+		return service.selectUserCategoryList(userId);
+	}
+	
+	
 	
 	
 }

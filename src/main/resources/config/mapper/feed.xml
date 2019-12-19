@@ -200,6 +200,9 @@
 	   WHERE post_no = #{postNo} 
 	</select>
 
+	<select id="lastCmtNo" resultType="int">
+		select LAST_INSERT_ID()
+	</select>
 <!-- 	<select id=""> -->
 <!-- 		SELECT MAX(cmt_no)  -->
 <!-- 		  FROM comment_tb  -->

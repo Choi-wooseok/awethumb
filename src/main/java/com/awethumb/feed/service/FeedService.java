@@ -14,7 +14,7 @@ public interface FeedService {
 	List<Integer> postNoList();
 	List<FeedBoard> selectFeedBoardPage(FeedPage pageCount);
 	List<Comment> selectFeedBoardComment(int postNo);
-	List<Comment> insertBoardComment(Comment comment);
+	int insertBoardComment(Comment comment);
 	List<Comment> deleteBoardComment(Comment comment);
 	List<Comment> updateBoardComment(Comment comment);
 	List<CategoryList> selectUserCategoryList(String userId);

@@ -12,19 +12,8 @@ $(document).ready(function(){
 		aaa(); // 댓글
 	    boardList(); // 게시글
 	    sideFollowList(); // 사이드바
+	    categoryList() // 팔로워추천 사이드바
 });
-$(document).on('click', '.addBtn', () => {
-	sidePageIndex += sidePageCount;
-	$(".addBtn").remove();
-	sideFollowList();
-});
-// infinity scroll
-$(window).scroll(() => {
-	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
-		pageIndex += pageCount;
-  		boardList();
-  	}
- });
 let boardListState = false; // 게시글 상태 
 function boardList(){
 	scrollz = 0;
@@ -138,8 +127,8 @@ function feedList(list){
 							${likestate}>
 						</i>`;
 			if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
-				$("#feedWrap").append(`
-						<div class="feedList">
+				$("#feedWrap").append(
+						`<div class="feedList">
 							<div class="feedInfo">
 								<div class="feedUserImg${bl.postNo}">
 									<img class="userCmtImg${bl.userNo}" alt="">
@@ -177,8 +166,7 @@ function feedList(list){
 									<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
 								</div>
 							</div>
-						</div>
-				`)
+						</div>`)
 				if(likecount > 0) {
 					$("#countLike" + postAndCmtNo).html(`
 					<span id="countSpan${postAndCmtNo}">${likecount}회 좋아요</span>`);
@@ -192,16 +180,6 @@ function feedList(list){
 // 댓글
 function aaa () {
 	let postNo = document.querySelectorAll(".postNo");
-//	console.log(postNo.value)
-//	let postNo;
-//	$.get({
-//		url:"feedboardNo.do",
-//		success: (list) => { 
-//			postNo : list
-//			console.log("dsdfds");
-//		}
-//	})
-//	console.log(postNo)
 	for (let a of postNo){
 		let postnum = a.value; // 게시글 번호받기 걷기
 		commentListAjax();
@@ -279,18 +257,17 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 		url: "boardCommentInsert.do",
 		contentType : "application/json", 
 		method:"POST",
+		async:false,
 		data: JSON.stringify({
 			postNo: postNumber,
 			cmtContent: commentWriter,
 			userNo : loginUserNo,
 			cmtUserNickname : loginUserNickName
 		}),
-		dataType: "json",
-		success: () =>  {aaa()
-//			, 
-//			makeAlarm(3, )
-			}
-		
+		success: (no) =>  {
+			makeAlarm(3, no)
+			aaa()
+		}
 	});
 	$(".commentWriter"+ postNumber).val("");
 	return false;
@@ -346,7 +323,7 @@ $(".commentModify").on("click", (e) => {
 	);
 	$(".commentboardmodal").css("display","none");
 });
-// click 이벤트
+//---------------------- 이벤트
 $(document).on( "click",".commentModal", (e) => {
 	let obj = e.target
 	if (obj.nodeName == "I") {
@@ -405,6 +382,19 @@ $(document).on("click", ".report", (e) => {
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
+//사이드바1 더보기
+$(document).on('click', '.addBtn', () => {
+	sidePageIndex += sidePageCount;
+	$(".addBtn").remove();
+	sideFollowList();
+});
+// infinity scroll
+$(window).scroll(() => {
+	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
+		pageIndex += pageCount;
+  		boardList();
+  	}
+ });
 // 좋아요 이벤트 
 $(document).on("click", ".likeBtn",(e) => {
 // makeAlarm(2, 게시글 번호)
@@ -511,6 +501,8 @@ $(document).on("click", ".likeBtn",(e) => {
 	 } // else
 
 })
+// ----- 이벤트 끝
+// ------ 함수
 function likeCount(postNo) {
 	let count = 0;
 	$.ajax({ 
@@ -588,7 +580,40 @@ function boardFileCheck(no) {
 	});
 	return fileCk;
 }
-
+function categoryList(){
+	$.get({
+		url:"categoryListSideBar.do",
+		data:{
+			userId : loginUserId
+		},
+		success: (list) => {
+			if(!list) { // list가 없다면
+				$(".categoryListSide").append(
+				`<h2>팔로워 추천이 없습니다.</h2>`);
+			}
+			for(let i = 0; i < list.length; i++) {
+				$(".categoryListSide").append(
+						`<div class="feedSideUserList">
+							<div class="feedInfo">
+								<div class="feedUserImg">
+									<img class="userCmtImg${list[i].userNo}" alt="">
+								</div>
+								<div class="feedUserName">
+									<a href="${pageContextPath}/profile/${list[i].userNickName}">
+										${list[i].userNickName}
+									</a>
+									<span style="color:#6dd5bc">${list[i].categoryTitle}</span>
+								</div>
+							</div>
+						</div>`
+				);
+				let un = list[i].userNo;
+				userImg(un);
+			} // for
+		} // success 
+	}) 
+}
+//------함수
 
 function error(){
 	return "에러";

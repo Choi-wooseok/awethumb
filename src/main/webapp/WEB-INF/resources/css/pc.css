@@ -35,9 +35,6 @@ header > div > div:nth-child(2) {
     display: block;
     box-sizing: border-box;
     padding: 0 15px;
-    float: left;
-    margin-left: 10rem;
-    margin-top: -4.2rem;
     letter-spacing: 1px;
 }
 .search > form {
@@ -51,7 +48,6 @@ header > div > div:nth-child(2) {
     box-shadow: none;
     box-sizing: border-box;
     padding: 0 38px 0 8px;
-    text-align: center;
 }
 .search > input:focus {
     border: 1px solid;
@@ -64,9 +60,16 @@ header > div > div:nth-child(2) {
     right: 25px;
     cursor: pointer;
 }
+.layout_left > a {
+	float: left;
+}
+.layout_left > form {
+	overflow : hidden;
+}
 #searchBtn {
-		top: -68px;
-    	left: 265px;
+	position: absolute;
+	top: 0;
+	right: 25px;
 }
 .resultSearch:hover {
 	background-color: #F7F7F7;
@@ -74,13 +77,13 @@ header > div > div:nth-child(2) {
 	cursor: pointer;
 }
 #searchResults {
-		display: none;
-    	top: -85px;
-    	background-color: white;
-	    border: 1px solid #dadada;
-        text-align: center;
-        overflow-y: scroll;
-    	height: 300px;
+	display: none;
+   	top: -85px;
+   	background-color: white;
+    border: 1px solid #dadada;
+    text-align: center;
+    overflow-y: scroll;
+   	height: 300px;
 }
 #resultCount {
 	height: 30px;

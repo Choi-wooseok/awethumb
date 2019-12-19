@@ -140,6 +140,18 @@
 		set view_cnt = view_cnt + 1
 		where post_no = ${postNo}
 	</update>
+	
+	<select id="selectProjectImg" resultType="ProjectFile" parameterType="int">
+		select *
+		from project_file_tb
+		where project_no = ${projectNo}
+	</select>
+	
+	<select id="selectProject" resultType="Project" parameterType="int">
+		select *
+		from project_tb
+		where project_no =${projectNo}
+	</select>
 </mapper>
 
 

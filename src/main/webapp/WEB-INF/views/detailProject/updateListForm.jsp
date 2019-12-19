@@ -23,20 +23,22 @@
 
     <section>
     	<div class="bgWrap">
-            <img src="<c:url value='/images/main_bg.jpg' />" alt="#">
+            <img src="${url}" >
         </div>
         <div class="content">
             <div class="options">
                 <div class="layout_left">
                     <span class="pjtTitle">
-						<div class="pjtName"></div>
+						<div class="pjtName">
+							${project.projectTitle}
+						</div>
 					</span>
-                    <button id="bgChange">
+                    <input type="file" id="bgChange">
                     	<i class="far fa-image"></i>
-                    </button>
+                    </input>
                 </div>
                 <div class="layout_right">
-                    <button id="posUpdateBtn" data-pjtNo="${projectNo}" type="button">
+                    <button id="posUpdateBtn" data-pjtNo="${project.projectNo}" type="button">
                        	수정완료
                     </button>
                 </div>

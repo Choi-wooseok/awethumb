@@ -1,12 +1,5 @@
 $(document).ready(function() {
-	$.ajax({
-    	data: {pjtNo : $("#updateBtn").data("pjtno")},
-    	type: "post",
-    	url: 'selectProjectName.do',
-    	success: (project) => {
-    		$(".pjtName").html(`${project.projectTitle}`);
-    	}
-    })
+	let pjtNo = $("#updateBtn").data("pjtno");
 
 	$('#summernote').summernote({
         minHeight: null,
@@ -273,8 +266,6 @@ $(document).on("click", ".cmtBtn", (e) => {
 				   .attr("data-postNo", $("#cmtInsertBtn").data("postno"));
 	
 	// 유저넘버 필요
-	console.log(loginNo);
-	console.log($(e.target).data("uno"));
 	if (loginNo == $(e.target).data("uno")) {
 		$(".modalMini > div").html(`
 			<div class="deleteCommentBoard">글 삭제</div>
@@ -296,45 +287,26 @@ $(document).on("click", ".updatecancel", (e) => {
 
 // DOM
 function commentListAjax(cList) {
-//	if (loginNo == cList.userNo) {
-		$(".comment").append(
-			`
-			<div class="commentList">
-				<div class="commentUserImg">
-					<img src="./../images/test_user.jpg" alt="">
-				</div>
-				<div class="commentWrap">
-					<div class="cmtInfo">
-						<span>${cList.cmtUserNickname}</span>
-						<span>${cList.cmtRegDt}</span>
-						<button class="cmtBtn">
-							<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}" data-uNo="${cList.userNo}"></i>
-						</button>
-					</div>
-					<div class="cmtContent">${cList.cmtContent}</div>
-					<div class="cmtWrap" id="cmt${cList.cmtNo}"></div>
-				</div>
+	$(".comment").append(
+		`
+		<div class="commentList">
+			<div class="commentUserImg">
+				<img src="./../images/test_user.jpg" alt="">
 			</div>
-			`
-		)
-//	} else {
-//		$(".comment").append(
-//			`
-//			<div class="commentList">
-//				<div class="commentUserImg">
-//					<img src="./../images/test_user.jpg" alt="">
-//				</div>
-//				<div class="commentWrap">
-//					<div class="cmtInfo">
-//						<span>${cList.cmtUserNickname}</span>
-//						<span>${cList.cmtRegDt}</span>
-//					</div>
-//					<div class="cmtContent">${cList.cmtContent}</div>
-//				</div>
-//			</div>
-//			`
-//		)
-//	}
+			<div class="commentWrap">
+				<div class="cmtInfo">
+					<span>${cList.cmtUserNickname}</span>
+					<span>${cList.cmtRegDt}</span>
+					<button class="cmtBtn">
+						<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}" data-uNo="${cList.userNo}"></i>
+					</button>
+				</div>
+				<div class="cmtContent">${cList.cmtContent}</div>
+				<div class="cmtWrap" id="cmt${cList.cmtNo}"></div>
+			</div>
+		</div>
+		`
+	)
 }
 function viewBoardAjax(board) {
 	$(".modal_content").html(
@@ -374,28 +346,19 @@ function viewBoardAjax(board) {
 }
 
 // 신고하기
-$(".report").click(() => {
+$(document).on("click", ".report", (e) => {
 	let postNo = $(".optionF").data("postno");
+	let cmtNo = $(e.target).parent().parent().data("cmtno");
+
 	if (cmtNo == null) { // 게시글 신고
 		let newWindow = window.open("about:blank");
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+	} else { // 댓글 신고
+		let newWindow = window.open("about:blank");
+		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
-	let commNo = "";
+	
 })
-//("click", ".report",(e) => {
-//	console.log($(e.target).children("i").data())
-//	let postNo = $(e.target).children("i");
-//	let cmtNo = $(e.target).data("commentno");
-//	if (cmtNo == null) { // 게시글 신고
-//		let newWindow = window.open("about:blank");
-//		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
-//	}
-//	else { // 댓글 신고
-//		let newWindow = window.open("about:blank");
-//		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
-//	}
-//});
-
 
 // 이미지 띄우는 스크립트
 //function imgReSize({w, h}) {

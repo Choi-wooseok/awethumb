@@ -10,6 +10,7 @@ import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.stats.aop.UpdateDailyLog;
 
@@ -111,5 +112,13 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	
 	public void viewCount(int postNo) {
 		dao.viewCount(postNo);
-	};
+	}
+	
+	public ProjectFile selectProjectImg(int projectNo) {
+		return dao.selectProjectImg(projectNo);
+	}
+	
+	public Project selectProject(int projectNo) {
+		return dao.selectProject(projectNo);
+	}
 }

@@ -1,13 +1,4 @@
 $(document).ready(function() {
-    $.ajax({
-    	data: {pjtNo : $("#posUpdateBtn").data("pjtno")},
-    	type: "post",
-    	url: 'selectProjectName.do',
-    	success: (project) => {
-    		$(".pjtName").html(`${project.projectTitle}`);
-    	}
-    })
-    
     $('#summernote').summernote({
         height: 300,
         minHeight: null,
@@ -23,6 +14,38 @@ $(document).ready(function() {
 		}
     });
 });
+
+$("#bgChange").change((e) => {
+	if ($(e.target).get(0).files.length != 0) {
+		
+		let pjtNo = $("#posUpdateBtn").data("pjtno")
+		
+		alert("11")
+		console.log($(e.target).get(0).files[0])
+		
+		var data = new FormData();
+		data.append('projectFile', $(e.target).get(0).files[0]);
+		$.ajax({
+			data: data,
+			url: pageContextPath + "/api/project/" + pjtNo + "/img",
+			type: "POST",
+			dataType: "text",
+			contentType: false,
+			processData: false,
+			cache: false,
+			success: () => {
+				$.ajax({
+					url: pageContextPath + "/api/project/" + pjtNo + "/img",
+					success: (result) => {
+						$(".bgWrap").html(`
+							<img src="${result}" />
+						`)
+					}
+				})
+			}
+		});
+	}
+})
 
 $(".pjtName").click(() => {
 	$.ajax({

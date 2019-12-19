@@ -29,4 +29,7 @@ public class ProjectFile {
 
     // 프로젝트 번호 
     private int projectNo;
+    
+    // 프로젝트 유저 번호
+    private int projectUserNo;
 }

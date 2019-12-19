@@ -8,6 +8,7 @@ import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardDAO {
@@ -16,8 +17,8 @@ public interface DetailBoardDAO {
 	void deleteBoard(int postNo);
 	void updateBoard(Board board);
 	Board selectOneBoard(int postNo);
-	void updateList(Board board);
 	
+	void updateList(Board board);
 	List<BoardFile> selectImgList(int postNo);
 	BoardFile selectOneBoardSys(String sysname);
 	void insertImage(BoardFile boardFile);
@@ -28,9 +29,13 @@ public interface DetailBoardDAO {
 	UserVO selectWriter(int postNo);
 	List<Comment> commentList(int postNo);
 	void insertComment(Comment comment);
+	
 	void deleteComment(int cmtNo);
 	void updateComment(Comment comment);
 	String selectUser(int userNo);
 	List<BoardFile> selectImages(int postNo);
 	void viewCount(int postNo);
+	
+	ProjectFile selectProjectImg(int projectNo);
+	Project selectProject(int projectNo);
 }

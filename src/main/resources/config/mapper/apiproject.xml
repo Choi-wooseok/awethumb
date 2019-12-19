@@ -53,7 +53,8 @@
 		       project_file_org_name = #{projectFileOrgName},
 		       project_file_path = #{projectFilePath},
 		       project_file_size = #{projectFileSize},
-		       project_file_exe = #{projectFileExe}
+		       project_file_exe = #{projectFileExe},
+		       project_file_reg_dt = NOW()
 		 where project_no = #{projectNo}
 	</update>
 </mapper>

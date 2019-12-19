@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,12 +96,17 @@ public class APIProjectController {
 	
 	// 프로젝트 사진을 업데이트한다
 	@PostMapping("/{projectNo}/img")
-	public void updateProjectImg (@PathVariable int projectNo, MultipartFile mf) throws IllegalStateException, IOException  {
+	public void updateProjectImg (@PathVariable int projectNo, Project p) throws IllegalStateException, IOException  {
+		
+		MultipartFile mf = p.getProjectFile();
+		
+		System.out.println(projectNo); 
+		System.out.println(mf);
 		
 		long size = mf.getSize(); // 파일 사이즈
 		String orgName = mf.getOriginalFilename(); // 파일 이름
 		String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
-		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+		String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름 
 		
 		// 경로 설정
 		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");

@@ -25,6 +25,7 @@ import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
+import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.util.FileUtil;
 
@@ -39,14 +40,30 @@ public class DetailBoardController {
 	public ModelAndView DetailBoardList(@PathVariable int projectNo, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("detailProject/detailBoardList");
+		
+		// jsp에 projectVO를 넘기기 위함
+		Project project = service.selectProject(projectNo);
+		
+		// jsp에 projectImage를 넘기기 위함
+		ProjectFile pf = service.selectProjectImg(projectNo);
+		String path = pf.getProjectFilePath().toString().split("upload/")[1];
+		String url = req.getContextPath() + "/image/" + path + pf.getProjectFileSysName();
+		
+		// 세션에 이미지 임시 등록을 위함
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = new ArrayList<>();
 		session.setAttribute("bfList", bfList);
+		
+		// jsp에 BoardListVO를 넘기기 위함
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
 			bList.get(i).setListFile(fList);
 		}
+		
+		// ModelandView에 key, value값으로 저장
+		mav.addObject("url", url);
+		mav.addObject("project", project);
 		mav.addObject("list", bList);
 		return mav;
 	}
@@ -75,15 +92,24 @@ public class DetailBoardController {
 	}
 
 	@RequestMapping("updateListForm.do")
-	public void updateListForm(@RequestParam("projectNo") int projectNo, Model model) {
+	public void updateListForm(@RequestParam("projectNo") int projectNo, Model model, HttpServletRequest req) {
+		// jsp에 projectVO를 넘기기 위함
+		Project project = service.selectProject(projectNo);
+		
+		// jsp에 projectImage를 넘기기 위함
+		ProjectFile pf = service.selectProjectImg(projectNo);
+		String path = pf.getProjectFilePath().toString().split("upload/")[1];
+		String url = req.getContextPath() + "/image/" + path + pf.getProjectFileSysName();
+		
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
 			bList.get(i).setListFile(fList);
 		}
+		model.addAttribute("url", url);
+		model.addAttribute("project", project);
 		model.addAttribute("list", bList);
-		model.addAttribute("projectNo", projectNo);
-	}
+	} 
 
 	@RequestMapping("update.do")
 	public String updateBoard(Board board) {
@@ -133,21 +159,14 @@ public class DetailBoardController {
 			HttpServletResponse res
 			) throws Exception  {
 		List<BoardFile> bfList = service.selectImages(postNo);
-		String url = req.getRequestURL().toString().split(req.getContextPath())[0];
 		List<String> sArr = new ArrayList<>();;
 		for (int i = 0; i < bfList.size(); i++) {
 			String path = bfList.get(i).getBoardFilePath();
 			String sysName = bfList.get(i).getBoardFileSysName();
-			String realPath = url + req.getContextPath()  + "/image/" + path + sysName;
+			String realPath = req.getContextPath()  + "/image/" + path + sysName;
 			sArr.add(realPath);
 		}
 		return sArr;
-	}
-
-	@PostMapping("selectProjectName.do")
-	@ResponseBody
-	public Project selectProjectName(@RequestParam("pjtNo") int pjtNo) {
-		return service.selectProjectName(pjtNo);
 	}
 
 	@PostMapping("updateProjectName.do")

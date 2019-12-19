@@ -30,24 +30,32 @@
     
     <section>
         <div class="bgWrap">
-            <img src="<c:url value='/images/main_bg.jpg' />" alt="#">
+        	<img src="${url}" />
         </div>
         <div class="content">
             <div class="options">
                 <div class="layout_left">
                     <span class="pjtTitle">
-                    	<div class="pjtName">${pjtName}</div>
+                    	<div class="pjtName">${project.projectTitle}</div>
                    	</span>
-                    <button id="updateBtn" data-pjtNo="${projectNo}">
-                    	<i class="fas fa-user-cog"></i>
-                    </button>
+                   	<c:choose>
+                   		<c:when test="${su.userNo == project.userNo}">
+		                    <button id="updateBtn" data-pjtNo="${projectNo}">
+		                    	<i class="fas fa-user-cog"></i>
+		                    </button>                   		
+                   		</c:when>
+                   	</c:choose>
                 </div>
-                <div class="layout_right">
-                    <button id="insertBtn" data-pjtNo="${projectNo}">
-                        <i class="fas fa-plus"></i>
-                       	등록
-                    </button>
-                </div>
+                <c:choose>
+                  	<c:when test="${su.userNo == project.userNo}">
+		                <div class="layout_right">
+		                    <button id="insertBtn" data-pjtNo="${projectNo}">
+		                        <i class="fas fa-plus"></i>
+		                       	등록
+		                    </button>
+		                </div>
+                   	</c:when>
+                </c:choose>
             </div>
             <div class="grid-stack" data-gs-width="12">
            		<c:forEach var="li" items="${list}">

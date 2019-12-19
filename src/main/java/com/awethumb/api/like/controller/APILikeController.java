@@ -12,7 +12,7 @@ import com.awethumb.repository.vo.Like;
 
 @RequestMapping("/api/like")
 @RestController
-public class likeController {
+public class APILikeController {
 	@Autowired
 	private APILikeService service;
 	

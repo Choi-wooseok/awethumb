@@ -95,7 +95,6 @@ function feedSideFollowMe(list) {
 	}
 }
 let likecount = 0;  // 좋아요개수 
-let likecheck = 0;	// 좋아요 누른상태
 let boardFileSrc = ``; // 파일경로 
 let fileCheck = 0; // 파일체크 
 let imageState = $(".imageState").val();
@@ -421,7 +420,7 @@ function categoryList(){
 		success: (list) => {
 			if(!list) { // list가 없다면
 				$(".categoryListSide").append(
-				`<h2>팔로워 추천이 없습니다.</h2>`);
+				"<h2>팔로워 추천이 없습니다.</h2>");
 			}
 			for(let i = 0; i < list.length; i++) {
 				$(".categoryListSide").append(

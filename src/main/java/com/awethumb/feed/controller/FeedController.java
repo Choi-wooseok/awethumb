@@ -89,37 +89,38 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		System.out.println("신고");
 	}
 	
-	@RequestMapping("/boardLikeInsert.do")
-	@ResponseBody
-	public void boardLike(@RequestBody Like like){ 
-		service.insertLike(like);
-	}
-	@RequestMapping("/boardLikeDelete.do")
-	@ResponseBody
-	public void boardLikeDelete(@RequestBody Like like){ 
-		System.out.println("delete");
-		service.deleteLike(like);
-	}
-	@RequestMapping("/likeCheck.do")
-	@ResponseBody
-	public int boardLikeCheck(@RequestBody Like like){
-		return service.likeCheck(like); // 0 -> likeoff, 1 -> likeon
-	}
-	@RequestMapping("/boardLikeCount.do")
-	@ResponseBody
-	public int boardLikeCount(@RequestBody Like like){
-		return service.likeCount(like);
-	}
-	@RequestMapping("/commentLikeInsert.do")
-	@ResponseBody
-	public void commentLikeInsert(@RequestBody Like like){ 
-		service.insertLike(like);
-	}
-	@RequestMapping("/commentLikeDelete.do")
-	@ResponseBody
-	public void commentLikeDelete(@RequestBody Like like){ 
-		service.deleteLike(like);
-	}
+//	@RequestMapping("/boardLikeInsert.do")
+//	@ResponseBody
+//	public void boardLike(@RequestBody Like like){ 
+//		service.insertLike(like);
+//	}
+//	@RequestMapping("/boardLikeDelete.do")
+//	@ResponseBody
+//	public void boardLikeDelete(@RequestBody Like like){ 
+//		System.out.println("delete");
+//		service.deleteLike(like);
+//	}
+//	@RequestMapping("/likeCheck.do")
+//	@ResponseBody
+//	public int boardLikeCheck(@RequestBody Like like){
+//		return service.likeCheck(like); // 0 -> likeoff, 1 -> likeon
+//	}
+//	@RequestMapping("/boardLikeCount.do")
+//	@ResponseBody
+//	public int boardLikeCount(@RequestBody Like like){
+//		System.out.println("들어옴");
+//		return service.likeCount(like);
+//	}
+//	@RequestMapping("/commentLikeInsert.do")
+//	@ResponseBody
+//	public void commentLikeInsert(@RequestBody Like like){ 
+//		service.insertLike(like);
+//	}
+//	@RequestMapping("/commentLikeDelete.do")
+//	@ResponseBody
+//	public void commentLikeDelete(@RequestBody Like like){ 
+//		service.deleteLike(like);
+//	}
 
 	@RequestMapping("/boardFileRead.do")
 	@ResponseBody

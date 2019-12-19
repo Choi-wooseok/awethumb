@@ -68,6 +68,7 @@
 	</section>
 	</div>
 	<script src="<c:url value="/js/feed.js" />"></script>
+	<script src="<c:url value="/js/like.js" />"></script>
 
 
 </body>

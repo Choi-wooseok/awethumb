@@ -20,7 +20,6 @@ $(".unsub_btn").click(() => {
 		$(".follower_cnt").text(--follwerCnt);
 	})
 })
-
 // 구독
 $(".sub_btn").click(() => {
 	$.ajax({

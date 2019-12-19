@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.FeedDAO">
+	<resultMap id="FeedMap" type="FeedBoard">
+		<result column="post_no" property="postNo" /> 
+		<result column="project_no" property="projectNo" /> 
+		<result column="user_no" property="userNo" /> 
+		<result column="post_content" property="postContent" /> 
+		<result column="post_public_enabled" property="postPublicEnabled" /> 
+		<result column="hashtag_no" property="hashtagNo" /> 
+		<result column="user_nickname" property="userNickname" /> 
+		<collection property="commentList" select="selectComment" column="post_no"/>
+	</resultMap>
+	<resultMap id="commentMap" type="Comment">
+		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
+		<result column="cmt_no" property="cmtNo" /> 
+		<result column="cmt_content" property="cmtContent" /> 
+		<result column="cmt_reg_dt" property="cmtRegDt" />
+		<result column="user_no" property="userNo" />
+		<result column="post_no" property="postNo" />
+		<result column="ago_reg_dt" property="agoRegDt" />
+	</resultMap>
 	
 	<select id="postNoList" resultType="FeedBoard">
 		SELECT post_no

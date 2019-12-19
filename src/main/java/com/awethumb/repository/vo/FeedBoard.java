@@ -1,5 +1,7 @@
 package com.awethumb.repository.vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -25,16 +27,17 @@ public class FeedBoard {
     // 유저 이름
     private String userNickName;
     
-    // 게시판 사진 경로
-    private String boardFilePath;
-
-    // 유저 사진 경로 
-    private String userFilePath;
-    
-    // 게시글 조회수
-    private int viewCnt;
-    
     // 더미
     private int xCoord;
     
+    // 댓글리스트
+    private List<Comment> commentList;
+    
 }
+
+
+
+
+
+
+

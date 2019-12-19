@@ -14,6 +14,18 @@ $(document).ready(function(){
 	    sideFollowList(); // 사이드바
 	    categoryList() // 팔로워추천 사이드바
 });
+$(document).on('click', '.addBtn', () => {
+	sidePageIndex += sidePageCount;
+	$(".addBtn").remove();
+	sideFollowList();
+});
+// infinity scroll
+$(window).scroll(() => {
+	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
+		pageIndex += pageCount;
+  		boardList();
+  	}
+ });
 let boardListState = false; // 게시글 상태 
 function boardList(){
 	scrollz = 0;
@@ -92,7 +104,7 @@ function feedList(list){
 	let count = 0;
 		$.each(list, (i, bl) => {
 			let postAndCmtNo = bl.postNo;
-			let likestate = ``;
+			let like = ``;
 			let code = 1;
 			let image = ``;
 			fileCheck = boardFileCheck(bl.postNo);
@@ -110,25 +122,10 @@ function feedList(list){
 						</div>`;
 			}
 			boardFileSrc = boardFile(bl.postNo);
-			likecheck = likeCheck(postAndCmtNo, code);
-			likecount = likeCount(postAndCmtNo);
-			if(likecheck == 1){ // 좋아요누른상태
-				likestate = `data-likestate="2"
-							 class="fas fa-heart likeBtn"`;
-			}
-			else { // 좋아요안누름
-				likestate = `data-likestate="1"
-							 class="far fa-heart likeBtn"`
-			}
-			let likebtn = `<i 	
-							id="like${bl.postNo}"
-							data-postno="${bl.postNo}"
-							data-type="1"
-							${likestate}>
-						</i>`;
+			like = likeAdmin(postAndCmtNo, loginUserNo, code);
 			if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
-				$("#feedWrap").append(
-						`<div class="feedList">
+				$("#feedWrap").append(`
+						<div class="feedList">
 							<div class="feedInfo">
 								<div class="feedUserImg${bl.postNo}">
 									<img class="userCmtImg${bl.userNo}" alt="">
@@ -142,19 +139,10 @@ function feedList(list){
 							</div>
 							${image}
 							<div class="feedText">
+								${like}
 								<div>
-									<button
-										type="button"
-										style="border:none; background-color:transparent;">
-										${likebtn}
-									</button>
-									<div id="countLike${bl.postNo}" style="display: inline;">
-										<span id="countSpan${bl.postNo}"></span>
-									</div>
-								</div>
-								<div>
-								게시판 내용 : ${bl.postContent}
-								게시판 번호 : ${bl.postNo}
+									게시판 내용 : ${bl.postContent}
+									게시판 번호 : ${bl.postNo}
 								</div>
 							</div>
 							<div class="feedPlay">
@@ -166,7 +154,9 @@ function feedList(list){
 									<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
 								</div>
 							</div>
-						</div>`)
+						</div>
+				`) // postAndCmtNo
+				likecount = likeCount(postAndCmtNo);
 				if(likecount > 0) {
 					$("#countLike" + postAndCmtNo).html(`
 					<span id="countSpan${postAndCmtNo}">${likecount}회 좋아요</span>`);
@@ -180,6 +170,16 @@ function feedList(list){
 // 댓글
 function aaa () {
 	let postNo = document.querySelectorAll(".postNo");
+//	console.log(postNo.value)
+//	let postNo;
+//	$.get({
+//		url:"feedboardNo.do",
+//		success: (list) => { 
+//			postNo : list
+//			console.log("dsdfds");
+//		}
+//	})
+//	console.log(postNo)
 	for (let a of postNo){
 		let postnum = a.value; // 게시글 번호받기 걷기
 		commentListAjax();
@@ -195,21 +195,8 @@ function aaa () {
 			$.each(list, (i	, c) => {
 				let postAndCmtNo = c.cmtNo;
 				let code = 2;
-				let likestate = ``;
-				likecheck = likeCheck(postAndCmtNo, code);
-				if(likecheck == 1){ // 좋아요누른상태
-					likestate = `data-likestate="2"
-								 class="fas fa-heart likeBtn"`
-				}
-				else { // 좋아요안누름
-					likestate = `data-likestate="1"
-								 class="far fa-heart likeBtn"`
-				}
-				let likebtn = `<i 	
-								data-commentno="${c.cmtNo}"
-								data-type="2"
-								${likestate}>
-							</i>`;
+				let like =``;
+				like = likeAdmin(postAndCmtNo, loginUserNo, code);
 				if(c.postNo == postnum){
 						$bcla.append(
 								`<div class="commentList${c.cmtNo} commentList" id="commentList">
@@ -229,10 +216,7 @@ function aaa () {
 												data-postNo="${c.postNo}">
 												<i class="fas fa-ellipsis-h"></i>
 											</button>
-											<span
-												style="background-color:transparent; padding-right:40px;cursor:pointer">
-												${likebtn}
-											</span>
+											${like}
 										</div>
 										<div class="cmtContent" style="color:blue;">
 											내용 : ${c.cmtContent} 
@@ -323,7 +307,7 @@ $(".commentModify").on("click", (e) => {
 	);
 	$(".commentboardmodal").css("display","none");
 });
-//---------------------- 이벤트
+// click 이벤트
 $(document).on( "click",".commentModal", (e) => {
 	let obj = e.target
 	if (obj.nodeName == "I") {
@@ -382,163 +366,11 @@ $(document).on("click", ".report", (e) => {
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
-//사이드바1 더보기
-$(document).on('click', '.addBtn', () => {
-	sidePageIndex += sidePageCount;
-	$(".addBtn").remove();
-	sideFollowList();
-});
-// infinity scroll
-$(window).scroll(() => {
-	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
-		pageIndex += pageCount;
-  		boardList();
-  	}
- });
 // 좋아요 이벤트 
 $(document).on("click", ".likeBtn",(e) => {
-// makeAlarm(2, 게시글 번호)
-	/*
-	<i class="far fa-heart"></i> 좋아요누르기전
-	<i class="fas fa-heart"></i> 좋아요 누른 후
-	data-postno="${bl.postNo}"
-	data-likestate="1"
-	data-type="1"
-	*/
-	 let btnState = $(e.target).data("likestate"); // 1-> 빈하트 2-> 꽉찬하트 
-	 let type = $(e.target).data("type"); // -> 1 게시글 2-> 댓글 
-	 let pnum = $(e.target).data("postno");
-	 let cnum = $(e.target).data("commentno");
-	 if(btnState == 1){ // 빈하트인상태
-		 if(pnum) { // 게시글 좋아요 일때
-			 makeAlarm(2, pnum); // 알람
-			 $(e.target).data("likestate", 2).removeClass("far").addClass("fas"); // 태그자체바꿈
-			 let count = parseInt($("#countSpan" + pnum).html()); // count - 1 \
-			 if(!count) { // 좋아요를 아무도 안눌렀을시
-				 $("#countSpan" + pnum).remove();
-				 $("#countLike" + pnum).append(`<span id="countSpan${pnum}">1회 좋아요</span>`);
-			 }
-			 else { // 좋아요가 눌러져있을때
-				 count += 1;
-				 $("#countSpan" + pnum).remove();
-				 $("#countLike" + pnum).append(`<span xid="countSpan${pnum}">${count}회 좋아요</span>`);
-			 }
-			 $.ajax({
-				 url: "boardLikeInsert.do",
-				 contentType : "application/json", 
-				 method:"POST",
-				 data: JSON.stringify({
-					 postAndCmtNo: pnum,
-					 userNo : loginUserNo,
-					 codeValue : type
-				 }),
-				 success: () =>  {},
-				 error : (asd) => {
-					 console.log(asd);
-				 }
-			 });
-			 return;
-		 } //if
-		 else {// 댓글좋아요
-			 $(e.target).data("likestate", 2).removeClass("far").addClass("fas");
-			 $.ajax({
-				 url: "commentLikeInsert.do",
-				 contentType : "application/json", 
-				 method:"POST",
-				 data: JSON.stringify({
-					 postAndCmtNo: cnum,
-					 userNo : loginUserNo,
-					 codeValue : type
-				 }),
-				 success: () =>  {},
-				 error : (asd) => {
-					 console.log(asd);
-				 }
-			 });
-		 }
-	 } // if
-	 else { // 꽉찬 하트일때 
-		 if(pnum) { // 게시글일때
-			 $(e.target).data("likestate", 1).removeClass("fas").addClass("far"); // 태그자체바꿈
-			 let count = parseInt($("#countSpan" + pnum).html()) - 1; // count - 1 
-			 console.log("c : " +count)
-			 if (count == 0){ // 좋아요가 0이될때 
-				 $("#countSpan" + pnum).remove();
-			 } else { 
-				 $("#countSpan" + pnum).html(`${count}회 좋아요`);
-			 }
-			 $.ajax({
-				 url: "boardLikeDelete.do",
-				 contentType : "application/json", 
-				 method:"POST",
-				 data: JSON.stringify({
-					 postAndCmtNo: pnum,
-					 userNo : loginUserNo,
-					 codeValue : type
-				 }),
-				 success: () => {},
-				 error : (asd) => {console.log(asd);}
-			 });
-			 return;
-		 }// if
-		 else {// 댓글일때
-			 $(e.target).data("likestate", 1).removeClass("fas").addClass("far");
-			 $.ajax({
-				 url: "commentLikeDelete.do",
-				 contentType : "application/json", 
-				 method:"POST",
-				 data: JSON.stringify({
-					 postAndCmtNo: cnum,
-					 userNo : loginUserNo,
-					 codeValue : type
-				 }),
-				 success: () =>  {},
-				 error : (asd) => {
-					 console.log(asd);
-				 }
-			 });
-		 }
-	 } // else
-
-})
-// ----- 이벤트 끝
-// ------ 함수
-function likeCount(postNo) {
-	let count = 0;
-	$.ajax({ 
-		url: "boardLikeCount.do",
-		contentType : "application/json", 
-		method:"POST",
-		async:false,
-		data: JSON.stringify({
-			postAndCmtNo: postNo,
-		}),
-		dataType:"json",
-		success: (no) =>  {
-			count = no;
-		}
-	});
-	return count;
-};
-function likeCheck(no, code) {
-	let ck = 0;
-	$.ajax({ // async , await
-		url: "likeCheck.do",
-		contentType : "application/json", 
-		method:"POST",
-		async:false,
-		data: JSON.stringify({
-			postAndCmtNo: no,
-			userNo : loginUserNo,
-			codeValue : code // comment
-		}),
-		dataType:"json",
-		success: (no) =>  {
-			ck = no;
-		}
-	});
-	return ck;
-};
+	 likeClick(loginUserNo, e.target);
+ }) // 좋아요버튼클릭이벤트
+ 
 // 유저 이미지
 function userImg(userNo){
 	// url : pageContextPath + "/api/user/유저번호/thumb"
@@ -613,7 +445,7 @@ function categoryList(){
 		} // success 
 	}) 
 }
-//------함수
+
 
 function error(){
 	return "에러";

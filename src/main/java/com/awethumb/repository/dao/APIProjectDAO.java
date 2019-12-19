@@ -17,4 +17,6 @@ public interface APIProjectDAO {
 
 	List<Project> selectSavedProjects(Project p);
 
+	void updateProjectImg(ProjectFile pf);
+
 }

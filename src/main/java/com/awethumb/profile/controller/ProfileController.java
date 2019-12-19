@@ -67,28 +67,40 @@ public class ProfileController {
 	public String insertProj(Project p, RedirectAttributes rttr) throws IllegalStateException, IOException {
 		ProjectFile pf = new ProjectFile();
 		
+		long size;
+		String orgName, ext, sysName, path;
+		
 		MultipartFile mf = p.getProjectFile();
 		// 썸네일을 입력 받았을 경우
 		if(mf.getSize() != 0) {
-			long size = mf.getSize(); // 파일 사이즈
-			String orgName = mf.getOriginalFilename(); // 파일 이름
-			String ext = FilenameUtils.getExtension(orgName); // 파일 확장자
-			String sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
+			
+			size = mf.getSize(); // 파일 사이즈
+			orgName = mf.getOriginalFilename(); // 파일 이름
+			ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+			sysName = (UUID.randomUUID().toString() + "." + ext); // 파일 시스템 이름
 			
 			// 경로 설정
 			SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
-			String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
-			
-			pf.setProjectFileSize(size);
-			pf.setProjectFileOrgName(orgName);
-			pf.setProjectFileExe(ext);
-			pf.setProjectFileSysName(sysName);
-			pf.setProjectFilePath(path);
+			path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
 			
 			mf.transferTo(new File(path + sysName));
-			
 			Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
 		}
+		// 썸네일이 없을 경우 default 이미지로
+		else {
+			size = 21491; // 파일 사이즈
+			orgName = "default-project-picture.jpg"; // 파일 이름
+			ext = FilenameUtils.getExtension(orgName); // 파일 확장자
+			sysName = orgName; // 파일 시스템 이름
+			// 경로 설정
+			path = "c:/java/upload/project/"; // 파일 경로
+		}
+		
+		pf.setProjectFileSize(size);
+		pf.setProjectFileOrgName(orgName);
+		pf.setProjectFileExe(ext);
+		pf.setProjectFileSysName(sysName);
+		pf.setProjectFilePath(path);
 		
 		service.insertProj(p, pf);
 		

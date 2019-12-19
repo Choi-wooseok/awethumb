@@ -38,4 +38,9 @@ public class APIProjectServiceImpl implements APIProjectService{
 	public List<Project> selectSavedProjects(Project p) {
 		return dao.selectSavedProjects(p);
 	}
+
+	@Override
+	public void updateProjectImg(ProjectFile pf) {
+		dao.updateProjectImg(pf);
+	}
 }

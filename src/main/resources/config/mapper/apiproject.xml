@@ -47,6 +47,15 @@
          ORDER BY ps.saved_date desc
          LIMIT #{currentPageNo}, #{countPerPage}
 	</select>
+	<update id="updateProjectImg" parameterType="ProjectFile">
+		update project_file_tb
+		   set project_file_sys_name = #{projectFileSysName},
+		       project_file_org_name = #{projectFileOrgName},
+		       project_file_path = #{projectFilePath},
+		       project_file_size = #{projectFileSize},
+		       project_file_exe = #{projectFileExe}
+		 where project_no = #{projectNo}
+	</update>
 </mapper>
 
 

@@ -12,5 +12,6 @@ public interface APIProjectService {
 	List<Project> selectProgressProjects(Project p);
 	List<Project> selectSharedProjects(Project p);
 	List<Project> selectSavedProjects(Project p);
+	void updateProjectImg(ProjectFile pf);
 
 }

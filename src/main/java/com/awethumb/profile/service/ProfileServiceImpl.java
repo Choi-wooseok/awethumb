@@ -48,10 +48,7 @@ public class ProfileServiceImpl implements ProfileService{
 			dao.insertSharedUserList(p);
 		}
 		
-		// 유저에게 썸네일을 입력 받았을 경우에만 파일을 입력
-		if(pf.getProjectFilePath() != null) {
-			dao.insertProjectFile(pf);
-		}
+		dao.insertProjectFile(pf);
 	}
 
 	@Override

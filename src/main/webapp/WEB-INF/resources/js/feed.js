@@ -31,6 +31,7 @@ $(document).ready(function(){
 	    boardList(); // 게시글
 	    sideFollowList(); // 사이드바
 	    categoryList() // 팔로워추천 사이드바
+	    
 });
 $(document).on('click', '.addBtn', () => {
 	item.sidePageIndex += item.sidePageCount;
@@ -77,6 +78,9 @@ function sideFollowList(){
 			userId:item.loginUserId
 		},
 		success: list => {
+			if (list.length == 0) {
+				$(".feedSideUserList").append("<h2>팔로우중인 사람이 없습니다.</h2>");
+			}
 			$(".addBtn").css("display","none");
 			feedSideFollowMe(list);
 		}
@@ -121,15 +125,6 @@ function feedList(list){
 			item.fileCheck = boardFileCheck(bl.postNo);
 			if (item.fileCheck > 0) {
 				image = `<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
-								<img id="feedImg"
-									 alt="" />
-							<div class="hoverWrap">
-								<div>
-									<button class="like">
-										<i class="far fa-heart"></i><span>4</span>
-									</button>
-								</div>
-							</div>
 						</div>`;
 			}
 			item.boardFileSrc = boardFile(bl.postNo);
@@ -348,6 +343,9 @@ function boardFile(no) {
 			for(let i = 0; i < list.length; i++){
 				$(".feedImgWrap" + no).append(
 						`<img id="feedImg" src="${list[i]}"alt="" />`);
+					if (i == list.length - 1) {
+						$(".feedImgWrap" + no).slick();
+					}; // 이미지 슬라이드 
 			}
 		},
 		error:(error) => {
@@ -374,7 +372,7 @@ function categoryList(){
 			userId : item.loginUserId
 		},
 		success: (list) => {
-			if(!list) { // list가 없다면
+			if(list.length == 0) { // list가 없다면
 				$(".categoryListSide").append(
 				"<h2>팔로워 추천이 없습니다.</h2>");
 			}

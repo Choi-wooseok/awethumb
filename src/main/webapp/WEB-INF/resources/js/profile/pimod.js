@@ -20,7 +20,7 @@ $("#upload-result").click(()=>{
         type: 'blob',
         size: 'viewport'
     }).then(function (resp) {
-    	formData.append("userNo", 2);
+    	formData.append("userNo", userNo);
     	formData.append("userFile", resp, "image.png");
 
     	// ajax로 넘김

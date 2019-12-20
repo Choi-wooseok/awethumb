@@ -57,20 +57,6 @@ function likeAdmin(no, user, type) {
 	}
 	return like;
 };
-//<div>
-//	<button
-//		type="button"
-//		style="border:none; background-color:transparent;">
-//		${likebtn}
-//	</button>
-//	<div id="countLike${bl.postNo}" style="display: inline;">
-//		<span id="countSpan${bl.postNo}"></span>
-//	</div>
-//</div>
-//<span
-//	style="background-color:transparent; padding-right:40px;cursor:pointer">
-//	${likebtn}
-//</span>
 function likeCount(postNo) {
 	let count = 0;
 	$.ajax({ 

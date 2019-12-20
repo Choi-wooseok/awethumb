@@ -1,28 +1,30 @@
 $(document).ready(function() {
+	let pjtNo = $("#posUpdateBtn").data("pjtno");
+	$.ajax({
+		url: pageContextPath + "/api/project/" + pjtNo + "/img",
+		success: (result) => {
+			$(".bgWrap").html(`
+				<img src="${result}" />
+			`)
+		}
+	})
+	
     $('#summernote').summernote({
-        height: 300,
         minHeight: null,
         maxHeight: null,
         focus: true,
-        // 서머노트 이미지 업로드시 필요
-		callbacks: {
-			onImageUpload: function(files, editor, welEditable) {
-				for (var i = files.length - 1; i >= 0; i--) {
-					sendFile(files[i], editor, welEditable);
-				}
-			}
-		}
+        toolbar : [
+        	['style', ['bold', 'italic', 'underline', 'clear']],
+        	['fontsize', ['fontsize']],
+        ],
+        popover: {},
+        disableDragAndDrop: true,
     });
 });
 
 $("#bgChange").change((e) => {
 	if ($(e.target).get(0).files.length != 0) {
-		
 		let pjtNo = $("#posUpdateBtn").data("pjtno")
-		
-		alert("11")
-		console.log($(e.target).get(0).files[0])
-		
 		var data = new FormData();
 		data.append('projectFile', $(e.target).get(0).files[0]);
 		$.ajax({
@@ -49,7 +51,7 @@ $("#bgChange").change((e) => {
 
 $(".pjtName").click(() => {
 	$.ajax({
-    	data: {pjtNo : $("#posUpdateBtn").data("pjtno")},
+    	data: {projectNo : $("#posUpdateBtn").data("pjtno")},
     	type: "post",
     	url: 'selectProjectName.do',
     	success: (project) => {
@@ -76,7 +78,6 @@ function sendFile(file, el, welEditable) {
 		enctype: 'multipart/form-data',
 		processData: false,
 		success: function(url) {
-			console.log(url)
 			$("#summernote").summernote('insertImage', url)
 		}
     });
@@ -137,13 +138,79 @@ $(".deleteBoard").click((e) => {
 // 수정클릭 시 글쓰기 창 띄우기 / 제거하기
 $(".updateBoard").click((e) => {
 	$(".modalInsertWrap").addClass("block");
-	let thisNo = $(e.target).data("postno");
+	let postNo = $(e.target).data("postno");
 	let pjtNo = $("#posUpdateBtn").data("pjtno");
-	$(".updateForm").append(`
-		<input type="hidden" name="postNo" value="${thisNo}" />
-		<input type="hidden" name="projectNo" value="${pjtNo}" />
-	`);
+	$.ajax({
+		url : "updateSelectOneBoard.do",
+		data : {postNo : postNo},
+		success : (board) => {
+			$(".insertFormWrap").append(`
+				<input type="hidden" name="projectNo" value="${board.projectNo}" />
+				<input type="hidden" name="postNo" value="${board.postNo}" />
+			`)
+			$(".note-editable").html(`
+				${board.postContent}
+			`)
+		}
+	})
+	
+	$.ajax({
+		url: "imageDownload.do",
+		data: {postNo: postNo},
+		success: (sArr) => {
+			if (sArr != null) {
+				for (let i = 0; i < sArr.length; i++) {
+					$(".imageViewWrap").append(`
+						<img class="detailImage" src=${sArr[i]} />
+					`)
+					if (i == sArr.length-1) {
+						$(".imageViewWrap").slick();
+						$("#insertImg").addClass("movePos");
+					}
+				}
+			}
+		}
+	})
 })
+
+$("#insertImg").change((e) => {
+	$(".imageViewWrap").html("").removeClass("slick-slider").removeClass("slick-initialized");
+	let images = $(e.target).get(0).files;
+	
+	// 이미지가 1개이상 선택 되었을 경우
+	if (images.length != 0) {
+		for (let i = 0; i < images.length; i++) {
+			var data = new FormData();
+			data.append('file', images[i]);
+			$.ajax({
+				data: data,
+				url: "imageUpload.do",
+				type: "POST",
+				dataType: "json",
+				contentType: false,
+				processData: false,
+				async: false,
+				cache: false,
+				success: (bfile) => {
+					// 가져온 url로 이미지 그리기
+					$(".imageViewWrap").append(`
+						<img class="imgPos" src="${bfile.url}" />
+					`)
+					// 이미지가 모두 append된 후에 작업
+					if (i == images.length-1) {
+						$(".imageViewWrap").slick();
+						$("#insertImg").addClass("movePos");
+					}
+				}
+			})
+		}
+	// 이미지가 0개 선택인 경우
+	} else if (images.length == 0) {
+		$("#insertImg").removeClass("movePos");
+	}
+})
+
+
 $(".updatecancel").click(() => {
 	$(".optionU").removeClass("block");
 })

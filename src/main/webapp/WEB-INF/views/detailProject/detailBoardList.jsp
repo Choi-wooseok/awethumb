@@ -27,7 +27,7 @@
 		<sec:authentication property="principal.user" var="su"/>
 	</sec:authorize>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-    
+
     <section>
         <div class="bgWrap">
         	<img src="${url}" />
@@ -38,8 +38,16 @@
                     <span class="pjtTitle">
                     	<div class="pjtName">${project.projectTitle}</div>
                    	</span>
+                   	
+              		<c:set value="false" var="sharedUser"></c:set>
+              		<c:forEach var="shu" items="${shardUsers}">
+              			<c:if test="${shu == su.userNo}">
+              				<c:set value="true" var="shardUsers"></c:set>
+              			</c:if>
+              		</c:forEach>
+              		
                    	<c:choose>
-                   		<c:when test="${su.userNo == project.userNo}">
+                   		<c:when test="${su.userNo == project.userNo || shardUsers == 'true'}">
 		                    <button id="updateBtn" data-pjtNo="${projectNo}">
 		                    	<i class="fas fa-user-cog"></i>
 		                    </button>                   		
@@ -47,7 +55,7 @@
                    	</c:choose>
                 </div>
                 <c:choose>
-                  	<c:when test="${su.userNo == project.userNo}">
+                  	<c:when test="${su.userNo == project.userNo || shardUsers == 'true'}">
 		                <div class="layout_right">
 		                    <button id="insertBtn" data-pjtNo="${projectNo}">
 		                        <i class="fas fa-plus"></i>
@@ -123,7 +131,6 @@
 	              		<input id="insertImg" name="isnertImg" type="file" multiple="multiple" />
               			<div class="imageViewWrap"></div>
               		</div>
-                	
                 	<textarea id="summernote" name="postContent"></textarea>
                 </div>
                 <div class="inpjtNo"></div>
@@ -135,12 +142,7 @@
     </div>
     
 	<div class="optionModalWrap modalMini">
-        <div>
-            <!-- <div class="deleteCommentBoard">글 삭제</div>
-            <div class="updateCommentBoard">글 수정</div>
-     		<div class="report">부적절한 컨텐츠 신고</div>
-            <div class="updatecancel">취소</div> -->
-        </div>
+        <div></div>
     </div>
     
     <div class="modal hidden">
@@ -163,6 +165,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
     <script src="<c:url value='/js/grid/gridstack.all.js' />"></script>
     <script src="<c:url value='/js/detailProject.js' />"></script>
+    <script src="<c:url value='/js/like.js' />"></script>
 
 </body>
 </html>

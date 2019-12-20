@@ -1,6 +1,15 @@
 $(document).ready(function() {
 	let pjtNo = $("#updateBtn").data("pjtno");
-
+	
+	$.ajax({
+		url: pageContextPath + "/api/project/" + pjtNo + "/img",
+		success: (result) => {
+			$(".bgWrap").html(`
+				<img src="${result}" />
+			`)
+		}
+	})
+	
 	$('#summernote').summernote({
         minHeight: null,
         maxHeight: null,
@@ -40,9 +49,6 @@ $("#insertImg").change((e) => {
 					`)
 					// 이미지가 모두 append된 후에 작업
 					if (i == images.length-1) {
-						for (let j = 0; j < images.length; j++) {
-							console.log( $(".imgPos")[j] )
-						}
 						$(".imageViewWrap").slick();
 						$("#insertImg").addClass("movePos");
 					}
@@ -130,16 +136,16 @@ $("#updateBtn").click(() => {
 
 // 인스타 버튼 클릭시 DetailBoard 모달창 생성
 $(".detailBtn").click((e) => {
-	let posNo = $(e.target).data("msg");
+	let postNo = $(e.target).data("msg");
 	let promise = $.getJSON({
 		url: "selectOneBoard.do",
-		data : {postNo: posNo},
+		data : {postNo: postNo},
 		success : (board) => {
-			viewBoardAjax(board)
+			viewBoardAjax(board, postNo)
 			
 			// 오른쪽 Comment 높이 지정 (Content높이에 따라 변경됨)
 			$(".comment").height(
-		   		$(".modalContWrap").height()-($(".modalCont").height()-31)
+		   		$(".modalContWrap").height()-($(".modalCont").height()+19)
 		    )
 		    
 		    // Comment 불러오는 ajax
@@ -163,6 +169,10 @@ $(".detailBtn").click((e) => {
 							$("#boxSize").append(`
 								<img class="detailImage" src=${sArr[i]} />
 							`)
+							// 이미지가 모두 append된 후에 작업
+							if (i == sArr.length-1) {
+								$("#boxSize").slick();
+							}
 						}
 					}
 				}
@@ -287,6 +297,9 @@ $(document).on("click", ".updatecancel", (e) => {
 
 // DOM
 function commentListAjax(cList) {
+	let like = ``;
+	let code = 2;
+	like = likeAdmin(`${cList.cmtNo}`, loginNo, code);
 	$(".comment").append(
 		`
 		<div class="commentList">
@@ -297,6 +310,7 @@ function commentListAjax(cList) {
 				<div class="cmtInfo">
 					<span>${cList.cmtUserNickname}</span>
 					<span>${cList.cmtRegDt}</span>
+					${like}
 					<button class="cmtBtn">
 						<i class="fas fa-ellipsis-h" data-cmtNo="${cList.cmtNo}" data-uNo="${cList.userNo}"></i>
 					</button>
@@ -308,7 +322,13 @@ function commentListAjax(cList) {
 		`
 	)
 }
-function viewBoardAjax(board) {
+
+// 좋아요 버튼 추가
+function viewBoardAjax(board, postNo) {
+	let likecount = 0;
+	let like = ``;
+	let code = 1;
+	like = likeAdmin(postNo, loginNo, code);
 	$(".modal_content").html(
 	`
 	<div class="modalTitle">
@@ -329,6 +349,7 @@ function viewBoardAjax(board) {
 	    <div id="rightBox">
 			<div class="modalCont">
 				${board.postContent}
+				${like}
 			</div>
 	        <div class="comment"></div>
 	        <div class="insertComment">
@@ -339,11 +360,21 @@ function viewBoardAjax(board) {
 	</div>
 	`
 	);
+	likecount = likeCount(postNo);
+	if (likecount > 0) {
+		$("#countLike" + postNo).html(`
+			<span id="countSpan${postNo}">${likecount}회 좋아요</span>
+		`)
+	}
 	$("#modalClose").click(() => {
 		$(".modal").removeClass("block");
 		$("#boxSize").html(``);
 	})
 }
+
+$(document).on("click", ".likeBtn", (e) => {
+	likeClick(loginNo, e.target);
+})
 
 // 신고하기
 $(document).on("click", ".report", (e) => {

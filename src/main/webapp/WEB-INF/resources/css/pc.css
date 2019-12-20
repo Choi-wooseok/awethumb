@@ -729,7 +729,7 @@ section > div.content {
 }
 
 .modalContWrap > div:last-child {
-    width: 360px;
+    width: 410px;
     min-height: 400px;
     box-sizing: border-box;
     float: right;
@@ -819,7 +819,7 @@ section > div.content {
     margin-top: 15px;
 }
 .comment {
-	width: 377px;
+	width: 427px;
 	height: calc(100% - 201px);
 	overflow: auto;
 	box-sizing: border-box;
@@ -1224,8 +1224,8 @@ section#feeds {
 }
 #boxSize {
 	float: left;
-	max-width: 500px;
-	max-height: 500px;
+	width: 500px;
+	height: 500px;
 	background-color: #333;
 }
 .slick-list,

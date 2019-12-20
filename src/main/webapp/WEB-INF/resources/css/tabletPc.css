@@ -697,7 +697,7 @@ section > div.content {
 }
 
 .modalContWrap > div:last-child {
-  width: 360px;
+  width: 410px;
   min-height: 400px;
   box-sizing: border-box;
   float: right;
@@ -785,7 +785,7 @@ section > div.content {
   margin-top: 15px;
 }
 .comment {
-  width: 377px;
+  width: 427px;
   height: calc(100% - 201px);
   overflow: auto;
 }
@@ -1338,7 +1338,7 @@ section#feeds {
   border-bottom: 1px solid #a9a9a9;
 }
 .imageViewWrap > .slick-list {
-	background-color: #333;
+  background-color: #333;
 }
 .note-editor.note-frame {
   box-sizing: border-box;

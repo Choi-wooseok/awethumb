@@ -121,4 +121,8 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public Project selectProject(int projectNo) {
 		return dao.selectProject(projectNo);
 	}
+	
+	public List<Integer> selectProjectShared(int projectNo) {
+		return dao.selectProjectShared(projectNo);
+	}
 }

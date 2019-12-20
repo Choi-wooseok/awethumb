@@ -40,15 +40,12 @@ public class DetailBoardController {
 	public ModelAndView DetailBoardList(@PathVariable int projectNo, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("detailProject/detailBoardList");
+		// 페이지 들어 왔을 경우 공유 권한을 가진 유저인지 확인
+		List<Integer> shUsers = service.selectProjectShared(projectNo);
 		
 		// jsp에 projectVO를 넘기기 위함
 		Project project = service.selectProject(projectNo);
-		
-		// jsp에 projectImage를 넘기기 위함
-		ProjectFile pf = service.selectProjectImg(projectNo);
-		String path = pf.getProjectFilePath().toString().split("upload/")[1];
-		String url = req.getContextPath() + "/image/" + path + pf.getProjectFileSysName();
-		
+
 		// 세션에 이미지 임시 등록을 위함
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = new ArrayList<>();
@@ -60,9 +57,7 @@ public class DetailBoardController {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
 			bList.get(i).setListFile(fList);
 		}
-		
-		// ModelandView에 key, value값으로 저장
-		mav.addObject("url", url);
+		mav.addObject("shardUsers", shUsers);
 		mav.addObject("project", project);
 		mav.addObject("list", bList);
 		return mav;
@@ -95,22 +90,22 @@ public class DetailBoardController {
 	public void updateListForm(@RequestParam("projectNo") int projectNo, Model model, HttpServletRequest req) {
 		// jsp에 projectVO를 넘기기 위함
 		Project project = service.selectProject(projectNo);
-		
-		// jsp에 projectImage를 넘기기 위함
-		ProjectFile pf = service.selectProjectImg(projectNo);
-		String path = pf.getProjectFilePath().toString().split("upload/")[1];
-		String url = req.getContextPath() + "/image/" + path + pf.getProjectFileSysName();
-		
+
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
 			bList.get(i).setListFile(fList);
 		}
-		model.addAttribute("url", url);
 		model.addAttribute("project", project);
 		model.addAttribute("list", bList);
-	} 
-
+	}
+	
+	@RequestMapping("updateSelectOneBoard.do")
+	@ResponseBody
+	public Board updateSelectOneBoard(@RequestParam("postNo") int postNo) {
+		return service.selectOneBoard(postNo);
+	}
+	
 	@RequestMapping("update.do")
 	public String updateBoard(Board board) {
 		int pjtNo = board.getProjectNo();
@@ -175,6 +170,12 @@ public class DetailBoardController {
 		pjt.setProjectTitle(pjtName);
 		service.updateProjectName(pjt);
 		return "redirect:updateListForm.do?projectNo=" + pjtNo;
+	}
+	
+	@RequestMapping("selectProjectName.do")
+	@ResponseBody
+	public Project selectProjectName(@RequestParam("projectNo") int projectNo) {
+		return service.selectProject(projectNo);
 	}
 
 	@RequestMapping("selectCommentList.do")

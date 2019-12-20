@@ -38,4 +38,5 @@ public interface DetailBoardDAO {
 	
 	ProjectFile selectProjectImg(int projectNo);
 	Project selectProject(int projectNo);
+	List<Integer> selectProjectShared(int projectNo);
 }

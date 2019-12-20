@@ -152,6 +152,13 @@
 		from project_tb
 		where project_no =${projectNo}
 	</select>
+	
+	<select id="selectProjectShared" resultType="int" parameterType="int">
+		select shared_user_no
+		from shared_project_tb
+		where project_no = ${projectNo}
+		and share_check = 'y'
+	</select>
 </mapper>
 
 

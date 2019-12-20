@@ -32,6 +32,7 @@ public interface DetailBoardService {
 	// project image
 	ProjectFile selectProjectImg(int projectNo);
 	Project selectProject(int projectNo);
+	List<Integer> selectProjectShared(int projectNo);
 
 	// comment
 	List<Comment> commentList(int postNo);

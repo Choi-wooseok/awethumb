@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +14,10 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedBoard;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.FollowMeUser;
-import com.awethumb.repository.vo.Like;
 @Service
 public class FeedServiceImpl implements FeedService {
 	@Autowired
 	private FeedDAO dao; 
-	
-	public List<Integer> postNoList(){
-		return dao.postNoList();
-	}
 	
 	public List<FeedBoard> selectFeedBoardPage(FeedPage pageCount) {
 		return dao.selectFeedBoardPage(pageCount);
@@ -88,9 +81,6 @@ public class FeedServiceImpl implements FeedService {
 	// side바 추천
 	public List<CategoryList> selectUserCategoryList(String userId) {
 		return SelectAllCategoryList(userId);
-	}
-	public String selectLoginUserCategory(String userId){
-		return meCategoryList(userId);
 	}
 	// 팔로워 추천 
 	public List<CategoryList> SelectAllCategoryList(String userId){
@@ -160,23 +150,6 @@ public class FeedServiceImpl implements FeedService {
 	// 맞팔안한 사람들 전체수 
 	public int selectFollowMeCount(String userId) {
 		return dao.selectFollowMeCount(userId);
-	}
-	
-	// 좋아요 클릭
-	public void insertLike(Like like) {
-		dao.insertLike(like);
-	}
-	// 좋아요 해제
-	public void deleteLike(Like like) {
-		dao.deleteLike(like);
-	}
-	// 좋아요 체크 
-	public int likeCheck(Like like) {
-		return dao.likeCheck(like);
-	}
-	// 좋아요 개수
-	public int likeCount(Like like) {
-		return dao.likeCount(like);
 	}
 	
 	// 파일경로가져오기

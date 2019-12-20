@@ -1,41 +1,57 @@
-let pageIndex = 0; // 시작
-const pageCount = 5; // 개수
-let scrollTop = 0;
-let loginUserNo = $(".loginUserNo").val();
-let loginUserNickName = $(".loginUserNickName").val();
-let loginUserId = $(".loginUserId").val();
-let sidePageIndex = 0; // 시작
-const sidePageCount = 3; // 범위
-let followCount = $(".userFollowMeCount").val(); // 맞팔안한 나를 전체팔로우하는사람 count
-let followAddCount = 0; // 더보기 창 없애기위한 변수 
+//let pageIndex = 0; // 시작
+//const pageCount = 5; // 개수
+//let scrollTop = 0;
+//let loginUserNo = $(".loginUserNo").val();
+//let loginUserId = $(".loginUserId").val();
+//let sidePageIndex = 0; // 시작
+//const sidePageCount = 4; // 범위
+//let followCount = $(".userFollowMeCount").val(); // 맞팔안한 나를 전체팔로우하는사람 count
+//let followAddCount = 0; // 더보기 창 없애기위한 변수
+//let boardListState = false; // 게시글 list 끝체크유무
+//let likecount = 0;  // 좋아요개수
+//let boardFileSrc = ``; // 파일경로
+//let fileCheck = 0; // 파일체크
+//let imageState = $(".imageState").val();
+let item = {
+		pageIndex : 0, // 게시글 시작
+		pageCount : 5, // 게시글 개수
+		loginUserNo : $(".loginUserNo").val(),
+		loginUserId : $(".loginUserId").val(),
+		sidePageIndex : 0, // 시작
+		sidePageCount : 4, // 범위
+		followCount : $(".userFollowMeCount").val(), // 맞팔안한 나를 전체팔로우하는사람
+		followAddCount : 0, // 더보기 창 없애기위한 변수
+		boardListState : false, // 게시글 list 끝체크유무
+		likecount : 0,  // 좋아요개수
+		boardFileSrc : ``, // 파일경로
+		fileCheck : 0, // 파일체크
+		imageState : $(".imageState").val(), // 이미지체크
+}
 $(document).ready(function(){
-		aaa(); // 댓글
 	    boardList(); // 게시글
 	    sideFollowList(); // 사이드바
 	    categoryList() // 팔로워추천 사이드바
 });
 $(document).on('click', '.addBtn', () => {
-	sidePageIndex += sidePageCount;
+	item.sidePageIndex += item.sidePageCount;
 	$(".addBtn").remove();
 	sideFollowList();
 });
 // infinity scroll
 $(window).scroll(() => {
 	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
-		pageIndex += pageCount;
+		item.pageIndex += item.pageCount;
   		boardList();
   	}
  });
-let boardListState = false; // 게시글 상태 
 function boardList(){
-	scrollz = 0;
 	$.getJSON({
 		url: "feedlist.do",
 		dataType:"JSON",
 		data:{
-			pageIndex : pageIndex,
-			pageCount : pageCount,
-			subUserNo: loginUserNo
+			pageIndex : item.pageIndex,
+			pageCount : item.pageCount,
+			subUserNo: item.loginUserNo
 		},
 		success: list =>{
 			if(list.length == 0 && !boardListState) {
@@ -51,14 +67,14 @@ function boardList(){
 	})
 }; // boardList
 function sideFollowList(){
-//	alert("사이드바")
+// alert("사이드바")
 	$.getJSON({
 		url: "feedsidelist.do",
 		dataType:"JSON",
 		data:{
-			sidePageIndex : sidePageIndex,
-			sidePageCount : sidePageCount,
-			userId:loginUserId
+			sidePageIndex : item.sidePageIndex,
+			sidePageCount : item.sidePageCount,
+			userId:item.loginUserId
 		},
 		success: list => {
 			$(".addBtn").css("display","none");
@@ -69,7 +85,7 @@ function sideFollowList(){
 function feedSideFollowMe(list) {
 	let count = 0 ;
 	$.each(list, (i, sl) => {
-		followAddCount += 1;
+		item.followAddCount += 1;
 		$("#feedSideUserList").append(`
 				<div class="feedInfo">
 					<div class="feedUserImg">
@@ -79,7 +95,7 @@ function feedSideFollowMe(list) {
 						<a href="/awethumb/profile/${sl.userNickname}">${sl.userNickname}</a>
 					</div>
 				</div>`);
-		count = followAddCount;
+		count = item.followAddCount;
 		let un = sl.userNo;
 		userImg(un);
 	})
@@ -90,24 +106,20 @@ function feedSideFollowMe(list) {
 				</button>
 			</div>
 	`);
-	if(count == followCount) {
+	if(count == item.followCount) {
 		$(".addBtn").remove();
 	}
 }
-let likecount = 0;  // 좋아요개수 
-let boardFileSrc = ``; // 파일경로 
-let fileCheck = 0; // 파일체크 
-let imageState = $(".imageState").val();
 function feedList(list){
-	boardListState = true;
+	item.boardListState = true;
 	let count = 0;
 		$.each(list, (i, bl) => {
 			let postAndCmtNo = bl.postNo;
 			let like = ``;
 			let code = 1;
 			let image = ``;
-			fileCheck = boardFileCheck(bl.postNo);
-			if (fileCheck > 0) {
+			item.fileCheck = boardFileCheck(bl.postNo);
+			if (item.fileCheck > 0) {
 				image = `<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
 								<img id="feedImg"
 									 alt="" />
@@ -120,9 +132,9 @@ function feedList(list){
 							</div>
 						</div>`;
 			}
-			boardFileSrc = boardFile(bl.postNo);
-			like = likeAdmin(postAndCmtNo, loginUserNo, code);
-			if (imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
+			item.boardFileSrc = boardFile(bl.postNo);
+			like = likeAdmin(postAndCmtNo, item.loginUserNo, code);
+			if (item.imageState !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
 				$("#feedWrap").append(`
 						<div class="feedList">
 							<div class="feedInfo">
@@ -145,7 +157,7 @@ function feedList(list){
 								</div>
 							</div>
 							<div class="feedPlay">
-								<div id="commentList">
+								<div id="commentList${bl.postNo}">
 									<div id="boardCommentList${bl.postNo}"></div>
 								</div>
 								<div class="insertComment">
@@ -155,117 +167,60 @@ function feedList(list){
 							</div>
 						</div>
 				`) // postAndCmtNo
-				likecount = likeCount(postAndCmtNo);
-				if(likecount > 0) {
+				commentListAjax(postAndCmtNo)
+				item.likecount = likeCount(postAndCmtNo);
+				if(item.likecount > 0) {
 					$("#countLike" + postAndCmtNo).html(`
-					<span id="countSpan${postAndCmtNo}">${likecount}회 좋아요</span>`);
+					<span id="countSpan${postAndCmtNo}">${item.likecount}회 좋아요</span>`);
 				}
 			} // if
 			let un = bl.userNo;
 			userImg(un);
 		}); // each
 }; // feedList
-
-// 댓글
-function aaa () {
-	let postNo = document.querySelectorAll(".postNo");
-//	console.log(postNo.value)
-//	let postNo;
-//	$.get({
-//		url:"feedboardNo.do",
-//		success: (list) => { 
-//			postNo : list
-//			console.log("dsdfds");
-//		}
-//	})
-//	console.log(postNo)
-	for (let a of postNo){
-		let postnum = a.value; // 게시글 번호받기 걷기
-		commentListAjax();
-		function commentListAjax() {
-			$.getJSON({
-				url: "boardCommentList.do",
-				data: {postNo: postnum},
-				success: list => boardCommentListAjax(list)
-			});
-		}
-		function boardCommentListAjax(list) {
-			$bcla = $(`<div></div>`);
-			$.each(list, (i	, c) => {
-				let postAndCmtNo = c.cmtNo;
-				let code = 2;
-				let like =``;
-				like = likeAdmin(postAndCmtNo, loginUserNo, code);
-				if(c.postNo == postnum){
-						$bcla.append(
-								`<div class="commentList${c.cmtNo} commentList" id="commentList">
-									<div class="commentUserImg">
-										<img class="userCmtImg${c.userNo}" alt="">
-									</div>
-									<div id="commentWrap${c.cmtNo}" class="commentWrap">
-										<div class="cmtInfo">
-											<span style="color:green;">글작성자 : ${c.cmtUserNickname}</span>
-											<span style="color:red;">작성시간 : ${c.cmtRegDt}</span>
-											<button type="button" 
-												id="commentModal${c.cmtNo}"
-												class="commentModal"
-												data-cmtuserno="${c.userNo}"
-												data-commentContent="${c.cmtContent}"
-												data-commentNo="${c.cmtNo}"
-												data-postNo="${c.postNo}">
-												<i class="fas fa-ellipsis-h"></i>
-											</button>
-											${like}
-										</div>
-										<div class="cmtContent" style="color:blue;">
-											내용 : ${c.cmtContent} 
-										</div>
-									</div>
-								</div>`
-						);
-				}// if
-				// 유저사진
-				let un = c.userNo;
-				userImg(un);
-			}); // each
-			$("#boardCommentList" + postnum).html($bcla);
-		};
-	} // for
-} // aaa
 // 입력
 $(document).on( "click",".commentInsertBtn", (e) => {
-	let postNumber = $(e.target).data("postnumber");
-	let commentWriter = $(".commentWriter" + postNumber).val();
+	let postNo = $(e.target).data("postnumber");
+	let commentWriter = $(".commentWriter" + postNo).val();
 	$.ajax({
 		url: "boardCommentInsert.do",
 		contentType : "application/json", 
 		method:"POST",
-		async:false,
 		data: JSON.stringify({
-			postNo: postNumber,
+			postNo: postNo,
 			cmtContent: commentWriter,
-			userNo : loginUserNo,
-			cmtUserNickname : loginUserNickName
+			userNo : item.loginUserNo
 		}),
 		success: (no) =>  {
+			alert("댓글이 등록 되었습니다.")
 			makeAlarm(3, no)
-			aaa()
+			commentListAjax(postNo);
+		},
+		error : (e) => {
+			console.log(e);
 		}
-	});
-	$(".commentWriter"+ postNumber).val("");
+ 	});
+	$(".commentWriter"+ postNo).val("");
 	return false;
 });
 // 삭제
 $(".commentDelete").on("click", (e) => {
 	let cmtNo = $(e.target).data("commentno");
+	let postNo = $(e.target).data("postno");
 	$(".updateText").css("display","none");
 	$.ajax({
 		url: "boardCommentDelete.do",
 		data: {
-			cmtNo: cmtNo,
+			cmtNo: cmtNo
 		},
 		dateType:"json",
-		success: list => aaa()
+		success: (list) => {
+			alert("댓글이 삭제되었습니다");
+			commentListAjax(postNo);
+		},
+		error: (e) => {
+			console.log
+		}
 	});
 	$(".commentboardmodal").css("display","none");
 });
@@ -286,7 +241,11 @@ $(document).on("click", ".commentUpdate",(e) => {
 			cmtNo :  cmtNo
 		},
 		dataType: "json",
-		success: list => aaa()
+		success: (list) => {
+			alert("댓글이 수정되었습니다.")
+			commentListAjax(postNo);
+		},
+		error: (e) => {console.log(e)}
 	});
 	
 });
@@ -316,7 +275,7 @@ $(document).on( "click",".commentModal", (e) => {
 	let postNo = $(obj).data("postno");
 	let cmtContent = $(obj).data("commentcontent");
 	let cmtuserno = $(obj).data("cmtuserno");
-	if(cmtuserno != loginUserNo) { // 내가쓴 댓글이 아니면 신고만 나오게하는 조건문 
+	if(cmtuserno != item.loginUserNo) { // 내가쓴 댓글이 아니면 신고만 나오게하는 조건문
 		$(".commentDelete").css("display", "none");
 		$(".commentModify").css("display", "none");
 	}else {
@@ -326,6 +285,7 @@ $(document).on( "click",".commentModal", (e) => {
 	$(".commentboardmodal").css("display","block");
 	
 	$(".commentDelete").data("commentno", cmtNo);
+	$(".commentDelete").data("postno", postNo);
 	
 	$(".commentModify").data("commentno", cmtNo);
 	$(".commentModify").data("postNo", postNo);
@@ -333,7 +293,6 @@ $(document).on( "click",".commentModal", (e) => {
 	
 	$(".report").data("postNo", postNo);
 	$(".report").data("commentno", cmtNo);
-	
 	
 	$(".modalCancel").on("click", () => {
 		$(".commentboardmodal").css("display","none");
@@ -365,11 +324,10 @@ $(document).on("click", ".report", (e) => {
 		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
-// 좋아요 이벤트 
+// 좋아요 이벤트
 $(document).on("click", ".likeBtn",(e) => {
-	 likeClick(loginUserNo, e.target);
+	 likeClick(item.loginUserNo, e.target);
  }) // 좋아요버튼클릭이벤트
- 
 // 유저 이미지
 function userImg(userNo){
 	// url : pageContextPath + "/api/user/유저번호/thumb"
@@ -390,13 +348,11 @@ function boardFile(no) {
 			for(let i = 0; i < list.length; i++){
 				$(".feedImgWrap" + no).append(
 						`<img id="feedImg" src="${list[i]}"alt="" />`);
-				
 			}
 		},
 		error:(error) => {
 			console.log(error);
 		}
-			
 	})
 }
 function boardFileCheck(no) {
@@ -415,7 +371,7 @@ function categoryList(){
 	$.get({
 		url:"categoryListSideBar.do",
 		data:{
-			userId : loginUserId
+			userId : item.loginUserId
 		},
 		success: (list) => {
 			if(!list) { // list가 없다면
@@ -441,16 +397,55 @@ function categoryList(){
 				let un = list[i].userNo;
 				userImg(un);
 			} // for
-		} // success 
+		} // success
 	}) 
 }
-
-
-function error(){
-	return "에러";
+function commentListAjax(postNo) {
+	// boardCommentListAjax(bl.commentList, postAndCmtNo)
+	$("#boardCommentList" + postNo).remove();
+	$("#commentList" + postNo).html(`<div id="boardCommentList${postNo}"></div>`)
+	$.getJSON({
+		url: "boardCommentList.do",
+		data: {postNo: postNo},
+		success: list => boardCommentListAjax(list, postNo)
+	});
 }
-
-
-
-
+function boardCommentListAjax(list, postNo) {
+	$.each(list, (i	, c) => {
+		let postAndCmtNo = c.cmtNo;
+		let code = 2;
+		let like =``;
+		like = likeAdmin(postAndCmtNo, item.loginUserNo, code);
+				$("#boardCommentList" + postNo).append(
+						`<div id="comment${c.cmtNo}">
+							<div class="commentList${c.cmtNo} commentList" id="commentList">
+								<div class="commentUserImg">
+									<img class="userCmtImg${c.userNo}" alt="">
+								</div>
+								<div id="commentWrap${c.cmtNo}" class="commentWrap">
+									<div class="cmtInfo">
+										<span style="color:green;">글작성자 : ${c.cmtUserNickname}</span>
+										<span style="color:red;">작성시간 : ${c.cmtRegDt}</span>
+										<button type="button" 
+											id="commentModal${c.cmtNo}"
+											class="commentModal"
+											data-cmtuserno="${c.userNo}"
+											data-commentContent="${c.cmtContent}"
+											data-commentNo="${c.cmtNo}"
+											data-postNo="${c.postNo}">
+											<i class="fas fa-ellipsis-h"></i>
+										</button>
+										${like}
+									</div>
+									<div class="cmtContent" style="color:blue;">
+										내용 : ${c.cmtContent} 
+									</div>
+								</div>
+							</div>
+						</div>`);
+		// 유저사진
+		let un = c.userNo;
+		userImg(un);
+	}); // each
+};
 

@@ -16,20 +16,16 @@
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.user" var="u"/>
 	</sec:authorize>
-	
+	<script>
+		
+	</script>
 	<div id="waitme-container" class="waitme-container">
 	<section id="feed">
 		<div class="feedContWrap">
 				<input type="hidden" class="loginUserNo" value="${u.userNo}" />
-				<input type="hidden" class="loginUserNickName" value="${u.userNickname}" />
 				<input type="hidden" class="loginUserId" value="${u.userId}" />
 				<input type="hidden" class="imageState" value="${imageState}" />
 				<input type="hidden" class="userFollowMeCount" value="${userFollowMeCount}" />
-				<input type="hidden" class="boardCount" value="${boardCount}" />
-<%-- 				<input type="hidden" name="postNo" class="postNo" id="postNo" value="${postNoList}"/> --%>
-				<c:forEach var="p" items="${postNoList}">
-					<input type="hidden" name="postNo" class="postNo" id="postNo" value="${p.postNo}"/>
-				</c:forEach>
 			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 			<div class="feedWrap" id="feedWrap">
 				<!-- 리스트 반복 -->

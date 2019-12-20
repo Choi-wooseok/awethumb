@@ -30,22 +30,13 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	
 	@RequestMapping("/feed.do")
 	public void feed(Model model, Principal p) { 
-		model.addAttribute("postNoList", service.postNoList());
 		int imageState = 0; // 더미 이미지 띄우는용 -> 0 이미지X , 1이미지O
 		model.addAttribute("imageState", imageState);
 		
 		String userId = p.getName(); // 로그인 한 userId
-		// 내가 팔로우한 사람을 팔로우한 사람들중에 2개이상 카테고리가 중복된 카테고리인 사람들과 카테고리 뽑기  
-		model.addAttribute("categorylist", service.selectUserCategoryList(userId));
-		//model.addAttribute("meCategory", service.selectLoginUserCategory(userId)); // 내카테고리띄우기
-		
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
 	} // feed.do 
 	
-	@RequestMapping("/feedboardNo.do")
-	public List<Integer> feedboard() {
-		return service.postNoList();
-	}
 	// 게시글
 	@RequestMapping("/feedlist.do")
 	@ResponseBody
@@ -86,42 +77,8 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	//신고
 	@RequestMapping("/boardReport.do")
 	public void boardReport() {
-		System.out.println("신고");
 	}
 	
-//	@RequestMapping("/boardLikeInsert.do")
-//	@ResponseBody
-//	public void boardLike(@RequestBody Like like){ 
-//		service.insertLike(like);
-//	}
-//	@RequestMapping("/boardLikeDelete.do")
-//	@ResponseBody
-//	public void boardLikeDelete(@RequestBody Like like){ 
-//		System.out.println("delete");
-//		service.deleteLike(like);
-//	}
-//	@RequestMapping("/likeCheck.do")
-//	@ResponseBody
-//	public int boardLikeCheck(@RequestBody Like like){
-//		return service.likeCheck(like); // 0 -> likeoff, 1 -> likeon
-//	}
-//	@RequestMapping("/boardLikeCount.do")
-//	@ResponseBody
-//	public int boardLikeCount(@RequestBody Like like){
-//		System.out.println("들어옴");
-//		return service.likeCount(like);
-//	}
-//	@RequestMapping("/commentLikeInsert.do")
-//	@ResponseBody
-//	public void commentLikeInsert(@RequestBody Like like){ 
-//		service.insertLike(like);
-//	}
-//	@RequestMapping("/commentLikeDelete.do")
-//	@ResponseBody
-//	public void commentLikeDelete(@RequestBody Like like){ 
-//		service.deleteLike(like);
-//	}
-
 	@RequestMapping("/boardFileRead.do")
 	@ResponseBody
 	public List<String> boardFileRead(int postNo, HttpServletRequest req){

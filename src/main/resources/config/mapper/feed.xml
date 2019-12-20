@@ -9,8 +9,8 @@
 		<result column="post_content" property="postContent" /> 
 		<result column="post_public_enabled" property="postPublicEnabled" /> 
 		<result column="hashtag_no" property="hashtagNo" /> 
-		<result column="user_nickname" property="userNickname" /> 
-		<collection property="commentList" select="selectComment" column="post_no"/>
+		<result column="user_nickname" property="userNickName" /> 
+		<collection property="commentList" select="selectFeedBoardComment" column="post_no"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
 		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
@@ -22,12 +22,7 @@
 		<result column="ago_reg_dt" property="agoRegDt" />
 	</resultMap>
 	
-	<select id="postNoList" resultType="FeedBoard">
-		SELECT post_no
-		  from board_tb
-	</select>
-	
-	<select id="selectFeedBoardPage" parameterType="FeedPage" resultType="FeedBoard">
+	<select id="selectFeedBoardPage" parameterType="FeedPage" resultMap="FeedMap">
 		SELECT ut.user_nickname,
 			   ut.user_no,	
 			   bt.post_no,
@@ -47,9 +42,9 @@
 	</select>
 	
 	
-	<select id="selectFeedBoardComment" parameterType="int" resultType="Comment">
+	<select id="selectFeedBoardComment" parameterType="int" resultMap="commentMap">
 		 SELECT ct.*,
-				ut.user_nickname
+				ut.user_nickname as cmt_user_nickname
 		   from comment_tb ct
 		  INNER JOIN user_tb ut
 		     ON ct.user_no = ut.user_no 
@@ -222,10 +217,6 @@
 	<select id="lastCmtNo" resultType="int">
 		select LAST_INSERT_ID()
 	</select>
-<!-- 	<select id=""> -->
-<!-- 		SELECT MAX(cmt_no)  -->
-<!-- 		  FROM comment_tb  -->
-<!-- 	</select> -->
 </mapper>
 
 

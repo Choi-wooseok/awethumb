@@ -217,6 +217,14 @@
 	<select id="lastCmtNo" resultType="int">
 		select LAST_INSERT_ID()
 	</select>
+	
+	<select id="boardImgState" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM board_file_tb
+		 WHERE post_no = #{postNo}
+	</select>
+	
+	
 </mapper>
 
 

@@ -54,7 +54,7 @@ public class FeedServiceImpl implements FeedService {
 				mi = cmtReg;
 				cm.setCmtRegDt(Integer.toString(mi) + "분 전");
 			}
-			else if(cmtReg > 60 && cmtReg < 3600) {
+			else if(cmtReg > 60 && cmtReg < 1440) {
 				ho = cmtReg / 60;
 				cm.setCmtRegDt(Integer.toString(ho) + "시간 전");
 			}
@@ -164,6 +164,11 @@ public class FeedServiceImpl implements FeedService {
 	// 파일체크
 	public int boardFileCheck(int postNo) {
 		return dao.boardFileCheck(postNo);
+	}
+	
+	// 이미지체크
+	public int boardImgState(int postNo) {
+		return dao.boardImgState(postNo);
 	}
 	
 }

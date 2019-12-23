@@ -30,12 +30,20 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	
 	@RequestMapping("/feed.do")
 	public void feed(Model model, Principal p) { 
-		int imageState = 0; // 더미 이미지 띄우는용 -> 0 이미지X , 1이미지O
-		model.addAttribute("imageState", imageState);
+//		int imageState = 0; // 더미 이미지 띄우는용 -> 0 이미지X , 1이미지O
+//		model.addAttribute("imageState", imageState);
 		
 		String userId = p.getName(); // 로그인 한 userId
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
 	} // feed.do 
+	
+	// 이미지상태
+	@RequestMapping("/feedimg.do")
+	@ResponseBody
+	public int feedImg(int postNo) {
+		return service.boardImgState(postNo);
+	}
+	
 	
 	// 게시글
 	@RequestMapping("/feedlist.do")

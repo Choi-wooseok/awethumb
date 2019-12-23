@@ -14,7 +14,7 @@ $.ajax({
 )
 
 // 알림 소켓 서버
-const alarmSocketUri = "ws://localhost:8000" + pageContextPath + "/alarm.do";
+const alarmSocketUri = "ws://35.221.105.106:8000" + pageContextPath + "/alarm.do";
 
 const alarmsocket = new WebSocket(alarmSocketUri);
 

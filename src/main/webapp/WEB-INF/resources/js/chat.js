@@ -29,7 +29,7 @@ $("#chatServer").click(() => {
 });
 
 
-let sock = new WebSocket('ws://localhost:8000' + pageContextPath + '/chat.do');
+let sock = new WebSocket('ws://35.221.105.106:8000' + pageContextPath + '/chat.do');
 
 
 
@@ -110,8 +110,7 @@ $(document).ready(function () {
 
 // 스크롤 이벤트는 JQUERY로는 위임이 안되므로 자바스크립트 처리
 document.addEventListener('scroll', function (event) {
-	console.log(event.target);
-    if (event.target.className === 'messages') { // or any other filtering condition    
+    if (event.target.className === 'messages') { 
     	let scTop = $(event.target).scrollTop();
     	if (scTop < 1) {
     		// 채팅 내용이 더이상 없다면
@@ -129,7 +128,6 @@ document.addEventListener('scroll', function (event) {
 	
 //페이징 처리
 function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
-	 console.log(pageIndex, pageCount, chatroomNo, prependMessage);
 	 $.ajax({
 		url: pageContextPath + "/chat/select_message_more.do",
 		type: "POST",
@@ -144,7 +142,6 @@ function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
 		contentType: 'application/json; charset=UTF-8',
 		success: result => {
 			let prependList = "";
-			console.log(result);
 			if (result.length == 0) {
 				$(prependMessage).data("isprev", "false");
 				return;
@@ -354,7 +351,6 @@ function msgRead(chatroomNo) {
 
 // 유저 닉네임으로 검색하여 채팅하기 - 이미 채팅중인 사용자는 제외
 $(document).on("click", ".result-search", function() {
-	console.log($(this));
 	let userNick = $(this).text();
 	let userNo = $(this).data("userno");
 	let imgPath = $(this).data("imgpath");

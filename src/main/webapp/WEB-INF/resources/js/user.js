@@ -40,7 +40,6 @@ $(document).ready(function() {
 		$("#join3").css("display","none");
 	}
 	
-	//	console.log("profile : " + profile);
 	
 	
 	let chkUserId = false;
@@ -115,7 +114,6 @@ $(document).ready(function() {
 			data: JSON.stringify({chkType, chkValue}),
 			contentType: 'application/json; charset=UTF-8',
 			success: result => {
-				console.log(result);
 				if (result == 1) {
 					Swal.fire({
 			    		icon: 'error',
@@ -134,7 +132,6 @@ $(document).ready(function() {
 		    	})
 				if (chkIdNick == "id") chkUserId = true;
 				else if (chkIdNick == "nickname") chkUserNickname = true;
-				console.log(chkUserId);
 			}
 		});
 	}

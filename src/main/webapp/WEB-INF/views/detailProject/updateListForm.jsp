@@ -37,9 +37,10 @@
 							${project.projectTitle}
 						</div>
 					</span>
-                    <input type="file" id="bgChange">
+                    <input type="file" id="bgChange" />
+                    <label class="bgChange" for="bgChange">                    
                     	<i class="far fa-image"></i>
-                    </input>
+                    </label>
                 </div>
                 <div class="layout_right">
                     <button id="posUpdateBtn" data-pjtNo="${project.projectNo}" type="button">

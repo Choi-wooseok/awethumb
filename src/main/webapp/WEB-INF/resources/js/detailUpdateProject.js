@@ -240,7 +240,9 @@ $("#posUpdateBtn").click((e) => {
 				hight : posH
 			},
 			success: () => {
-				window.location.href=`/awethumb/detailProject/${projectNo}`
+				setTimeout(() => {
+					window.location.href=`/awethumb/detailProject/${projectNo}`					
+				},200)
 			}
 		});
 	})

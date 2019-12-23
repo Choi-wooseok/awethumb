@@ -159,6 +159,28 @@
 		where project_no = ${projectNo}
 		and share_check = 'y'
 	</select>
+	
+	<select id="selectSavedProject" resultType="int" parameterType="ProjectSubscribe">
+		select count(*)
+		from project_subscribe_tb
+		where user_no = ${userNo}
+		and project_no = ${projectNo}
+	</select>
+
+	<insert id="insertSavedProject" parameterType="ProjectSubscribe">
+		insert into project_subscribe_tb (
+			user_no, project_no
+		) values (
+			${userNo}, ${projectNo}
+		);
+	</insert>
+		
+	<delete id="deleteSavedProject" parameterType="ProjectSubscribe">
+		delete
+		from project_subscribe_tb
+		where user_no = ${userNo}
+		and project_no = ${projectNo}
+	</delete>
 </mapper>
 
 

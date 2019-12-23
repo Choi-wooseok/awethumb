@@ -63,6 +63,14 @@
 		                    </button>
 		                </div>
                    	</c:when>
+                   	<c:otherwise>
+                   		<div class="layout_right">
+                   			<button id="savedBtn" data-pjtNo="${projectNo}" data-pjtuNo="${project.userNo}">
+                   				<i class="fas fa-file-download"></i>
+                   				<span>Saved Project</span>
+                   			</button>
+                   		</div>
+                   	</c:otherwise>
                 </c:choose>
             </div>
             <div class="grid-stack" data-gs-width="12">
@@ -105,12 +113,6 @@
             <div class="report">
                	부적절한 컨텐츠 신고
             </div>
-            <div class="followcancel">
-               	팔로우 취소
-            </div>
-            <div class="saved">
-               	 게시물 저장
-            </div>
             <div class="cancel">
                	 취소
             </div>
@@ -143,6 +145,10 @@
     
 	<div class="optionModalWrap modalMini">
         <div></div>
+    </div>
+    
+    <div class="optionModalWrap savedProject">
+    	<div></div>
     </div>
     
     <div class="modal hidden">

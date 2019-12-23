@@ -11,6 +11,7 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
+import com.awethumb.repository.vo.ProjectSubscribe;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.stats.aop.UpdateDailyLog;
 
@@ -124,5 +125,17 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	
 	public List<Integer> selectProjectShared(int projectNo) {
 		return dao.selectProjectShared(projectNo);
+	}
+		
+	public int selectSavedProject(ProjectSubscribe projectsubscribe) {
+		return dao.selectSavedProject(projectsubscribe);
+	}
+	
+	public void insertSavedProject(ProjectSubscribe projectsubscribe) {
+		dao.insertSavedProject(projectsubscribe);
+	}
+	
+	public void deleteSavedProject(ProjectSubscribe projectsubscribe) {
+		dao.deleteSavedProject(projectsubscribe);
 	}
 }

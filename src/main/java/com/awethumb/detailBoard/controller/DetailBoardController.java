@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +24,7 @@ import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
-import com.awethumb.repository.vo.ProjectFile;
+import com.awethumb.repository.vo.ProjectSubscribe;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.util.FileUtil;
 
@@ -205,5 +204,23 @@ public class DetailBoardController {
 	@ResponseBody
 	public void updateComment(Comment comment) {
 		service.updateComment(comment);
+	}
+	
+	@RequestMapping("selectSavedProject.do")
+	@ResponseBody
+	public int selectSavedProject(ProjectSubscribe pSub) {
+		return service.selectSavedProject(pSub);
+	}
+	
+	@RequestMapping("savedProject.do")
+	@ResponseBody
+	public void insertSavedProject(ProjectSubscribe pSub) {
+		service.insertSavedProject(pSub);
+	}
+	
+	@RequestMapping("deletesavedProject.do")
+	@ResponseBody
+	public void deleteSavedProject(ProjectSubscribe pSub) {
+		service.deleteSavedProject(pSub);
 	}
 }

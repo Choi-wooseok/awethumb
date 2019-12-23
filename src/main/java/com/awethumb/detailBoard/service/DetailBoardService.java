@@ -9,6 +9,7 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
+import com.awethumb.repository.vo.ProjectSubscribe;
 import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardService {
@@ -42,4 +43,9 @@ public interface DetailBoardService {
 	String selectUser(int userNo);
 	List<BoardFile> selectImages(int postNo);
 	void viewCount(int postNo);
+	
+	// Project 공유
+	int selectSavedProject(ProjectSubscribe pSub);
+	void insertSavedProject(ProjectSubscribe pSub);
+	void deleteSavedProject(ProjectSubscribe pSub);
 }

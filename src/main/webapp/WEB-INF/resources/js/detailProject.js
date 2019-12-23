@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	let pjtNo = $("#updateBtn").data("pjtno");
+	let userNo = $("#savedBtn").data("pjtuno");
 	
 	$.ajax({
 		url: pageContextPath + "/api/project/" + pjtNo + "/img",
@@ -22,6 +23,56 @@ $(document).ready(function() {
         disableDragAndDrop: true,
 	});
 });
+
+// 프로젝트 저장하기
+$("#savedBtn").click((e) => {
+	let projectNo = $("#savedBtn").data("pjtno");
+	let userNo = $("#savedBtn").data("pjtuno");
+	$.ajax({
+		url: "selectSavedProject.do",
+		data: {
+			projectNo: projectNo,
+			userNo: userNo
+		},
+		success: (result) => {
+			if(result == 1) {
+				$(".savedProject").addClass("block");
+				$(".savedProject > div").html(`
+					<p>해당 프로젝트는 이미 저장 된 프로젝트 입니다.</p>
+					<p>저장 된 프로젝트를 해제하시겠습니까?</p>
+					<button class="okBtn">예</button>
+					<button class="closeBtn">아니오</button>			
+				`)
+			} else {
+				$.ajax({
+					url: "savedProject.do",
+					data: {
+						projectNo: projectNo,
+						userNo: userNo
+					},
+					success: () => {
+						alert("프로젝트가 저장 되었습니다.");
+					}
+				})
+			}
+		}
+	})
+})
+
+$(document).on("click", ".okBtn", () => {
+	let pjtNo = $("#savedBtn").data("pjtno");
+	let userNo = $("#savedBtn").data("pjtuno");
+	$.ajax({
+		url: "deletesavedProject.do",
+		data: {
+			projectNo: pjtNo,
+			userNo: userNo
+		},
+		success: () => {
+			$(".savedProject").removeClass("block")
+		}
+	})
+})
 
 // 이미지 선택 버튼 클릭 시 이미지 초기화
 $("#insertImg").change((e) => {
@@ -104,7 +155,8 @@ $("#insertBtn").click(() => {
 })
 
 // x버튼 클릭 시 모달창 제거
-$(".closeBtn").click(() => {
+$(document).on("click", ".closeBtn", () => {
+	$(".optionModalWrap").removeClass("block");
 	$(".modalInsertWrap").removeClass("block");
 	$(".imageViewWrap").html('');
 	$("#insertImg").removeClass("hide").removeClass("movePos")

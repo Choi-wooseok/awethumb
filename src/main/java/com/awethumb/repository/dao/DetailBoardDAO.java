@@ -9,6 +9,7 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
+import com.awethumb.repository.vo.ProjectSubscribe;
 import com.awethumb.repository.vo.UserVO;
 
 public interface DetailBoardDAO {
@@ -39,4 +40,7 @@ public interface DetailBoardDAO {
 	ProjectFile selectProjectImg(int projectNo);
 	Project selectProject(int projectNo);
 	List<Integer> selectProjectShared(int projectNo);
+	int selectSavedProject(ProjectSubscribe projectsubscribe);
+	void insertSavedProject(ProjectSubscribe projectsubscribe);
+	void deleteSavedProject(ProjectSubscribe projectsubscribe);
 }

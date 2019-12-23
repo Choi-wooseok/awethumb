@@ -33,7 +33,6 @@ public class MainFeedServiceImpl implements MainFeedService {
 	
 	// 댓글 -------------------------------------------------
 	
-//	@Transactional
 	public void insertComment(Comment comment) {
 //		dao.insertHashtag(comment);
 		dao.insertComment(comment);
@@ -46,9 +45,9 @@ public class MainFeedServiceImpl implements MainFeedService {
 	}
 	
 	// 해시태그 ----------------------------------------------
-	public void insertHashtag(Comment comment) {
-		dao.insertHashtag(comment);
-	}
+//	public void insertHashtag(Comment comment) {
+//		dao.insertHashtag(comment);
+//	}
 //	public void updateHashtag(List<Hashtag> hashtag) {
 //		dao.updateHashtag(hashtag);
 //	}

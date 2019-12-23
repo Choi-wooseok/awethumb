@@ -67,20 +67,20 @@
 		 	   or hashtag_content like #{searchWord} || '%'
 		   </if>
 	</select>
-	<insert id="insertHashtag" parameterType="ArrayList">
-			insert into hashtag_tb(
-			post_no_and_cmt_no, 
-			hashtag_content,
-			hash_type
-			) values 
-			<foreach collection="hashtag" item="hash" separator="," >
-			(
-				#{postNoAndCmtNo}, 
-				#{hash.hashtagContent},
-				#{hashType}	<!-- 1은 게시물 해시태그 / 2는 댓글 해시태그 -->
-			)
-			</foreach>
-	</insert>
+<!-- 	<insert id="insertHashtag" parameterType="ArrayList"> -->
+<!-- 			insert into hashtag_tb( -->
+<!-- 			post_no_and_cmt_no,  -->
+<!-- 			hashtag_content, -->
+<!-- 			hash_type -->
+<!-- 			) values  -->
+<!-- 			<foreach collection="hashtag" item="hash" separator="," > -->
+<!-- 			( -->
+<!-- 				#{postNoAndCmtNo},  -->
+<!-- 				#{hash.hashtagContent}, -->
+<!-- 				#{hashType}	1은 게시물 해시태그 / 2는 댓글 해시태그 -->
+<!-- 			) -->
+<!-- 			</foreach> -->
+<!-- 	</insert> -->
 	<update id="updateHashtag" parameterType="hashtag">
 	    update hashtag_tb
 	       set hashtag_content = #{hashtagContent}

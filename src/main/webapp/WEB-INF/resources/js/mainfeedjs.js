@@ -494,12 +494,12 @@ let scrollTop = 0;
 		$(document).on('submit', '#crForm', (e) => {
 //			let cmtKey = `${cmtKey}`;
 			let cmtKey = $('#cmtKey').val();
-			console.log("cmtKey", cmtKey);
+//			console.log("cmtKey", cmtKey);
 //			console.log(hashSplitFn(cmtKey, cmtContent, 2));
 			let cmtContent = $("#cmtContent").val();
-			let hashWord = hashSplitFn(cmtContent);
-			console.log("cmtKey", cmtKey);
-			console.log("hashWord", hashWord);
+//			let hashWord = hashSplitFn(cmtContent);
+//			console.log("cmtKey", cmtKey);
+//			console.log("hashWord", hashWord);
 			$.ajax({
 				url: pageContextURI + "/mainfeed/insertComment.do",
 				method:"POST",
@@ -508,7 +508,7 @@ let scrollTop = 0;
 					'cmtContent': cmtContent, 
 					'userNo': connectedUserNo, 
 					'postNo': $("#postNo").val(),
-					'hashtag' : hashSplitFn(cmtKey, cmtContent, 2)
+//					'hashtag' : hashSplitFn(cmtKey, cmtContent, 2)
 					}),
 				dataType: "JSON",
 				success: result => {

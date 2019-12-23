@@ -18,7 +18,7 @@ public interface MainFeedService {
 	void delectComment(int cmtNo);
 	int commentCount(int postNo);
 //  해시태그 ----------------------------------
-	void insertHashtag(Comment comment);
+//	void insertHashtag(Comment comment);
 //	void updateHashtag(List<Hashtag> hashtag);
 	void deleteHashtag(List<Hashtag> hashtag);
 //  검색 ------------------------------------

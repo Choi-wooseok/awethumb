@@ -42,13 +42,13 @@ public class MainFeedController {
 	}
 	@RequestMapping("/insertComment.do") 
 	@ResponseBody
-	@Transactional
+//	@Transactional
 	public MainFeed commentRegistAjax(@RequestBody Comment comment) {
 //		System.out.println("인서트 들어옴");
 //		System.out.println(comment);
 		service.insertComment(comment);
 //		hashutil.hashSplit(comment.getCmtContent());
-		service.insertHashtag(comment);
+//		service.insertHashtag(comment);
 		return service.detailMainFeed(comment.getPostNo());
 	}
 	
@@ -63,8 +63,8 @@ public class MainFeedController {
 	@ResponseBody
 	public MainFeed commentUpdateAjax(Comment comment) {
 		service.updateComment(comment);
-		service.deleteHashtag(comment.getHashtag());
-		service.insertHashtag(comment);
+//		service.deleteHashtag(comment.getHashtag());
+//		service.insertHashtag(comment);
 		System.out.println("update 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}

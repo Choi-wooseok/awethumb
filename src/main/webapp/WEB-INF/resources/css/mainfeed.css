@@ -132,11 +132,12 @@
 		color: #6dd5bc;
 	}
 	
-	.cmtContent > span {
-		color: #6dd5bc;
-	}
+/* 	.cmtContent > span { */
+/* 		color: #6dd5bc; */
+/* 	} */
 	.ht {
 		cursor: pointer;
+		color: #6dd5bc;
 	}
 /* 	.insertComment { */
 /* 		display: block; */

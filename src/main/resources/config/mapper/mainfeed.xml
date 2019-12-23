@@ -12,10 +12,11 @@
 		<result column="width" property="width" /> 
 		<result column="hight" property="hight" /> 
 		<result column="post_public_enabled" property="postPublicEnabled" /> 
-		<result column="hashtag_no" property="hashtagNo" /> 
 		<result column="user_no" property="userNo" /> 
 		<result column="user_nickname" property="userNickname" /> 
 		<result column="hashtag_content" property="hashtagContent" /> 
+		<result column="post_no_and_cmt_no" property="postNoAndCmtNo" />
+		<result column="hash_type" property="hashType" />
 		<result column="comment_count" property="commentCount" /> 
 		<result column="like_count" property="likeCount" /> 
 		<result column="search_word" property="searchWord" /> 
@@ -35,8 +36,9 @@
 	</resultMap>
 	<resultMap id="hashtagMap" type="Hashtag">
 		<result column="hashtag_content" property="hashtagContent" />
-		<result column="post_no" property="postNo" />
+		<result column="post_no_and_cmt_no" property="postNoAndCmtNo" />
 		<result column="hash_type" property="hashType" />
+<!-- 		<collection property="hashtag_contents" javaType="java.util.ArrayList" /> -->
 	</resultMap>
 	<resultMap id="searchMap" type="Search">
 		<result column="hashtag_count_and_user_no" property="hashtagCountAndUserNo"/>
@@ -50,35 +52,47 @@
   		  from user_tb u
  		 where u.user_nickname like CONCAT(#{searchWord},'%')
   		 union all
-		select count(distinct h.post_no) , h.hashtag_content, 'h' 
+		select count(distinct h.post_no_and_cmt_no) , h.hashtag_content, 'h' 
   		  from hashtag_tb h
  		 group by h.hashtag_content
 		having h.hashtag_content like CONCAT(#{searchWord},'%')
 	</select>
 	<!-- 해시태그 ==================================================== -->
 	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
-		select post_no, hashtag_content
+		select *
 		  from hashtag_tb 
-		 where post_no = #{postNo}
+		 where post_no_and_cmt_no = #{postNoAndCmtNo}
 		   and hash_type = #{hashType}
 		   <if test="searchWord != null">
 		 	   or hashtag_content like #{searchWord} || '%'
 		   </if>
 	</select>
-	<insert id="insertHashtag" parameterType="Comment">
+	<insert id="insertHashtag" parameterType="ArrayList">
 			insert into hashtag_tb(
-			post_no, 
+			post_no_and_cmt_no, 
 			hashtag_content,
 			hash_type
 			) values 
 			<foreach collection="hashtag" item="hash" separator="," >
 			(
-				#{postNo}, 
+				#{postNoAndCmtNo}, 
 				#{hash.hashtagContent},
-				2	<!-- 1은 게시물 해시태그 / 2는 댓글 해시태그 -->
+				#{hashType}	<!-- 1은 게시물 해시태그 / 2는 댓글 해시태그 -->
 			)
 			</foreach>
 	</insert>
+	<update id="updateHashtag" parameterType="hashtag">
+	    update hashtag_tb
+	       set hashtag_content = #{hashtagContent}
+	     where post_no_and_cmt_no = #{postNoAndCmtNo}
+	       and hash_type = #{hashType}
+	</update>
+	<delete id="deleteHashtag" parameterType="int">
+		delete
+		  from hashtag_tb
+		 where post_no_and_cmt_no = #{postNoAndCmtNo}
+		   and hash_type = #{hashType}
+	</delete>
 	<!-- 피드 ======================================================= -->
 	<select id="selectMainFeed" parameterType="FeedPage" resultMap="mainFeedMap" flushCache="true" useCache="true">
 	<!-- like_tb의 code_value는 1일 경우 게시글, 2일 경우 댓글을 뜻함 -->
@@ -97,10 +111,10 @@
 		 inner join user_tb u
 		    on u.user_no = p.user_no
 		    <if test="searchWord != null">
-		 where exists (select post_no 
+		 where exists (select post_no_and_cmt_no 
 								   from hashtag_tb 
 								  where hashtag_content like CONCAT(#{searchWord}, '%')
-								    and b.post_no = post_no)		
+								    and b.post_no = post_no_and_cmt_no)		
 		    </if>
      	   <if test="searchWord != null">
 		       or u.user_nickname like concat(#{searchWord}, '%')
@@ -147,7 +161,11 @@
 		) values (
 			#{cmtContent}, #{userNo}, #{postNo}
 		)
+		<selectKey resultType="int" keyProperty="cmtKey" order="AFTER">
+        	select last_insert_id()
+    	</selectKey>    
 	</insert>
+	
 	<update id="updateComment" parameterType="comment">
 	    update comment_tb
 	       set cmt_content = #{cmtContent}

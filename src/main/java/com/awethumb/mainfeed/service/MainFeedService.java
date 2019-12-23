@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
 
 public interface MainFeedService {
@@ -18,6 +19,8 @@ public interface MainFeedService {
 	int commentCount(int postNo);
 //  해시태그 ----------------------------------
 	void insertHashtag(Comment comment);
+//	void updateHashtag(List<Hashtag> hashtag);
+	void deleteHashtag(List<Hashtag> hashtag);
 //  검색 ------------------------------------
 	List<MainFeed> search(String searchWord);
 

@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
 
 public interface MainFeedDAO {
@@ -34,6 +35,8 @@ public interface MainFeedDAO {
 //	List<MainFeed> searchHashFeed(FeedPage pageCount);
 	/* 해시태그 =============================================*/
 	void insertHashtag(Comment comment);
+	void updateHashtag(List<Hashtag> hashtag);
+	void deleteHashtag(List<Hashtag> hashtag);
 }
 
 

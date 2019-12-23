@@ -26,39 +26,49 @@ public class MainFeedController {
 	
 	@RequestMapping("/mainfeed.do")
 	public void mainFeed(String hashtag, Model model) {
+		service.search(hashtag);
 		model.addAttribute("hashtag", hashtag);
 	}
-	
 	@RequestMapping("/mainfeedList.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
 	@ResponseBody  // jsp를 호출하는게 아닌 데이터만 호출 : ajax를 호출할때 
 	public List<MainFeed> mainFeedList(FeedPage pageCount) {
 		return service.listMainFeed(pageCount);
 	}
-
 	@GetMapping("/detailmainfeed.do")
 	@ResponseBody
 	public MainFeed mainFeeddetail(int postNo) {
 		return service.detailMainFeed(postNo);
 //		System.out.println("디테일 들어옴");
 	}
-	
-	@RequestMapping("/insertComment.do")
+	@RequestMapping("/insertComment.do") 
 	@ResponseBody
 	@Transactional
 	public MainFeed commentRegistAjax(@RequestBody Comment comment) {
-		System.out.println("인서트 들어옴");
-		System.out.println(comment);
+//		System.out.println("인서트 들어옴");
+//		System.out.println(comment);
 		service.insertComment(comment);
+//		hashutil.hashSplit(comment.getCmtContent());
 		service.insertHashtag(comment);
 		return service.detailMainFeed(comment.getPostNo());
 	}
+	
+//	@RequestMapping("/insertHashtag.do")
+//	@ResponseBody
+//	public MainFeed hashtagRegistAjax(@RequestBody Comment comment) {
+//		service.insertHashtag(comment.getHashtag());
+//		return service.detailMainFeed(comment.getPostNo());
+//	}
+	
 	@RequestMapping("/updateComment.do")
 	@ResponseBody
 	public MainFeed commentUpdateAjax(Comment comment) {
 		service.updateComment(comment);
-//		System.out.println("update 들어옴");
+		service.deleteHashtag(comment.getHashtag());
+		service.insertHashtag(comment);
+		System.out.println("update 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
+	
 	@RequestMapping("/deleteComment.do")
 	@ResponseBody
 	public MainFeed commentDelete(Comment comment) {
@@ -66,6 +76,13 @@ public class MainFeedController {
 //		System.out.println("delete 들어옴");
 		return service.detailMainFeed(comment.getPostNo());
 	}
+
+//	public void hashtagRegistAjax(@RequestBody List<Hashtag> hashtag) {
+////		System.out.println("인서트 들어옴");
+//		service.insertHashtag(hashtag);
+////		service.detailMainFeed(comment.getPostNo());
+//	}
+	
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
 	@insertSearchLog
@@ -75,6 +92,15 @@ public class MainFeedController {
 		return service.search(searchWord);
 	}
 	
+//	@RequestMapping(value="/search.do", method = RequestMethod.POST)
+//	@insertSearchLog
+//	public String search(String hashtag) {
+//		System.out.println("search 들어옴");
+//		System.out.println(hashtag);
+////		service.search(hashtag);
+//		return "redirect:/mainfeed/mainfeed.do?hashtag=" + hashtag;
+//		
+//	}
 	
 //	@RequestMapping("/comment_list.do")
 //	public List<Comment> commentListAjax(int postNo) {

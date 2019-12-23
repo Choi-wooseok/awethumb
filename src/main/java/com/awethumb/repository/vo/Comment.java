@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class Comment {
 	int cmtNo; // 댓글번호
+	int cmtKey; // 방금 작성된 댓글의 번호
 	String cmtContent; // 댓글내용
 	String cmtRegDt; // 댓글 작성일자
 	int userNo; // 유저번호

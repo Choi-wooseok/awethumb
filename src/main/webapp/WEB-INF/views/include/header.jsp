@@ -13,6 +13,7 @@
             <a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do" class="title">
             	<span>AweThumb</span>
             </a>
+			<!-- 검색  -->
             <form id="srchForm" method="post" action="${pageContext.request.contextPath}/mainfeed/mainfeed.do">
 	            <div class="search" id="srchBar">
 		            <input id="search" name="hashtag" type="text" value=""/>
@@ -114,4 +115,9 @@
     </sec:authorize>
         <!-- 검색 js -->
         <script src="${pageContext.request.contextPath}/js/search.js"></script>
+        <!-- 해시태그 플러그인 js -->
+        <script src="${pageContext.request.contextPath}/js/hashtag/jquery.hashtags.js"></script>
+        <script src="${pageContext.request.contextPath}/js/hashtag/autosize.min.js"></script>
+        <!-- 해시태그 js -->
+        <script src="${pageContext.request.contextPath}/js/hashtag/hashtagjs.js"></script>
 </header>

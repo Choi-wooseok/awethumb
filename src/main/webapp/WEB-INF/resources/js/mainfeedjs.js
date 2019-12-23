@@ -44,7 +44,7 @@ let scrollTop = 0;
 	   
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
-		   console.log("srchWord", searchWord)
+//		   console.log("srchWord", searchWord)
 			$.getJSON({
 				url: pageContextURI + "/mainfeed/mainfeedList.do",
 				data: {
@@ -138,7 +138,7 @@ let scrollTop = 0;
 			},
 			dataType: "JSON",
 			success: result => {
-				console.log("re", result);
+//				console.log("re", result);
 				makeDetailFeed(result);
 				setTimeout(() => {
 					makemodalattribute({
@@ -206,9 +206,8 @@ let scrollTop = 0;
 									<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
-            	// 커멘트 받아옴
+            	// 해시태그 js를 사용하기 위해 커멘트 받아옴
             	const newContent = renderHashtag(c.cmtContent);
-            	
             			if (`${c.cmtContent}` != 'null'){
             				$(`.comment`).append(`
     									<div class="commentList">
@@ -229,7 +228,10 @@ let scrollTop = 0;
 	            										</div>`)
 			                						}
             										$(`.cmtModal${c.cmtNo}`).append(`
-			                						<div class="cmtContent">${newContent} </div>
+            										<form method="post" action="${pageContextURI}/mainfeed/mainfeed.do">
+            											<input class="cmtHash" name="cmtHash" type="hidden" value="" />
+            											<div class="cmtContent">${newContent} </div>
+			                						</form>
 					                			</div>
 			        						</div>
 			            				</div>
@@ -249,6 +251,7 @@ let scrollTop = 0;
 					            <div class="insertComment">
 					            	<form id="crForm" method="post" action="insertComment.do" >
 				         				<input type="hidden" id="postNo" value="${detail.postNo}"/>	
+					            		<input type="hidden" id="cmtKey" value="${detail.cmtKey}"/>	
 					                    <textarea id="cmtContent"></textarea>
 					                    <input type="submit" value="등록" class="cmtRegist"/>
 				    				</form>
@@ -274,7 +277,6 @@ let scrollTop = 0;
 	    `)
 //	         게시글 수정/삭제 클릭시 detailProject로 이동
     	$("#updateBtn").click(() => {
-//    		$("#updateBtn").attr("data-projectNo", `${detail.projectNo}`)
     		location.href = pageContextURI + "/detailProject/updateListForm.do?projectNo=" + `${detail.projectNo}`
     	})
 
@@ -287,45 +289,9 @@ let scrollTop = 0;
         if (typeof connectedUserNo !== 'undefined'){
         	$("textarea").hashtags();
         }
+        hashClickFn();
 	}
 	detailListAjax();
-	
-//		댓글 중 #이 존재할 시 해시태그 링크로 변경
-	function renderHashtag(cmtContent){
-		let newContent = "";
-		let ht = cmtContent.split(' ');
-		for (let i = 0; i < ht.length; i++) {
-			if ((ht[i]).includes('#')){
-				ht[i] = `<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>`
-			}
-		}
-		for (let j = 0; j < ht.length; j++) {
-			newContent += ht[j] + " "
-		}
-		return newContent
-	}
-	
-//	해시태그 클릭시 검색화면으로 이동
-	$(document).on("click", ".ht", (e) => {
-		let hashSrch = $(e.target).data("ht")
-		let hashTg = hashSrch.split('#');
-		let htg = hashTg[1];
-		$.ajax({
-				url: pageContextURI + "/mainfeed/search.do",
-				method: 'POST',
-				data: htg,
-				dataType: 'JSON',
-				contentType: 'application/json; charset=UTF-8',
-				success: result => {
-					for (let i = 0; i < result.length; i++){
-						if (result[i].hashtagAndNickname == hashTg[1]){
-							MainfeedMakeAjax(hashTg[1])
-							$("#detailFeedModal").css("display", "none")
-						}
-					}
-				}
-		})
-	});
 	
 	// x버튼 클릭시 모달창 닫힘
 	$(document).on('click', '.modalClose', (e) => {
@@ -522,46 +488,27 @@ let scrollTop = 0;
 	        });
         }
 	
-	function hashSplitFn() {
-		// 해시태그 스플릿
-			let cmtVal= $("#cmtContent").val();
-			let pN = $("#postNo").val();
-			let hashSplit = new Array();  // 처음 띄어쓰기로 스플릿
-			let hashSp = new Array();	  // 띄어쓰기로 자른걸 담아서 #을 포함하는지 검사
-			let hash = new Array();		  // #포함된걸 담는 배열
-			let hashWord = new Array();  // #포함된걸 담은 배열 중 2번째(#뒤의 단어)를 담음
-			let hashT  = {}; 
-			if (cmtVal.includes('#')) {
-				hashSplit = cmtVal.split(' ');
-				for (let i = 0; i < hashSplit.length; i++) {
-					hashSp = hashSplit[i];
-					if (hashSp.includes('#')){
-						hash = hashSp.split('#');
-						hashT = {postNo: pN, hashtagContent: '#' + hash[1], hashType: 2}
-						hashWord.push(hashT);
-					}
-					console.log("hashSp", hashSp)
-				}
-			}
-			console.log("hashT", hashT);
-			console.log("hashWord", hashWord);
-			
-			return hashWord;
-	};
 	
 	// 댓글 등록
 //	----------------------
 		$(document).on('submit', '#crForm', (e) => {
-			let hashWord = hashSplitFn();
+//			let cmtKey = `${cmtKey}`;
+			let cmtKey = $('#cmtKey').val();
+			console.log("cmtKey", cmtKey);
+//			console.log(hashSplitFn(cmtKey, cmtContent, 2));
+			let cmtContent = $("#cmtContent").val();
+			let hashWord = hashSplitFn(cmtContent);
+			console.log("cmtKey", cmtKey);
+			console.log("hashWord", hashWord);
 			$.ajax({
 				url: pageContextURI + "/mainfeed/insertComment.do",
 				method:"POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
-					'cmtContent': $("#cmtContent").val(), 
+					'cmtContent': cmtContent, 
 					'userNo': connectedUserNo, 
 					'postNo': $("#postNo").val(),
-					'hashtag' : hashWord // 배열로 넣음
+					'hashtag' : hashSplitFn(cmtKey, cmtContent, 2)
 					}),
 				dataType: "JSON",
 				success: result => {
@@ -572,7 +519,7 @@ let scrollTop = 0;
 		                  },
 		                  dataType: "JSON",
 		                  success: result => {
-		                	 console.log("12", hashWord)
+//		                	 console.log("12", hashWord)
 		                     makeDetailFeed(result);
 		                     setTimeout(() => {
 		                        makemodalattribute({
@@ -582,7 +529,7 @@ let scrollTop = 0;
 		                     }, 100);
 		                  }
 		               })
-		        }
+				}
 			});
 			$("#cmtContent").val("");
 			$(".hashtag").remove();

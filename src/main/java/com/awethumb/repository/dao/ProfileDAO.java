@@ -25,13 +25,9 @@ public interface ProfileDAO {
 
 	public void insertProjectFile(ProjectFile pf);
 
-	public List<Project> selectSharedProjects(Project p);
-
-	public List<Project> selectSavedProjects(Project p);
-
 	public int selectProjectCount(int userNo);
 
 	public void insertSharedUserList(Project p);
 
-	public int selectCurrentSharedProjectNo(int userNo);
+	public int selectCurrentProjectNo(int userNo);
 }

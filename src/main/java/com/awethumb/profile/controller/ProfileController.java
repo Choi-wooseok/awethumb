@@ -104,7 +104,7 @@ public class ProfileController {
 		
 		service.insertProj(p, pf);
 		
-		int projectNo = service.selectCurrentSharedProjectNo(p.getUserNo());
+		int projectNo = service.selectCurrentProjectNo(p.getUserNo());
 		// 알림을 보내기 위해 1회성 변수를 보내준다
 		if(p.getProjectType() == 2) {
 			rttr.addFlashAttribute("makeAlarm", "makeAlarm(4," + projectNo + ")");

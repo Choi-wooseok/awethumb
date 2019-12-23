@@ -74,10 +74,9 @@
 			    WHERE shared_user_no = #{userNo}) p
 	</select>
 	
-	<select id="selectCurrentSharedProjectNo" parameterType="int" resultType="int">
+	<select id="selectCurrentProjectNo" parameterType="int" resultType="int">
 		select max(project_no)
 		  from project_tb
 		 where user_no = #{userNo}
-		   and project_type = 2
 	</select>
 </mapper>

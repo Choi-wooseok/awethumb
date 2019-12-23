@@ -18,5 +18,5 @@ public interface ProfileService {
 	public void updateUser(UserVO user);
 	public void insertProj(Project p, ProjectFile pf);
 	public int selectProjectCount(int userNo);
-	public int selectCurrentSharedProjectNo(int userNo);
+	public int selectCurrentProjectNo(int userNo);
 }

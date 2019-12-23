@@ -57,8 +57,8 @@ public class ProfileServiceImpl implements ProfileService{
 	}
 
 	@Override
-	public int selectCurrentSharedProjectNo(int userNo) {
-		return dao.selectCurrentSharedProjectNo(userNo);
+	public int selectCurrentProjectNo(int userNo) {
+		return dao.selectCurrentProjectNo(userNo);
 	}
 
 }

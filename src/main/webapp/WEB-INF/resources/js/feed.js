@@ -25,21 +25,42 @@ let item = {
 		likecount : 0,  // 좋아요개수
 		boardFileSrc : ``, // 파일경로
 		fileCheck : 0, // 파일체크
-		imageState : 0 // 이미지체크
+		imageState : 0, // 이미지체크
+		left : 0, // 사이드바 X좌표
+		top : 0, // 사이드바1 Y좌표
+		top2 : 0, // 사이드바2 Y좌표
+		feedSideGap : 0 // feed와 side바 사이 값
 }
 $(document).ready(function(){
 	    boardList(); // 게시글
 	    sideFollowList(); // 사이드바
 	    categoryList() // 팔로워추천 사이드바
-	    
+	    item.feedSideGap = $(".feedSide").offset().left - ($(".feedContWrap").offset().left + 600);
+	    item.left = $(".feedContWrap").offset().left + 600 + item.feedSideGap;
+	    item.top = $(".feedSide").offset().top;
+	    item.top2 = $(".feedSide2").offset().top;
+	    console.log("left : " + item.left);
 });
 $(document).on('click', '.addBtn', () => {
 	item.sidePageIndex += item.sidePageCount;
 	$(".addBtn").remove();
 	sideFollowList();
 });
+$(window).resize(() => { // 반응형 웹
+	item.left = $(".feedContWrap").offset().left + 635;
+	item.top = 105;
+	item.top2 = 405;
+	$(".feedSide").css({"position":"fiexd", "left":item.left, "top":item.top});
+	$(".feedSide2").css({"position":"fiexd", "left":item.left, "top":item.top2});
+});
+
 // infinity scroll
 $(window).scroll(() => {
+	if($(window).scrollTop() !== 0) {
+		item.left = $(".feedContWrap").offset().left + 635;
+		$(".feedSide").css({"position":"fixed", "left":item.left, "top":item.top});
+		$(".feedSide2").css({"position":"fixed", "left":item.left, "top":item.top2});
+	}
 	if ($(window).height() == $(document).height() - Math.ceil($(window).scrollTop())) {
 		item.pageIndex += item.pageCount;
   		boardList();
@@ -54,7 +75,7 @@ function boardList(){
 			pageCount : item.pageCount,
 			subUserNo: item.loginUserNo
 		},
-		success: list =>{
+		success: (list) => {
 			if(list.length == 0 && !item.boardListState) {
 				$(window).off('scroll');
 				$(".feedWrap").append(

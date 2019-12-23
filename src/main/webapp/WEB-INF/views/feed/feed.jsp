@@ -27,7 +27,7 @@
 		<div class="feedContWrap">
 				<input type="hidden" class="loginUserNo" value="${u.userNo}" />
 				<input type="hidden" class="loginUserId" value="${u.userId}" />
-				<input type="hidden" class="imageState" value="${imageState}" />
+<%-- 				<input type="hidden" class="imageState" value="${imageState}" /> --%>
 				<input type="hidden" class="userFollowMeCount" value="${userFollowMeCount}" />
 			<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 			<div class="feedWrap" id="feedWrap">

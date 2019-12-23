@@ -13,6 +13,7 @@ import com.awethumb.repository.vo.Like;
 public interface FeedDAO {
 	List<FeedBoard> selectFeedBoardPage(FeedPage pageCount); // 게시판전체
 	List<Comment> selectFeedBoardComment(int postNo); // 게시판번호에 따른 댓글
+	int boardImgState(int postNo); // 게시글 이미지 체크 
 	
 	List<Integer> selectCmtNo(int postNo); // 댓글상세번호받기
 	int commentTime(int cmtNo); // 댓글 시간
@@ -35,6 +36,7 @@ public interface FeedDAO {
 
 	List<BoardFile> boardFile(int postNo); // 파일경로가져오기
 	int boardFileCheck(int postNo); // 파일 체크 
+	
 	
 }
 

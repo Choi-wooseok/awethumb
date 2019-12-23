@@ -21,4 +21,5 @@ public interface FeedService {
 	int selectFollowMeCount(String userId);
 	List<String> boardFile(int postNo);
 	int boardFileCheck(int postNo);
+	int boardImgState(int postNo);
 }

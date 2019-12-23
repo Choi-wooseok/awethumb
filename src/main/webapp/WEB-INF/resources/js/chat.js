@@ -25,6 +25,7 @@ function makeChatList(list) {
 
 $("#chatServer").click(() => {
 	$(".chatting").toggleClass("chat-hidden");
+	$(".msglist").css("display", "none");
 });
 
 
@@ -107,28 +108,25 @@ $(document).ready(function () {
   	connect();
 });
 
-$(document).ready(function () {
-    topInViewport($(".messages"));
- 
-});
-function topInViewport(selector) {
-	$(selector).scroll(function (e) {
-		let scTop = $(this).scrollTop();
-		console.log("scTop => " + scTop);
-		if (scTop < 1) {
-			// 채팅 내용이 더이상 없다면
-			if ($(this).data("isprev") == "false") return;
-			let pageIdx = $(this).data("pageidx");
-			if (pageIdx) {
-				$(this).data("pageidx", parseInt(pageIdx + 1));
-				loadMore($(this).data("pageidx"), 10 , $(this).parent().data("room"), this);
-			}
-			
-		}
-		
-	});
-}
+// 스크롤 이벤트는 JQUERY로는 위임이 안되므로 자바스크립트 처리
+document.addEventListener('scroll', function (event) {
+	console.log(event.target);
+    if (event.target.className === 'messages') { // or any other filtering condition    
+    	let scTop = $(event.target).scrollTop();
+    	if (scTop < 1) {
+    		// 채팅 내용이 더이상 없다면
+    		if ($(event.target).data("isprev") == "false") return;
+    		let pageIdx = $(event.target).data("pageidx");
+    		if (pageIdx) {
+    			$(event.target).data("pageidx", parseInt(pageIdx + 1));
+    			loadMore($(event.target).data("pageidx"), 10 , $(event.target).parent().data("room"), event.target);
+    		}
+    		
+    	}
+    }
+}, true );
 
+	
 //페이징 처리
 function loadMore(pageIndex, pageCount, chatroomNo, prependMessage) {
 	 console.log(pageIndex, pageCount, chatroomNo, prependMessage);
@@ -370,6 +368,7 @@ $(document).on("click", ".result-search", function() {
 // 채팅창 닫기
 $(document).on("click", ".exitchat", function() {
 	$(".chatting").toggleClass("chat-hidden");
+	$(".msglist").css("display", "none");
 })
 
 

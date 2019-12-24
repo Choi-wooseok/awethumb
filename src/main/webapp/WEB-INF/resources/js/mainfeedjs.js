@@ -44,7 +44,7 @@ let scrollTop = 0;
 	   
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
-//		   console.log("srchWord", searchWord)
+		   console.log("srchWord", searchWord)
 			$.getJSON({
 				url: pageContextURI + "/mainfeed/mainfeedList.do",
 				data: {
@@ -52,14 +52,18 @@ let scrollTop = 0;
 					searchWord
 				},
 				success: list => {
+//					console.log("4", list)
 					if(list.length == 0) {
 						$(window).off('scroll');
 						return;
 					}
 					if (searchWord.trim() === '') {
+//						console.log("3", searchWord.trim())
 						makeMainFeedList(list);
 					}
-					else {
+					else if(searchWord){
+//						console.log("2");
+						console.log("6", searchWord)
 						$.getJSON({
 							url: pageContextURI + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
 							data: {
@@ -67,7 +71,9 @@ let scrollTop = 0;
 								searchWord
 							},
 							success: list => {
+								console.log("5", list)
 								makeMainFeedList(list, searchWord);
+								$("#detailFeedModal").css("display", "none");
 							}
 						});
 					}
@@ -128,17 +134,15 @@ let scrollTop = 0;
 		}
 		
 // --------------- detail -------------
-	function detailListAjax() {
-	$(document).on('click', '.detailFeed', (e) => {
-		$("#detailFeedModal").css("display", "block")
+		
+	function detailFeed(postNo) {
 		$.ajax({
 			url: pageContextURI + "/mainfeed/detailmainfeed.do",
 			data: {
-				postNo:$(e.target).data("postno"),
+				postNo: postNo,
 			},
 			dataType: "JSON",
 			success: result => {
-//				console.log("re", result);
 				makeDetailFeed(result);
 				setTimeout(() => {
 					makemodalattribute({
@@ -148,6 +152,12 @@ let scrollTop = 0;
 				}, 100);
 			}
 		})
+	}
+		
+	function detailListAjax() {
+	$(document).on('click', '.detailFeed', (e) => {
+		$("#detailFeedModal").css("display", "block")
+		detailFeed($(e.target).data("postno"));
 	});
 	}
 	
@@ -221,7 +231,7 @@ let scrollTop = 0;
 			                							<span>${c.agoRegDt}</span>
 			                							`)
 			                						if(typeof connectedUserNo !== 'undefined'){	
-	            										$(`.cmtInfo`).append(`
+	            										$(`#commentWrap${c.cmtNo}`).append(`
 				                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
 				                								<i class="fas fa-ellipsis-h"></i>
 				                							</button>
@@ -251,7 +261,6 @@ let scrollTop = 0;
 					            <div class="insertComment">
 					            	<form id="crForm" method="post" action="insertComment.do" >
 				         				<input type="hidden" id="postNo" value="${detail.postNo}"/>	
-					            		<input type="hidden" id="cmtKey" value="${detail.cmtKey}"/>	
 					                    <textarea id="cmtContent"></textarea>
 					                    <input type="submit" value="등록" class="cmtRegist"/>
 				    				</form>
@@ -343,94 +352,17 @@ let scrollTop = 0;
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
         $(".commentModal").click((e) => {
-        	const cmtNo = $(e.target).parents("button").data("cmtno");
+        	let cmtNo = $(e.target).parents("button").data("cmtno");
         	let cmtContent = $(e.target).parents("button").data("cmtcontent");
         	cmtModalDetail.style.display = "block";
         	$(".cmtUpdateBtn").data("cmtno", cmtNo);
         	$(".cmtUpdateBtn").data("cmtcontent", cmtContent);
         	$(".cmtDeleteBtn").data("cmtno", cmtNo);
+//        	console.log($(".cmtDeleteBtn").data("cmtno"))
         })
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
         })
-// 		댓글 수정폼
-        let updateComment = document.querySelector(".updateComment");
-        $(".cmtModalDetail").on("click", ".cmtUpdateBtn", (e) => {
-        	$(".cmtModalDetail").css("display","none");
-			let cmtNo = $(e.target).data("cmtno");
-			let cmtContent = $(e.target).data("cmtcontent");
-			$(".updateComment").css("display","block");
-        	$(".cmtModal" + cmtNo).css("display", "none");
-        	$("#commentWrap" + cmtNo).append(updateComment);
-        	$('#contentUpdate').val(cmtContent);
-    		$(".updateSubmit").data("cmtno", cmtNo);
-        	$(".updateCancel").data("cmtno", cmtNo);
-        })
-// 		수정 폼 취소
-        $(document).on("click", ".updateCancel", (e) => {
-        	let cmtNo = $(e.target).data("cmtno");
-        	$(updateComment).css("display", "none");
-        	$(".cmtModal" + cmtNo).css("display", "block")
-        })
-//      댓글 수정
-		$(".commentList").on("click", ".updateSubmit", (e) => {
-			$.ajax({
-				url: pageContextURI + "/mainfeed/updateComment.do",
-				type: "POST",
-				data: {
-					postNo : $("#postNo").val(),
-					cmtContent: $("#contentUpdate").val(), 
-					cmtNo :  $(e.target).data("cmtno")
-				},
-				dataType: "json",
-				success: result => {
-					makeDetailFeed(result);
-					setTimeout(() => {
-						makemodalattribute({
-							w: $("#image").width(),
-							h: $("#image").height()
-						})
-					}, 100);
-				}
-			});
-		});	
-// 		댓글 삭제폼
-        let deleteComment = document.querySelector(".deleteComment");
-        $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
-        	$(".cmtModalDetail").css("display","none");
-			let cmtNo = $(e.target).data("cmtno");
-        	$(".deleteComment").css("display","block");
-        	$("#commentWrap" + cmtNo).append(deleteComment);
-    		$(".deleteSubmit").data("cmtno", cmtNo);
-        	$(".deleteCancel").data("cmtno", cmtNo);
-        })
-// 		삭제 폼 취소
-        $(document).on("click", ".deleteCancel", (e) => {
-        	let cmtNo = $(e.target).data("cmtno");
-        	$(deleteComment).css("display", "none");
-        	$(".cmtModal" + cmtNo).css("display", "block")
-        })
-//      댓글 삭제
-        $(".commentList").on("click", ".deleteSubmit", (e) => {
-			$.ajax({
-				url: pageContextURI + "/mainfeed/deleteComment.do",
-				type: "POST",
-				data: {
-					cmtNo: $(e.target).data("cmtno"),
-					postNo: $("#postNo").val()
-				},
-				dataType:"json",
-				success: result => {
-					makeDetailFeed(result);
-					setTimeout(() => {
-						makemodalattribute({
-							w: $("#image").width(),
-							h: $("#image").height()
-						})
-					}, 100);
-				}
-			});
-		});
         
         // Get the modal
         var boardModal = document.getElementById('modalBoard');
@@ -486,56 +418,153 @@ let scrollTop = 0;
 	              newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	           }
 	        });
+	        
+//	 		댓글 수정폼
+	        let updateComment = document.querySelector(".updateComment");
+	        $(".cmtModalDetail").on("click", ".cmtUpdateBtn", (e) => {
+	        	$(".cmtModalDetail").css("display","none");
+				let cmtNo = $(e.target).data("cmtno");
+				let cmtContent = $(e.target).data("cmtcontent");
+				$(".updateComment").css("display","block");
+	        	$(".cmtModal" + cmtNo).css("display", "none");
+	        	$("#commentWrap" + cmtNo).append(updateComment);
+	        	$('#contentUpdate').val(cmtContent);
+	    		$(".updateSubmit").data("cmtno", cmtNo);
+	        	$(".updateCancel").data("cmtno", cmtNo);
+	        })
+//	 		수정 폼 취소
+	        $(document).on("click", ".updateCancel", (e) => {
+	        	let cmtNo = $(e.target).data("cmtno");
+	        	$(updateComment).css("display", "none");
+	        	$(".cmtModal" + cmtNo).css("display", "block")
+	        })
+	        // 		댓글 삭제폼
+	        let deleteComment = document.querySelector(".deleteComment");
+	        $(".cmtModalDetail").on("click", ".cmtDeleteBtn", (e) => {
+	        	$(".cmtModalDetail").css("display","none");
+				let cmtNo = $(e.target).data("cmtno");
+//				console.log("cmtNo", cmtNo)
+	        	$(".deleteComment").css("display","block");
+	        	$("#commentWrap" + cmtNo).append(deleteComment);
+	    		$(".deleteSubmit").data("cmtno", cmtNo);
+	        	$(".deleteCancel").data("cmtno", cmtNo);
+	        })
+//	 		삭제 폼 취소
+	        $(document).on("click", ".deleteCancel", (e) => {
+	        	let cmtNo = $(e.target).data("cmtno");
+	        	$(deleteComment).css("display", "none");
+	        	$(".cmtModal" + cmtNo).css("display", "block")
+	        })
         }
-	
-	
-	// 댓글 등록
-//	----------------------
-		$(document).on('submit', '#crForm', (e) => {
-//			let cmtKey = `${cmtKey}`;
-			let cmtKey = $('#cmtKey').val();
-//			console.log("cmtKey", cmtKey);
-//			console.log(hashSplitFn(cmtKey, cmtContent, 2));
-			let cmtContent = $("#cmtContent").val();
-//			let hashWord = hashSplitFn(cmtContent);
-//			console.log("cmtKey", cmtKey);
-//			console.log("hashWord", hashWord);
+    
+    // 댓글 등록
+//   	----------------------
+   		$(document).on('submit', '#crForm', () => {
+   			let cmtContent = $("#cmtContent").val();
+//   			console.log(cmtContent);
+   			let postNo = $("#postNo").val();
+   			$.ajax({
+   				url: pageContextURI + "/mainfeed/insertComment.do",
+   				method:"POST",
+   				contentType: "application/json; charset=UTF-8",
+   				data: JSON.stringify({
+   					'cmtContent': cmtContent, 
+   					'userNo': connectedUserNo, 
+   					'postNo': postNo,
+   					}),
+   				dataType: "JSON",
+   			}).done(result => {
+//   				console.log("result", result);
+//   				console.log("hashFn", hashSplitFn(result, cmtContent, 2));
+   				$.ajax({
+   					url: pageContextURI + "/mainfeed/insertHashtag.do",
+   					method:"POST",
+   					contentType: "application/json; charset=UTF-8",
+   					data: JSON.stringify(hashSplitFn(result, cmtContent, 2)),
+   					dataType: "JSON",
+   					tranditional: true,
+   				})
+   			}).done((result) => {
+//   				console.log("postNo", postNo)
+   				detailFeed(postNo);
+   			})
+   			$("#cmtContent").val("");
+   			$(".hashtag").remove();
+   			return false;
+   		});
+//      댓글 수정
+		$(document).on("click", ".updateSubmit", (e) => {
+			let cmtNo = $(e.target).data("cmtno");
+			let postNo = $("#postNo").val();
+			let cmtContent = $("#contentUpdate").val();
 			$.ajax({
-				url: pageContextURI + "/mainfeed/insertComment.do",
-				method:"POST",
+				url: pageContextURI + "/mainfeed/updateComment.do",
+				type: "POST",
+				data: {
+					'postNo' : postNo,
+					'cmtContent' : cmtContent, 
+					'cmtNo' : cmtNo
+				},
+			}).done(() => {
+				$.ajax({
+					url: pageContextURI + "/mainfeed/deleteHashtag.do",
+					type: "POST",
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify({
+						'postNoAndCmtNo' : cmtNo,
+						'hashType' : 2
+					}),
+					dataType:"JSON",
+				})
+			}).done((result) => {
+				console.log('3', result);
+				console.log('4', cmtContent);
+				$.ajax({
+					url: pageContextURI + "/mainfeed/insertHashtag.do",
+					method:"POST",
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify(hashSplitFn(cmtNo, cmtContent, 2)),
+					dataType: "JSON",
+					tranditional: true,
+				})
+			}).done(() => {
+				$(".cmtModal" + cmtNo).css("display", "block")
+				detailFeed(postNo);
+			})
+		});	
+
+//      댓글 삭제
+        $(document).on("click", ".deleteSubmit", (e) => {
+        	let cmtNo = $(e.target).data("cmtno");
+        	let postNo = $("#postNo").val();
+//        	console.log("1", cmtNo);
+//        	console.log("2", postNo);
+			$.ajax({
+				url: pageContextURI + "/mainfeed/deleteComment.do",
+				type: "POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
-					'cmtContent': cmtContent, 
-					'userNo': connectedUserNo, 
-					'postNo': $("#postNo").val(),
-//					'hashtag' : hashSplitFn(cmtKey, cmtContent, 2)
+					'cmtNo': cmtNo,
+				}),
+				dataType:"json",
+			}).done(result => {
+//				console.log('5', result)
+//	        	console.log("cmtNo", cmtNo)
+				$.ajax({
+					url: pageContextURI + "/mainfeed/deleteHashtag.do",
+					type: "POST",
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify({
+						'postNoAndCmtNo' : cmtNo,
+						'hashType' : 2
 					}),
-				dataType: "JSON",
-				success: result => {
-					$.ajax({
-		                  url: pageContextURI + "/mainfeed/detailmainfeed.do",
-		                  data: {
-		                     postNo:$("#postNo").val()
-		                  },
-		                  dataType: "JSON",
-		                  success: result => {
-//		                	 console.log("12", hashWord)
-		                     makeDetailFeed(result);
-		                     setTimeout(() => {
-		                        makemodalattribute({
-		                           w: $("#image").width(),
-		                           h: $("#image").height()
-		                        })
-		                     }, 100);
-		                  }
-		               })
-				}
-			});
-			$("#cmtContent").val("");
-			$(".hashtag").remove();
-			return false;
+					dataType:"JSON",
+					tranditional: true,
+				})
+			}).done((result) => {
+//				console.log("8", result)
+//				console.log("postNo", postNo)
+				detailFeed(postNo);
+			})
 		});
-		
-
-		
 		

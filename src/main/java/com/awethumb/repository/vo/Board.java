@@ -40,7 +40,18 @@ public class Board {
     // 작성 날짜
     private Date regDate;
     
-    public Date getRegDate() {
+    // 해시태그
+    private List<Hashtag> hashtag;
+    
+    public List<Hashtag> getHashtag() {
+		return hashtag;
+	}
+
+	public void setHashtag(List<Hashtag> hashtag) {
+		this.hashtag = hashtag;
+	}
+
+	public Date getRegDate() {
 		return regDate;
 	}
 

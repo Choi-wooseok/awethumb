@@ -34,9 +34,9 @@ public interface MainFeedDAO {
 	List<MainFeed> search(String searchWord);
 //	List<MainFeed> searchHashFeed(FeedPage pageCount);
 	/* 해시태그 =============================================*/
-	void insertHashtag(Comment comment);
+	void insertHashtag(List<Hashtag> hashtag);
 	void updateHashtag(List<Hashtag> hashtag);
-	void deleteHashtag(List<Hashtag> hashtag);
+	void deleteHashtag(Hashtag hashtag);
 }
 
 

@@ -5,10 +5,10 @@
 		for (let i = 0; i < ht.length; i++) {
 			if ((ht[i]).includes('#')){
 				ht[i] = `
-				<form class="hashForm" method="post" action="${pageContextPath}/mainfeed/mainfeed.do">
+				<a class="hashForm">
 					<input class="hashInput" name="hashtag" type="hidden" value=""/>
 					<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>
-				</form>
+				</a>
 			`}
 		}
 		for (let j = 0; j < ht.length; j++) {
@@ -36,12 +36,14 @@
 //					console.log("srch", searchWord);
 					console.log("res", result);
 					for (let i = 0; i < result.length; i++){
-						if (result[i].hashtagAndNickname == hashTg[1]){
-//							MainfeedMakeAjax(hashTg[1])
-							$(".hashForm").submit();
+						if (result[i].hashtagAndNickname == '#'+hashTg[1]){
+							console.log("11", searchWord)
+							MainfeedMakeAjax('#'+hashTg[1])
+//							$(".hashForm").submit();
 //							$("#detailFeedModal").css("display", "none")
 						}
 					}
+//					MainfeedMakeAjax(searchWord)
 				}
 			})
 		});
@@ -56,6 +58,8 @@
 			let hash = new Array();		  // #포함된걸 담는 배열
 			let hashWord = new Array();  // #포함된걸 담은 배열 중 2번째(#뒤의 단어)를 담음
 			let hashT  = {}; 
+//			console.log(postNoAndCmtNo);
+//			console.log(cmtAndPostContent);
 			if (cmtAndPostContent.includes('#')) {
 				hashSplit = cmtAndPostContent.split(' ');
 				for (let i = 0; i < hashSplit.length; i++) {
@@ -63,15 +67,15 @@
 					if (hashSp.includes('#')){
 						hash = hashSp.split('#');
 						hashT = {
-								postNoAndCmtNo : postNoAndCmtNo, 
-								hashtagContent: '#' + hash[1],
-								hashType}
+								'postNoAndCmtNo' : postNoAndCmtNo, 
+								'hashtagContent': '#' + hash[1],
+								'hashType' : hashType}
 						hashWord.push(hashT);
 					}
-					console.log("hashSp", hashSp)
+//					console.log("hashSp", hashSp)
 				}
 			}
-			console.log("hashT", hashT);
+//			console.log("hashT", hashT);
 			console.log("hashWord", hashWord);
 			
 			return hashWord;

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.awethumb.mainfeed.service.MainFeedService;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
 import com.awethumb.stats.aop.insertSearchLog;
 
@@ -43,46 +44,46 @@ public class MainFeedController {
 	@RequestMapping("/insertComment.do") 
 	@ResponseBody
 //	@Transactional
-	public MainFeed commentRegistAjax(@RequestBody Comment comment) {
-//		System.out.println("인서트 들어옴");
+	public int commentRegistAjax(@RequestBody Comment comment) {
+		System.out.println("인서트 들어옴");
 //		System.out.println(comment);
 		service.insertComment(comment);
 //		hashutil.hashSplit(comment.getCmtContent());
-//		service.insertHashtag(comment);
-		return service.detailMainFeed(comment.getPostNo());
+//		System.out.println(comment.getCmtNo());
+//		int cmtKey = comment.getCmtNo();
+//		service.insertHashtag(comment);\
+		return comment.getCmtNo();
 	}
-	
-//	@RequestMapping("/insertHashtag.do")
-//	@ResponseBody
-//	public MainFeed hashtagRegistAjax(@RequestBody Comment comment) {
-//		service.insertHashtag(comment.getHashtag());
-//		return service.detailMainFeed(comment.getPostNo());
-//	}
+	@RequestMapping("/insertHashtag.do")
+	@ResponseBody
+	public void hashtagRegistAjax(@RequestBody List<Hashtag> hashtag) {
+		System.out.println("hashinsert 들어옴");
+		System.out.println(hashtag);
+		service.insertHashtag(hashtag);
+	}
+	@RequestMapping("/deleteHashtag.do")
+	@ResponseBody
+	public void hashtagDelete(@RequestBody Hashtag hashtag) {
+		System.out.println("hashdelete 들어옴");
+		System.out.println(hashtag);
+		service.deleteHashtag(hashtag);
+	}
 	
 	@RequestMapping("/updateComment.do")
 	@ResponseBody
-	public MainFeed commentUpdateAjax(Comment comment) {
+	public void commentUpdateAjax(Comment comment) {
 		service.updateComment(comment);
 //		service.deleteHashtag(comment.getHashtag());
 //		service.insertHashtag(comment);
 		System.out.println("update 들어옴");
-		return service.detailMainFeed(comment.getPostNo());
 	}
-	
 	@RequestMapping("/deleteComment.do")
 	@ResponseBody
-	public MainFeed commentDelete(Comment comment) {
+	public int commentDelete(@RequestBody Comment comment) {
 		service.delectComment(comment.getCmtNo());
 //		System.out.println("delete 들어옴");
-		return service.detailMainFeed(comment.getPostNo());
+		return comment.getCmtNo();
 	}
-
-//	public void hashtagRegistAjax(@RequestBody List<Hashtag> hashtag) {
-////		System.out.println("인서트 들어옴");
-//		service.insertHashtag(hashtag);
-////		service.detailMainFeed(comment.getPostNo());
-//	}
-	
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
 	@insertSearchLog
@@ -91,16 +92,6 @@ public class MainFeedController {
 		System.out.println(searchWord);
 		return service.search(searchWord);
 	}
-	
-//	@RequestMapping(value="/search.do", method = RequestMethod.POST)
-//	@insertSearchLog
-//	public String search(String hashtag) {
-//		System.out.println("search 들어옴");
-//		System.out.println(hashtag);
-////		service.search(hashtag);
-//		return "redirect:/mainfeed/mainfeed.do?hashtag=" + hashtag;
-//		
-//	}
 	
 //	@RequestMapping("/comment_list.do")
 //	public List<Comment> commentListAjax(int postNo) {

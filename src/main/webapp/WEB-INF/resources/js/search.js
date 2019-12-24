@@ -28,7 +28,7 @@
 									if (result[i].resultType == 'u'){
 										str += '<div class="resultSearch" data-searchType="u" data-userNickname="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname + '</div>';
 									} else if (result[i].resultType == 'h') {
-										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + '#' + result[i].hashtagAndNickname
+										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
 												+ ' 게시물 수 : ' + result[i].hashtagCountAndUserNo + '</div>';
 									}
 								}
@@ -46,9 +46,9 @@
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
 									$("#search").val(searchH);
-									$("#srchForm").submit();
+//									$("#srchForm").submit();
 //									location.href = pageContextPath + "/mainfeed/mainfeed.do?hashtag=" + searchH
-//									MainfeedMakeAjax(searchH)
+									MainfeedMakeAjax(searchH)
 								}
 							});
 						} else {

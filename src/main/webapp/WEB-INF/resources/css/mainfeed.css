@@ -57,6 +57,7 @@
 		border: none;
     	background: transparent;
     	float: right;
+    	top: -30px;
 	}
 	.cmtDt {
 		font-size: 13px;

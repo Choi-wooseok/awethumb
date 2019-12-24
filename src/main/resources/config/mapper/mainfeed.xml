@@ -55,7 +55,7 @@
 		select count(distinct h.post_no_and_cmt_no) , h.hashtag_content, 'h' 
   		  from hashtag_tb h
  		 group by h.hashtag_content
-		having h.hashtag_content like CONCAT(#{searchWord},'%')
+		having h.hashtag_content like CONCAT('#',#{searchWord},'%')
 	</select>
 	<!-- 해시태그 ==================================================== -->
 	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">
@@ -67,27 +67,27 @@
 		 	   or hashtag_content like #{searchWord} || '%'
 		   </if>
 	</select>
-<!-- 	<insert id="insertHashtag" parameterType="ArrayList"> -->
-<!-- 			insert into hashtag_tb( -->
-<!-- 			post_no_and_cmt_no,  -->
-<!-- 			hashtag_content, -->
-<!-- 			hash_type -->
-<!-- 			) values  -->
-<!-- 			<foreach collection="hashtag" item="hash" separator="," > -->
-<!-- 			( -->
-<!-- 				#{postNoAndCmtNo},  -->
-<!-- 				#{hash.hashtagContent}, -->
-<!-- 				#{hashType}	1은 게시물 해시태그 / 2는 댓글 해시태그 -->
-<!-- 			) -->
-<!-- 			</foreach> -->
-<!-- 	</insert> -->
-	<update id="updateHashtag" parameterType="hashtag">
+	<insert id="insertHashtag" parameterType="Hashtag">
+			insert into hashtag_tb(
+			post_no_and_cmt_no, 
+			hashtag_content,
+			hash_type
+			) values 
+			<foreach collection="list" item="hash" separator="," >
+			(
+				#{hash.postNoAndCmtNo}, 
+				#{hash.hashtagContent},
+				#{hash.hashType}	<!-- 1은 게시물 해시태그 / 2는 댓글 해시태그 -->
+			)
+			</foreach>
+	</insert>
+	<update id="updateHashtag" parameterType="Hashtag">
 	    update hashtag_tb
 	       set hashtag_content = #{hashtagContent}
 	     where post_no_and_cmt_no = #{postNoAndCmtNo}
 	       and hash_type = #{hashType}
 	</update>
-	<delete id="deleteHashtag" parameterType="int">
+	<delete id="deleteHashtag" parameterType="Hashtag">
 		delete
 		  from hashtag_tb
 		 where post_no_and_cmt_no = #{postNoAndCmtNo}
@@ -111,15 +111,14 @@
 		 inner join user_tb u
 		    on u.user_no = p.user_no
 		    <if test="searchWord != null">
-		 where exists (select post_no_and_cmt_no 
-								   from hashtag_tb 
-								  where hashtag_content like CONCAT(#{searchWord}, '%')
-								    and b.post_no = post_no_and_cmt_no)		
-		    </if>
-     	   <if test="searchWord != null">
-		       or u.user_nickname like concat(#{searchWord}, '%')
+		 WHERE b.post_no in  (select post_no 
+		 						from comment_tb 
+		 					   where cmt_no in (select post_no_and_cmt_no 			    
+												  from hashtag_tb			   
+												 where hashtag_content like CONCAT(#{searchWord}, '%')))		
+		       or u.user_nickname like CONCAT(#{searchWord}, '%')
      	   </if>
-		 order by b.post_no desc
+		 order by b.post_no DESC
 		 limit #{pageIndex} , #{pageCount} 
 	</select>
 	<select id="selectOneMainFeed" parameterType="int" resultMap="mainFeedMap" flushCache="true" useCache="true">
@@ -161,7 +160,7 @@
 		) values (
 			#{cmtContent}, #{userNo}, #{postNo}
 		)
-		<selectKey resultType="int" keyProperty="cmtKey" order="AFTER">
+		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
         	select last_insert_id()
     	</selectKey>    
 	</insert>

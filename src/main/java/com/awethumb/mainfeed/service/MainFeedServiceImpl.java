@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.awethumb.repository.dao.MainFeedDAO;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
-import com.awethumb.util.HashUtil;
 
 @Service
 public class MainFeedServiceImpl implements MainFeedService {
@@ -45,13 +43,13 @@ public class MainFeedServiceImpl implements MainFeedService {
 	}
 	
 	// 해시태그 ----------------------------------------------
-//	public void insertHashtag(Comment comment) {
-//		dao.insertHashtag(comment);
-//	}
+	public void insertHashtag(List<Hashtag> hashtag) {
+		dao.insertHashtag(hashtag);
+	}
 //	public void updateHashtag(List<Hashtag> hashtag) {
 //		dao.updateHashtag(hashtag);
 //	}
-	public void deleteHashtag(List<Hashtag> hashtag) {
+	public void deleteHashtag(Hashtag hashtag) {
 		dao.deleteHashtag(hashtag);
 	}
 	

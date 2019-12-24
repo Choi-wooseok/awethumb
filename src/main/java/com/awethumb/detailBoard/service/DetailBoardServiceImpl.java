@@ -12,6 +12,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.ProjectSubscribe;
+import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.stats.aop.UpdateDailyLog;
 
@@ -137,5 +138,13 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	
 	public void deleteSavedProject(ProjectSubscribe projectsubscribe) {
 		dao.deleteSavedProject(projectsubscribe);
+	}
+	
+	public int selectLastCommentNo() {
+		return dao.selectLastCommentNo();
+	}
+	
+	public UserFile selectUserImg(int userNo) {
+		return dao.selectUserImg(userNo);
 	}
 }

@@ -25,8 +25,10 @@ import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectSubscribe;
+import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.util.FileUtil;
+import com.awethumb.util.UserFileUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
 @RequestMapping("/detailProject")
@@ -102,7 +104,8 @@ public class DetailBoardController {
 	@RequestMapping("updateSelectOneBoard.do")
 	@ResponseBody
 	public Board updateSelectOneBoard(@RequestParam("postNo") int postNo) {
-		return service.selectOneBoard(postNo);
+		Board board = service.selectOneBoard(postNo);
+		return board;
 	}
 	
 	@RequestMapping("update.do")
@@ -120,22 +123,23 @@ public class DetailBoardController {
 
 	@RequestMapping("selectOneBoard.do")
 	@ResponseBody
-	public Board selectOneBoard(int postNo) {
+	public Board selectOneBoard(int postNo, HttpServletRequest req) throws Exception {
 		service.viewCount(postNo);
 		Board board = service.selectOneBoard(postNo);
-		UserVO writer = service.selectWriter(postNo);
-		board.setWriter(writer.getUserName());
+		UserVO uv = service.selectWriter(postNo);
+		UserFile userfile = service.selectUserImg(uv.getUserNo());
+		UserFileUtil ufutil = new UserFileUtil();
+		board.setUrl(ufutil.fileUtil(userfile, req));
+		board.setWriter(uv.getUserName());
 		return board;
 	}
 
-//	@SuppressWarnings("unchecked")
 	@PostMapping("imageUpload.do")
 	@ResponseBody
 	public BoardFile imageUpload (
 			@RequestParam("file") MultipartFile file,
 			HttpServletResponse res,
 			HttpServletRequest req) throws Exception {
-
 		FileUtil fu = new FileUtil();
 		BoardFile bfile = fu.UploadImage(file, res);			
 		bfile.setUrl(req.getContextPath() + "/image/" + bfile.getBoardFilePath() + bfile.getBoardFileSysName());
@@ -179,19 +183,24 @@ public class DetailBoardController {
 
 	@RequestMapping("selectCommentList.do")
 	@ResponseBody
-	public List<Comment> commentList(@RequestParam("postNo") int postNo) {
+	public List<Comment> commentList(@RequestParam("postNo") int postNo, HttpServletRequest req) throws Exception {
 		List<Comment> comments = service.commentList(postNo);
 		for (int i = 0; i < comments.size(); i++) {
 			Comment uVo = comments.get(i);
 			uVo.setCmtUserNickname(service.selectUser(uVo.getUserNo()));
+			UserFile ufile = service.selectUserImg(uVo.getUserNo());
+			// 이미지 URL 받아오는 메서드 호출
+			UserFileUtil ufutil = new UserFileUtil();
+			uVo.setUImgUrl(ufutil.fileUtil(ufile, req));
 		}
 		return comments;
 	}
 
 	@RequestMapping("insertComment.do")
 	@ResponseBody
-	public void insertComment(Comment comment) {
+	public int insertComment(Comment comment) {
 		service.insertComment(comment);
+		return service.selectLastCommentNo();
 	}
 
 	@RequestMapping("deleteComment.do")

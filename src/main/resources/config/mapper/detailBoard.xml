@@ -6,21 +6,21 @@
 	<select id="selectBoardList" parameterType="int" resultType="Board">
 		select * 
 		from board_tb 
-		where project_no = ${projectNo};
+		where project_no = #{projectNo}
 	</select>
 	
 	<select id="selectImgList" parameterType="int" resultType="Board">
 		select *
 		  from board_file_tb
-		 where post_no = ${postNo}
+		 where post_no = #{postNo}
 	</select>
 	
 	<insert id="insertBoard" parameterType="Board">
 		insert into board_tb (
 			project_no, post_content, x_coord, y_coord, width, hight
 		) values (
-			${projectNo}, '${postContent}', 0, 0, 1, 1
-		);
+			#{projectNo}, '#{postContent}', 0, 0, 1, 1
+		)
 	</insert>
 	
 	<!-- 글 번호로 글쓴이의 정보 받아옴 -->
@@ -33,37 +33,37 @@
 			where project_no = (
 				select project_no 
 				from board_tb 
-				where post_no = ${postNo}
+				where post_no = #{postNo}
 			)
-		);
+		)
 	</select>
 	
 	<delete id="deleteBoard" parameterType="int">
 		delete 
 		from board_tb
-		where post_no = ${postNo}
+		where post_no = #{postNo}
 	</delete>
 	
 	<select id="selectOneBoard" parameterType="int" resultType="Board">
 		select *
 		from board_tb
-		where post_no = ${postNo}
+		where post_no = #{postNo}
 	</select>
 	
 	<update id="updateBoard" parameterType="Board">
 		update board_tb
-		set post_content = '${postContent}'
-		where post_no = ${postNo}
+		set post_content = '#{postContent}'
+		where post_no = #{postNo}
 	</update>
 	
 	<update id="updateList" parameterType="Board">
 		update board_tb
 		set
-			x_coord = ${xCoord}, 
-			y_coord = ${yCoord}, 
-			width = ${width}, 
-			hight = ${hight}
-		where post_no = ${postNo};
+			x_coord = #{xCoord}, 
+			y_coord = #{yCoord}, 
+			width = #{width}, 
+			hight = #{hight}
+		where post_no = #{postNo}
 	</update>
 	
 	<insert id="insertImage" parameterType="BoardFile">
@@ -71,116 +71,129 @@
 			board_file_sys_name, board_file_org_name, board_file_path, 
 			board_file_size, board_file_exe, post_no
 		) values (
-			'${boardFileSysName}', '${boardFileOrgName}', '${boardFilePath}', 
-			${boardFileSize}, '${boardFileExe}', ${postNo}
-		);
+			'#{boardFileSysName}', '#{boardFileOrgName}', '#{boardFilePath}', 
+			#{boardFileSize}, '#{boardFileExe}', #{postNo}
+		)
 	</insert>
 	
 	<select id="postNoSelect" resultType="int">
 		select post_no 
 		from board_tb 
 		order by post_no 
-		desc limit 1;
+		desc limit 1
 	</select>
 	
 	<select id="selectProjectName" resultType="Project" parameterType="int">
 		select *
 		from project_tb 
-		where project_no = ${projectNo};
+		where project_no = #{projectNo}
 	</select>
 	
 	<update id="updateProjectName" parameterType="Project">
 		update project_tb
-		set project_title = '${projectTitle}'
-		where project_no = ${projectNo}
+		set project_title = '#{projectTitle}'
+		where project_no = #{projectNo}
 	</update>
 	
 	<select id="commentList" resultType="Comment" parameterType="int">
 		select * 
 		from comment_tb 
-		where post_no = ${postNo}
+		where post_no = #{postNo}
 		order by cmt_reg_dt 
-		desc;
+		desc
 	</select>
 	
 	<insert id="insertComment" parameterType="Comment">
 		insert into comment_tb (
 			cmt_content, user_no, post_no
 		) values (
-			'${cmtContent}', ${userNo}, ${postNo}
+			'#{cmtContent}', #{userNo}, #{postNo}
 		)
 	</insert>
 	
 	<delete id="deleteComment" parameterType="int">
 		delete
 		from comment_tb
-		where cmt_no = ${cmtNo}
+		where cmt_no = #{cmtNo}
 	</delete>
 	
 	<update id="updateComment" parameterType="Comment">
 		update comment_tb
-		set cmt_content = '${cmtContent}'
-		where cmt_no = ${cmtNo}
+		set cmt_content = '#{cmtContent}'
+		where cmt_no = #{cmtNo}
 	</update>
 	
 	<select id="selectUser" resultType="String" parameterType="int">
 		select user_nickname
 		from user_tb
-		where user_no = ${userNo}
+		where user_no = #{userNo}
 	</select>
 	
 	<select id="selectImages" resultType="BoardFile" parameterType="int">
 		select *
 		from board_file_tb
-		where post_no = ${postNo}
+		where post_no = #{postNo}
 	</select>
 	
 	<update id="viewCount" parameterType="int">
 		update board_tb
 		set view_cnt = view_cnt + 1
-		where post_no = ${postNo}
+		where post_no = #{postNo}
 	</update>
 	
 	<select id="selectProjectImg" resultType="ProjectFile" parameterType="int">
 		select *
 		from project_file_tb
-		where project_no = ${projectNo}
+		where project_no = #{projectNo}
 	</select>
 	
 	<select id="selectProject" resultType="Project" parameterType="int">
 		select *
 		from project_tb
-		where project_no =${projectNo}
+		where project_no =#{projectNo}
 	</select>
 	
 	<select id="selectProjectShared" resultType="int" parameterType="int">
 		select shared_user_no
 		from shared_project_tb
-		where project_no = ${projectNo}
+		where project_no = #{projectNo}
 		and share_check = 'y'
 	</select>
 	
 	<select id="selectSavedProject" resultType="int" parameterType="ProjectSubscribe">
 		select count(*)
 		from project_subscribe_tb
-		where user_no = ${userNo}
-		and project_no = ${projectNo}
+		where user_no = #{userNo}
+		and project_no = #{projectNo}
 	</select>
 
 	<insert id="insertSavedProject" parameterType="ProjectSubscribe">
 		insert into project_subscribe_tb (
 			user_no, project_no
 		) values (
-			${userNo}, ${projectNo}
-		);
+			#{userNo}, #{projectNo}
+		)
 	</insert>
 		
 	<delete id="deleteSavedProject" parameterType="ProjectSubscribe">
 		delete
 		from project_subscribe_tb
-		where user_no = ${userNo}
-		and project_no = ${projectNo}
+		where user_no = #{userNo}
+		and project_no = #{projectNo}
 	</delete>
+	
+	<select id="selectLastCommentNo" resultType="int">
+		select cmt_no
+		from comment_tb
+		order by cmt_no
+		desc limit 1
+	</select>
+	
+	<select id="selectUserImg" resultType="UserFile" parameterType="int">
+		select *
+		from user_file_tb
+		where user_no = #{userNo}
+	</select>
 </mapper>
 
 

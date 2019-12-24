@@ -246,7 +246,10 @@ $(document).on("click", "#cmtInsertBtn", (e) => {
 				postNo : postNo,
 				cmtContent : $("#cmtCont").val()
 			},
-			success: () => {commentListViewAjax(postNo)}
+			success: (cmtNo) => {
+				makeAlarm(3, cmtNo)
+				commentListViewAjax(postNo)
+			}
 		})
 	}
 });
@@ -356,7 +359,7 @@ function commentListAjax(cList) {
 		`
 		<div class="commentList">
 			<div class="commentUserImg">
-				<img src="./../images/test_user.jpg" alt="">
+				<img src="${cList.uimgUrl}" alt="">
 			</div>
 			<div class="commentWrap">
 				<div class="cmtInfo">
@@ -389,7 +392,7 @@ function viewBoardAjax(board, postNo) {
 		</button>
 	    <div class="ModaluserInfo">
 	        <div class="commentUser">
-	            <img src="./../images/test_user.jpg" alt="">
+	            <img src="${board.url}" alt="">
 	        </div>
 	        <div class="userName">
 	            <a href="#">${board.writer}</a>

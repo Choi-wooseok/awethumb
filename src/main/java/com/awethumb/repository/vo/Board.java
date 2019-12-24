@@ -37,11 +37,22 @@ public class Board {
     // 글쓴
     private String writer;
     
-    // 작성 날짜
+ 	// 글쓴이 사진 URL
+    private String url;
+
+	// 작성 날짜
     private Date regDate;
     
     // 해시태그
     private List<Hashtag> hashtag;
+    
+    public String getUrl() {
+    	return url;
+    }
+    
+    public void setUrl(String url) {
+    	this.url = url;
+    }
     
     public List<Hashtag> getHashtag() {
 		return hashtag;

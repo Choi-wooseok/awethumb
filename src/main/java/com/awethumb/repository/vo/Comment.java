@@ -15,4 +15,5 @@ public class Comment {
 	String cmtUserNickname; // 댓글 유저닉네임
 	String agoRegDt; // ~분 전, ~시간 전, ~일 전 표시
 	List<Hashtag> hashtag;  // 해시태그 리스트로 받기
+	String uImgUrl; // 이미지 url
 }

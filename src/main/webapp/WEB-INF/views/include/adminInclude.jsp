@@ -11,17 +11,18 @@
   <link href="<c:url value='/admin/img/favicon.png'/>" rel="icon">
   <link href="<c:url value='/admin/img/apple-touch-icon.png'/>" rel="apple-touch-icon">
   
-  <!-- Bootstrap core CSS -->
-  <link href="<c:url value='/admin/lib/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
-  <!--external css-->
+  <!-- 제이쿼리 -부트스트랩 위에 있어야함. -->
+  <script src="<c:url value='/js/jquery.js' />"></script>
+  
+  <!-- 부트스트랩 CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <!-- w3 school css -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- 폰트어썸 css-->
   <link href="<c:url value='/admin/lib/font-awesome/css/font-awesome.css'/>" rel="stylesheet" >
-  <link rel="stylesheet" type="text/css" href="<c:url value='/admin/css/zabuto_calendar.css' />">
-  <link rel="stylesheet" type="text/css" href="<c:url value='/admin/lib/gritter/css/jquery.gritter.css'/>">
   <!-- Custom styles for this template -->
   <link href="<c:url value='/admin/css/style.css'/>" rel="stylesheet">
   <link href="<c:url value='/admin/css/style-responsive.css' />" rel="stylesheet">
-  <script src="<c:url value='/admin/lib/chart-master/Chart.js'/>"></script>
-  <!-- w3 css -->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <!-- 제이쿼리 -->
-  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<title>신고하기</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="<c:url value='/js/jquery.js' />"></script>
   <style>
   	body {
 			background-image: url( "${pageContext.request.contextPath}/images/main_bg.jpg");

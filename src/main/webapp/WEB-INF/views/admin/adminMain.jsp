@@ -134,6 +134,7 @@
               <button class="w3-bar-item w3-button tablink w3-blue" onclick="openTab(event,'Summary')">요약</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Daily')">오늘</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Monthly')">최근30일</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Rank')">게시글 랭킹</button>
             </div>
 
             <div id="Summary" class="w3-container w3-border dc-tab w3-padding-24">
@@ -196,39 +197,7 @@
               </div>
 
             </div>
-
-            <!-- 옛날 수동 코드-->
-
-            <!-- <div id="Daily" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
-              <div class="w3-half w3-section">
-                <div class="w3-card-4 w3-panel w3-twothird w3-auto dc-card w3-content w3-cell w3-cell-middle">
-                  <h5 style="text-align:center;">오늘 전체 방문자수</h5>
-                  <hr>
-                  <p class="dc-counter" id="total-visit" style="text-align:center; font-size:3em;">${totalVisitToday}명</p>
-                </div>
-              </div>
-              <div class="w3-half w3-section">
-                <div class="w3-card-4 w3-panel w3-twothird w3-auto dc-card w3-content w3-cell w3-cell-middle">
-                  <h5 style="text-align:center;">오늘 총 글조회수</h5>
-                  <hr>
-                  <p class="dc-counter" style="text-align:center; font-size:3em;">134157</p>
-                </div>
-              </div>
-              <div class="w3-half w3-section">
-                <div class="w3-card-4 w3-panel w3-twothird w3-auto dc-card w3-content w3-cell w3-cell-middle">
-                  <h5 style="text-align:center;">오늘 작성된 글 수</h5>
-                  <hr>
-                  <p class="dc-counter" style="text-align:center; font-size:3em;">${totalPostToday}개</p>
-                </div>
-              </div>
-              <div class="w3-half w3-section">
-                <div class="w3-card-4 w3-panel w3-twothird w3-auto dc-card w3-content w3-cell w3-cell-middle">
-                  <h5 style="text-align:center;">오늘 가입한 회원수</h5>
-                  <hr>
-                  <p class="dc-counter" style="text-align:center; font-size:3em;">${totalUserToday}명</p>
-                </div>
-              </div>
-            </div>  -->
+        
             <!-- 일간탭끝 -->
 
             <!-- 월간탭 시작 -->
@@ -237,6 +206,49 @@
               <!-- 주식차트처럼 가로축 현재달의 총일수. 세로축은 각 일자마다의 4자리항목을 막대로 표시해서 보여준다. -->
               <canvas id="myChart" width="100%" height="370px"></canvas>
             </div> <!-- 월간탭끝 -->
+            
+            <div id="Rank" class="w3-container w3-border dc-tab w3-padding-24 w3-center" style="display:none">
+            	<!-- 어떤 컨텐츠, 어떤 회원이 인기가 많은지 관리자가 파악하기 위한 화면 -->
+            	<!-- 일간 월간 총 4덩어리로 조회수 순위, 좋아요 순위 10개씩만 뽑아줌 -->
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            		<li class="w3-black"><h4>일일 게시글 조회순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            		<li class="w3-black"><h4>일일 게시글 좋아요순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            		<li class="w3-black"><h4>월별 게시글 조회순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            		<li class="w3-black"><h4>월별 게시글 추천순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+            	
+            </div>
+            
+            
           </div>
 
         </div>
@@ -259,26 +271,18 @@
     <!-- 메인컨텐츠끝 푸터 시작 -->
     <%@ include file="/WEB-INF/views/include/adminFooter.jsp" %>
   </section>
-  <!-- js placed at the end of the document so the pages load faster -->
-
-
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-  <script src="lib/jquery.scrollTo.min.js"></script>
-  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-  <script src="lib/jquery.sparkline.js"></script>
-  <!--common script for all pages-->
-  <script src="lib/common-scripts.js"></script>
-  <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
-  <script type="text/javascript" src="lib/gritter-conf.js"></script>
-  <!--script for this page-->
-  <script src="lib/sparkline-chart.js"></script>
-  <script src="lib/zabuto_calendar.js"></script>
-  <script src="lib/adminMain.js"></script>
-  <script src="<c:url value='/js/insertReport.js' />"></script>
+<!--   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
-  <!--   <script src="https://raw.githubusercontent.com/nnnick/Chart.js/master/Chart.min.js" ></script> -->
-  <script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="<c:url value='/js/adminMain.js' />"></script>
+  <script src="<c:url value='/js/adminChart.js' />"></script>
+ <script>
+  /* 차트js 글로벌 옵션 부여 */
+//   Chart.defaults.global.animation.duration = 2500;
+  
+//   adminChart.js로 넘겨줄 자바에서 받아온 데이터를 자바스크립트 객체에 키밸류로 변수에 담아줌.
     let monthlyStats = {
       logDtList: ${ monthlyStats.logDtList },
       visitCntList: ${ monthlyStats.visitCntList },
@@ -287,25 +291,30 @@
       postCntList: ${ monthlyStats.postCntList }
 };
 
-    console.log(monthlyStats);
-// 	console.log(${monthlyStats.logDtList},
-// 			${monthlyStats.visitCntList},
-// 			${monthlyStats.joinCntList},
-// 			${monthlyStats.viewCntList},
-// 			${monthlyStats.postCntList});
-// let logDtList = monthlyStats.logDtList;
-// let visitCntList = monthlyStats.visitCntList;
-// let joinCntList = monthlyStats.joinCntList;
-// let viewCntList = monthlyStats.viewCntList;
-// let postCntList = monthlyStats.postCntList;
-// console.log(logDtList, visitCntList, joinCntList, viewCntList, postCntList);
-  </script>
+    /*탭메뉴 관련 js*/
 
-  <script src="<c:url value='/js/montlyChart.js' />"></script>
-  <script>
-
-    //insertReport는 대상 신고버튼 id, postNo, commentNo만 있으면 작동한다.
-    
+    function openTab(evt, tabName) {
+      var i, x, tablinks;
+      x = document.getElementsByClassName("dc-tab");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-blue", "");
+      }
+      
+   	  document.getElementById(tabName).style.display = "block";
+   	  evt.currentTarget.className += " w3-blue";
+      
+      switch(tabName) {
+      case 'Monthly' : return chartIt(monthlyBarChart); 
+      }
+    }
+    async function chartIt(chartName) {
+    	await chartName();
+    }
+    	
   </script>
 
 </body>

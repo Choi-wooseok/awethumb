@@ -18,7 +18,7 @@ $(function () {
 	이제부터 뭘해야 되냐?
 	자바 스크립트의 현재날짜를 가져와서, 현재 날짜의 총 일수를 구해서
 	그 일수에 해당하는 날짜들을 라벨s에 담는다. 이게 y축
-	
+	a
 	그 날짜의 그 번째의 그 x축은 그 날짜의 그 항목의 그날의 그 숫자.
 	
 	DB에서 가져와야 하는 것 - 리스트
@@ -63,7 +63,7 @@ $(function () {
 //		labels.push(dateToYYYYMMDD(dt));
 //	}
 //	console.log(labels,);
-	
+	chart.defaults.global.animation
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var myChart = new Chart(ctx, {
 		type: 'horizontalBar',

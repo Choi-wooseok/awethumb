@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="lib/jquery/jquery.min.js"></script>
+<script src="<c:url value='/js/jquery.js' />"></script>
 </head>
 <body>
 	<script>

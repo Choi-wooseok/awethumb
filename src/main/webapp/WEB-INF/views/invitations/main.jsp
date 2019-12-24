@@ -34,10 +34,14 @@
 							<img class="user-thumb">
 						</a>
 					</div>
-					<div class="invitation-content">
+					<div class="user-nick-wrap">
 						<h2 class="invitation-userNick"></h2>
+					</div>
+					<div class="invitation-content">
 						<span>has invited you to</span>
-						<a href="${pageContext.request.contextPath}/detailProject/${sp.projectNo}" class="projectTitle">프로젝트 이름</a>
+					</div>
+					<div class="project-link-wrap">
+						<a href="${pageContext.request.contextPath}/detailProject/${sp.projectNo}" class="projectTitle"></a>
 					</div>
 				</div>
 				<div class="invitation-btn-wrap">

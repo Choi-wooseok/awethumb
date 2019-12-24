@@ -61,4 +61,14 @@ public class ProfileServiceImpl implements ProfileService{
 		return dao.selectCurrentProjectNo(userNo);
 	}
 
+	@Override
+	public int selectUserNickname(UserVO user) {
+		return dao.selectUserNickname(user);
+	}
+
+	@Override
+	public String selectUserPass(int userNo) {
+		return dao.selectUserPass(userNo);
+	}
+
 }

@@ -247,3 +247,9 @@ img:hover #upload-input-con{
 .pi_mod_btn_con{
 	text-align:right;
 }
+.submit-abled{
+	border-color: #6dd5bc
+}
+.submit-disabled{
+	border-color: red
+}

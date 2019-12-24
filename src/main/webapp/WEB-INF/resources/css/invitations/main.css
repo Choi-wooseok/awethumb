@@ -6,6 +6,8 @@
 	width: 500px;
 	display:flex;
 	flex-direction: column;
+	box-sizing: border-box;
+    border: 3px solid #6dd5bc;
 }
 .feedContWrap{
 	padding: 0px;
@@ -24,10 +26,12 @@
 .invitation-meta{
 	display:flex;
 	align-items:center;
+	justify-content: space-around;
 }
 .invitation-userNick{
-	margin-right: 6px;
-	display: inline-block;
+	color : #6dd5bc;
+	font-size: 18px;
+	font-weight: bold;
 }
 .project-thumb-wrap{
 	display: flex;
@@ -44,4 +48,12 @@
 .user-link{
 	overflow: hidden;
     display: block;
+}
+}
+.projectTitle{
+	all: unset;
+    cursor: pointer;
+    font-weight: bold;
+    color: #6dd5bc;
+    font-size: 18px;
 }

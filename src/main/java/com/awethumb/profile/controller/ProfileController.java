@@ -9,10 +9,12 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,6 +32,8 @@ import net.coobird.thumbnailator.geometry.Positions;
 public class ProfileController {
 	@Autowired
 	private ProfileService service;
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/{userNickname}")
 	public ModelAndView mypage(@PathVariable String userNickname, Principal p) {
@@ -59,6 +63,10 @@ public class ProfileController {
 	
 	@PostMapping("/update.do")
 	public String update(UserVO user) {
+		String userPass = user.getUserPass();
+		if(userPass != null) {
+			user.setUserPass(passwordEncoder.encode(userPass));
+		}
 		service.updateUser(user);
 		return "redirect:" + user.getUserNickname();
 	}
@@ -111,5 +119,17 @@ public class ProfileController {
 		}
 		
 		return "redirect:/detailProject/" + projectNo;
+	}
+	
+	@RequestMapping("/checkusernick.do")
+	@ResponseBody
+	public int checkUserNick(UserVO user) {
+		return service.selectUserNickname(user);
+	}
+	@RequestMapping("/checkcurruserpass.do")
+	@ResponseBody
+	public boolean checkCurrUserPass(UserVO user) {
+		String pass = service.selectUserPass(user.getUserNo());
+		return passwordEncoder.matches(user.getUserPass(), pass);
 	}
 }

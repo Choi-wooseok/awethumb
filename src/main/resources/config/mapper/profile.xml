@@ -23,7 +23,10 @@
 	
 	<update id="updateUser" parameterType="UserVO">
 		update user_tb
-		   set user_nickname = #{userNickname},
+		   set <if test="userPass != null">
+			   user_pass = #{userPass},
+			   </if>
+		   	   user_nickname = #{userNickname},
 		       user_name = #{userName},
 		       category_list = #{categoryList}
 		 where user_no = #{userNo}
@@ -77,6 +80,18 @@
 	<select id="selectCurrentProjectNo" parameterType="int" resultType="int">
 		select max(project_no)
 		  from project_tb
+		 where user_no = #{userNo}
+	</select>
+	
+	<select id="selectUserNickname" parameterType="UserVO" resultType="int">
+		select count(*)
+		  from user_tb
+		 where user_nickname = #{userNickname}
+		   and user_no != #{userNo}
+	</select>
+	<select id="selectUserPass" parameterType="int" resultType="string">
+		select user_pass
+		  from user_tb
 		 where user_no = #{userNo}
 	</select>
 </mapper>

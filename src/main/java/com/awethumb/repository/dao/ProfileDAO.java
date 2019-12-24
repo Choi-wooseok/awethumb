@@ -30,4 +30,8 @@ public interface ProfileDAO {
 	public void insertSharedUserList(Project p);
 
 	public int selectCurrentProjectNo(int userNo);
+
+	public int selectUserNickname(UserVO user);
+
+	public String selectUserPass(int userNo);
 }

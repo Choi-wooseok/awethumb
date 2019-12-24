@@ -19,4 +19,6 @@ public interface ProfileService {
 	public void insertProj(Project p, ProjectFile pf);
 	public int selectProjectCount(int userNo);
 	public int selectCurrentProjectNo(int userNo);
+	public int selectUserNickname(UserVO user);
+	public String selectUserPass(int userNo);
 }

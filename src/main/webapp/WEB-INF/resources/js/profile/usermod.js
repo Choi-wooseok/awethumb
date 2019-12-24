@@ -30,19 +30,19 @@ $(".change_pass").click(() => {
             `<div>
                 <aside>이전 비밀번호</aside>
                 <div>
-                    <input class="si" type="password">
+                    <input class="si currPass" type="password">
                 </div>
             </div>
             <div>
                 <aside>변경할 비밀번호</aside>
                 <div>
-                    <input class="si" type="password">
+                    <input class="si" name="userPass" type="password">
                 </div>
             </div>
             <div>
                 <aside>비밀번호 확인</aside>
                 <div>
-                    <input class="si" type="password">
+                    <input class="si passCheck" type="password">
                 </div>
             </div>`
     ).data("pw", "on");
@@ -75,5 +75,85 @@ $(".profile_sub").click((e) => {
 	}
 	$("input[name=categoryList]").val(sCList.substring(0, sCList.length - 1));
 })
+
+
+// 유효성 검사
+const $pSubmitBtn = $(".profile_sub")
+const $userNickname = $("input[name=userNickname]")
+
+$userNickname.keyup( e => checkUserNickAjax(e.target.value))
+$(document).on("keyup", ".currPass", e => checkCurrPasswordAjax(e.target.value))
+$(document).on("keyup", ".passCheck", e =>{
+	const $passCheck = $(".passCheck")
+	if(e.target.value === $("input[name=userPass]").val()){
+		$passCheck.addClass("submit-abled")
+		$passCheck.removeClass("submit-disabled")
+	} else{
+		$passCheck.addClass("submit-disabled")
+		$passCheck.removeClass("submit-abled")
+	}
+})
+
+function checkUserNickAjax(userNickname){
+	$.ajax({
+		url: "checkusernick.do",
+		data: {userNickname, userNo}
+	})
+	.done((e) => {
+		if(e !== 0){
+			$userNickname.removeClass("submit-abled")
+			$userNickname.addClass("submit-disabled")
+		} else {
+			$userNickname.addClass("submit-abled")
+			$userNickname.removeClass("submit-disabled")
+		}
+	})
+}
+
+function checkCurrPasswordAjax(userPass) {
+	const $currPass = $(".currPass")
+	$.ajax({
+		url: "checkcurruserpass.do",
+		data: {userPass, userNo}
+	})
+	.done((e) => {
+		// true => 비밀번호가 일치함
+		if(e){
+			$currPass.addClass("submit-abled")
+			$currPass.removeClass("submit-disabled")
+		} else {
+			$currPass.removeClass("submit-abled")
+			$currPass.addClass("submit-disabled")
+		}
+	})
+}
+
+$(".user_setting").submit((e) => {
+	e.preventDefault();
+	if($userNickname.hasClass("submit-disabled")){
+		alert("닉네임이 중복됩니다.")
+		return;
+	}
+	if($(".currPass").hasClass("submit-disabled")){
+		alert("이전 비밀번호가 올바르지 않습니다.")
+		return;
+	}
+	if($(".passCheck").hasClass("submit-disabled")){
+		alert("비밀번호가 일치하지 않습니다.")
+		return;
+	}
+	e.target.submit();
+})
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.admin.service.AdminService;
 import com.awethumb.repository.vo.Block;
+import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.PageMaker;
@@ -31,13 +32,14 @@ public class AdminController {
 	
 	@Autowired
 	private StatsService statsService;
-
+	
 	@RequestMapping("/adminMain.do")
 	public ModelAndView adminMain() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("totalVisitToday", statsService.totalVisitToday());
 		mav.addObject("totalPostToday", statsService.totalPostToday());
 		mav.addObject("totalUserToday", statsService.totalUserToday());
+		mav.addObject("cnpList", statsService.selectCategoryProjectCount());
 		
 		//30일 통계에 필요한 데이터 삽입
 		mav.addObject("monthlyStats", statsService.selectDailyLogOneMonth());

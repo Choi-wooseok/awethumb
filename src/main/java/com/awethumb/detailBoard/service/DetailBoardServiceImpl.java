@@ -111,7 +111,7 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	public List<BoardFile> selectImages(int postNo) {
 		return dao.selectImages(postNo);
 	}
-	
+	@UpdateDailyLog
 	public void viewCount(int postNo) {
 		dao.viewCount(postNo);
 	}

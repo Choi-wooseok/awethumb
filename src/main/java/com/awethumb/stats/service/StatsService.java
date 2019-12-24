@@ -3,6 +3,7 @@ package com.awethumb.stats.service;
 import java.util.List;
 import java.util.Map;
 
+import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.VisitCount;
 
 public interface StatsService {
@@ -16,4 +17,5 @@ public interface StatsService {
 	public int dailyPostUpdate();
 	public Map<String, List<?>> selectDailyLogOneMonth();
 	public void insertSearchLog(String keyword);
+	public Map<String, List<?>> selectCategoryProjectCount();
 }

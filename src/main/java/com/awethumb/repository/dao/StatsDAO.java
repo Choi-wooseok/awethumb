@@ -2,6 +2,7 @@ package com.awethumb.repository.dao;
 
 import java.util.List;
 
+import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.DailyLog;
 import com.awethumb.repository.vo.VisitCount;
 
@@ -16,5 +17,6 @@ public interface StatsDAO {
 	public int dailyPostUpdate();
 	public List<DailyLog> selectDailyLogOneMonth();
 	public void insertSearchLog(String keyword);
+	public List<CategoryAndProjectCnt> selectCategoryProjectCount();
 	
 }

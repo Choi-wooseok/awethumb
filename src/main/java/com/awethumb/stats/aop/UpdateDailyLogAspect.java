@@ -54,6 +54,13 @@ public class UpdateDailyLogAspect{
 					System.out.println("일일 회원가입수 로그 업데이트 성공");
 				}
 				break;
+			case "viewCount" :
+				System.out.println("조회수 추가 진입성공");
+				result = service.dailyViewUpdate();
+				if(result != 0) {
+					System.out.println("일일 조회수 로그 업데이트 성공");
+				}
+				break;
 		}
 		return result;
 	}

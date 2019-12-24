@@ -110,6 +110,10 @@
     color: #4C4C4C;
     font-size: 5em;
   }
+  .dc-rank {
+	  margin:0 auto;
+	  width:60%;
+  }
 </style>
 
 <body>
@@ -133,16 +137,18 @@
             <div class="w3-bar w3-white w3-round-large w3-border w3-margin-bottom">
               <button class="w3-bar-item w3-button tablink w3-blue" onclick="openTab(event,'Summary')">요약</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Daily')">오늘</button>
-              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Monthly')">최근30일</button>
-              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Rank')">게시글 랭킹</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'RecentMonth')">최근30일</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Monthly')">월간</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'PostRank')">게시글 랭킹</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'UserRank')">유저 랭킹</button>
             </div>
 
             <div id="Summary" class="w3-container w3-border dc-tab w3-padding-24">
               <!--CUSTOM CHART START -->
+              <div class="w3-center">
               <h4>오늘 하루 동안 사이트의 통계</h4>
               <br>
               <hr>
-
               <div class="dc-counter dc-col_fourth">
                 <i class="fa fa-child fa-2x"></i>
                 <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalVisitToday}" data-speed="2500"></h2>
@@ -164,7 +170,14 @@
                 <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalUserToday}" data-speed="2500"></h2>
                 <p class="dc-count-text ">오늘 가입한 회원수</p>
               </div>
-              
+              </div>
+              <!-- 도넛차트 위치 -->
+              <div class="w3-pannel w3-center" style=" height:60vh; width:60vw; margin:0 auto; padding-top:50px">
+              <h4>카테고리별 선호도</h4>
+              <hr>
+              <canvas id="cetegoryCanvas"></canvas>
+              </div>
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             </div> <!-- 요약탭끝 -->
 
             <!-- 일간탭 시작 -->
@@ -200,17 +213,27 @@
         
             <!-- 일간탭끝 -->
 
-            <!-- 월간탭 시작 -->
-            <div id="Monthly" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
+            <!-- 30일탭 시작 -->
+            <div id="RecentMonth" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
               <!-- 이곳에선 최근 한달간 4가지 주요항목들의의 데이터를 볼 수 있다. -->
               <!-- 주식차트처럼 가로축 현재달의 총일수. 세로축은 각 일자마다의 4자리항목을 막대로 표시해서 보여준다. -->
+              <canvas id="recentMonthChart" width="100%" height="370px"></canvas>
+            </div> <!-- 30일탭끝 -->
+            
+            <!-- 월간탭 시작 -->
+            <div id="Monthly" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
+              <!-- 이곳에선 월간 방문자수와 월간 회원가입수 글작성수 조회수의 변화추이를 라인차트로 볼 수 있다. -->
               <canvas id="myChart" width="100%" height="370px"></canvas>
             </div> <!-- 월간탭끝 -->
             
-            <div id="Rank" class="w3-container w3-border dc-tab w3-padding-24 w3-center" style="display:none">
+            
+            
+            <!-- 게시글 랭킹 시작 -->
+            <div id="PostRank" class="w3-container w3-border dc-tab w3-padding-24 w3-center" style="display:none">
             	<!-- 어떤 컨텐츠, 어떤 회원이 인기가 많은지 관리자가 파악하기 위한 화면 -->
             	<!-- 일간 월간 총 4덩어리로 조회수 순위, 좋아요 순위 10개씩만 뽑아줌 -->
-            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            	<div class="dc-rank">
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>일일 게시글 조회순 랭킹</h4></li>
             		<li>Jill</li>
             		<li>Eve</li>
@@ -219,7 +242,7 @@
             		<li>Adam</li>
 				</ul>
 				<hr>
-            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>일일 게시글 좋아요순 랭킹</h4></li>
             		<li>Jill</li>
             		<li>Eve</li>
@@ -228,7 +251,7 @@
             		<li>Adam</li>
 				</ul>
 				<hr>
-            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>월별 게시글 조회순 랭킹</h4></li>
             		<li>Jill</li>
             		<li>Eve</li>
@@ -237,7 +260,7 @@
             		<li>Adam</li>
 				</ul>
 				<hr>
-            	<ul class="w3-ul w3-card-4 w3-center" style="width:50%">
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>월별 게시글 추천순 랭킹</h4></li>
             		<li>Jill</li>
             		<li>Eve</li>
@@ -245,9 +268,55 @@
             		<li>Adam</li>
             		<li>Adam</li>
 				</ul>
+				</div> <!-- 감싸는 부분 -->
             	
             </div>
+            <!-- 게시글 랭킹 끝 -->
             
+            <!-- 회원 랭킹 시작 -->
+            <div id="UserRank" class="w3-container w3-border dc-tab w3-padding-24 w3-center" style="display:none">
+            	<!-- 어떤 컨텐츠, 어떤 회원이 인기가 많은지 관리자가 파악하기 위한 화면 -->
+            	<!-- 일간 월간 총 4덩어리로 조회수 순위, 좋아요 순위 10개씩만 뽑아줌 -->
+            	<div class="dc-rank">
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>구독자 수 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>총 조회수 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>총 좋아요수 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				<hr>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>일일 평균 글작성 활동순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+				</div> <!-- 감싸는 부분 -->
+            	
+            </div>
+            <!-- 회원 랭킹 끝 -->
             
           </div>
 
@@ -278,18 +347,30 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="<c:url value='/js/adminMain.js' />"></script>
   <script src="<c:url value='/js/adminChart.js' />"></script>
+  <script src="<c:url value='/js/utils.js' />"></script>
  <script>
   /* 차트js 글로벌 옵션 부여 */
 //   Chart.defaults.global.animation.duration = 2500;
   
 //   adminChart.js로 넘겨줄 자바에서 받아온 데이터를 자바스크립트 객체에 키밸류로 변수에 담아줌.
-    let monthlyStats = {
+    let recentMonthStats = {
       logDtList: ${ monthlyStats.logDtList },
       visitCntList: ${ monthlyStats.visitCntList },
       joinCntList: ${ monthlyStats.joinCntList },
       viewCntList: ${ monthlyStats.viewCntList },
       postCntList: ${ monthlyStats.postCntList }
 };
+
+//adminChart.js로 파이차트 관련 데이터를 자바스크립트 객체에 키밸류 담아서 줌
+let categoryAndProjectCnt = {
+		categoryList: ${cnpList.cnpTitleList},
+		projectCnt: ${cnpList.cnpCountList}
+};
+
+//파이차트 관련
+var utils = Samples.utils;
+
+utils.srand(110);
 
     /*탭메뉴 관련 js*/
 
@@ -308,12 +389,13 @@
    	  evt.currentTarget.className += " w3-blue";
       
       switch(tabName) {
-      case 'Monthly' : return chartIt(monthlyBarChart); 
+      case 'RecentMonth' : return chartIt(recentMonthBarChart); 
       }
     }
     async function chartIt(chartName) {
     	await chartName();
     }
+    categoryChart();
     	
   </script>
 

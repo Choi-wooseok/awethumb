@@ -81,5 +81,15 @@
 		insert into search_log_tb (search_keyword) values (#{searchKeyword})
 	</insert>
 	
+	<!-- 카테고리별 총 프로젝트수를 받아온다 -->
+	<select id="selectCategoryProjectCount" resultType="CategoryAndProjectCnt">
+		SELECT category_title, (SELECT COUNT(*)
+								FROM project_tb AS p
+								WHERE p.category_no = c.category_no) as 'projectCnt'
+		FROM category_tb AS c
+	</select>
+	
+	
+	
 		
 </mapper>

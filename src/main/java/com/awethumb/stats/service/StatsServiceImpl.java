@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.StatsDAO;
+import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.DailyLog;
 import com.awethumb.repository.vo.VisitCount;
 
@@ -94,6 +95,25 @@ public class StatsServiceImpl implements StatsService {
 	@Override
 	public void insertSearchLog(String keyword) {
 		dao.insertSearchLog(keyword);
+	}
+
+	@Override
+	public Map<String, List<?>> selectCategoryProjectCount() {
+		//여기서 원하는게 뭐야? 18개짜리 제목과, 18개짜리 숫자를 각각 넘겨줘서 뽑기 편하게 해주는거지.
+		// 그럼 여기서 리턴타입이 달라진다. Map<String, List<?>>로
+		Map<String, List<?>> cnpMap = new HashMap<String, List<?>>();
+		List<CategoryAndProjectCnt> list = dao.selectCategoryProjectCount();
+		List<String> cnpTitleList = new ArrayList<String>();
+		List<Integer> cnpCountList = new ArrayList<Integer>();
+		for(CategoryAndProjectCnt cnp : list) {
+			cnpTitleList.add("'" + cnp.getCategoryTitle() + "'");
+			cnpCountList.add(cnp.getProjectCnt());
+		}
+		cnpMap.put("cnpTitleList", cnpTitleList);
+		cnpMap.put("cnpCountList", cnpCountList);
+		return cnpMap;
+		
+		
 	}
 	
 	

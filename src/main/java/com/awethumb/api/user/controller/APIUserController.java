@@ -52,7 +52,7 @@ public class APIUserController {
 		// html에서 로컬 데이터로 바로 접근을 막아놨으니 여기서 직접 파일을 생성해 넘겨주는 수 밖에
 		String path = "";
 		// 유저 파일이 없을 경우 디폴트 이미지를 설정해준다.
-		if (uf == null) path = "C:\\java\\upload\\profile\\default-profile-picture.png";
+		if (uf == null) path = "/var/java/upload/profile/default-profile-picture.png";
 		else path = uf.getUserFilePath() + uf.getUserFileSysName();
 
 		String eString = "";
@@ -86,7 +86,7 @@ public class APIUserController {
 		
 		// 경로 설정
 		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
-		String path = "c:/java/upload/profile" + sdf.format(new Date()); // 파일 경로
+		String path = "/var/java/upload/profile" + sdf.format(new Date()); // 파일 경로
 		
 		uf.setUserFileSize(size);
 		uf.setUserFileOrgName(orgName);

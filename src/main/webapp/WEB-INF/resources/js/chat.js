@@ -29,7 +29,7 @@ $("#chatServer").click(() => {
 });
 
 
-let sock = new WebSocket('ws://35.221.105.106:8000' + pageContextPath + '/chat.do');
+let sock = new WebSocket('ws://awethumb.kr' + pageContextPath + '/chat.do');
 
 
 

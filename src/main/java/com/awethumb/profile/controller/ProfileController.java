@@ -89,7 +89,7 @@ public class ProfileController {
 			
 			// 경로 설정
 			SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
-			path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
+			path = "/var/java/upload/project" + sdf.format(new Date()); // 파일 경로
 			
 			mf.transferTo(new File(path + sysName));
 			Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
@@ -101,7 +101,7 @@ public class ProfileController {
 			ext = FilenameUtils.getExtension(orgName); // 파일 확장자
 			sysName = orgName; // 파일 시스템 이름
 			// 경로 설정
-			path = "c:/java/upload/project/"; // 파일 경로
+			path = "/var/java/upload/project/"; // 파일 경로
 		}
 		
 		pf.setProjectFileSize(size);

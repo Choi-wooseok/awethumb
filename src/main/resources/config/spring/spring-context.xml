@@ -38,7 +38,7 @@
     <mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**" />
     <mvc:resources location="/WEB-INF/resources/images/" mapping="/images/**" />
     <mvc:resources location="/WEB-INF/resources/admin/" mapping="/admin/**" />
-    <mvc:resources location="file:///C:/java/upload/" mapping="/image/**" />
+    <mvc:resources location="file:/var/java/upload/" mapping="/image/**" />
     <!-- 인증처리 인터셉터 -->
 <!--     <mvc:interceptors> -->
 <!--     	<mvc:interceptor> -->

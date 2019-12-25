@@ -132,7 +132,7 @@
 	SELECT u.user_no, user_nickname,
 					IFNULL( 
 							CONCAT(
-									substring(user_file_path,LENGTH('c:/java/upload/') + 1, 
+									substring(user_file_path,LENGTH('/var/java/upload/') + 1, 
 				                    		  LENGTH(
 				                    		  			(SELECT user_file_path FROM user_file_tb
 														WHERE user_no = u.user_no)
@@ -164,7 +164,7 @@
 <select id="selectUserImgPath" parameterType="int" resultType="string">
 	SELECT IFNULL( 
 							CONCAT(
-									substring(user_file_path,LENGTH('c:/java/upload/') + 1, 
+									substring(user_file_path,LENGTH('/var/java/upload/') + 1, 
 				                    		  LENGTH(
 				                    		  			(SELECT user_file_path FROM user_file_tb
 														WHERE user_no = #{userNo})

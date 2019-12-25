@@ -35,7 +35,7 @@ public class FileUtil {
  	    bfile.setBoardFileSysName(sysName);
 	    bfile.setBoardFilePath(path);
 	    
-	    String createPath = "c:/java/upload/profile" + sdf.format(new Date());
+	    String createPath = "/var/java/upload/profile" + sdf.format(new Date());
 	    File readFile = new File(createPath + sysName);
 	    if(readFile.exists() == false) readFile.mkdirs();
 	    try {

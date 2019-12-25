@@ -109,7 +109,7 @@ public class APIProjectController {
 		
 		// 경로 설정
 		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/HH/");
-		String path = "c:/java/upload/project" + sdf.format(new Date()); // 파일 경로
+		String path = "/var/java/upload/project" + sdf.format(new Date()); // 파일 경로
 		
 		ProjectFile pf = new ProjectFile();
 		
@@ -122,6 +122,7 @@ public class APIProjectController {
 		
 		service.updateProjectImg(pf);
 		
+
 		mf.transferTo(new File(path + sysName));
 		Thumbnails.of(path + sysName).crop(Positions.CENTER).size(300, 300).toFile(new File(path + "thumbnail_" + sysName));
 	}

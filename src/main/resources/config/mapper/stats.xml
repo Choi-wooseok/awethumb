@@ -1,95 +1,236 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.awethumb.repository.dao.StatsDAO">
-    <!-- 세션에서 자동으로 방문자수 추가 -->
-    <insert id="insertVisitCount" parameterType="VisitCount">
-            INSERT
-            INTO visitor_tb
-            (
-                visit_ip,
-                visit_refer,
-                visit_agent
-            )
-            VALUES
-            (
-                #{visitIp},
-                #{visitRefer},
-                #{visitAgent}
-            )
-        </insert>
-    <!-- 오늘 총방문자수 셀렉 -->
-    <select id="totalVisitToday" resultType="int">
+	<!-- 세션에서 자동으로 방문자수 추가 -->
+	<insert id="insertVisitCount" parameterType="VisitCount">
+		INSERT
+		INTO
+		visitor_tb
+		(
+		visit_ip,
+		visit_refer,
+		visit_agent
+		)
+		VALUES
+		(
+		#{visitIp},
+		#{visitRefer},
+		#{visitAgent}
+		)
+	</insert>
+	<!-- 오늘 총방문자수 셀렉 -->
+	<select id="totalVisitToday" resultType="int">
 		select count(*)
-		  from visitor_tb
-		 where LEFT(visit_time, 10) IN (LEFT(NOW(),10))
+		from
+		visitor_tb
+		where LEFT(visit_time, 10) IN (LEFT(NOW(),10))
 	</select>
 	<!-- 오늘 작성된 총글수 셀렉 -->
 	<select id="totalPostToday" resultType="int">
 		select count(*)
-		  from board_tb
-		 where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
+		from
+		board_tb
+		where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
 	</select>
- 	<!-- 오늘 총 글 조회수 셀렉 -->
-<!-- 	<select id="totalViewCntToday" resultType="int"> -->
-<!-- 		select sum() -->
-<!-- 		  from board_tb -->
-<!-- 		 where LEFT(join_dt, 10) IN (LEFT(NOW(),10)) -->
-<!-- 	</select> -->
+	<!-- 오늘 총 글 조회수 셀렉 -->
+	<select id="totalViewCntToday" resultType="int">
+		select sum(cnt)
+		totalViewCntToday
+		from
+		(
+		select view_cnt as cnt
+		from board_tb as b
+		where
+		LEFT(reg_date, 10) IN (LEFT(NOW(),10))
+		) as dailyViewCnt
+	</select>
 	<!-- 오늘 가입한 총 회원수 셀렉 -->
 	<select id="totalUserToday" resultType="int">
 		select count(*)
-		  from user_tb
-		 where LEFT(join_dt, 10) IN (LEFT(NOW(),10))
+		from
+		user_tb
+		where LEFT(join_dt, 10) IN (LEFT(NOW(),10))
 	</select>
-	
+
 	<!-- 방문자 발생시 일일 로그의 방문자수 업데이트 -->
 	<update id="dailyVisitUpdate">
 		update daily_log_tb
-		   set daily_visit_cnt = daily_visit_cnt + 1
-		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+		set daily_visit_cnt =
+		daily_visit_cnt + 1
+		where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
 	</update>
 	<!-- 회원가입 발생시 일일 로그의 가입자수 업데이트 -->
 	<update id="dailyJoinUpdate">
 		update daily_log_tb
-		   set daily_join_cnt = daily_join_cnt + 1
-		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+		set daily_join_cnt =
+		daily_join_cnt + 1
+		where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
 	</update>
 	<!-- 포스트 조회수 증가 발생시 일일 로그의 방문자수 업데이트 -->
 	<update id="dailyViewUpdate">
 		update daily_log_tb
-		   set daily_view_cnt = daily_view_cnt + 1
-		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+		set daily_view_cnt =
+		daily_view_cnt + 1
+		where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
 	</update>
-	<!-- 포스트 글작성 발생시 일일 로그의 방문자수 업데이트 -->
+	<!-- 포스트 글작성 발생시 일일 로그의 조회수 업데이트 -->
 	<update id="dailyPostUpdate">
 		update daily_log_tb
-		   set daily_post_cnt = daily_post_cnt + 1
-		 where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
+		set daily_post_cnt =
+		daily_post_cnt + 1
+		where LEFT(log_dt, 10) IN (LEFT(NOW(), 10))
 	</update>
-	
-	
+
+
 	<!-- 데일리 로그 1달 셀렉 -->
 	<select id="selectDailyLogOneMonth" resultType="DailyLog">
 		select *
-		  from daily_log_tb
-	  order by log_dt desc
-	  limit 0, 30
+		from
+		daily_log_tb
+		order by log_dt desc
+		limit 0, 30
 	</select>
-	
+
 	<!-- 검색이 일어날시 검색로그테이블에 데이터 삽입 -->
 	<insert id="insertSearchLog" parameterType="string">
-		insert into search_log_tb (search_keyword) values (#{searchKeyword})
+		insert into
+		search_log_tb (search_keyword) values (#{searchKeyword})
 	</insert>
-	
+
 	<!-- 카테고리별 총 프로젝트수를 받아온다 -->
-	<select id="selectCategoryProjectCount" resultType="CategoryAndProjectCnt">
+	<select id="selectCategoryProjectCount"
+		resultType="CategoryAndProjectCnt">
 		SELECT category_title, (SELECT COUNT(*)
-								FROM project_tb AS p
-								WHERE p.category_no = c.category_no) as 'projectCnt'
-		FROM category_tb AS c
+		FROM project_tb AS p
+		WHERE p.category_no = c.category_no) as 'projectCnt'
+		FROM category_tb
+		AS c
 	</select>
-	
-	
-	
-		
+
+
+	<!-- 게시글, 회원랭킹 관련 쿼리 시작 -->
+
+	<!-- 일일 게시글 통계에 필요한 쿼리 -->
+
+	<!-- 1. 조회순 -->
+	<select id="selectPostDailyRankByViewCnt" resultType="Stats">
+		SELECT b.post_content, b.post_no
+		FROM board_tb
+		where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
+		ORDER BY view_cnt DESC
+		LIMIT 0, 5
+	</select>
+
+	<!-- 2. 추천순 -->
+	<select id="selectPostDailyRankByLikeCnt" resultType="Stats">
+		SELECT b.post_content, b.post_no, (select COUNT(*)
+					FROM like_tb AS l
+					WHERE l.post_and_cmt_no = b.post_no) AS like_cnt
+		FROM board_tb AS b
+		where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
+		ORDER BY like_cnt DESC
+		LIMIT 0, 5
+	</select>
+	<!-- 월간 게시글 통계에 필요한 쿼리 -->
+	<!-- 1. 조회순 -->
+	<select id="selectPostMonthlyRankByViewCnt" resultType="Stats">
+	SELECT b.post_content, b.post_no
+	FROM board_tb
+	where LEFT(reg_date, 10) between
+	(LEFT(now() - interval 1 month,10)) AND	(LEFT(NOW(),10))
+	ORDER BY view_cnt DESC
+	LIMIT 0, 5
+	</select>
+
+	<!-- 2. 추천순 -->
+	<select id="selectPostMonthlyRankByLikeCnt" resultType="Stats">
+	SELECT b.post_content, b.post_no, (select COUNT(*)
+									FROM like_tb AS l
+									WHERE l.post_and_cmt_no = b.post_no) AS like_cnt
+	FROM board_tb AS b
+	where LEFT(reg_date, 10)
+	between (LEFT(now() - interval 1 month,10)) AND
+	(LEFT(NOW(),10))
+	ORDER BY like_cnt DESC
+	LIMIT 0, 5
+	</select>
+
+	<!-- 전체 게시글 통계에 필요한 쿼리 -->
+	<!-- 1. 조회순 -->
+	<select id="selectPostTotalRankByViewCnt" resultType="Stats">
+	SELECT b.post_content, b.post_no
+	FROM board_tb
+	ORDER BY view_cnt DESC
+	LIMIT 0, 5
+	</select>
+	<!-- 2. 추천순 -->
+	<select id="selectPostTotalRankByLikeCnt" resultType="Stats">
+	SELECT b.post_content, b.post_no, (select COUNT(*)
+	FROM like_tb AS l
+	WHERE l.post_and_cmt_no =
+	b.post_no) AS like_cnt
+	FROM board_tb AS b
+	ORDER BY like_cnt DESC
+	LIMIT 0,5
+	</select>
+
+
+	<!-- 회원 랭킹 통계에 필요한 쿼리 -->
+	<!-- 1. 구독자순 -->
+	<select id="selectUserRankBySubsribeCnt" resultType="Stats">
+	SELECT u.user_no, u.user_id, u.user_nickname, (SELECT COUNT(*)
+				FROM subscribe_tb s
+				WHERE s.opp_user_no =
+				u.user_no) AS subscribe_cnt
+	FROM user_tb AS u
+	ORDER BY subscribe_cnt
+	DESC
+	</select>
+
+	<!-- 2. 그사람의 모든 게시글의 총조회수합산 랭킹 -->
+	<select id="selectUserRankByTotalViewCnt" resultType="Stats">
+	SELECT u.user_no, u.user_id, u.user_nickname, SUM(view_cnt) AS total_view_cnt
+	FROM
+	board_tb b
+	inner JOIN project_tb p
+	ON b.project_no = p.project_no
+	INNER
+	JOIN user_tb u
+	ON p.user_no = u.user_no
+	GROUP BY u.user_no
+	ORDER BY
+	total_view_cnt desc
+	</select>
+
+	<!-- 3. 그 사람의 총 좋아요수 합산 랭킹 -->
+
+	<select id="selectUserRankByTotalLikeCnt" resultType="Stats">
+	SELECT u.user_no, u.user_id, u.user_nickname, COUNT(*) AS total_like_cnt
+	FROM user_tb u
+	INNER JOIN like_tb l
+	ON u.user_no = l.user_no
+	GROUP BY user_no
+	ORDER BY
+	total_like_cnt desc
+	</select>
+
+
+
+	<!-- 4. 글작성 숫자 랭킹 -->
+	<select id="selectUserRankByTotalPostCnt" resultType="Stats">
+	SELECT u.user_no, u.user_id, u.user_nickname, count(post_no) AS total_post_cnt
+	FROM
+	board_tb b
+	inner JOIN project_tb p
+	ON b.project_no = p.project_no
+	INNER
+	JOIN user_tb u
+	ON p.user_no = u.user_no
+	GROUP BY u.user_no
+	ORDER BY
+	total_post_cnt desc
+	</select>
+
+
+
 </mapper>

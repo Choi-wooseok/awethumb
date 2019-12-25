@@ -157,7 +157,7 @@
 
               <div class="dc-counter dc-col_fourth">
                 <i class="fa fa-eye fa-2x"></i>
-                <h2 class="dc-timer dc-count-title dc-count-number" data-to="157" data-speed="2500"></h2>
+                <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalVietCntToday}" data-speed="2500"></h2>
                 <p class="dc-count-text ">오늘 총 글조회수</p>
               </div>
               <div class="dc-counter dc-col_fourth">
@@ -268,6 +268,22 @@
             		<li>Adam</li>
             		<li>Adam</li>
 				</ul>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>전체 게시글 조회순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
+            	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
+            		<li class="w3-black"><h4>전체 게시글 추천순 랭킹</h4></li>
+            		<li>Jill</li>
+            		<li>Eve</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+            		<li>Adam</li>
+				</ul>
 				</div> <!-- 감싸는 부분 -->
             	
             </div>
@@ -306,7 +322,7 @@
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
-            		<li class="w3-black"><h4>일일 평균 글작성 활동순 랭킹</h4></li>
+            		<li class="w3-black"><h4>총 게시글 작성수 랭킹</h4></li>
             		<li>Jill</li>
             		<li>Eve</li>
             		<li>Adam</li>

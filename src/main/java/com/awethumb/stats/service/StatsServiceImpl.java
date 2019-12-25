@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.awethumb.repository.dao.StatsDAO;
 import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.DailyLog;
+import com.awethumb.repository.vo.Stats;
 import com.awethumb.repository.vo.VisitCount;
 
 @Service
@@ -36,6 +37,11 @@ public class StatsServiceImpl implements StatsService {
 	@Override
 	public int totalUserToday() {
 		return dao.totalUserToday();
+	}
+	@Override
+	public int totalViewCntToday() {
+		Integer result = dao.totalViewCntToday();
+		return (result == null) ? 0 : result;
 	}
 
 	@Override
@@ -113,7 +119,57 @@ public class StatsServiceImpl implements StatsService {
 		cnpMap.put("cnpCountList", cnpCountList);
 		return cnpMap;
 		
-		
+	}
+//	랭킹 통계관련 10개의 메소드 시작
+	
+	@Override
+	public List<Stats> selectPostDailyRankByViewCnt() {
+		return dao.selectPostDailyRankByViewCnt();
+	}
+
+	@Override
+	public List<Stats> selectPostDailyRankByLikeCnt() {
+		return dao.selectPostDailyRankByLikeCnt();
+	}
+
+	@Override
+	public List<Stats> selectPostMonthlyRankByViewCnt() {
+		return dao.selectPostMonthlyRankByViewCnt();
+	}
+
+	@Override
+	public List<Stats> selectPostMonthlyRankByLikeCnt() {
+		return dao.selectPostMonthlyRankByLikeCnt();
+	}
+
+	@Override
+	public List<Stats> selectPostTotalRankByViewCnt() {
+		return dao.selectPostTotalRankByViewCnt();
+	}
+
+	@Override
+	public List<Stats> selectPostTotalRankByLikeCnt() {
+		return dao.selectPostTotalRankByLikeCnt();
+	}
+
+	@Override
+	public List<Stats> selectUserRankBySubsribeCnt() {
+		return dao.selectUserRankBySubsribeCnt();
+	}
+
+	@Override
+	public List<Stats> selectUserRankByTotalViewCnt() {
+		return dao.selectUserRankByTotalViewCnt();
+	}
+
+	@Override
+	public List<Stats> selectUserRankByTotalLikeCnt() {
+		return dao.selectUserRankByTotalLikeCnt();
+	}
+
+	@Override
+	public List<Stats> selectUserRankByTotalPostCnt() {
+		return dao.selectUserRankByTotalPostCnt();
 	}
 	
 	

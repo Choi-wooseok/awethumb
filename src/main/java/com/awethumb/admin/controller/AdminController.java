@@ -39,6 +39,7 @@ public class AdminController {
 		mav.addObject("totalVisitToday", statsService.totalVisitToday());
 		mav.addObject("totalPostToday", statsService.totalPostToday());
 		mav.addObject("totalUserToday", statsService.totalUserToday());
+		mav.addObject("totalVietCntToday", statsService.totalViewCntToday());
 		mav.addObject("cnpList", statsService.selectCategoryProjectCount());
 		
 		//30일 통계에 필요한 데이터 삽입

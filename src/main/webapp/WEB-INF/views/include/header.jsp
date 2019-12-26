@@ -106,6 +106,8 @@
     	<!-- 알림 js -->
 	    <script>
 	    	const connectedUserNo= ${su.userNo};
+	    	let profileImgURL = "${pageContext.request.contextPath}/api/user/${su.userNo}/thumb";
+	    	$(".user.layout_left > img").attr("src", profileImgURL);
         </script>
         <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>
         <!-- 알림 dropdown js -->

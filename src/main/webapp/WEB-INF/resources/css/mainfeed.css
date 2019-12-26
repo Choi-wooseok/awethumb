@@ -50,9 +50,9 @@
     }
 	
 	/*댓글 모달창*/
-	.comment {
-		height: 23rem !important;
-	}
+/* 	.comment { */
+/* 		height: 23rem !important; */
+/* 	} */
 	.commentModal {
 		border: none;
     	background: transparent;

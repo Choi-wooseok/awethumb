@@ -32,17 +32,15 @@
 				dataType: 'JSON',
 				contentType: 'application/json; charset=UTF-8',
 				success: result => {
-//					console.log("dt", data);
-//					console.log("srch", searchWord);
-					console.log("res", result);
 					for (let i = 0; i < result.length; i++){
 						if (result[i].hashtagAndNickname == '#'+hashTg[1]){
 							console.log("11", searchWord)
-							MainfeedMakeAjax('#'+hashTg[1])
+//							MainfeedMakeAjax('#'+hashTg[1])
 //							$(".hashForm").submit();
 //							$("#detailFeedModal").css("display", "none")
 						}
 					}
+					location.href = pageContextPath + '/mainfeed/mainfeed.do?hashtag=' + searchWord;
 //					MainfeedMakeAjax(searchWord)
 				}
 			})

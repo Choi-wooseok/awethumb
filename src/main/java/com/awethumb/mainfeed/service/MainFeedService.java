@@ -2,6 +2,7 @@ package com.awethumb.mainfeed.service;
 
 import java.util.List;
 
+import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
@@ -23,5 +24,6 @@ public interface MainFeedService {
 	void deleteHashtag(Hashtag hashtag);
 //  검색 ------------------------------------
 	List<MainFeed> search(String searchWord);
-
+//	이미지
+	List<BoardFile> imageListDown(int postNo);
 }

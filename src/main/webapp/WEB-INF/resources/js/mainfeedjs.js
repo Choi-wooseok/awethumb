@@ -46,7 +46,7 @@ let scrollTop = 0;
 	   function MainfeedMakeAjax(searchWord) {
 		   console.log("srchWord", searchWord)
 			$.getJSON({
-				url: pageContextURI + "/mainfeed/mainfeedList.do",
+				url: pageContextPath + "/mainfeed/mainfeedList.do",
 				data: {
 					pageIndex,
 					searchWord
@@ -65,7 +65,7 @@ let scrollTop = 0;
 //						console.log("2");
 						console.log("6", searchWord)
 						$.getJSON({
-							url: pageContextURI + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
+							url: pageContextPath + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
 							data: {
 								pageIndex,
 								searchWord
@@ -88,7 +88,7 @@ let scrollTop = 0;
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
 								<div class="feedUserImg">
-									<img src="${pageContextURI}/images/test_user.jpg" alt="">
+									<img src="${pageContextPath}/images/test_user.jpg" alt="">
 								</div>
 								<div>
 									<a href="#">${c.userNickname}</a>
@@ -96,7 +96,7 @@ let scrollTop = 0;
 							</div>
 
 							<div class="feedsImgWrap">
-								<a class="detailFeed" href="javascript:;" > <img src="${pageContextURI}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
+								<a class="detailFeed" href="javascript:;" > <img src="${pageContextPath}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
 								</a>
 							</div>
 
@@ -137,13 +137,16 @@ let scrollTop = 0;
 		
 	function detailFeed(postNo) {
 		$.ajax({
-			url: pageContextURI + "/mainfeed/detailmainfeed.do",
+			url: pageContextPath + "/mainfeed/detailmainfeed.do",
 			data: {
 				postNo: postNo,
 			},
 			dataType: "JSON",
 			success: result => {
 				makeDetailFeed(result);
+				$('.comment').height(
+						$(".modalContWrap").height()-($(".modalCont").height() + 19)
+				)
 				setTimeout(() => {
 					makemodalattribute({
 						w: $("#image").width(),
@@ -195,9 +198,15 @@ let scrollTop = 0;
 							   }
 						$(`.modal_content`).append(`
 							<div class="modalContWrap">
-								<div id="boxSize">
-									<img id="image" src="./../images/test_img3.jpg" alt="">
-							    </div>
+							<div id="boxSize">
+								`)
+						$.each(detail.boardfileList, (i, im) => {
+							$(`#boxSize`).append(`
+									<img class="image" src="${im}" alt="" />
+									`)
+						})
+							$(`.modalContWrap`).append(`
+							</div>
 								<div id="rightBox">
 									<div class="modalCont">
 										${detail.postContent}
@@ -238,7 +247,7 @@ let scrollTop = 0;
 	            										</div>`)
 			                						}
             										$(`.cmtModal${c.cmtNo}`).append(`
-            										<form method="post" action="${pageContextURI}/mainfeed/mainfeed.do">
+            										<form method="post" action="${pageContextPath}/mainfeed/mainfeed.do">
             											<input class="cmtHash" name="cmtHash" type="hidden" value="" />
             											<div class="cmtContent">${newContent} </div>
 			                						</form>
@@ -286,7 +295,7 @@ let scrollTop = 0;
 	    `)
 //	         게시글 수정/삭제 클릭시 detailProject로 이동
     	$("#updateBtn").click(() => {
-    		location.href = pageContextURI + "/detailProject/updateListForm.do?projectNo=" + `${detail.projectNo}`
+    		location.href = pageContextPath + "/detailProject/updateListForm.do?projectNo=" + `${detail.projectNo}`
     	})
 
 //		비로그인시 댓글등록창 숨김
@@ -464,7 +473,7 @@ let scrollTop = 0;
 //   			console.log(cmtContent);
    			let postNo = $("#postNo").val();
    			$.ajax({
-   				url: pageContextURI + "/mainfeed/insertComment.do",
+   				url: pageContextPath + "/mainfeed/insertComment.do",
    				method:"POST",
    				contentType: "application/json; charset=UTF-8",
    				data: JSON.stringify({
@@ -477,7 +486,7 @@ let scrollTop = 0;
 //   				console.log("result", result);
 //   				console.log("hashFn", hashSplitFn(result, cmtContent, 2));
    				$.ajax({
-   					url: pageContextURI + "/mainfeed/insertHashtag.do",
+   					url: pageContextPath + "/mainfeed/insertHashtag.do",
    					method:"POST",
    					contentType: "application/json; charset=UTF-8",
    					data: JSON.stringify(hashSplitFn(result, cmtContent, 2)),
@@ -498,7 +507,7 @@ let scrollTop = 0;
 			let postNo = $("#postNo").val();
 			let cmtContent = $("#contentUpdate").val();
 			$.ajax({
-				url: pageContextURI + "/mainfeed/updateComment.do",
+				url: pageContextPath + "/mainfeed/updateComment.do",
 				type: "POST",
 				data: {
 					'postNo' : postNo,
@@ -507,7 +516,7 @@ let scrollTop = 0;
 				},
 			}).done(() => {
 				$.ajax({
-					url: pageContextURI + "/mainfeed/deleteHashtag.do",
+					url: pageContextPath + "/mainfeed/deleteHashtag.do",
 					type: "POST",
 					contentType: "application/json; charset=UTF-8",
 					data: JSON.stringify({
@@ -520,7 +529,7 @@ let scrollTop = 0;
 				console.log('3', result);
 				console.log('4', cmtContent);
 				$.ajax({
-					url: pageContextURI + "/mainfeed/insertHashtag.do",
+					url: pageContextPath + "/mainfeed/insertHashtag.do",
 					method:"POST",
 					contentType: "application/json; charset=UTF-8",
 					data: JSON.stringify(hashSplitFn(cmtNo, cmtContent, 2)),
@@ -540,7 +549,7 @@ let scrollTop = 0;
 //        	console.log("1", cmtNo);
 //        	console.log("2", postNo);
 			$.ajax({
-				url: pageContextURI + "/mainfeed/deleteComment.do",
+				url: pageContextPath + "/mainfeed/deleteComment.do",
 				type: "POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
@@ -551,7 +560,7 @@ let scrollTop = 0;
 //				console.log('5', result)
 //	        	console.log("cmtNo", cmtNo)
 				$.ajax({
-					url: pageContextURI + "/mainfeed/deleteHashtag.do",
+					url: pageContextPath + "/mainfeed/deleteHashtag.do",
 					type: "POST",
 					contentType: "application/json; charset=UTF-8",
 					data: JSON.stringify({

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.awethumb.repository.dao.MainFeedDAO;
+import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
@@ -26,7 +27,7 @@ public class MainFeedServiceImpl implements MainFeedService {
 	}
 	
 	public MainFeed detailMainFeed(int postNo) {
-		return dao.selectOneMainFeed(postNo);
+ 		return dao.selectOneMainFeed(postNo);
 	}
 	
 	// 댓글 -------------------------------------------------
@@ -56,6 +57,10 @@ public class MainFeedServiceImpl implements MainFeedService {
 	// 검색 -------------------------------------------------
 	public List<MainFeed> search(String serchWord) {
 		return dao.search(serchWord);
+	}
+
+	public List<BoardFile> imageListDown(int postNo) {
+		return dao.imageListDown(postNo);
 	}
 
 

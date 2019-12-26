@@ -23,6 +23,7 @@
 		<result column="result_type" property="resultType" /> 
 		<collection property="commentList" select="selectComment" column="post_no"/>
 		<collection property="hashtagList" select="selectHashtagList" column="post_no"/>
+<!-- 		<collection property="hashtag" select="imageListDown" column="post_no"/> -->
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
 		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
@@ -45,6 +46,17 @@
 		<result column="hashtag_and_nickname" property="hashtagAndNickname"/>
 		<result column="result_type" property="resultType"/>
 		<result column="search_word" property="searchWord"/>
+	</resultMap>
+	<resultMap id="boardfileMap" type="BoardFile">
+		<result column="board_file_no" property="boardFileNo"/>
+		<result column="board_file_sys_name" property="boardFileSysName"/>
+		<result column="board_file_org_name" property="boardFileOrgName"/>
+		<result column="board_file_path" property="boardFilePath"/>
+		<result column="board_file_size" property="boardFileSize"/>
+		<result column="board_file_reg_dt" property="boardFileRegDt"/>
+		<result column="board_file_exe" property="boardFileExe"/>
+		<result column="post_no" property="postNo"/>
+		<result column="url" property="url"/>
 	</resultMap>
 	<!-- 검색 ======================================================== -->
 	<select id="search" resultType="Search" flushCache="true" useCache="true">
@@ -175,8 +187,17 @@
 	      from comment_tb
 	     where cmt_no = #{cmtNo}
 	</delete>	
+<!-- 이미지 -->
+	<select id="imageListDown" resultType="BoardFile" parameterType="int">
+		select *
+		  from board_file_tb
+		 where post_no = #{postNo}
+	</select>
+
+
 </mapper>
 
+	
 
 
 

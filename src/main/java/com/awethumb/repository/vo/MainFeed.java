@@ -55,4 +55,6 @@ public class MainFeed {
     // 해시태그를 리스트로
     private List<Hashtag> hashtagList;
     
+    // 이미지 리스트
+    private List<String> boardfileList;
 }

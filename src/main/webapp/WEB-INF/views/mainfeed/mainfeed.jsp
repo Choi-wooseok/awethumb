@@ -103,7 +103,7 @@
 				</div>	
 		<script src="<c:url value='/js/brick/masonry.js' />"></script>
 		<script>
-			let pageContextURI = '${pageContext.request.contextPath}';
+// 			let pageContextPath = '${pageContext.request.contextPath}';
 			
 			   //update columns size on window resize
 				$(window).on('resize', function(e) {

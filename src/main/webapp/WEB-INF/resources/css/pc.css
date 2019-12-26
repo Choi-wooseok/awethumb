@@ -748,12 +748,12 @@ section > div.content {
     vertical-align: middle;
 }
 .modalCont {
-	width: 100%;
+	width: 425px;
 	min-height: 80px;
     max-height: 150px;
     overflow: auto;
     box-sizing: border-box;
-    padding: 8px;
+    padding: 8px 23px 8px 8px;
     border-bottom: 1px solid #efefef;
     border-top: 1px solid #efefef;
 }
@@ -781,9 +781,9 @@ section > div.content {
 }
 .commentList {
     position: relative;
-    width: 100%;
+    width: 598px;
     box-sizing: border-box;
-    padding: 9px 15px;
+    padding: 5px 15px;
     overflow: hidden;
 }
 .commentList::before{
@@ -852,6 +852,7 @@ section > div.content {
     position: absolute;
     width: 100%;
     bottom: 0;
+    background-color: #fff;
 }
 .insertComment > input {
     width: 100%;
@@ -937,6 +938,11 @@ section#feed {
     box-sizing: border-box;
     padding-left: 15px;
 }
+.feedInfo > div > a {
+	text-decoration: none;
+    line-height: 32px;
+    color: #333;
+}
 .feedInfo > div:last-child > button,
 .feedsInfo > div:last-child > button {
     border: none;
@@ -964,9 +970,11 @@ section#feed {
 	box-sizing: border-box;
 	padding-bottom: 51px;
     background-color: #fff;
+    overflow: hidden;
 }
 .feedPlay > div:first-child {
     box-sizing: border-box;
+    width: 615px;
     max-height: 300px;
     overflow: auto;
 }
@@ -1306,7 +1314,13 @@ section#feeds {
 	display: block;
 }
 .cmtInfo > span {
-	font-size: 14px;
+	font-size: 12px;
+	margin-left: 5px;
+	color: #6dd5bc;
+}
+.cmtInfo > a {
+	text-decoration: none;
+	color: #333;
 }
 .cmtInfo > button {
 	display: none;
@@ -1408,4 +1422,14 @@ section#feeds {
     position: relative;
     top: 22px;
     margin-left: 25px;
+}
+.alarmCnt,
+#chatCnt {
+	position: absolute;
+	bottom: -10px;
+	right: -10px;
+}
+
+#feeds #detailFeedModal .modal_content_container > .arw-btn {
+	display: none;
 }

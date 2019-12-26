@@ -197,7 +197,7 @@ $(".detailBtn").click((e) => {
 			
 			// 오른쪽 Comment 높이 지정 (Content높이에 따라 변경됨)
 			$(".comment").height(
-		   		$(".modalContWrap").height()-($(".modalCont").height()+19)
+		   		$(".modalContWrap").height()-($(".modalCont").height()+69)
 		    )
 		    
 		    // Comment 불러오는 ajax
@@ -217,21 +217,17 @@ $(".detailBtn").click((e) => {
 				data: {postNo: board.postNo},
 				success: (sArr) => {
 					if (sArr != null) {
-						for (let i = 0; i < sArr.length; i++) {
-							$("#boxSize").append(`
-								<img class="detailImage" src=${sArr[i]} />
-							`)
-							// 이미지가 모두 append된 후에 작업
-							if (i == sArr.length-1) {
-								$("#boxSize").slick();
-							}
-						}
+						imageAppend(sArr, $("#boxSize"))
 					}
 				}
 			})
 		}
 	})
 	$(".modal").addClass("block");
+})
+
+$(document).on(".detailImage", () => {
+	alert("22")
 })
 
 // 댓글 등록버튼 클릭 시 Ajax로 댓글 등
@@ -445,28 +441,4 @@ $(document).on("click", ".report", (e) => {
 	}
 	
 })
-
-// 이미지 띄우는 스크립트
-//function imgReSize({w, h}) {
-//	let maxSize = 550;
-//	let boxSize = document.getElementById("boxSize");
-//	let rightBox = document.getElementById("rightBox");
-//    if (w > maxSize && h > maxSize) {
-//        if (w > h) {
-//            boxSize.style.width = maxSize+"px";
-//            boxSize.style.height = "auto";
-//            image.style.width = "100%";
-//        } else {
-//	        boxSize.style.width = "auto";
-//	        boxSize.style.height = maxSize+"px";
-//	        image.style.height = "100%";
-//        }
-//    } else if (w > maxSize && h < maxSize) {
-//        boxSize.style.width = maxSize+"px";
-//        image.style.width =  "100%";
-//    } else if (w < maxSize && h > maxSize) {
-//        box.Size.style.height = maxSize+"px";
-//        image.style.height = "100%";
-//    }
-//}
 

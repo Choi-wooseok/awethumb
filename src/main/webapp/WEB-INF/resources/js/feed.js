@@ -174,7 +174,6 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 	let postNo = $(e.target).data("postnumber");
 	let commentWriter = $(".commentWriter" + postNo).val();
 	if(!commentWriter) {
-		alert("댓글 내용을 입력해주세요.")
 	}
 	else {
 		$.ajax({
@@ -253,7 +252,6 @@ $(document).on("click", ".commentUpdate",(e) => {
 	let postNo = $(e.target).data("postno");
 	let cmtContent = $("#contentUpdate").val();
 	if(!cmtContent) {
-		alert("댓글 내용을 입력해주세요.")
 	}
 	else {
 		$.ajax({
@@ -465,7 +463,7 @@ function boardCommentListAjax(list, postNo) {
 										<a href="${pageContextPath}/profile/${c.cmtUserNickname}">
 										${c.cmtUserNickname}
 										</a>
-										<span>작성시간 : ${c.cmtRegDt}</span>
+										<span>${c.cmtRegDt}</span>
 										<button type="button" 
 											id="commentModal${c.cmtNo}"
 											class="commentModal"

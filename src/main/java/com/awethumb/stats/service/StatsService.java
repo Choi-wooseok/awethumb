@@ -3,6 +3,7 @@ package com.awethumb.stats.service;
 import java.util.List;
 import java.util.Map;
 
+import com.awethumb.repository.vo.DailyLog;
 import com.awethumb.repository.vo.Stats;
 import com.awethumb.repository.vo.VisitCount;
 
@@ -31,4 +32,6 @@ public interface StatsService {
 	public List<Stats> selectUserRankByTotalViewCnt();
 	public List<Stats> selectUserRankByTotalLikeCnt();
 	public List<Stats> selectUserRankByTotalPostCnt();
+	
+	public Map<String, List<?>> selectOneYearStats();
 }

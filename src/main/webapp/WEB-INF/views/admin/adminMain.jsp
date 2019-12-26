@@ -114,6 +114,10 @@
 	  margin:0 auto;
 	  width:60%;
   }
+/*   .post-content{ */
+/* 	 	display: inline-block; white-space: nowrap; overflow: hidden; */
+/* 	 	text-overflow: ellipsis; */
+/*   } */
 </style>
 
 <body>
@@ -138,7 +142,7 @@
               <button class="w3-bar-item w3-button tablink w3-blue" onclick="openTab(event,'Summary')">요약</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Daily')">오늘</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'RecentMonth')">최근30일</button>
-              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Monthly')">월간</button>
+              <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'OneYear')">1년</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'PostRank')">게시글 랭킹</button>
               <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'UserRank')">유저 랭킹</button>
             </div>
@@ -157,7 +161,7 @@
 
               <div class="dc-counter dc-col_fourth">
                 <i class="fa fa-eye fa-2x"></i>
-                <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalVietCntToday}" data-speed="2500"></h2>
+                <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalViewCntToday}" data-speed="2500"></h2>
                 <p class="dc-count-text ">오늘 총 글조회수</p>
               </div>
               <div class="dc-counter dc-col_fourth">
@@ -195,7 +199,7 @@
 
               <div class="dc-counter dc-col_fourth">
                 <i class="fa fa-eye fa-2x"></i>
-                <h2 class="dc-timer dc-count-title dc-count-number" data-to="157" data-speed="2500"></h2>
+                <h2 class="dc-timer dc-count-title dc-count-number" data-to="${totalViewCntToday}" data-speed="2500"></h2>
                 <p class="dc-count-text ">오늘 총 글조회수</p>
               </div>
               <div class="dc-counter dc-col_fourth">
@@ -220,10 +224,10 @@
               <canvas id="recentMonthChart" width="100%" height="370px"></canvas>
             </div> <!-- 30일탭끝 -->
             
-            <!-- 월간탭 시작 -->
-            <div id="Monthly" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
+            <!-- 1년탭 시작 -->
+            <div id="OneYear" class="w3-container w3-border dc-tab w3-padding-24" style="display:none">
               <!-- 이곳에선 월간 방문자수와 월간 회원가입수 글작성수 조회수의 변화추이를 라인차트로 볼 수 있다. -->
-              <canvas id="myChart" width="100%" height="370px"></canvas>
+              <canvas id="OneYearChart"></canvas>
             </div> <!-- 월간탭끝 -->
             
             
@@ -235,54 +239,84 @@
             	<div class="dc-rank">
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>일일 게시글 조회순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+						<c:forEach items="${postDailyRankByViewCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>일일 게시글 좋아요순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${postDailyRankByLikeCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>월별 게시글 조회순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${postMonthlyRankByViewCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>월별 게시글 추천순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${postMonthlyRankByLikeCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>전체 게시글 조회순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            			<c:forEach items="${postTotalRankByViewCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>전체 게시글 추천순 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${postTotalRankByLikeCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.postContent}'>
+		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				</div> <!-- 감싸는 부분 -->
             	
@@ -296,38 +330,58 @@
             	<div class="dc-rank">
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>구독자 수 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${userRankBySubscribeCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.userNo}'>
+		            			<li class="post-content">아이디:[${s.userId}] 닉네임:[${s.userNickname}] 구독자수:[${s.subscribeCnt}]</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>총 조회수 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${userRankByTotalViewCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.userNo}'>
+		            			<li class="post-content">아이디:[${s.userId}] 닉네임:[${s.userNickname}] 총조회수:[${s.totalViewCnt}]</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>총 좋아요수 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${userRankByTotalLikeCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.userNo}'>
+		            			<li class="post-content">아이디:[${s.userId}] 닉네임:[${s.userNickname}] 총좋아요:[${s.totalLikeCnt}]</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
             		<li class="w3-black"><h4>총 게시글 작성수 랭킹</h4></li>
-            		<li>Jill</li>
-            		<li>Eve</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
-            		<li>Adam</li>
+            		<c:forEach items="${userRankByTotalPostCnt}" var="s">
+            			<c:choose>
+            				<c:when test='${!empty s.userNo}'>
+		            			<li class="post-content">아이디:[${s.userId}] 닉네임:[${s.userNickname}] 총글작성:[${s.totalPostCnt}]</li>
+            				</c:when>
+	            			<c:otherwise>
+    		        			<li class="post-content">데이터가 없습니다.</li>
+            				</c:otherwise>
+            			</c:choose>
+            			</c:forEach>
 				</ul>
 				</div> <!-- 감싸는 부분 -->
             	
@@ -383,10 +437,18 @@ let categoryAndProjectCnt = {
 		projectCnt: ${cnpList.cnpCountList}
 };
 
-//파이차트 관련
-var utils = Samples.utils;
-
-utils.srand(110);
+let yearStats = {
+		yMList: ${oneYearStats.yMList},
+		monthlyVisitCntList: ${oneYearStats.monthlyVisitCntList},
+		monthlyJoinCntList: ${oneYearStats.monthlyJoinCntList},
+		monthlyPostCntList: ${oneYearStats.monthlyPostCntList}
+};
+console.log(yearStats);
+	//파이차트 관련
+	var utils = Samples.utils;
+	
+	utils.srand(110);
+	
 
     /*탭메뉴 관련 js*/
 
@@ -405,7 +467,8 @@ utils.srand(110);
    	  evt.currentTarget.className += " w3-blue";
       
       switch(tabName) {
-      case 'RecentMonth' : return chartIt(recentMonthBarChart); 
+      case 'RecentMonth' : return chartIt(recentMonthBarChart); break;
+      case 'OneYear' : return chartIt(OneYearChart); break;
       }
     }
     async function chartIt(chartName) {

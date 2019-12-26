@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.awethumb.admin.service.AdminService;
 import com.awethumb.repository.vo.Block;
-import com.awethumb.repository.vo.CategoryAndProjectCnt;
 import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.Criteria;
 import com.awethumb.repository.vo.PageMaker;
@@ -39,11 +38,29 @@ public class AdminController {
 		mav.addObject("totalVisitToday", statsService.totalVisitToday());
 		mav.addObject("totalPostToday", statsService.totalPostToday());
 		mav.addObject("totalUserToday", statsService.totalUserToday());
-		mav.addObject("totalVietCntToday", statsService.totalViewCntToday());
+		mav.addObject("totalViewCntToday", statsService.totalViewCntToday());
 		mav.addObject("cnpList", statsService.selectCategoryProjectCount());
 		
 		//30일 통계에 필요한 데이터 삽입
 		mav.addObject("monthlyStats", statsService.selectDailyLogOneMonth());
+		
+		//게시글랭킹에 필요한 데이터 삽입
+		mav.addObject("postDailyRankByViewCnt", statsService.selectPostDailyRankByViewCnt());
+		mav.addObject("postDailyRankByLikeCnt", statsService.selectPostDailyRankByLikeCnt());
+		mav.addObject("postMonthlyRankByViewCnt", statsService.selectPostMonthlyRankByViewCnt());
+		mav.addObject("postMonthlyRankByLikeCnt", statsService.selectPostDailyRankByLikeCnt());
+		mav.addObject("postTotalRankByViewCnt", statsService.selectPostTotalRankByViewCnt());
+		mav.addObject("postTotalRankByLikeCnt", statsService.selectPostTotalRankByLikeCnt());
+		
+		//유저랭킹에 필요한 데이터 삽입
+		mav.addObject("userRankBySubscribeCnt", statsService.selectUserRankBySubsribeCnt());
+		mav.addObject("userRankByTotalViewCnt", statsService.selectUserRankByTotalViewCnt());
+		mav.addObject("userRankByTotalLikeCnt", statsService.selectUserRankByTotalLikeCnt());
+		mav.addObject("userRankByTotalPostCnt", statsService.selectUserRankByTotalPostCnt());
+		
+		//1년치 통계에 필요한 데이터 삽입
+		mav.addObject("oneYearStats", statsService.selectOneYearStats());
+		
 //		System.out.println(statsService.selectDailyLogOneMonth().get("logDtList"));
 		mav.setViewName("admin/adminMain");
 		return mav;

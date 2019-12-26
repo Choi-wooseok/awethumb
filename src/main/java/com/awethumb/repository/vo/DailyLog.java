@@ -9,4 +9,8 @@ public class DailyLog {
 	private int dailyJoinCnt;
 	private int dailyViewCnt;
 	private int dailyPostCnt;
+	private String yM;
+	private int monthlyVisitCnt;
+	private int monthlyJoinCnt;
+	private int monthlyPostCnt;
 }

@@ -171,6 +171,30 @@ public class StatsServiceImpl implements StatsService {
 	public List<Stats> selectUserRankByTotalPostCnt() {
 		return dao.selectUserRankByTotalPostCnt();
 	}
+
+	@Override
+	public Map<String, List<?>> selectOneYearStats() {
+		List<DailyLog> list = dao.selectOneYearStats();
+		//뭘 해줘야하냐면. 날짜따로, 방문자수따로, 회원가입따로, 글작성수따로 배열에 담기위해 하나의 분리된 리스트로 만들어서
+		//밸류로 지정하고 키값에 넣어주고 이걸 컨트롤러에서 맵으로 넘겨야 한다.
+		Map<String, List<?>> yearMap = new HashMap<String, List<?>>();
+		List<String> yMList = new ArrayList<String>();
+		List<Integer> monthlyVisitCntList = new ArrayList<Integer>();
+		List<Integer> monthlyJoinCntList = new ArrayList<Integer>();
+		List<Integer> monthlyPostCntList = new ArrayList<Integer>();
+		for(int i = 0; i < list.size(); i++) {
+			yMList.add(list.get(i).getYM());
+			monthlyVisitCntList.add(list.get(i).getMonthlyVisitCnt());
+			monthlyJoinCntList.add(list.get(i).getMonthlyJoinCnt());
+			monthlyPostCntList.add(list.get(i).getMonthlyPostCnt());
+		}
+		yearMap.put("yMList", yMList);
+		yearMap.put("monthlyVisitCntList", monthlyVisitCntList);
+		yearMap.put("monthlyJoinCntList", monthlyJoinCntList);
+		yearMap.put("monthlyPostCntList", monthlyPostCntList);
+		
+		return yearMap;
+	}
 	
 	
 }

@@ -114,8 +114,8 @@
 
 	<!-- 1. 조회순 -->
 	<select id="selectPostDailyRankByViewCnt" resultType="Stats">
-		SELECT b.post_content, b.post_no
-		FROM board_tb
+		SELECT b.post_content, b.post_no, b.view_cnt
+		FROM board_tb b
 		where LEFT(reg_date, 10) IN (LEFT(NOW(),10))
 		ORDER BY view_cnt DESC
 		LIMIT 0, 5
@@ -134,8 +134,8 @@
 	<!-- 월간 게시글 통계에 필요한 쿼리 -->
 	<!-- 1. 조회순 -->
 	<select id="selectPostMonthlyRankByViewCnt" resultType="Stats">
-	SELECT b.post_content, b.post_no
-	FROM board_tb
+	SELECT b.post_content, b.post_no, b.view_cnt
+	FROM board_tb b
 	where LEFT(reg_date, 10) between
 	(LEFT(now() - interval 1 month,10)) AND	(LEFT(NOW(),10))
 	ORDER BY view_cnt DESC
@@ -158,8 +158,8 @@
 	<!-- 전체 게시글 통계에 필요한 쿼리 -->
 	<!-- 1. 조회순 -->
 	<select id="selectPostTotalRankByViewCnt" resultType="Stats">
-	SELECT b.post_content, b.post_no
-	FROM board_tb
+	SELECT b.post_content, b.post_no, b.view_cnt
+	FROM board_tb b
 	ORDER BY view_cnt DESC
 	LIMIT 0, 5
 	</select>
@@ -185,6 +185,7 @@
 	FROM user_tb AS u
 	ORDER BY subscribe_cnt
 	DESC
+	LIMIT 0,5
 	</select>
 
 	<!-- 2. 그사람의 모든 게시글의 총조회수합산 랭킹 -->
@@ -200,6 +201,7 @@
 	GROUP BY u.user_no
 	ORDER BY
 	total_view_cnt desc
+	LIMIT 0,5
 	</select>
 
 	<!-- 3. 그 사람의 총 좋아요수 합산 랭킹 -->
@@ -212,6 +214,7 @@
 	GROUP BY user_no
 	ORDER BY
 	total_like_cnt desc
+	LIMIT 0,5
 	</select>
 
 
@@ -229,8 +232,22 @@
 	GROUP BY u.user_no
 	ORDER BY
 	total_post_cnt desc
+	LIMIT 0,5
 	</select>
-
-
+	
+	<!-- 1년치 쿼리 관련 -->
+	<!-- 현재 날짜를 기준으로 1년을 뺀후 그 시점부터 현재날짜 까지의 모든 데일레 로그를 기준.
+	각각 날짜를 기준으로 월별로 묶어서 방문자수, 가입수, 글작성수를 카운트한다. -->
+	<select id="selectOneYearStats" resultType="DailyLog">
+		SELECT CONCAT(YEAR(log_dt), '-', MONTH(log_dt)) as y_m,
+			sum(daily_visit_cnt) as monthly_visit_cnt,
+			sum(daily_join_cnt) as monthly_join_cnt,
+		 	sum(daily_post_cnt) as monthly_post_cnt
+			FROM daily_log_tb
+			where log_dt between (now() - interval 1 year) and now()
+			GROUP BY y_m
+			ORDER BY y_m asc
+	</select>
+	
 
 </mapper>

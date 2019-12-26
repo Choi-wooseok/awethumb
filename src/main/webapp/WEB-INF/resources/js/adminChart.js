@@ -113,7 +113,58 @@
 		    }
 		});
 	}
-
+	function OneYearChart(){
+		var ctx3 = document.getElementById('OneYearChart');
+		var myYearChart = new Chart(ctx3, {
+			type: 'line',
+			data: {
+				labels: yearStats.yMList,
+				datasets: [{
+					label: ['월별 방문자수 추이'],
+					backgroundColor: '#FF9F40',
+					borderColor: '#FF9F40',
+					fill: false,
+					data: yearStats.monthlyVisitCntList,
+				}, {
+					label: '월별 회원가입수 추이',
+					backgroundColor: '#FF6384',
+					borderColor: '#FF6384',
+					fill: false,
+					data: yearStats.monthlyJoinCntList,
+				}, {
+					label: '월별 글 작성수 추이',
+					backgroundColor: '#4BC0C0',
+					borderColor: '#4BC0C0',
+					fill: false,
+					data: yearStats.monthlyPostCntList,
+				}]
+			},
+			options: {
+				animation: {
+					easing : 'easeOutExpo',
+					duration : 2000,
+					},
+				responsive: true,
+				title: {
+					display: true,
+					text: '1년간 웹사이트의 지표 변화추이'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+					}],
+					yAxes: [{
+						display: true,
+						ticks: {
+							beginAtZero: true
+						},
+					}]
+				}
+				
+			}
+		})
+	};
+	
 	
 	
 

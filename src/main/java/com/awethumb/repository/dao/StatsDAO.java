@@ -34,4 +34,7 @@ public interface StatsDAO {
 	public List<Stats> selectUserRankByTotalLikeCnt();
 	public List<Stats> selectUserRankByTotalPostCnt();
 	
+// 1년치 통계를 위한 DailyLog 리스트
+	public List<DailyLog> selectOneYearStats();
+	
 }

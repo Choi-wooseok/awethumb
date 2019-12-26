@@ -11,6 +11,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.repository.vo.Search;
 
 @Service
 public class MainFeedServiceImpl implements MainFeedService {
@@ -55,7 +56,7 @@ public class MainFeedServiceImpl implements MainFeedService {
 	}
 	
 	// 검색 -------------------------------------------------
-	public List<MainFeed> search(String serchWord) {
+	public List<MainFeed> search(Search serchWord) {
 		return dao.search(serchWord);
 	}
 

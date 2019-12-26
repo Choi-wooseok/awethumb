@@ -181,11 +181,17 @@ let scrollTop = 0;
 							<div class="modalContWrap">
 							<div id="boxSize">
 								`)
-						$.each(detail.boardfileList, (i, im) => {
+						for (let i = 0; i < detail.boardfileList.length; i++) {
 							$(`#boxSize`).append(`
-									<img class="image" src="${im}" alt="" />
+									<img class="image" src="${detail.boardfileList[i]}" alt="" />
 									`)
-						})
+									console.log("3", detail.boardfileList)
+									console.log("2", i)
+							if (i == detail.boardfileList.length-1) {
+//								alert("1")
+								$("#boxSize").slick();
+							}
+						}
 							$(`.modalContWrap`).append(`
 							</div>
 								<div id="rightBox">
@@ -274,6 +280,9 @@ let scrollTop = 0;
 	            </div>
 	        </div>
 	    `)
+	    
+	    
+	    
 //	         게시글 수정/삭제 클릭시 detailProject로 이동
     	$("#updateBtn").click(() => {
     		location.href = pageContextPath + "/detailProject/updateListForm.do?projectNo=" + `${detail.projectNo}`
@@ -321,10 +330,15 @@ let scrollTop = 0;
                 image.style.height = "100%";
             }
             rightBox.style.height = boxSize.style.height;
-        
-            $(".comment").height(
-           		$("#rightBox").height()-$(".modalCont").height()-66
-            )
+//            로그인시
+            if (typeof connectedUserNo !== 'undefined'){
+            	$(".comment").height(
+            			$("#rightBox").height()-$(".modalCont").height()-118)
+            } else {
+            	$(".comment").height(
+            			$("#rightBox").height()-$(".modalCont").height()-68)
+            	
+            }
          // makemodalattribute() 끝
 // 		모달창이 띄워졌을 시 스크롤 방지
         $('.form-control').focus(function() {  

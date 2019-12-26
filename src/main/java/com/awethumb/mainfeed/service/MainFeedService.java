@@ -7,6 +7,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.repository.vo.Search;
 
 public interface MainFeedService {
 //  메인피드 생성 ------------------------------
@@ -23,7 +24,7 @@ public interface MainFeedService {
 //	void updateHashtag(List<Hashtag> hashtag);
 	void deleteHashtag(Hashtag hashtag);
 //  검색 ------------------------------------
-	List<MainFeed> search(String searchWord);
+	List<MainFeed> search(Search searchWord);
 //	이미지
 	List<BoardFile> imageListDown(int postNo);
 }

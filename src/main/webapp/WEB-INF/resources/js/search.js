@@ -4,17 +4,23 @@
 				console.log("srch", searchWord)
 			if (searchWord != '') {
 				if (searchWord.length == 0) return;
+				let resultType = "u";
+				if (searchWord.startsWith('#')){
+					resultType = "h";
+				}
 				$.ajax({
 					url: pageContextPath + "/mainfeed/search.do",
 					method: 'POST',
-					data: searchWord,
+					data: JSON.stringify({"searchWord" : searchWord, "resultType" : resultType}),
 					dataType: 'JSON',
 					contentType: 'application/json; charset=UTF-8',
 					success: result => {
 							console.log("result", result)
+							console.log("searchWord", searchWord)
 						if (result.length > 0) {
 							let str = '';
 							if (searchWord.startsWith('#')){
+								console.log("2", result)
 								for (let i = 0; i < result.length; i++) {
 									if (result[i].resultType == 'h'){
 										str += '<div class="resultSearch" data-searchType="h" data-hashtagContent="' + result[i].hashtagAndNickname + '">' + result[i].hashtagAndNickname
@@ -45,10 +51,12 @@
 									location.href = pageContextPath + '/profile/' + searchU;
 								} else if (searchType == 'h') {
 									let searchH = $(e.target).data("hashtagcontent");
-									$("#search").val(searchH);
+									let search = searchH.replace('#', '');
+//									$("#search").val(searchH);
+									console.log("s", search)
 //									$("#srchForm").submit();
-//									location.href = pageContextPath + "/mainfeed/mainfeed.do?hashtag=" + searchH
-									MainfeedMakeAjax(searchH)
+									location.href = pageContextPath + "/mainfeed/mainfeed.do?hashtag=" + search
+//									MainfeedMakeAjax(searchH)
 								}
 							});
 						} else {

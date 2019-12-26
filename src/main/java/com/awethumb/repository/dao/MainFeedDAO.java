@@ -16,6 +16,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.repository.vo.Search;
 
 public interface MainFeedDAO {
 	List<MainFeed> selectMainFeed(FeedPage pageCount);
@@ -32,7 +33,7 @@ public interface MainFeedDAO {
 	void deleteComment(int cmtNo);
 	
 	/* 검색 파트 ============================================*/
-	List<MainFeed> search(String searchWord);
+	List<MainFeed> search(Search searchWord);
 //	List<MainFeed> searchHashFeed(FeedPage pageCount);
 	/* 해시태그 =============================================*/
 	void insertHashtag(List<Hashtag> hashtag);

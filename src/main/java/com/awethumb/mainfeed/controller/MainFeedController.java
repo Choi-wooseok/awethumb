@@ -20,6 +20,7 @@ import com.awethumb.repository.vo.Comment;
 import com.awethumb.repository.vo.FeedPage;
 import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.MainFeed;
+import com.awethumb.repository.vo.Search;
 import com.awethumb.stats.aop.insertSearchLog;
 
 @Controller("com.awethumb.mainfeed.controller.mainfeed")
@@ -30,7 +31,7 @@ public class MainFeedController {
 	
 	@RequestMapping("/mainfeed.do")
 	public void mainFeed(String hashtag, Model model) {
-		service.search(hashtag);
+//		service.search(hashtag);
 		model.addAttribute("hashtag", hashtag);
 	}
 	@RequestMapping("/mainfeedList.do")  // http://localhost:8000/awethumb/mainfeed/mainfeed.do
@@ -93,7 +94,7 @@ public class MainFeedController {
 	@RequestMapping(value="/search.do", method = RequestMethod.POST)
 	@ResponseBody
 	@insertSearchLog
-	public List<MainFeed> search(@RequestBody String searchWord) {
+	public List<MainFeed> search(@RequestBody Search searchWord) {
 		System.out.println("search 들어옴");
 		System.out.println(searchWord);
 		return service.search(searchWord);

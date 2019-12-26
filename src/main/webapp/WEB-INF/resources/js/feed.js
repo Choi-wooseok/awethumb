@@ -39,7 +39,7 @@ $(document).ready(function(){
 	    item.left = $(".feedContWrap").offset().left + 600 + item.feedSideGap;
 	    item.top = $(".feedSide").offset().top;
 	    item.top2 = $(".feedSide2").offset().top;
-	    console.log("left : " + item.left);
+	    $("#commentWriter").hashtags(); // 해시태그 js 호출 
 });
 $(document).on('click', '.addBtn', () => {
 	item.sidePageIndex += item.sidePageCount;
@@ -116,7 +116,7 @@ function feedSideFollowMe(list) {
 						<img class="userCmtImg${sl.userNo}" alt="">
 					</div>
 					<div class="feedUserName">
-						<a href="/awethumb/profile/${sl.userNickname}">${sl.userNickname}</a>
+						<a href="${pageContextPath}/profile/${sl.userNickname}">${sl.userNickname}</a>
 					</div>
 				</div>`);
 		count = item.followAddCount;
@@ -136,6 +136,7 @@ function feedSideFollowMe(list) {
 } // feedSideFollowMe
 function feedList(list){
 	item.boardListState = true;
+	console.log(list);
 	let count = 0;
 		$.each(list, (i, bl) => {
 			let postAndCmtNo = bl.postNo;
@@ -158,7 +159,7 @@ function feedList(list){
 									<img class="userCmtImg${bl.userNo}" alt="">
 								</div>
 								<div>
-									<a href="/awethumb/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
+									<a href="${pageContextPath}/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
 									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
@@ -211,13 +212,25 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 				cmtContent: commentWriter,
 				userNo : item.loginUserNo
 			}),
-			success: (no) =>  {
-				makeAlarm(3, no)
-				commentListAjax(postNo);
-			},
-			error : (e) => {
-			}
-		});
+//			success: (no) =>  {
+//				makeAlarm(3, no)
+//				commentListAjax(postNo);
+//			},
+//			error : (e) => {
+//			}
+		}).done(no => {
+			$.ajax({ 
+				url: pageContextPath + "/mainfeed/insertHashtag.do",
+				method:"POST",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify(hashSplitFn(no, commentWriter, 2)),
+				dataType: "JSON",
+				tranditional: true,
+			})
+		}).done((no) => {
+			makeAlarm(3, no);
+			commentListAjax(postNo);
+		})
 		$(".commentWriter"+ postNo).val("");
 		return false;
 	}
@@ -233,13 +246,27 @@ $(".commentDelete").on("click", (e) => {
 			cmtNo: cmtNo
 		},
 		dateType:"json",
-		success: (list) => {
-			commentListAjax(postNo);
-		},
-		error: (e) => {
-			console.log
-		}
-	});
+//		success: (list) => {
+//			commentListAjax(postNo);
+//		},
+//		error: (e) => {
+//			console.log
+//		}
+	}).done(result => {
+		$.ajax({
+			url: pageContextPath + "/mainfeed/deleteHashtag.do",
+			type: "POST",
+			contentType: "application/json; charset=UTF-8",
+			data: JSON.stringify({
+				'postNoAndCmtNo' : cmtNo,
+				'hashType' : 2
+			}),
+			dataType:"JSON",
+			tranditional: true,
+		})
+	}).done((result) => {
+		commentListAjax(postNo);
+	})
 	$(".commentboardmodal").css("display","none");
 }); // 댓글 삭제
 // 댓글 수정취소
@@ -264,11 +291,33 @@ $(document).on("click", ".commentUpdate",(e) => {
 				cmtNo :  cmtNo
 			},
 			dataType: "json",
-			success: (list) => {
-				commentListAjax(postNo);
-			},
-			error: (e) => {console.log(e)}
-		});
+//			success: (list) => {
+//				commentListAjax(postNo);
+//			},
+//			error: (e) => {console.log(e)}
+		}).done(() => {
+			$.ajax({
+				url: pageContextPath + "/mainfeed/deleteHashtag.do",
+				type: "POST",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					'postNoAndCmtNo' : cmtNo,
+					'hashType' : 2
+				}),
+				dataType:"JSON",
+			})
+		}).done((result) => {
+			$.ajax({
+				url: pageContextPath + "/mainfeed/insertHashtag.do",
+				method:"POST",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify(hashSplitFn(cmtNo, cmtContent, 2)),
+				dataType: "JSON",
+				tranditional: true,
+			})
+		}).done(() => {
+			commentListAjax(postNo);
+		})
 	}
 	
 }); // 댓글 수정 
@@ -340,11 +389,11 @@ $(document).on("click", ".report", (e) => {
 	let cmtNo = $(e.target).data("commentno");
 	if (cmtNo == null) { // 게시글 신고
 		let newWindow = window.open("about:blank");
-		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+		newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}`;
 	}
 	else { // 댓글 신고
 		let newWindow = window.open("about:blank");
-		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+		newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 });
 // 좋아요 이벤트
@@ -434,10 +483,11 @@ function commentListAjax(postNo) {
 		url: "boardCommentList.do",
 		data: {postNo: postNo},
 		success: list => boardCommentListAjax(list, postNo)
-	});
+	})
 } // commentListAjax
 function boardCommentListAjax(list, postNo) {
 	$.each(list, (i	, c) => {
+		const newContent = renderHashtag(c.cmtContent);
 		let postAndCmtNo = c.cmtNo;
 		let code = 2;
 		let like =``;
@@ -450,7 +500,9 @@ function boardCommentListAjax(list, postNo) {
 								</div>
 								<div id="commentWrap${c.cmtNo}" class="commentWrap">
 									<div class="cmtInfo">
-										<span>글작성자 : ${c.cmtUserNickname}</span>
+										<a href="${pageContextPath}/profile/${c.cmtUserNickname}">
+										<span>${c.cmtUserNickname}</span>
+										</a>
 										<span>작성시간 : ${c.cmtRegDt}</span>
 										<button type="button" 
 											id="commentModal${c.cmtNo}"
@@ -464,7 +516,7 @@ function boardCommentListAjax(list, postNo) {
 										${like}
 									</div>
 									<div class="cmtContent">
-										내용 : ${c.cmtContent} 
+										내용 : ${newContent} 
 									</div>
 								</div>
 							</div>
@@ -472,6 +524,8 @@ function boardCommentListAjax(list, postNo) {
 		// 유저사진
 		let un = c.userNo;
 		userImg(un);
+		// 해스태그 클릭시 이동
+		hashClickFn();
 	}); // each
 }; // boardCommentListAjax
 // 게시글 사진 확인

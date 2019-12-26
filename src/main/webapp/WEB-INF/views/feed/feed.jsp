@@ -68,6 +68,10 @@
 	</div>
 	<script src="<c:url value="/js/feed.js" />"></script>
 	<script src="<c:url value="/js/like.js" />"></script>
+<%-- 	<script src="<c:url value="/js/hashtag/jquery.hashtags.js" />"></script> --%>
+<%-- 	<script src="<c:url value="/js/hashtag/autosize.min.js" />"></script> --%>
+<%-- 	<script src="<c:url value="/js/hashtag/hashtagjs.js" />"></script> --%>
+	<script src="<c:url value="/js/mainfeedjs.js" />"></script>
 
 
 </body>

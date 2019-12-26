@@ -83,6 +83,9 @@
 		)values( 
 		#{cmtContent}, #{userNo}, #{postNo}
 		)
+		<selectKey resultType="int" keyProperty="cmtNo" order="AFTER">
+        	select last_insert_id()
+    	</selectKey>  
 	</insert>
 	
 	<delete id="deleteBoardComment" parameterType="int">

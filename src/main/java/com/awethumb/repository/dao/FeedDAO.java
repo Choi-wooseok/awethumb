@@ -19,7 +19,7 @@ public interface FeedDAO {
 	int commentTime(int cmtNo); // 댓글 시간
 	Comment selectOneComment(int cmtNo); // 댓글번호로 댓글 가져오기 
 	int lastCmtNo(); // 마지막댓글번호 확인
-	void insertBoardComment(Comment comment); // 댓글 입력
+	int insertBoardComment(Comment comment); // 댓글 입력
 	void deleteBoardComment(int cmtNo); // 댓글삭제
 	void updateBoardComment(Comment comment); // 댓글수정
 	

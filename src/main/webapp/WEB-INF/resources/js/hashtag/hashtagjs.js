@@ -28,7 +28,7 @@
 			$.ajax({
 				url: pageContextPath + "/mainfeed/search.do",
 				method: 'post',
-				data: searchWord,
+				data: JSON.stringify({"searchWord" : searchWord, "resultType" : 'h'}),
 				dataType: 'JSON',
 				contentType: 'application/json; charset=UTF-8',
 				success: result => {

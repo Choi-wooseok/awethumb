@@ -59,24 +59,24 @@
 		<result column="url" property="url"/>
 	</resultMap>
 	<!-- 검색 ======================================================== -->
-	<select id="search" resultType="Search" parameterType="Search" flushCache="true" useCache="true">
-<!-- 		<if test="resultType == u"> -->
+	<select id="search" resultMap="searchMap" parameterType="Search" flushCache="true" useCache="true">
+		<if test='resultType == "u"'>
 		select u.user_no as hashtag_count_and_user_no, u.user_nickname as hashtag_and_nickname, 'u' as result_type
   		  from user_tb u
  		 where u.user_nickname like CONCAT(#{searchWord},'%')
   		 union all
-<!--   		</if>  -->
+  		</if> 
 		select count(distinct h.post_no_and_cmt_no) as hashtag_count_and_user_no , h.hashtag_content as hashtag_and_nickname, 'h' as result_type
   		  from hashtag_tb h
  		 group by h.hashtag_content
-<!--  		 <choose> -->
-<!--  		 <when test="resultType == h"> -->
+ 		 <choose>
+ 		 <when test='resultType == "h"'>
 			having h.hashtag_content like CONCAT(#{searchWord},'%')
-<!-- 		</when> -->
-<!-- 		<otherwise> -->
-<!-- 			having h.hashtag_content like CONCAT('#', #{searchWord},'%') -->
-<!-- 		</otherwise> -->
-<!-- 		</choose> -->
+		</when>
+		<otherwise>
+			having h.hashtag_content like CONCAT('#', #{searchWord},'%')
+		</otherwise>
+		</choose>
 	</select>
 	<!-- 해시태그 ==================================================== -->
 	<select id="selectHashtagList" parameterType="int" resultMap="hashtagMap" flushCache="true" useCache="true">

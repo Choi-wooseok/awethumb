@@ -8,6 +8,7 @@
 				if (searchWord.startsWith('#')){
 					resultType = "h";
 				}
+				if (resultType == "h" && searchWord.length == 1) return;
 				$.ajax({
 					url: pageContextPath + "/mainfeed/search.do",
 					method: 'POST',

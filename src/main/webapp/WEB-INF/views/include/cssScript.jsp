@@ -18,3 +18,7 @@
     <!-- font icon -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" 
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+   	<!-- slide Plugin -->
+  	<link rel="stylesheet" href="<c:url value='/js/slide/slick.css' /> ">
+  	<link rel="stylesheet" href="<c:url value='/js/slide/slick-theme.css' /> ">    
+    <script src="<c:url value='/js/slide/slick.js' />"></script>

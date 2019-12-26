@@ -157,7 +157,7 @@ public class DetailBoardController {
 			HttpServletResponse res
 			) throws Exception  {
 		List<BoardFile> bfList = service.selectImages(postNo);
-		List<String> sArr = new ArrayList<>();;
+		List<String> sArr = new ArrayList<>();
 		for (int i = 0; i < bfList.size(); i++) {
 			String path = bfList.get(i).getBoardFilePath();
 			String sysName = bfList.get(i).getBoardFileSysName();

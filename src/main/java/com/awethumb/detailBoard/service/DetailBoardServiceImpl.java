@@ -32,7 +32,6 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	};
 	
 	// 글 등록하기
-	@UpdateDailyLog
 	public void insertBoard(Board board) {
 		dao.insertBoard(board);
 	}

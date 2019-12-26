@@ -19,7 +19,7 @@
 		insert into board_tb (
 			project_no, post_content, x_coord, y_coord, width, hight
 		) values (
-			#{projectNo}, '#{postContent}', 0, 0, 1, 1
+			#{projectNo}, #{postContent}, 0, 0, 1, 1
 		)
 	</insert>
 	
@@ -52,7 +52,7 @@
 	
 	<update id="updateBoard" parameterType="Board">
 		update board_tb
-		set post_content = '#{postContent}'
+		set post_content = #{postContent}
 		where post_no = #{postNo}
 	</update>
 	
@@ -71,8 +71,8 @@
 			board_file_sys_name, board_file_org_name, board_file_path, 
 			board_file_size, board_file_exe, post_no
 		) values (
-			'#{boardFileSysName}', '#{boardFileOrgName}', '#{boardFilePath}', 
-			#{boardFileSize}, '#{boardFileExe}', #{postNo}
+			#{boardFileSysName}, #{boardFileOrgName}, #{boardFilePath}, 
+			#{boardFileSize}, #{boardFileExe}, #{postNo}
 		)
 	</insert>
 	
@@ -91,7 +91,7 @@
 	
 	<update id="updateProjectName" parameterType="Project">
 		update project_tb
-		set project_title = '#{projectTitle}'
+		set project_title = #{projectTitle}
 		where project_no = #{projectNo}
 	</update>
 	
@@ -107,7 +107,7 @@
 		insert into comment_tb (
 			cmt_content, user_no, post_no
 		) values (
-			'#{cmtContent}', #{userNo}, #{postNo}
+			#{cmtContent}, #{userNo}, #{postNo}
 		)
 	</insert>
 	
@@ -119,7 +119,7 @@
 	
 	<update id="updateComment" parameterType="Comment">
 		update comment_tb
-		set cmt_content = '#{cmtContent}'
+		set cmt_content = #{cmtContent}
 		where cmt_no = #{cmtNo}
 	</update>
 	
@@ -168,7 +168,6 @@
 	</select>
 
 	<insert id="insertSavedProject" parameterType="ProjectSubscribe">
-		insert into project_subscribe_tb (
 			user_no, project_no
 		) values (
 			#{userNo}, #{projectNo}

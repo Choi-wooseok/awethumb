@@ -1,24 +1,10 @@
-function likeAdmin(no, user, type) {
+function feedlikeAdmin(no, user, type, likeck) {
 	let postAndCmtNo = no;// 댓글이나 글번호
 	let userNo = user; // 로그인유저
 	let state = type; // 1 - > 게시글, 2-> 댓글
 	let ck = likeck; // 0 -> 좋아요안누름 , 1-> 좋아요 누름
 	let likecount; // 좋아요수 state가 1일때만 값이존재
 	let like = ``; // return할녀석
-	$.ajax({ // async , await
-		url: "likeCheck.do",
-		url: pageContextPath + "/api/like",
-		async:false,
-		data: {
-			postAndCmtNo: postAndCmtNo,
-			userNo : userNo, 
-			codeValue : state 
-		},
-		dataType:"json",
-		success: (no) =>  {
-			ck = no;
-		}
-	});
 	let likestate = ``;
 	if(ck === 1){ // 좋아요누른상태
 		likestate = `data-likestate="2"
@@ -57,23 +43,7 @@ function likeAdmin(no, user, type) {
 	}
 	return like;
 };
-function likeCount(postNo) {
-	let count = 0;
-	$.ajax({ 
-//		url: "boardLikeCount.do",
-		url: pageContextPath + "/api/like/count",
-		async:false,
-		data: {
-			postAndCmtNo: postNo,
-		},
-		dataType:"json",
-		success: (no) =>  {
-			count = no;
-		}
-	});
-	return count;
-};
-function likeClick(user, e) {
+function feedlikeClick(user, e) {
 	 let userNo = user; // 로그인유저 43
 	 let btnState = $(e).data("likestate"); // 1-> 빈하트 2-> 꽉찬하트
 	 let type = $(e).data("type"); // -> 1 게시글 2-> 댓글 

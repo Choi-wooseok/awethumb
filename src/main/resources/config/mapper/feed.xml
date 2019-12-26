@@ -10,7 +10,8 @@
 		<result column="post_public_enabled" property="postPublicEnabled" /> 
 		<result column="hashtag_no" property="hashtagNo" /> 
 		<result column="user_nickname" property="userNickName" /> 
-		<collection property="commentList" select="selectFeedBoardComment" column="post_no"/>
+		<result column="sub_user_no" property="subUserNo" /> 
+		<collection property="commentList" select="selectFeedBoardComment" column="{postNo=post_no, subUserNo=sub_user_no}"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
 		<result column="cmt_user_nickname" property="cmtUserNickname" /> 
@@ -20,6 +21,7 @@
 		<result column="user_no" property="userNo" />
 		<result column="post_no" property="postNo" />
 		<result column="ago_reg_dt" property="agoRegDt" />
+		<result column="like_check" property="likeCheck" />
 	</resultMap>
 	
 	<select id="selectFeedBoardPage" parameterType="FeedPage" resultMap="FeedMap">
@@ -28,7 +30,16 @@
 			   bt.post_no,
 		       bt.post_content,
 			   bt.view_cnt,
-			   bt.project_no
+			   bt.project_no,
+			   #{subUserNo} as sub_user_no, 
+	       (SELECT COUNT(*)
+			  FROM like_tb
+			 WHERE post_and_cmt_no = bt.post_no
+			   and user_no = #{subUserNo}
+			   and code_value = 1) AS likeCheck,
+		   (SELECT COUNT(*)
+			  FROM like_tb
+			 WHERE post_and_cmt_no = bt.post_no) AS likeCount
 		  FROM board_tb bt 
 		 INNER JOIN project_tb pt
 		    ON bt.project_no= pt.project_no 
@@ -40,11 +51,23 @@
 		 ORDER BY reg_date desc
 		 LIMIT #{pageIndex} , #{pageCount}
 	</select>
-	
-	
-	<select id="selectFeedBoardComment" parameterType="int" resultMap="commentMap">
-		 SELECT ct.*,
-				ut.user_nickname as cmt_user_nickname
+<!-- 	<select id="selectFeedBoardComment" parameterType="int" resultMap="commentMap"> -->
+<!-- 		 SELECT ct.*, -->
+<!-- 				ut.user_nickname as cmt_user_nickname -->
+<!-- 		   from comment_tb ct -->
+<!-- 		  INNER JOIN user_tb ut -->
+<!-- 		     ON ct.user_no = ut.user_no  -->
+<!-- 		  where post_no = #{postNo} -->
+<!-- 		  order by cmt_reg_dt -->
+<!-- 	</select> -->
+	<select id="selectFeedBoardComment" parameterType="Comment" resultMap="commentMap">
+		 	 SELECT ct.*,
+				ut.user_nickname as cmt_user_nickname,
+		   (SELECT COUNT(*)
+			  FROM like_tb
+			 WHERE post_and_cmt_no = ct.cmt_no
+			   and user_no = #{subUserNo}
+			   and code_value = 2) AS like_check
 		   from comment_tb ct
 		  INNER JOIN user_tb ut
 		     ON ct.user_no = ut.user_no 
@@ -118,6 +141,11 @@
 																		   WHERE ut.user_id = #{userId}) 
 												  ORDER BY st.opp_user_no ) 
 							   AND user_id != #{userId})
+		    AND user_no != any(SELECT st.opp_user_no	
+							    FROM subscribe_tb st
+							   INNER JOIN user_tb ut
+							      ON st.sub_user_no = ut.user_no 
+							   WHERE ut.user_id = #{userId})
 		 ORDER BY rand()
 		 limit 0, 30
 	</select>
@@ -211,21 +239,11 @@
 		   WHERE post_no = #{postNo}
 	</select>
 
-	<select id="boardFileCheck" parameterType="int" resultType="int">
-	  SELECT COUNT(*)
-	    FROM board_file_tb
-	   WHERE post_no = #{postNo} 
-	</select>
 
 	<select id="lastCmtNo" resultType="int">
 		select LAST_INSERT_ID()
 	</select>
 	
-	<select id="boardImgState" parameterType="int" resultType="int">
-		SELECT COUNT(*)
-		  FROM board_file_tb
-		 WHERE post_no = #{postNo}
-	</select>
 	
 	
 </mapper>

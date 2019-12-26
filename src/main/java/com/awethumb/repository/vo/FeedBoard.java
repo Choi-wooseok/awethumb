@@ -33,6 +33,13 @@ public class FeedBoard {
     // 댓글리스트
     private List<Comment> commentList;
     
+    // 좋아요 상태
+    private int likeCheck;
+    // 좋아요 갯수
+    private int likeCount;
+    
+    // 로그인유저
+    private int subUserNo;
 }
 
 

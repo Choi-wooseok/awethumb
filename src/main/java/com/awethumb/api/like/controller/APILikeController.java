@@ -33,7 +33,6 @@ public class APILikeController {
 	
 	@GetMapping("/count")
 	public int LikeCount(Like like){
-		System.out.println("들어옴");
 		return service.likeCount(like);
 	}
 	

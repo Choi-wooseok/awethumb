@@ -54,8 +54,12 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	// 댓글
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
-	public List<Comment> selectComment(int postNo){ // 글당 댓글 리스트
-		return service.selectFeedBoardComment(postNo);
+	public List<Comment> selectComment(Comment comment){ // 글당 댓글 리스트
+		System.out.println("bb : " + comment.getPostNo());
+		System.out.println("----------");
+		System.out.println("a : " + service.selectFeedBoardComment(comment).get(0).getLikeCheck());
+		System.out.println("b : " + service.selectFeedBoardComment(comment).get(4).getLikeCheck());
+		return service.selectFeedBoardComment(comment);
 	}
 	@RequestMapping("/boardCommentInsert.do")
 	@ResponseBody
@@ -101,6 +105,8 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/categoryListSideBar.do")
 	@ResponseBody
 	public List<CategoryList> categoryListSideBar(String userId) {
+		
+		
 		return service.selectUserCategoryList(userId);
 	}
 	

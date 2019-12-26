@@ -16,4 +16,7 @@ public class Comment {
 	String agoRegDt; // ~분 전, ~시간 전, ~일 전 표시
 	List<Hashtag> hashtag;  // 해시태그 리스트로 받기
 	String uImgUrl; // 이미지 url
+	
+	int subUserNo; // 로그인유저 번호
+	int likeCheck; // 좋아요유무
 }

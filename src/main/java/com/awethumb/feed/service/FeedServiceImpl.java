@@ -23,8 +23,8 @@ public class FeedServiceImpl implements FeedService {
 		return dao.selectFeedBoardPage(pageCount);
 	}
 	// 댓글
-	public List<Comment> selectFeedBoardComment(int postNo){
-		return CommentTime(postNo);
+	public List<Comment> selectFeedBoardComment(Comment comment){
+		return CommentTime(comment.getPostNo());
 	}
 	public int insertBoardComment(Comment comment){
 		dao.insertBoardComment(comment);
@@ -160,15 +160,6 @@ public class FeedServiceImpl implements FeedService {
 			msg.add(b.getBoardFilePath() + b.getBoardFileSysName());
 		}
 		return msg; 
-	}
-	// 파일체크
-	public int boardFileCheck(int postNo) {
-		return dao.boardFileCheck(postNo);
-	}
-	
-	// 이미지체크
-	public int boardImgState(int postNo) {
-		return dao.boardImgState(postNo);
 	}
 	
 }

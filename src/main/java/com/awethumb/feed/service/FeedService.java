@@ -12,7 +12,7 @@ import com.awethumb.repository.vo.Like;
 
 public interface FeedService {
 	List<FeedBoard> selectFeedBoardPage(FeedPage pageCount);
-	List<Comment> selectFeedBoardComment(int postNo);
+	List<Comment> selectFeedBoardComment(Comment comment);
 	int insertBoardComment(Comment comment);
 	List<Comment> deleteBoardComment(Comment comment);
 	List<Comment> updateBoardComment(Comment comment);
@@ -20,6 +20,4 @@ public interface FeedService {
 	List<FollowMeUser> selectFollowMe(FollowMeUser followmeuser);
 	int selectFollowMeCount(String userId);
 	List<String> boardFile(int postNo);
-	int boardFileCheck(int postNo);
-	int boardImgState(int postNo);
 }

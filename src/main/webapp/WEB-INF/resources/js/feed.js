@@ -121,11 +121,12 @@ function feedList(list){
 	item.boardListState = true;
 	let count = 0;
 		$.each(list, (i, bl) => {
+			const newContent = renderHashtag(bl.postContent);
 			let postAndCmtNo = bl.postNo;
 			let like = ``;
 			let code = 1;
 			boardFile(bl.postNo);
-			like = likeAdmin(postAndCmtNo, item.loginUserNo, code);
+			like = feedlikeAdmin(postAndCmtNo, item.loginUserNo, code, bl.likeCheck);
 				$("#feedWrap").append(`
 						<div class="feedList">
 							<div class="feedInfo">
@@ -144,8 +145,7 @@ function feedList(list){
 							<div class="feedText">
 								${like}
 								<div>
-									게시판 내용 : ${bl.postContent}
-									게시판 번호 : ${bl.postNo}
+									${newContent}
 								</div>
 							</div>
 							<div class="feedPlay">
@@ -159,14 +159,15 @@ function feedList(list){
 							</div>
 						</div>
 				`) // postAndCmtNo
-				commentListAjax(postAndCmtNo)
-				item.likecount = likeCount(postAndCmtNo);
+				boardCommentListAjax(bl.commentList ,postAndCmtNo)
+				item.likecount = bl.likeCount;
 				if(item.likecount > 0) {
 					$("#countLike" + postAndCmtNo).html(`
 					<span id="countSpan${postAndCmtNo}">${item.likecount}</span>`);
 				}
 			let un = bl.userNo;
-			userImg(un);
+			userImg(un);	
+			hashClickFn(); // 해시태그 클릭시 이동
 		}); // each
 }; // feedList
 // 댓글 등록
@@ -185,12 +186,6 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 				cmtContent: commentWriter,
 				userNo : item.loginUserNo
 			}),
-// success: (no) => {
-// makeAlarm(3, no)
-// commentListAjax(postNo);
-// },
-// error : (e) => {
-// }
 		}).done(no => {
 			$.ajax({ 
 				url: pageContextPath + "/mainfeed/insertHashtag.do",
@@ -219,12 +214,6 @@ $(".commentDelete").on("click", (e) => {
 			cmtNo: cmtNo
 		},
 		dateType:"json",
-// success: (list) => {
-// commentListAjax(postNo);
-// },
-// error: (e) => {
-// console.log
-// }
 	}).done(result => {
 		$.ajax({
 			url: pageContextPath + "/mainfeed/deleteHashtag.do",
@@ -263,10 +252,6 @@ $(document).on("click", ".commentUpdate",(e) => {
 				cmtNo :  cmtNo
 			},
 			dataType: "json",
-// success: (list) => {
-// commentListAjax(postNo);
-// },
-// error: (e) => {console.log(e)}
 		}).done(() => {
 			$.ajax({
 				url: pageContextPath + "/mainfeed/deleteHashtag.do",
@@ -370,12 +355,10 @@ $(document).on("click", ".report", (e) => {
 });
 // 좋아요 이벤트
 $(document).on("click", ".likeBtn",(e) => {
-	 likeClick(item.loginUserNo, e.target);
+	feedlikeClick(item.loginUserNo, e.target);
  }) // 좋아요버튼클릭이벤트
 // 유저 이미지
 function userImg(userNo){
-	// url : pageContextPath + "/api/user/유저번호/thumb"
-	// .done((e) => { $("img").attr("src", e)})
 	$.get({
 		url:pageContextPath + "/api/user/"+ userNo + "/thumb",
 		success: (src) => {
@@ -436,12 +419,14 @@ function categoryList(){
 	}) 
 } // categoryList
 function commentListAjax(postNo) {
-	// boardCommentListAjax(bl.commentList, postAndCmtNo)
 	$("#boardCommentList" + postNo).remove();
 	$("#commentList" + postNo).html(`<div id="boardCommentList${postNo}"></div>`)
 	$.getJSON({
 		url: "boardCommentList.do",
-		data: {postNo: postNo},
+		data: {
+			postNo: postNo,
+			loginUserNo:item.loginUserNo
+			},
 		success: list => boardCommentListAjax(list, postNo)
 	})
 } // commentListAjax
@@ -451,7 +436,8 @@ function boardCommentListAjax(list, postNo) {
 		let postAndCmtNo = c.cmtNo;
 		let code = 2;
 		let like =``;
-		like = likeAdmin(postAndCmtNo, item.loginUserNo, code);
+		console.log("clikeck" + c.likeCheck);
+		like = feedlikeAdmin(postAndCmtNo, item.loginUserNo, code, c.likeCheck);
 				$("#boardCommentList" + postNo).append(
 						`<div id="comment${c.cmtNo}">
 							<div class="commentList${c.cmtNo} commentList" id="commentList">

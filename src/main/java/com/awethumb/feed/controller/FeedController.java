@@ -37,14 +37,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
 	} // feed.do 
 	
-	// 이미지상태
-	@RequestMapping("/feedimg.do")
-	@ResponseBody
-	public int feedImg(int postNo) {
-		return service.boardImgState(postNo);
-	}
-	
-	
 	// 게시글
 	@RequestMapping("/feedlist.do")
 	@ResponseBody
@@ -99,12 +91,12 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		}
 		return name;
 	}
-	// 이미지 확인유무
-	@RequestMapping("/boardFileCheck.do")
-	@ResponseBody
-	public int boardFileCheck(int postNo) {
-		return service.boardFileCheck(postNo);
-	}
+//	// 이미지 확인유무
+//	@RequestMapping("/boardFileCheck.do")
+//	@ResponseBody
+//	public int boardFileCheck(int postNo) {
+//		return service.boardFileCheck(postNo);
+//	}
 
 	@RequestMapping("/categoryListSideBar.do")
 	@ResponseBody

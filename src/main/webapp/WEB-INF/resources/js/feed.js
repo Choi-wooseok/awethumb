@@ -1,17 +1,3 @@
-//let pageIndex = 0; // 시작
-//const pageCount = 5; // 개수
-//let scrollTop = 0;
-//let loginUserNo = $(".loginUserNo").val();
-//let loginUserId = $(".loginUserId").val();
-//let sidePageIndex = 0; // 시작
-//const sidePageCount = 4; // 범위
-//let followCount = $(".userFollowMeCount").val(); // 맞팔안한 나를 전체팔로우하는사람 count
-//let followAddCount = 0; // 더보기 창 없애기위한 변수
-//let boardListState = false; // 게시글 list 끝체크유무
-//let likecount = 0;  // 좋아요개수
-//let boardFileSrc = ``; // 파일경로
-//let fileCheck = 0; // 파일체크
-//let imageState = $(".imageState").val();
 let item = {
 		pageIndex : 0, // 게시글 시작
 		pageCount : 5, // 게시글 개수
@@ -23,9 +9,6 @@ let item = {
 		followAddCount : 0, // 더보기 창 없애기위한 변수
 		boardListState : false, // 게시글 list 끝체크유무
 		likecount : 0,  // 좋아요개수
-		boardFileSrc : ``, // 파일경로
-		fileCheck : 0, // 파일체크
-		imageState : 0, // 이미지체크
 		left : 0, // 사이드바 X좌표
 		top : 0, // 사이드바1 Y좌표
 		top2 : 0, // 사이드바2 Y좌표
@@ -39,14 +22,14 @@ $(document).ready(function(){
 	    item.left = $(".feedContWrap").offset().left + 600 + item.feedSideGap;
 	    item.top = $(".feedSide").offset().top;
 	    item.top2 = $(".feedSide2").offset().top;
-	    $("#commentWriter").hashtags(); // 해시태그 js 호출 
+	    $("#commentWriter").hashtags(); // 해시태그 js 호출
 });
 $(document).on('click', '.addBtn', () => {
 	item.sidePageIndex += item.sidePageCount;
 	$(".addBtn").remove();
 	sideFollowList();
 });
-$(window).resize(() => { // 반응형 웹
+$(window).resize(() => { // 사이드바 창줄일때 위치 조절
 	item.left = $(".feedContWrap").offset().left + 635;
 	item.top = 105;
 	item.top2 = 405;
@@ -129,29 +112,20 @@ function feedSideFollowMe(list) {
 				더보기
 				</button>
 			</div>
-	`); // 더보기 
+	`); // 더보기
 	if(count == item.followCount) {
 		$(".addBtn").remove();
 	}
 } // feedSideFollowMe
 function feedList(list){
 	item.boardListState = true;
-	console.log(list);
 	let count = 0;
 		$.each(list, (i, bl) => {
 			let postAndCmtNo = bl.postNo;
 			let like = ``;
 			let code = 1;
-			let image = ``;
-			item.fileCheck = boardFileCheck(bl.postNo);
-			if (item.fileCheck > 0) {
-				image = `<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
-						</div>`;
-			}
-			item.boardFileSrc = boardFile(bl.postNo);
+			boardFile(bl.postNo);
 			like = likeAdmin(postAndCmtNo, item.loginUserNo, code);
-			imgstate = imageState(bl.postNo);
-			if (imgstate !== 0) { // 값이 없을때 사진이 존재 값이 있다면 사진X
 				$("#feedWrap").append(`
 						<div class="feedList">
 							<div class="feedInfo">
@@ -159,13 +133,14 @@ function feedList(list){
 									<img class="userCmtImg${bl.userNo}" alt="">
 								</div>
 								<div>
-									<a href="${pageContextPath}/profile/${bl.userNickName}"><span>${bl.userNickName}</span></a>
+									<a href="${pageContextPath}/profile/${bl.userNickName}">${bl.userNickName}</a>
 									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</div>
 							</div>
-							${image}
+							<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
+							</div>
 							<div class="feedText">
 								${like}
 								<div>
@@ -190,12 +165,11 @@ function feedList(list){
 					$("#countLike" + postAndCmtNo).html(`
 					<span id="countSpan${postAndCmtNo}">${item.likecount}회 좋아요</span>`);
 				}
-			} // if
 			let un = bl.userNo;
 			userImg(un);
 		}); // each
 }; // feedList
-// 댓글 등록 
+// 댓글 등록
 $(document).on( "click",".commentInsertBtn", (e) => {
 	let postNo = $(e.target).data("postnumber");
 	let commentWriter = $(".commentWriter" + postNo).val();
@@ -212,12 +186,12 @@ $(document).on( "click",".commentInsertBtn", (e) => {
 				cmtContent: commentWriter,
 				userNo : item.loginUserNo
 			}),
-//			success: (no) =>  {
-//				makeAlarm(3, no)
-//				commentListAjax(postNo);
-//			},
-//			error : (e) => {
-//			}
+// success: (no) => {
+// makeAlarm(3, no)
+// commentListAjax(postNo);
+// },
+// error : (e) => {
+// }
 		}).done(no => {
 			$.ajax({ 
 				url: pageContextPath + "/mainfeed/insertHashtag.do",
@@ -246,12 +220,12 @@ $(".commentDelete").on("click", (e) => {
 			cmtNo: cmtNo
 		},
 		dateType:"json",
-//		success: (list) => {
-//			commentListAjax(postNo);
-//		},
-//		error: (e) => {
-//			console.log
-//		}
+// success: (list) => {
+// commentListAjax(postNo);
+// },
+// error: (e) => {
+// console.log
+// }
 	}).done(result => {
 		$.ajax({
 			url: pageContextPath + "/mainfeed/deleteHashtag.do",
@@ -279,7 +253,7 @@ $(document).on("click", ".commentUpdate",(e) => {
 	let postNo = $(e.target).data("postno");
 	let cmtContent = $("#contentUpdate").val();
 	if(!cmtContent) {
-		alert("댓글내용을 입력해주세요.")
+		alert("댓글 내용을 입력해주세요.")
 	}
 	else {
 		$.ajax({
@@ -291,10 +265,10 @@ $(document).on("click", ".commentUpdate",(e) => {
 				cmtNo :  cmtNo
 			},
 			dataType: "json",
-//			success: (list) => {
-//				commentListAjax(postNo);
-//			},
-//			error: (e) => {console.log(e)}
+// success: (list) => {
+// commentListAjax(postNo);
+// },
+// error: (e) => {console.log(e)}
 		}).done(() => {
 			$.ajax({
 				url: pageContextPath + "/mainfeed/deleteHashtag.do",
@@ -320,7 +294,7 @@ $(document).on("click", ".commentUpdate",(e) => {
 		})
 	}
 	
-}); // 댓글 수정 
+}); // 댓글 수정
 // 댓글 수정폼
 $(".commentModify").on("click", (e) => {
 	let cmtNo = $(e.target).data("commentno");
@@ -336,7 +310,7 @@ $(".commentModify").on("click", (e) => {
 			</div>`
 	);
 	$(".commentboardmodal").css("display","none");
-}); // 댓글 수정폼 
+}); // 댓글 수정폼
 // click 이벤트
 $(document).on( "click",".commentModal", (e) => {
 	let obj = e.target
@@ -422,7 +396,7 @@ function boardFile(no) {
 						`<img id="feedImg" src="${list[i]}"alt="" />`);
 					if (i == list.length - 1) {
 						$(".feedImgWrap" + no).slick();
-					}; // 이미지 슬라이드 
+					}; // 이미지 슬라이드
 			}
 		},
 		error:(error) => {
@@ -430,18 +404,6 @@ function boardFile(no) {
 		}
 	})
 } // boardFile
-function boardFileCheck(no) {
-	let fileCk = 0;
-	$.get({
-		url: "boardFileCheck.do",
-		data: {postNo : no},
-		async: false,
-		success: (fno) => {
-			fileCk = fno
-		}
-	});
-	return fileCk;
-} // boardFileCheck
 function categoryList(){
 	$.get({
 		url:"categoryListSideBar.do",
@@ -501,7 +463,7 @@ function boardCommentListAjax(list, postNo) {
 								<div id="commentWrap${c.cmtNo}" class="commentWrap">
 									<div class="cmtInfo">
 										<a href="${pageContextPath}/profile/${c.cmtUserNickname}">
-										<span>${c.cmtUserNickname}</span>
+										${c.cmtUserNickname}
 										</a>
 										<span>작성시간 : ${c.cmtRegDt}</span>
 										<button type="button" 
@@ -528,18 +490,6 @@ function boardCommentListAjax(list, postNo) {
 		hashClickFn();
 	}); // each
 }; // boardCommentListAjax
-// 게시글 사진 확인
-function imageState(postNo) {
-	$.ajax({
-		url: "feedimg.do",
-		data: {postNo: postNo},
-		async: false,
-		success: (no) => {
-			item.imageState = no;
-		}
-	})
-	return item.imageState;
-};
 
 
 

@@ -72,7 +72,7 @@
 				minute,
 				 (select cmt_reg_dt
 				    FROM comment_tb
-				   WHERE cmt_no = ${cmtNo}),
+				   WHERE cmt_no = #{cmtNo}),
 				   NOW()
 				)
 	</select>

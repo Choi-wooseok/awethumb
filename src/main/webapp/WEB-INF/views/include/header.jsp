@@ -28,7 +28,7 @@
         <div class="layout_right">
             <sec:authorize access="isAuthenticated()">
             	<span class="user layout_left">
-                	<img src="${pageContext.request.contextPath}/images/test_user.jpg" alt="">
+                	<img src="" alt="">
             	</span>
 				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userNickname}</a>
 			</sec:authorize>
@@ -107,7 +107,12 @@
 	    <script>
 	    	const connectedUserNo= ${su.userNo};
 	    	let profileImgURL = "${pageContext.request.contextPath}/api/user/${su.userNo}/thumb";
-	    	$(".user.layout_left > img").attr("src", profileImgURL);
+	    	$.ajax({
+	    		url: profileImgURL,
+				method: 'GET',
+				success: result => $(".user.layout_left > img").attr("src", result)
+	    	});
+	    	
         </script>
         <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>
         <!-- 알림 dropdown js -->

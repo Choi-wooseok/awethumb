@@ -87,12 +87,12 @@ function likeClick(user, e) {
 			 let count = parseInt($("#countSpan" + pnum).html()); // count - 1 \
 			 if(!count) { // 좋아요를 아무도 안눌렀을시
 				 $("#countSpan" + pnum).remove();
-				 $("#countLike" + pnum).append(`<span id="countSpan${pnum}">1회 좋아요</span>`);
+				 $("#countLike" + pnum).append(`<span id="countSpan${pnum}">1</span>`);
 			 }
 			 else { // 좋아요가 눌러져있을때
 				 count += 1;
 				 $("#countSpan" + pnum).remove();
-				 $("#countLike" + pnum).append(`<span id="countSpan${pnum}">${count}회 좋아요</span>`);
+				 $("#countLike" + pnum).append(`<span id="countSpan${pnum}">${count}</span>`);
 			 }
 			 $.ajax({
 				 url: pageContextPath + "/api/like",
@@ -136,7 +136,7 @@ function likeClick(user, e) {
 			 if (count == 0){ // 좋아요가 0이될때 
 				 $("#countSpan" + pnum).remove();
 			 } else { 
-				 $("#countSpan" + pnum).html(`${count}회 좋아요`);
+				 $("#countSpan" + pnum).html(`${count}`);
 			 }
 			 $.ajax({
 				 url: pageContextPath + `/api/like?postAndCmtNo=${pnum}&userNo=${userNo}&codeValue=${type}`,

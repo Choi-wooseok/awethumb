@@ -163,7 +163,7 @@ function feedList(list){
 				item.likecount = likeCount(postAndCmtNo);
 				if(item.likecount > 0) {
 					$("#countLike" + postAndCmtNo).html(`
-					<span id="countSpan${postAndCmtNo}">${item.likecount}회 좋아요</span>`);
+					<span id="countSpan${postAndCmtNo}">${item.likecount}</span>`);
 				}
 			let un = bl.userNo;
 			userImg(un);
@@ -476,7 +476,7 @@ function boardCommentListAjax(list, postNo) {
 										${like}
 									</div>
 									<div class="cmtContent">
-										내용 : ${newContent} 
+										${newContent} 
 									</div>
 								</div>
 							</div>

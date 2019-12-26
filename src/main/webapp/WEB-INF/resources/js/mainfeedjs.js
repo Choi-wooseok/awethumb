@@ -44,7 +44,7 @@ let scrollTop = 0;
 	   
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
-		   console.log("srchWord", searchWord)
+		   if (searchWord) searchWord = "#" + searchWord;
 			$.getJSON({
 				url: pageContextPath + "/mainfeed/mainfeedList.do",
 				data: {
@@ -52,31 +52,12 @@ let scrollTop = 0;
 					searchWord
 				},
 				success: list => {
-//					console.log("4", list)
+					console.log("4", list)
 					if(list.length == 0) {
 						$(window).off('scroll');
 						return;
 					}
-					if (searchWord.trim() === '') {
-//						console.log("3", searchWord.trim())
-						makeMainFeedList(list);
-					}
-					else if(searchWord){
-//						console.log("2");
-						console.log("6", searchWord)
-						$.getJSON({
-							url: pageContextPath + "/mainfeed/mainfeedList.do?hashtag=" + searchWord,
-							data: {
-								pageIndex,
-								searchWord
-							},
-							success: list => {
-								console.log("5", list)
-								makeMainFeedList(list, searchWord);
-								$("#detailFeedModal").css("display", "none");
-							}
-						});
-					}
+					makeMainFeedList(list);
 				}
 			})
 		}

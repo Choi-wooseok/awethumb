@@ -110,7 +110,9 @@
 	    	$.ajax({
 	    		url: profileImgURL,
 				method: 'GET',
-				success: result => $(".user.layout_left > img").attr("src", result)
+				success: function (result) {
+					$(".user.layout_left > img").attr("src", result);
+				}
 	    	});
 	    	
         </script>

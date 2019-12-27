@@ -14,7 +14,7 @@ $.ajax({
 )
 
 // 알림 소켓 서버
-const alarmSocketUri = "ws://awethumb.kr" + pageContextPath + "/alarm.do";
+const alarmSocketUri = "ws://awethumb.kr/alarm.do";
 
 const alarmsocket = new WebSocket(alarmSocketUri);
 

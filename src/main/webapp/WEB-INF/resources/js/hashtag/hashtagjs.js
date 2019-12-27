@@ -5,7 +5,7 @@
 		for (let i = 0; i < ht.length; i++) {
 			if ((ht[i]).includes('#')){
 				ht[i] = `
-				<span class="ht"  data-ht="${ht[i]}">${ht[i]}</span>
+				<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>
 			`}
 		}
 		for (let j = 0; j < ht.length; j++) {

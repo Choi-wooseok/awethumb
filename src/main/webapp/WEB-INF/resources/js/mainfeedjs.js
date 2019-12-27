@@ -1,5 +1,5 @@
 let pageIndex = 0;
-const pageCount = 12;
+const pageCount = 6;
 let scrollTop = 0;
 
 // back to top

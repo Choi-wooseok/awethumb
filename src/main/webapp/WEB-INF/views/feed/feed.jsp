@@ -60,7 +60,7 @@
 			</div>
 			<!-- 주변친구 리스트 반복 -->
 			<div class="feedSide2">
-				<div>팔로워 추천</div>
+				<div>카테고리 별 팔로워 추천</div>
 				<div class="categoryListSide"></div>
 			</div>
 		</div>

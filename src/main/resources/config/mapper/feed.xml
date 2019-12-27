@@ -136,17 +136,17 @@
 			ON ut.user_no = a.opp_user_no
 		 WHERE user_no = any(SELECT user_no
 							   FROM user_tb ut  
-							  WHERE user_no = any(SELECT distinct st.opp_user_no
-												    FROM subscribe_tb st
-												   INNER JOIN user_tb ut
-												      ON st.sub_user_no = ut.user_no 
-												   WHERE ut.user_no = any(SELECT st.opp_user_no
-																		    FROM subscribe_tb st
-																		   INNER JOIN user_tb ut
-																		      ON st.sub_user_no = ut.user_no 
-																		   WHERE ut.user_id = #{userId}) 
-										  		   ORDER BY st.opp_user_no ) 
-							   AND user_id != #{userId} )
+							  WHERE user_no = any(SELECT distinct ut.user_no
+													    FROM subscribe_tb st
+													   INNER JOIN user_tb ut
+													      ON st.sub_user_no = ut.user_no 
+													   WHERE st.opp_user_no = any(SELECT st.opp_user_no
+																					    FROM subscribe_tb st
+																					   INNER JOIN user_tb ut
+																					      ON st.sub_user_no = ut.user_no 
+																					   WHERE ut.user_id = #{userId}) 
+											  		   ORDER BY ut.user_no ) 
+							   AND user_id != #{userId})
 		   AND a.opp_user_no IS null
 		 ORDER BY rand()
 		 limit 0, 30

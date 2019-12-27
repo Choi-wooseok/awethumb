@@ -435,7 +435,6 @@ function boardCommentListAjax(list, postNo) {
 		let postAndCmtNo = c.cmtNo;
 		let code = 2;
 		let like =``;
-		console.log("clikeck" + c.likeCheck);
 		like = feedlikeAdmin(postAndCmtNo, item.loginUserNo, code, c.likeCheck);
 				$("#boardCommentList" + postNo).append(
 						`<div id="comment${c.cmtNo}">

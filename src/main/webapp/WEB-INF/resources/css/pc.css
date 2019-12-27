@@ -349,6 +349,7 @@ section#mypage {
     z-index: -1;
 }
 .bgWrap > img {
+	height: 100%;
     width: 100%;
 }
 .pjtTitle {

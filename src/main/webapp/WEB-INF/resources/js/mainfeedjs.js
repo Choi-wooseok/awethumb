@@ -92,14 +92,14 @@ let scrollTop = 0;
 							<div class="feedsPlay" id="feedsPlay${c.postNo}">
 								<div class="feedsContWrap">${newContent}</div>
 								`)
-							$.each(c.hashtagList, (i, h) => {
-								if (`${h.hashtagContent}` != 'null') {
-									$(`#feedsPlay${c.postNo}`).append(`
-									<span class="hashTag">
-										<a href="javascript:;">${h.hashtagContent}</a>
-									</span>`)
-								}
-							});
+//							$.each(c.hashtagList, (i, h) => {
+//								if (`${h.hashtagContent}` != 'null') {
+//									$(`#feedsPlay${c.postNo}`).append(`
+//									<span class="hashTag">
+//										<a href="javascript:;">${h.hashtagContent}</a>
+//									</span>`)
+//								}
+//							});
 								$(`#feedsPlay${c.postNo}`).append(`
 								<div class="playInfo">
 									댓글 <span>${c.commentCount}</span>개
@@ -129,13 +129,13 @@ let scrollTop = 0;
 				success: (list) => {
 					console.log("pn", postNo)
 					console.log("L", list.length)
-					for(let i = 0; i < list.length; i++){
+//					for(let i = 0; i < list.length; i++){
 						$(".detailFeed." + postNo).append(
 								`<img id="feedImg" src="${list[i]}"alt="" data-postNo="${postNo}"/>`);
-							if (i == list.length - 1) {
-								$(".detailFeed." + postNo).slick();
-							}; // 이미지 슬라이드
-					}
+//							if (i == list.length - 1) {
+//								$(".detailFeed." + postNo).slick();
+//							}; // 이미지 슬라이드
+//					}
 				},
 				error:(error) => {
 					console.log(error);
@@ -187,7 +187,7 @@ let scrollTop = 0;
 	}
 	
 	function makeDetailFeed(detail) {
-		const postContent = renderHashtag(`${detail.postContent}`);
+		let postContent = renderHashtag(`${detail.postContent}`);
 		console.log("dL", detail);
 		let imgProfileURL = ""; 
 		$.get( {

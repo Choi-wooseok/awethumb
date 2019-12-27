@@ -1,6 +1,7 @@
 package com.awethumb.detailBoard.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +24,13 @@ import com.awethumb.detailBoard.service.DetailBoardService;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectSubscribe;
 import com.awethumb.repository.vo.UserFile;
 import com.awethumb.repository.vo.UserVO;
 import com.awethumb.util.FileUtil;
+import com.awethumb.util.HashUtil;
 import com.awethumb.util.UserFileUtil;
 
 @Controller("com.awethumb.detailBoard.controller.DetailBoardController")
@@ -46,7 +49,7 @@ public class DetailBoardController {
 		
 		// jsp에 projectVO를 넘기기 위함
 		Project project = service.selectProject(projectNo);
-
+		
 		// 세션에 이미지 임시 등록을 위함
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = new ArrayList<>();
@@ -67,6 +70,21 @@ public class DetailBoardController {
 	@RequestMapping("write.do")
 	public String insertBoard(Board board, HttpServletRequest req) {
 		int pjtNo = board.getProjectNo();
+		// hash
+		if (board.getPostContent().contains("#")) {
+			int postNo = service.postNoSelect();
+			HashUtil hUtil = new HashUtil();
+			HashMap<String, Object> hashMap = hUtil.renderHashtag(board.getPostContent());
+			board.setPostContent((String)hashMap.get("content"));
+			List<String> hList = (List<String>)hashMap.get("hashList");
+			for (int i = 0; i < hList.size(); i++) {
+				Hashtag hashtag = new Hashtag();
+				hashtag.setPostNoAndCmtNo(postNo);
+				hashtag.setHashtagContent(hList.get(i));
+				hashtag.setHashType(1);
+				service.insertHashTag(hashtag);
+			}
+		}
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = (List<BoardFile>) session.getAttribute("bfList");
 		board.setListFile(bfList);

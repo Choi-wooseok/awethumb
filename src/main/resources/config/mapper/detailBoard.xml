@@ -168,6 +168,7 @@
 	</select>
 
 	<insert id="insertSavedProject" parameterType="ProjectSubscribe">
+		insert into project_subcribe_tb
 			user_no, project_no
 		) values (
 			#{userNo}, #{projectNo}
@@ -193,6 +194,14 @@
 		from user_file_tb
 		where user_no = #{userNo}
 	</select>
+	
+	<insert id="insertHashTag" parameterType="Hashtag">
+		insert into hashtag_tb (
+			hashtag_content, post_no_and_cmt_no, hash_type
+		) values (
+			#{hashtagContent}, #{postNoAndCmtNo}, #{hashType}
+		)
+	</insert>
 </mapper>
 
 

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.ProjectSubscribe;
@@ -47,5 +48,6 @@ public interface DetailBoardDAO {
 	void deleteSavedProject(ProjectSubscribe projectsubscribe);
 	int selectLastCommentNo();
 	UserFile selectUserImg(int userNo);
+	void insertHashTag(Hashtag hashtag);
 	
 }

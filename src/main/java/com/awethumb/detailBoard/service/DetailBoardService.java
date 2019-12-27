@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.ProjectSubscribe;
@@ -42,4 +43,5 @@ public interface DetailBoardService {
 	void deleteSavedProject(ProjectSubscribe pSub);
 	int selectLastCommentNo();
 	UserFile selectUserImg(int userNo);
+	void insertHashTag(Hashtag hashtag);
 }

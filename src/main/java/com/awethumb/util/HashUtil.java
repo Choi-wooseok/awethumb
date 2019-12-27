@@ -1,71 +1,107 @@
 package com.awethumb.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class HashUtil {
-//	public static void main(String[] args) {
-//		String cmtAndPost = "#시발 이게 왜 aa#안나오냐 얘도 #나와야된다고";
-////		String cmtAndPost = "이거슨 샵이 없는 일반 글이닷";
-//		renderHashtag(cmtAndPost);
-//		hashSplit(cmtAndPost);
-//	}
-
-	// 댓글 혹은 게시글 중 #이 존재할 시 해시태그 링크가 포함된 글로 변경
-	public static String renderHashtag(String cmtAndPost) {
-		String newContent = "";
-
-		if (cmtAndPost.contains("#")) {
-			String[] Content = cmtAndPost.split(" "); // 받은 문자열을 띄어쓰기로 나눠 배열에 입력
-			for (int i = 0; i < Content.length; i++) {
-//				System.out.print(Content[i] + " ");  // #시발 이게 왜 aa#안나오냐 얘도 #나와야된다고 
-				if (Content[i].contains("#")) { // 문자열중 #이 중간에 추가된 것을 찾음 / aa#안나오냐
-					String[] preHashContent = {}; // = hash
-					preHashContent = Content[i].split("#"); // #으로 나눠서 / aa 안나오냐
-					String hash = "";
-					for (int j = 0; j < preHashContent.length; j++) {
-						hash = preHashContent[1]; // 배열의 1번째를 찾기 / 안나오냐
-					}
-//					System.out.print(hash + " ");  // 시발 안나오냐 나와야된다고 
-					StringBuffer sb = new StringBuffer();
-					sb.append(preHashContent[0]); // 0번째도 글에 추가되야하니까 여기서 추가 / aa
-					sb.append("<span class='content' data-content='");
-					sb.append("#" + hash); // 클릭이벤트로 검색을 위한 데이터 삽입
-					sb.append("' color='#6dd5bc'>");
-					sb.append("#" + hash); // 보여질 해시태그 문자
+	public static HashMap<String, Object> renderHashtag(String content) {
+		HashMap<String, Object> map = new HashMap<>();
+		List<String> hList = new ArrayList<>();
+		if (content.contains("&lt;/p&gt;&lt;p&gt;")) {
+			content = content.replaceAll("&lt;/p&gt;&lt;p&gt;", "&lt;/p&gt; &lt;p&gt;");
+		}
+		String[] contents = content.split(" ");
+		String returnContent = "";
+		for (int i = 0; i < contents.length; i++) {
+			StringBuffer sb = new StringBuffer();
+			// 해시태그인 경우
+			if(contents[i].contains("#")) {
+				String hash = contents[i];
+				// <p>#hash</p>일 경우
+				if (hash.startsWith("&lt;p&gt;") && hash.endsWith("&lt;/p&gt;")) {
+					// 양쪽 p태그 삭제 후 순수 해시태그만 가져오는 작업
+					hash = contents[i].split("\\&lt;p&gt;")[1].split("\\&lt;/p&gt;")[0];
+					hList.add(hash); // 해시태그 추가 해줌
+					// p태그로 다시 감싸면서 재 생성
+					sb.append("<p><span class='ht' data-ht='");
+					sb.append(hash + "'>");
+					sb.append(hash);
+					sb.append("</span></p>");
+					// <p>#hash 일 경우					
+				} else if (hash.startsWith("&lt;p&gt;") && hash.endsWith("&lt;/p&gt;")==false) {
+					// 앞에 p태그 삭제 후 순수 해시태그만 가져옴
+					hash = contents[i].split("\\&lt;p&gt;")[1];
+					hList.add(hash); // 해시태그 추가 해줌
+					// 앞에 p태그 붙여주면서 재 생성
+					sb.append("<p><span class='ht' data-ht='");
+					sb.append(hash + "'>");
+					sb.append(hash);
 					sb.append("</span>");
-					Content[i] = sb.toString();
+				// #hash<p> 일 경우
+				} else if (hash.startsWith("#") && hash.endsWith("&lt;/p&gt;")) {
+					// 뒤에 p태그 삭제 후 순수 해시태그만 가져옴
+					hash = contents[i].split("\\&lt;/p&gt;")[0];
+					hList.add(hash); // 해시태그 추가 해줌
+					// 뒤에 p 태그 붙여주면서 재 생성
+					sb.append("<span class='ht' data-ht='");
+					sb.append(hash + "'>");
+					sb.append(hash);
+					sb.append("</span></p>");
+				// #hash 일 경우
+				} else if (hash.startsWith("#") && hash.endsWith("&lt;/p&gt;")==false) {
+					hash = contents[i];
+					hList.add(hash);
+					sb.append("<span class='ht' data-ht='");
+					sb.append(hash + "'>");
+					sb.append(hash);
+					sb.append("</span>");
 				}
-				newContent += Content[i] + " "; // 배열을 반복돌려서 문자열로 변경
-			}
-//			System.out.println(newContent);
-			// <span class='content' data-content='#시발' color='#6dd5bc'>#시발</span> 이게 왜
-			// aa<span class='content' data-content='#안나오냐' color='#6dd5bc'>#안나오냐</span> 얘도
-			// <span class='content' data-content='#나와야된다고' color='#6dd5bc'>#나와야된다고</span>
-			return newContent;
-		} else {
-//			System.out.println(cmtAndPost);
-			return cmtAndPost;
-		}
-	}
-
-	// 해시태그 테이블에 저장할 해시태그 스플릿하기
-	
-	public static List<String> hashSplit(String cmtAndPost) {
-		List<String> inputHashtag = new ArrayList<>();
-		if (cmtAndPost.contains("#")) {
-//			String tag = "";
-			String[] hash = cmtAndPost.split(" ");
-			for (int i = 0; i < hash.length; i++) {
-				if (hash[i].contains("#")) { // 문자열중 #이 중간에 추가된 것을 찾음
-//					System.out.println(hash[i]);
-					String[] preHashContent = {};
-					preHashContent = hash[i].split("#"); // #으로 나눠서
-					inputHashtag.add('#' + preHashContent[1]); // 배열의 1번째를 찾기
+			} else {
+				// 해시태그가 아닌 상태에서 뒤에 p 태그가 붙을 경우 그 뒤는 전부 다 잘라버리고 텍스트만 남김.
+				// 이유 : 어차피 p 태그로 전체 감싸면서 들어오므로 </p>라는 String 글자가 붙어버림
+				String text = contents[i];
+				System.out.println("Text  = " + text);
+				// <p><br></p>일 경우 삭제
+				if (text.contains("&lt;p&gt;&lt;br&gt;&lt;/p&gt;")) {
+					text = text.replaceAll("&lt;p&gt;&lt;br&gt;&lt;/p&gt;", "");
+				}
+				// 앞에 p태그가 붙을 경우
+				if (text.startsWith("&lt;p&gt;") && text.endsWith("&lt;/p&gt;")) {
+					text = text.split("\\&lt;p&gt;")[1].split("\\&lt;/p&gt;")[0];
+					sb.append("<p>");
+					sb.append(text);
+					sb.append("</p>");
+				} else if (text.startsWith("&lt;p&gt;") && text.endsWith("&lt;/p&gt;")==false) {
+					sb.append("<p>");
+					
+					String[] str = text.split("\\&lt;p&gt;");
+					for (int k = 0; k < str.length; k++) {
+						System.out.println("k = " + str[k]);
+					}
+					
+					sb.append(str[1]);
+					
+				} else if (text.startsWith("&lt;p&gt;")==false && text.endsWith("&lt;/p&gt;")) {
+					sb.append(text.split("\\&lt;/p&gt;")[0]);
+					sb.append("</p>");
+				} else if (text.startsWith("&lt;p&gt;")==false && text.endsWith("&lt;/p&gt;")==false) {
+					sb.append(text);
 				}
 			}
+			// 만든 해시태그를 toString 해서 재생성 시킴
+			contents[i] = sb.toString();
+			// 띄어쓰기로 스플릿 했던거 다시 만들면서 생성
+			returnContent += " " + contents[i];
+			
 		}
-		System.out.println(inputHashtag);  // [#시발, #안나오냐, #나와야된다고]
-		return inputHashtag; 
+		for(int i = 0; i < hList.size(); i++) {
+			System.out.println(hList.get(i));
+		}
+		map.put("content", returnContent);
+		map.put("hashList", hList);
+		return map;
 	}
 }

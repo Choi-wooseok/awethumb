@@ -781,7 +781,7 @@ section > div.content {
 }
 .commentList {
     position: relative;
-    width: 410px;
+    width: 100%;
     box-sizing: border-box;
     padding: 5px 15px;
     overflow: hidden;
@@ -974,7 +974,7 @@ section#feed {
 }
 .feedPlay > div:first-child {
     box-sizing: border-box;
-    width: 615px;
+    width: 617px;
     max-height: 300px;
     overflow: auto;
 }
@@ -1443,4 +1443,8 @@ section#feeds {
 .dropdown-showmore {
 	text-decoration: none;
 	color: #333;
+}
+#detailFeedModal .commentList,
+.modal .commentList {
+	width: 410px;
 }

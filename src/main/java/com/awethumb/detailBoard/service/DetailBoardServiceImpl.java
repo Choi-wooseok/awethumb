@@ -9,6 +9,7 @@ import com.awethumb.repository.dao.DetailBoardDAO;
 import com.awethumb.repository.vo.Board;
 import com.awethumb.repository.vo.BoardFile;
 import com.awethumb.repository.vo.Comment;
+import com.awethumb.repository.vo.Hashtag;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
 import com.awethumb.repository.vo.ProjectSubscribe;
@@ -145,5 +146,9 @@ public class DetailBoardServiceImpl implements DetailBoardService {
 	
 	public UserFile selectUserImg(int userNo) {
 		return dao.selectUserImg(userNo);
+	}
+	
+	public void insertHashTag(Hashtag hashtag) {
+		dao.insertHashTag(hashtag);
 	}
 }

@@ -1,5 +1,8 @@
 //		댓글 중 #이 존재할 시 해시태그 링크로 변경
 	function renderHashtag(cmtContent){
+		if (cmtContent.indexOf('<p>') != -1){
+			cmtContent = $(cmtContent).text();
+		}
 		let newContent = "";
 		let ht = cmtContent.split(' ');
 		for (let i = 0; i < ht.length; i++) {

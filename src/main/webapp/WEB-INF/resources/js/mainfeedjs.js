@@ -86,7 +86,7 @@ let scrollTop = 0;
 							</div>
 
 							<div id="feedImgWrap"class="feedImgWrap${c.postNo}">
-								<a id="detailFeed" class="detailFeed${c.postNo}" href="javascript:;" ></a>
+								<a id="detailFeed" class="detailFeed ${c.postNo}" href="javascript:;"></a>
 							</div>
 
 							<div class="feedsPlay" id="feedsPlay${c.postNo}">
@@ -130,10 +130,10 @@ let scrollTop = 0;
 					console.log("pn", postNo)
 					console.log("L", list.length)
 					for(let i = 0; i < list.length; i++){
-						$(".detailFeed" + postNo).append(
+						$(".detailFeed." + postNo).append(
 								`<img id="feedImg" src="${list[i]}"alt="" data-postNo="${postNo}"/>`);
 							if (i == list.length - 1) {
-								$(".detailFeed" + postNo).slick();
+								$(".detailFeed." + postNo).slick();
 							}; // 이미지 슬라이드
 					}
 				},
@@ -147,7 +147,6 @@ let scrollTop = 0;
 			$.get({
 				url:pageContextPath + "/api/user/"+ userNo + "/thumb",
 				success: (src) => {
-					console.log("src", src);
 					$(".userImg" + userNo + " > img").attr("src", src);
 				}
 			})
@@ -163,6 +162,7 @@ let scrollTop = 0;
 			},
 			dataType: "JSON",
 			success: result => {
+				console.log("result =>", result);
 				makeDetailFeed(result);
 				$('.comment').height(
 						$(".modalContWrap").height()-($(".modalCont").height() + 19)
@@ -180,13 +180,22 @@ let scrollTop = 0;
 	function detailListAjax() {
 	$(document).on('click', '.detailFeed', (e) => {
 		$("#detailFeedModal").css("display", "block")
+		console.log("post?",$(e.target).data("postno"));
 		detailFeed($(e.target).data("postno"));
 	});
 	}
 	
 	function makeDetailFeed(detail) {
 		const postContent = renderHashtag(`${detail.postContent}`);
-		console.log("dL", detail)
+		console.log("dL", detail);
+		let imgProfileURL = ""; 
+		$.get( {
+				url:pageContextPath + "/api/user/"+ detail.userNo + "/thumb",
+				async:false,
+				success: (src) => {
+					imgProfileURL = src;
+				}
+		});
 		$feed = $("#detailFeedModal");
 			$feed.html(`
 				<div class="modal" id="modal${detail.postNo}">
@@ -198,7 +207,7 @@ let scrollTop = 0;
 								</button>	
 		                		<div class="ModaluserInfo">
 									<div class="commentUser">
-										<img src="./../images/test_user.jpg" alt="">
+										<img src="${imgProfileURL}" alt="">
 									</div>
 							        <div class="userName">
 							            <a href="#">${detail.userNickname}</a>
@@ -244,19 +253,32 @@ let scrollTop = 0;
 									<div class="comment">
 	                    	`)
             $.each(detail.commentList, (i, c) => {
+            	let imgProfileURL = ""; 
+        		$.get( {
+        				url:pageContextPath + "/api/user/"+ c.userNo + "/thumb",
+        				async:false,
+        				success: (src) => {
+        					imgProfileURL = src;
+        				}
+        		});
             	// 해시태그 js를 사용하기 위해 커멘트 받아옴
             	const newContent = renderHashtag(c.cmtContent);
             			if (`${c.cmtContent}` != 'null'){
+            				let like = '';
+        					if (typeof(connectedUserNo) !== 'undefined') {
+        						like = likeAdmin(c.cmtNo, connectedUserNo, 2);
+        					}
             				$(`.comment`).append(`
     									<div class="commentList">
 			                				<div class="commentUserImg">
-			                    				<img src="./../images/test_user.jpg" alt="">
+			                    				<img src="${imgProfileURL}" alt="">
 		                					</div>
 		                					<div class="commentWrap" id="commentWrap${c.cmtNo}">
 		                						<div class="cmtModal${c.cmtNo}">
 		                							<div class="cmtInfo">
 			                							<span>${c.cmtUserNickname}</span>
 			                							<span>${c.agoRegDt}</span>
+			                							${like}
 			                							`)
 			                						if(typeof connectedUserNo !== 'undefined'){	
 	            										$(`#commentWrap${c.cmtNo}`).append(`
@@ -604,9 +626,7 @@ let scrollTop = 0;
 		});
 
 $(document).on("click", ".likeBtn",(e) => {
-	console.log("ㅎㅇ");
 	if (typeof(connectedUserNo) !== 'undefined') {
-		console.log("ㅎㅇ2");
 		likeClick(connectedUserNo, e.target);
 	}
  }) // 좋아요버튼클릭이벤트

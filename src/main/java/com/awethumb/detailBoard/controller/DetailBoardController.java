@@ -72,7 +72,7 @@ public class DetailBoardController {
 		int pjtNo = board.getProjectNo();
 		// hash
 		if (board.getPostContent().contains("#")) {
-			int postNo = service.postNoSelect();
+			int postNo = service.postNoSelect() +1;
 			HashUtil hUtil = new HashUtil();
 			HashMap<String, Object> hashMap = hUtil.renderHashtag(board.getPostContent());
 			board.setPostContent((String)hashMap.get("content"));

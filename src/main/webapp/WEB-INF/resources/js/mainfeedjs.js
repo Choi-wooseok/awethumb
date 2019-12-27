@@ -172,6 +172,7 @@ let scrollTop = 0;
 						w: $("#image").width(),
 						h: $("#image").height()
 					})
+					$(".comment").scrollTop($(".comment").prop('scrollHeight'));
 				}, 100);
 			}
 		})

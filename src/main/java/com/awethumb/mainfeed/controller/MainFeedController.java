@@ -28,7 +28,18 @@ import com.awethumb.stats.aop.insertSearchLog;
 public class MainFeedController {
 	@Autowired
 	private MainFeedService service;
-	
+	@RequestMapping("/boardFileRead.do")
+	@ResponseBody
+	public List<String> boardFileRead(int postNo, HttpServletRequest req){
+		List<String> name = new ArrayList<>();
+		List<String> bbb = service.boardFile(postNo);
+		for (String a : bbb) {
+			String fileReadName= req.getContextPath() + "/image/";// awethumb/image/
+			fileReadName = fileReadName + a;
+			name.add(fileReadName);
+		}
+		return name;
+	}
 	@RequestMapping("/mainfeed.do")
 	public void mainFeed(String hashtag, Model model) {
 //		service.search(hashtag);
@@ -44,8 +55,8 @@ public class MainFeedController {
 	public MainFeed mainFeeddetail(int postNo, HttpServletRequest req) {
 		MainFeed mf = service.detailMainFeed(postNo);
 		List<BoardFile> image = service.imageListDown(postNo);
-		System.out.println(image);
-		System.out.println(image.size());
+//		System.out.println(image);
+//		System.out.println(image.size());
 		List<String> bfl = new ArrayList<>();
 		for(int i = 0; i < image.size(); i++) {
 			String path = image.get(i).getBoardFilePath();

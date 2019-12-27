@@ -27,4 +27,5 @@ public interface MainFeedService {
 	List<MainFeed> search(Search searchWord);
 //	이미지
 	List<BoardFile> imageListDown(int postNo);
+	List<String> boardFile(int postNo);
 }

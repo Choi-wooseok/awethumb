@@ -1,5 +1,6 @@
 package com.awethumb.mainfeed.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,15 @@ public class MainFeedServiceImpl implements MainFeedService {
 		return dao.imageListDown(postNo);
 	}
 
+	// 파일경로가져오기
+	public List<String> boardFile(int postNo){
+		List<BoardFile> bf = dao.boardFile(postNo);
+		List<String> msg = new ArrayList<>();;
+		for(BoardFile b : bf) {
+			msg.add(b.getBoardFilePath() + b.getBoardFileSysName());
+		}
+		return msg; 
+	}
 
 //	public Board updateFormBoard(int no) {
 //		return dao.selectOneBoard(no);

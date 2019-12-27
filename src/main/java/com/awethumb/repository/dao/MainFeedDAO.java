@@ -41,6 +41,7 @@ public interface MainFeedDAO {
 	void deleteHashtag(Hashtag hashtag);
 //	이미지
 	List<BoardFile> imageListDown(int postNo);
+	List<BoardFile> boardFile(int postNo);
 }
 
 

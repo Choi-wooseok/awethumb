@@ -5,10 +5,7 @@
 		for (let i = 0; i < ht.length; i++) {
 			if ((ht[i]).includes('#')){
 				ht[i] = `
-				<a class="hashForm">
-					<input class="hashInput" name="hashtag" type="hidden" value=""/>
-					<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>
-				</a>
+				<span class="ht"  data-ht="${ht[i]}">${ht[i]}</span>
 			`}
 		}
 		for (let j = 0; j < ht.length; j++) {
@@ -17,7 +14,6 @@
 		return newContent
 	}
 //	해시태그 클릭시 검색화면으로 이동
-	function hashClickFn() {
 		$(document).on("click", ".ht", (e) => {
 			let hashSrch = $(e.target).data("ht")
 			let hashTg = hashSrch.split('#');
@@ -33,7 +29,7 @@
 				contentType: 'application/json; charset=UTF-8',
 				success: result => {
 					for (let i = 0; i < result.length; i++){
-						if (result[i].hashtagAndNickname == '#'+hashTg[1]){
+						if (result[i].hashtagAndNickname == '#'+ hashTg[1]){
 							console.log("11", searchWord)
 //							MainfeedMakeAjax('#'+hashTg[1])
 //							$(".hashForm").submit();
@@ -45,7 +41,6 @@
 				}
 			})
 		});
-	};
 	// 해시태그 스플릿
 	function hashSplitFn(postNoAndCmtNo, cmtAndPostContent, hashType) {
 //			let cmtVal= $("#cmtContent").val(); // 댓글 해시태그

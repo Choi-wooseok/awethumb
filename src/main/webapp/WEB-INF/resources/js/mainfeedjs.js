@@ -1,5 +1,5 @@
 let pageIndex = 0;
-const pageCount = 6;
+const pageCount = 9;
 let scrollTop = 0;
 
 // back to top
@@ -45,6 +45,7 @@ let scrollTop = 0;
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
 		   if (searchWord) searchWord = "#" + searchWord;
+		   console.log("2", searchWord)
 			$.getJSON({
 				url: pageContextPath + "/mainfeed/mainfeedList.do",
 				data: {
@@ -52,6 +53,7 @@ let scrollTop = 0;
 					searchWord
 				},
 				success: list => {
+					console.log("3", searchWord)
 					console.log("4", list)
 					if(list.length == 0) {
 						$(window).off('scroll');
@@ -65,10 +67,13 @@ let scrollTop = 0;
 		function makeMainFeedList(list, resultType) {
 			function mainList() {
 				$.each(list, (i, c) => {
+					const newContent = renderHashtag(`${c.postContent}`);
+					userImg(c.userNo)
+					boardFile(c.postNo);
 					$("#feedsWrap").append(`
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
-								<div class="feedUserImg">
+								<div class="userImg${c.userNo}">
 									<img src="${pageContextPath}/images/test_user.jpg" alt="">
 								</div>
 								<div>
@@ -76,13 +81,12 @@ let scrollTop = 0;
 								</div>
 							</div>
 
-							<div class="feedsImgWrap">
-								<a class="detailFeed" href="javascript:;" > <img src="${pageContextPath}/images/main_bg.jpg" alt="" data-postno="${c.postNo}">
-								</a>
+							<div id="feedImgWrap"class="feedImgWrap${c.postNo}">
+								<a id="detailFeed" class="detailFeed${c.postNo}" href="javascript:;" ></a>
 							</div>
 
 							<div class="feedsPlay" id="feedsPlay${c.postNo}">
-								<div class="feedsContWrap">${c.postContent}</div>
+								<div class="feedsContWrap">${newContent}</div>
 								`)
 							$.each(c.hashtagList, (i, h) => {
 								if (`${h.hashtagContent}` != 'null') {
@@ -113,6 +117,38 @@ let scrollTop = 0;
 			setTimeout(() => {masonry(); 
 			$(window).scrollTop(scrollTop)}, 100);
 		}
+		
+		
+		 // boardFile
+		function boardFile(postNo) {
+			$.get({
+				url: "boardFileRead.do",
+				data: {'postNo' : postNo},
+				success: (list) => {
+					console.log("pn", postNo)
+					console.log("L", list.length)
+					for(let i = 0; i < list.length; i++){
+						$(".detailFeed" + postNo).append(
+								`<img id="feedImg" src="${list[i]}"alt="" data-postNo="${postNo}"/>`);
+							if (i == list.length - 1) {
+								$(".detailFeed" + postNo).slick();
+							}; // 이미지 슬라이드
+					}
+				},
+				error:(error) => {
+					console.log(error);
+				}
+			})
+		}
+		// userImg
+		function userImg(userNo){
+			$.get({
+				url:pageContextPath + "/api/user/"+ userNo + "/thumb",
+				success: (src) => {
+					$(".userImg" + userNo).attr("src", src);
+				}
+			})
+		} 
 		
 // --------------- detail -------------
 		
@@ -146,6 +182,8 @@ let scrollTop = 0;
 	}
 	
 	function makeDetailFeed(detail) {
+		const postContent = renderHashtag(`${detail.postContent}`);
+		console.log("dL", detail)
 		$feed = $("#detailFeedModal");
 			$feed.html(`
 				<div class="modal" id="modal${detail.postNo}">
@@ -196,18 +234,9 @@ let scrollTop = 0;
 							</div>
 								<div id="rightBox">
 									<div class="modalCont">
-										${detail.postContent}
+										${postContent}
 									</div>
 									`)
-						$.each(detail.hashtagList, (i, h) => {
-							if (`${h.hashtagContent}` !=  'null') {
-								$(`.modalCont`).append(`
-									<span class="hashtag">
-									<a href="javascript:;">${h.hashtagContent}</a>
-									</span>
-								`)
-							}		
-						});
 							$(`#rightBox`).append(`
 									<div class="comment">
 	                    	`)
@@ -297,7 +326,6 @@ let scrollTop = 0;
         if (typeof connectedUserNo !== 'undefined'){
         	$("textarea").hashtags();
         }
-        hashClickFn();
 	}
 	detailListAjax();
 	

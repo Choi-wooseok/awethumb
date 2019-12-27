@@ -67,6 +67,10 @@ let scrollTop = 0;
 		function makeMainFeedList(list, resultType) {
 			function mainList() {
 				$.each(list, (i, c) => {
+					let like = '';
+					if (typeof(connectedUserNo) !== 'undefined') {
+						like = likeAdmin(c.postNo, connectedUserNo, 1);
+					}
 					const newContent = renderHashtag(`${c.postContent}`);
 					let userImgData = userImg(c.userNo);
 					boardFile(c.postNo);
@@ -99,9 +103,7 @@ let scrollTop = 0;
 								$(`#feedsPlay${c.postNo}`).append(`
 								<div class="playInfo">
 									댓글 <span>${c.commentCount}</span>개
-									<button>
-										<i class="far fa-heart"></i> <span>${c.likeCount}</span>
-									</button>
+									${like}
 								</div>
 							</div>
 						</div>
@@ -600,4 +602,11 @@ let scrollTop = 0;
 				detailFeed(postNo);
 			})
 		});
-		
+
+$(document).on("click", ".likeBtn",(e) => {
+	console.log("ㅎㅇ");
+	if (typeof(connectedUserNo) !== 'undefined') {
+		console.log("ㅎㅇ2");
+		likeClick(connectedUserNo, e.target);
+	}
+ }) // 좋아요버튼클릭이벤트

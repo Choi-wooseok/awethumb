@@ -113,6 +113,7 @@
 			console.log("hash", hashtag);
 // 			console.log("cmtKey", cmtKey);
 		</script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/like.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mainfeedjs.js"></script>
 <%-- 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/hashtag/jquery.hashtags.js"></script> --%>
 <%-- 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/hashtag/autosize.min.js"></script> --%>

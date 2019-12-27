@@ -4,49 +4,37 @@ function imageAppend(list, target) {
 		target.append(`
 			<img class="images" src=${list[i]} />
 		`)
-		
 		// 이미지를 모두 append 하고 나면 슬라이드 시킴
 		if (i == list.length-1) {
 			target.slick();	
 		}
 	}
-	
-	let images = $(".images");
-//	$(".images").each(function(i, e) {
-//		console.log(
-//			e
-//		)
-//	})
-	for (let i = 0; i < images.length; i++) {
-		
-		console.log(images)
-		console.log($(images[i]).height())
-		console.log(images[i].naturalHeight)
-		console.log(images[i].offsetHeight)
-		console.log(images[i].scrollHeight)
-		console.log(images[i].clientHeight)
-	}
+	setTimeout(function () {
+		let images = $(".images");
+		$.each(images, function(i, e) {
+			let maxSize = $(".slick-slide").width();
+			imgReSize($(this), maxSize);
+		})
+	},200)
 }
 
-function imgReSize(w, h) {
-	let maxSize = 500;
-	let boxSize = document.getElementById("boxSize");
-	let rightBox = document.getElementById("rightBox");
-    if (w > maxSize && h > maxSize) {
-        if (w > h) {
-            boxSize.style.width = maxSize+"px";
-            boxSize.style.height = "auto";
-            image.style.width = "100%";
-        } else {
-	        boxSize.style.width = "auto";
-	        boxSize.style.height = maxSize+"px";
-	        image.style.height = "100%";
-        }
-    } else if (w > maxSize && h < maxSize) {
-        boxSize.style.width = maxSize+"px";
-        image.style.width =  "100%";
-    } else if (w < maxSize && h > maxSize) {
-        box.Size.style.height = maxSize+"px";
-        image.style.height = "100%";
+function imgReSize(image, size) {
+	let w = image.width();
+	let h = image.height();
+	let maxSize = size;
+	let boxSize = $("#boxSize");
+	console.log(w, h, size)
+    if (w >= maxSize && h >= maxSize) {
+    	if (w > h) {
+			image.css({'color':'red', 'width':size, 'height':'auto'})
+		} else if (h > w) {
+			image.css({'color':'red', 'height':size, 'width':'auto'})
+		} else {
+			image.css({'color':'red', 'width':size, 'height':size})
+		}
+    } else if (w >= maxSize && h < maxSize) {
+        image.css({'width':size})
+    } else if (w < maxSize && h >= maxSize) {
+    	image.css({'height':size})
     }
 }

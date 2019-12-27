@@ -1260,9 +1260,15 @@ section#feeds {
 	background-color: #333;
 	max-height: 500px;
 }
-.slick-slide img {
-	display: block !important;	
-}	
+.slick-slide {
+	display: table !important;
+}
+.slick-slide > div {
+	position: relative;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
 .imgWrap {
 	width: 550px !important;
 	height: 550px !important;

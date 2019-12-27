@@ -8,7 +8,7 @@ public class FeedPage {
 	private int pageIndex; 
 	
 	// 페이지  (0~몇개씩 뽑을건지)
-	private int pageCount = 9; 
+	private int pageCount = 12; 
 
     // 검색 키워드
     private String searchWord;

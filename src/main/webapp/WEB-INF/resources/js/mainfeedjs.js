@@ -1,5 +1,5 @@
 let pageIndex = 0;
-const pageCount = 9;
+const pageCount = 12;
 let scrollTop = 0;
 
 // back to top
@@ -68,13 +68,13 @@ let scrollTop = 0;
 			function mainList() {
 				$.each(list, (i, c) => {
 					const newContent = renderHashtag(`${c.postContent}`);
-					userImg(c.userNo)
+					let userImgData = userImg(c.userNo);
 					boardFile(c.postNo);
 					$("#feedsWrap").append(`
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
 								<div class="userImg${c.userNo}">
-									<img src="${pageContextPath}/images/test_user.jpg" alt="">
+									<img src="${userImgData}" alt="">
 								</div>
 								<div>
 									<a href="#">${c.userNickname}</a>
@@ -145,7 +145,8 @@ let scrollTop = 0;
 			$.get({
 				url:pageContextPath + "/api/user/"+ userNo + "/thumb",
 				success: (src) => {
-					$(".userImg" + userNo).attr("src", src);
+					console.log("src", src);
+					$(".userImg" + userNo + " > img").attr("src", src);
 				}
 			})
 		} 

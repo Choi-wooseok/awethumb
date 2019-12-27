@@ -167,7 +167,6 @@ function feedList(list){
 				}
 			let un = bl.userNo;
 			userImg(un);	
-			hashClickFn(); // 해시태그 클릭시 이동
 		}); // each
 }; // feedList
 // 댓글 등록
@@ -470,8 +469,6 @@ function boardCommentListAjax(list, postNo) {
 		// 유저사진
 		let un = c.userNo;
 		userImg(un);
-		// 해스태그 클릭시 이동
-		hashClickFn();
 	}); // each
 }; // boardCommentListAjax
 

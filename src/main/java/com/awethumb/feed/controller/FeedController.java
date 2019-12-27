@@ -30,8 +30,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	
 	@RequestMapping("/feed.do")
 	public void feed(Model model, Principal p) { 
-//		int imageState = 0; // 더미 이미지 띄우는용 -> 0 이미지X , 1이미지O
-//		model.addAttribute("imageState", imageState);
 		
 		String userId = p.getName(); // 로그인 한 userId
 		model.addAttribute("userFollowMeCount", service.selectFollowMeCount(userId));
@@ -55,10 +53,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 	@RequestMapping("/boardCommentList.do")
 	@ResponseBody
 	public List<Comment> selectComment(Comment comment){ // 글당 댓글 리스트
-		System.out.println("bb : " + comment.getPostNo());
-		System.out.println("----------");
-		System.out.println("a : " + service.selectFeedBoardComment(comment).get(0).getLikeCheck());
-		System.out.println("b : " + service.selectFeedBoardComment(comment).get(4).getLikeCheck());
 		return service.selectFeedBoardComment(comment);
 	}
 	@RequestMapping("/boardCommentInsert.do")
@@ -95,12 +89,6 @@ public class FeedController { // http://localhost:8000/awethumb/feed/feed.do
 		}
 		return name;
 	}
-//	// 이미지 확인유무
-//	@RequestMapping("/boardFileCheck.do")
-//	@ResponseBody
-//	public int boardFileCheck(int postNo) {
-//		return service.boardFileCheck(postNo);
-//	}
 
 	@RequestMapping("/categoryListSideBar.do")
 	@ResponseBody

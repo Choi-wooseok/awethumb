@@ -130,7 +130,7 @@ $(".deleteBoard").click((e) => {
 			postNo: $(e.target).data("postno")
 		},
 		success: () => {
-			window.location.href=`/awethumb/detailProject/updateListForm.do?projectNo=${pjtNo}`
+			window.location.href=`${pageContextPath}/detailProject/updateListForm.do?projectNo=${pjtNo}`
 		}
 	})
 })
@@ -222,7 +222,7 @@ $("#closeBtn").click(() => {
 $("#posUpdateBtn").click((e) => {
 	let projectNo = $(e.target).data("pjtno");
 	if($(".grid-stack-item").length == 0) {
-		window.location.href=`/awethumb/detailProject/${projectNo}`;
+		window.location.href=`${pageContextPath}/detailProject/${projectNo}`;
 	}
 	$(".grid-stack-item").each((i, e) => {
 		let posNo = $(e).data("postno");
@@ -241,7 +241,7 @@ $("#posUpdateBtn").click((e) => {
 			},
 			success: () => {
 				setTimeout(() => {
-					window.location.href=`/awethumb/detailProject/${projectNo}`					
+					window.location.href=`${pageContextPath}/detailProject/${projectNo}`					
 				},200)
 			}
 		});

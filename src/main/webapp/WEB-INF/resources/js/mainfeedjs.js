@@ -469,11 +469,11 @@ let scrollTop = 0;
 	           let cmtNo = $(e.target).data("cmtno");
 	           if (cmtNo == null) { // 게시글 신고
 	              let newWindow = window.open("about:blank");
-	              newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+	              newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}`;
 	           }
 	           else { // 댓글 신고
 	              let newWindow = window.open("about:blank");
-	              newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+	              newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	           }
 	        });
 	        

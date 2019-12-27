@@ -183,7 +183,7 @@ $(".cancel").click(() => {
 // 수정아이콘 클릭 시 수정화면으로 이동
 $("#updateBtn").click(() => {
 	let projectNo = $("#updateBtn").data("pjtno");
-	location.href=`/awethumb/detailProject/updateListForm.do?projectNo=${projectNo}`;
+	location.href=`${pageContextPath}/detailProject/updateListForm.do?projectNo=${projectNo}`;
 })
 
 // 인스타 버튼 클릭시 DetailBoard 모달창 생성
@@ -434,10 +434,10 @@ $(document).on("click", ".report", (e) => {
 
 	if (cmtNo == null) { // 게시글 신고
 		let newWindow = window.open("about:blank");
-		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}`;
+		newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}`;
 	} else { // 댓글 신고
 		let newWindow = window.open("about:blank");
-		newWindow.location.href = `/awethumb/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
+		newWindow.location.href = `${pageContextPath}/report/insertReportForm.do?postNo=${postNo}&commentNo=${cmtNo}`;
 	}
 	
 })

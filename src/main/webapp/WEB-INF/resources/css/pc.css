@@ -1161,6 +1161,7 @@ section#feeds {
     box-sizing: border-box;
     padding-top: 70px;
     background-color: #dadada35;
+    min-height: 100vh;
 }
 .feedsWrap {
     width: 960px;

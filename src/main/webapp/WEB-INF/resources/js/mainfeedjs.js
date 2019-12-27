@@ -131,7 +131,7 @@ let scrollTop = 0;
 					console.log("L", list.length)
 //					for(let i = 0; i < list.length; i++){
 						$(".detailFeed." + postNo).append(
-								`<img id="feedImg" src="${list[i]}"alt="" data-postNo="${postNo}"/>`);
+						`<img id="feedImg" class="feedImg" src="${list[0]}"alt="" data-postNo="${postNo}"/>`);						
 //							if (i == list.length - 1) {
 //								$(".detailFeed." + postNo).slick();
 //							}; // 이미지 슬라이드

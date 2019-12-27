@@ -1455,3 +1455,6 @@ section#feeds {
 .modal .commentList {
 	width: 410px;
 }
+#detailFeed {
+	display: block;
+}

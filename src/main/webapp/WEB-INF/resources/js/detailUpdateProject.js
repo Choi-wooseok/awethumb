@@ -249,3 +249,36 @@ $("#posUpdateBtn").click((e) => {
 })
 
 
+// 복붙 기능 방지
+$(function(){
+  let failMessage = function(){
+	  Swal.fire({
+		  icon: 'error',
+		  title: '붙여넣기 금지',
+		  html: '붙여넣기 기능은 사용하실 수 없습니다.'
+	  });
+	  return false;
+  },
+  preventEvent = {
+   "keydown" : function(e) {
+	   let keycode = function(e){ 
+             return ('which' in e ? e.which : e.keyCode) 
+         }(e),
+         ctrl_cv = (e.ctrlKey && (keycode == 118 || keycode == 86)),
+         shift_insert = (e.shiftKey && keycode == 45);
+         if (ctrl_cv || shift_insert){
+             return failMessage();
+         }
+   }
+   ,"mouseup" : function(e) {
+	   let rightClick = (e.button == 2);
+        if(rightClick){
+           return failMessage();
+        }
+   }
+   ,"contextmenu" : function(e) {
+           return failMessage();
+   }
+ };
+$(document).bind(preventEvent);
+}());

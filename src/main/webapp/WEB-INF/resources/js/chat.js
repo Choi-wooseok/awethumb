@@ -24,6 +24,9 @@ function makeChatList(list) {
 }
 
 $("#chatServer").click(() => {
+	if ($(".alarm-dropdown-wrap").hasClass("alarmhidden") == false) {
+		$(".alarm-dropdown-wrap").addClass("alarmhidden");
+	}
 	$(".chatting").toggleClass("chat-hidden");
 	$(".msglist").css("display", "none");
 });

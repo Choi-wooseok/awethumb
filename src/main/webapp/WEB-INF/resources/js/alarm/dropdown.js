@@ -9,8 +9,12 @@ $(".alarm-dropdown-btn").click(() => {
 })
 
 function toggleAlarmDropdown(){
+	if ($(".chatting").hasClass("chat-hidden") == false) {
+		$(".chatting").addClass("chat-hidden");
+	}
 	$(".alarm-dropdown-wrap").toggleClass("alarmhidden")
 	$(".alarm-list").text("");
+	
 }
 
 function getDropdownAlarmListAjax(){

@@ -37,28 +37,23 @@
 			</sec:authorize>
 
             <div class="optBtn">
-            	<button>
-            		<a href="${pageContext.request.contextPath}/mainfeed/mainfeed.do">
-            			<i class="fas fa-search-location"></i>
-            		</a>
-            	</button>
                 <button>
                 	<a href="${pageContext.request.contextPath}/user/logout.do">
-	                    <i class="far fa-user"></i>
+	                    <i class="fas fa-power-off"></i>
                     </a>
                 </button>
                 <button>
                 	<a href="${pageContext.request.contextPath}/feed/feed.do">
-                    	<i class="far fa-compass"></i>
+                    	<i class="far fa-user"></i>
                     </a>	
                 </button>
+                <sec:authorize access="isAuthenticated()">
                 <button class="alarm-dropdown-btn">
                 	<div>
 	                   	<i class="far fa-bell"></i>
 	                   	<div class="alarmCnt"></div>
                 	</div>
                 </button>
-                <sec:authorize access="isAuthenticated()">
 	                <button id="chatServer">
 	                	<div>
 		                   	<i class="far fa-paper-plane"></i>

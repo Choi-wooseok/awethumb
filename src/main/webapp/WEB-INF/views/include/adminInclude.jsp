@@ -8,8 +8,7 @@
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
   
   <!-- 파비콘 -->
-  <link href="<c:url value='/admin/img/favicon.png'/>" rel="icon">
-  <link href="<c:url value='/admin/img/apple-touch-icon.png'/>" rel="apple-touch-icon">
+  <link href="<c:url value='/images/favicon/favicon.ico'/>" rel="icon">
   
   <!-- 제이쿼리 -부트스트랩 위에 있어야함. -->
   <script src="<c:url value='/js/jquery.js' />"></script>

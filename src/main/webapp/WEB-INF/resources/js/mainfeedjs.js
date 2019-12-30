@@ -134,7 +134,7 @@ let scrollTop = 0;
 				mainList();
 			};
 			setTimeout(() => {masonry(); 
-			$(window).scrollTop(scrollTop)}, 100);
+			$(window).scrollTop(scrollTop)}, 300);
 		}
 		
 

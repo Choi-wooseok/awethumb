@@ -45,6 +45,8 @@
 				<a href="javascript:;" id="mainfeed-scroll" style="display: none;"><span></span></a>
 				
 				<!-- 메인피드 생성 -->
+				<div id="searchWord">
+				</div>
 				<div class="feedsWrap msrItems" id="feedsWrap">
 					<!-- 반복을 통한 list출력 -->
 				</div>

@@ -39,7 +39,7 @@ function likeAdmin(no, user, type) {
 					${likestate}>
 				   </i>`;
 	if (state === 1) {
-		like = `<div>
+		like = `<div class="likeBtnDiv">
 					<button
 						type="button"
 						style="border:none; background-color:transparent;">

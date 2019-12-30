@@ -59,13 +59,29 @@ let scrollTop = 0;
 						$(window).off('scroll');
 						return;
 					}
-					makeMainFeedList(list);
+					if(searchWord) {
+						makeMainFeedList(list, searchWord);
+					} else {
+						makeMainFeedList(list);
+					}
 				}
 			})
 		}
 	   
-		function makeMainFeedList(list, resultType) {
+		function makeMainFeedList(list, searchWord) {
+//			console.log("lt", list);
+//			console.log("reT", searchWord);
 			function mainList() {
+				if (searchWord) {
+					$("#searchWord").css("display", "block");
+					$("#searchWord").append(`
+						검색어  <span>${searchWord}</span>
+					`)
+					mainContent()
+				} else {
+					mainContent()
+				}
+				function mainContent (){
 				$.each(list, (i, c) => {
 					let like = '';
 					if (typeof(connectedUserNo) !== 'undefined') {
@@ -92,14 +108,14 @@ let scrollTop = 0;
 							<div class="feedsPlay" id="feedsPlay${c.postNo}">
 								<div class="feedsContWrap">${newContent}</div>
 								`)
-//							$.each(c.hashtagList, (i, h) => {
-//								if (`${h.hashtagContent}` != 'null') {
-//									$(`#feedsPlay${c.postNo}`).append(`
-//									<span class="hashTag">
-//										<a href="javascript:;">${h.hashtagContent}</a>
-//									</span>`)
-//								}
-//							});
+							$.each(c.hashtagList, (i, h) => {
+								if (`${h.hashtagContent}` != 'null') {
+									$(`#feedsPlay${c.postNo}`).append(`
+									<span class="hashTag">
+										<a href="javascript:;">${h.hashtagContent}</a>
+									</span>`)
+								}
+							});
 								$(`#feedsPlay${c.postNo}`).append(`
 								<div class="playInfo">
 									댓글 <span>${c.commentCount}</span>개
@@ -110,14 +126,15 @@ let scrollTop = 0;
 					`);
 					});
 				}
-			if (resultType) {
+				}
+			if (searchWord) {
 				$(".feedsList").remove()
 				mainList();
 			} else {
 				mainList();
 			};
 			setTimeout(() => {masonry(); 
-			$(window).scrollTop(scrollTop)}, 100);
+			$(window).scrollTop(scrollTop)}, 300);
 		}
 		
 		
@@ -129,13 +146,8 @@ let scrollTop = 0;
 				success: (list) => {
 					console.log("pn", postNo)
 					console.log("L", list.length)
-//					for(let i = 0; i < list.length; i++){
 						$(".detailFeed." + postNo).append(
 						`<img id="feedImg" class="feedImg" src="${list[0]}"alt="" data-postNo="${postNo}"/>`);						
-//							if (i == list.length - 1) {
-//								$(".detailFeed." + postNo).slick();
-//							}; // 이미지 슬라이드
-//					}
 				},
 				error:(error) => {
 					console.log(error);

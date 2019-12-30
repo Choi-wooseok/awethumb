@@ -114,6 +114,15 @@
 	  margin:0 auto;
 	  width:60%;
   }
+  
+  .rank_post_title {
+  	    display: inline-block;
+    max-height: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 20em;
+  }
 /*   .post-content{ */
 /* 	 	display: inline-block; white-space: nowrap; overflow: hidden; */
 /* 	 	text-overflow: ellipsis; */
@@ -242,7 +251,7 @@
 						<c:forEach items="${postDailyRankByViewCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  조회수:${s.viewCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>
@@ -256,7 +265,7 @@
             		<c:forEach items="${postDailyRankByLikeCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  좋아요:${s.likeCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>
@@ -270,7 +279,7 @@
             		<c:forEach items="${postMonthlyRankByViewCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  조회수:${s.viewCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>
@@ -280,11 +289,11 @@
 				</ul>
 				<hr>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
-            		<li class="w3-black"><h4>월별 게시글 추천순 랭킹</h4></li>
+            		<li class="w3-black"><h4>월별 게시글 좋아요순 랭킹</h4></li>
             		<c:forEach items="${postMonthlyRankByLikeCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  좋아요:${s.likeCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>
@@ -297,7 +306,7 @@
             			<c:forEach items="${postTotalRankByViewCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  조회수:${s.viewCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  조회수:${s.viewCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>
@@ -306,11 +315,11 @@
             			</c:forEach>
 				</ul>
             	<ul class="w3-ul w3-card-4 w3-center" style="width:100%">
-            		<li class="w3-black"><h4>전체 게시글 추천순 랭킹</h4></li>
+            		<li class="w3-black"><h4>전체 게시글 좋아요순 랭킹</h4></li>
             		<c:forEach items="${postTotalRankByLikeCnt}" var="s">
             			<c:choose>
             				<c:when test='${!empty s.postContent}'>
-		            			<li class="post-content">${s.postContent}  좋아요:${s.likeCnt}</li>
+		            			<li class="post-content"><span class="rank_post_title">${s.postContent}</span>  좋아요:${s.likeCnt}</li>
             				</c:when>
 	            			<c:otherwise>
     		        			<li class="post-content">데이터가 없습니다.</li>

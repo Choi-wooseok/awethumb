@@ -168,7 +168,7 @@
 	</select>
 
 	<insert id="insertSavedProject" parameterType="ProjectSubscribe">
-		insert into project_subcribe_tb
+		insert into project_subscribe_tb (
 			user_no, project_no
 		) values (
 			#{userNo}, #{projectNo}

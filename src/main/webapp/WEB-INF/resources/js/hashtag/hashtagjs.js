@@ -10,9 +10,16 @@
 		let ht = cmtContent.split(' ');
 		for (let i = 0; i < ht.length; i++) {
 			if ((ht[i]).includes('#')){
-				ht[i] = `
-				<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>
-			`}
+				if (ht[i].startsWith("#")) {
+					ht[i] = `<span class="ht" data-ht="${ht[i]}">${ht[i]}</span>`
+				} else {
+					// #중간에 꼈을때 짤라라
+					let prevData = ht[i].substring(ht[i].indexOf("#"),ht[i].length);
+					ht[i] = ht[i].substring(0, ht[i].indexOf("#"));
+					ht[i] += `<span class="ht" data-ht="${prevData}">${prevData}</span>`
+				}
+				
+			}
 		}
 		for (let j = 0; j < ht.length; j++) {
 			newContent += ht[j] + " "

@@ -57,4 +57,7 @@ public class MainFeed {
     
     // 이미지 리스트
     private List<String> boardfileList;
+    
+    // 이미지 하나
+    private String boardFile;
 }

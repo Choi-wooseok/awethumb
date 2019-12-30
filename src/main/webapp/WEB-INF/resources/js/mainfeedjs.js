@@ -83,13 +83,13 @@ let scrollTop = 0;
 				}
 				function mainContent (){
 				$.each(list, (i, c) => {
+					console.log("boardFilePath : " , c.boardFile);
 					let like = '';
 					if (typeof(connectedUserNo) !== 'undefined') {
 						like = likeAdmin(c.postNo, connectedUserNo, 1);
 					}
 					const newContent = renderHashtag(`${c.postContent}`);
 					let userImgData = userImg(c.userNo);
-					boardFile(c.postNo);
 					$("#feedsWrap").append(`
 						<div class="feedsList msrItem" id="feedsList">
 							<div class="feedsInfo">
@@ -102,7 +102,7 @@ let scrollTop = 0;
 							</div>
 
 							<div id="feedImgWrap"class="feedImgWrap${c.postNo}">
-								<a id="detailFeed" class="detailFeed ${c.postNo}" href="javascript:;"></a>
+								<img id="feedImg" class="feedImg ${c.postNo}" src="${pageContextPath}/image/${c.boardFile}"alt="" data-postNo="${c.postNo}"/>
 							</div>
 
 							<div class="feedsPlay" id="feedsPlay${c.postNo}">
@@ -134,26 +134,10 @@ let scrollTop = 0;
 				mainList();
 			};
 			setTimeout(() => {masonry(); 
-			$(window).scrollTop(scrollTop)}, 300);
+			$(window).scrollTop(scrollTop)}, 100);
 		}
 		
-		
-		 // boardFile
-		function boardFile(postNo) {
-			$.get({
-				url: "boardFileRead.do",
-				data: {'postNo' : postNo},
-				success: (list) => {
-					console.log("pn", postNo)
-					console.log("L", list.length)
-						$(".detailFeed." + postNo).append(
-						`<img id="feedImg" class="feedImg" src="${list[0]}"alt="" data-postNo="${postNo}"/>`);						
-				},
-				error:(error) => {
-					console.log(error);
-				}
-			})
-		}
+
 		// userImg
 		function userImg(userNo){
 			$.get({
@@ -191,9 +175,9 @@ let scrollTop = 0;
 	}
 		
 	function detailListAjax() {
-	$(document).on('click', '.detailFeed', (e) => {
+	$(document).on('click', '.feedImg', (e) => {
 		$("#detailFeedModal").css("display", "block")
-		console.log("post?",$(e.target).data("postno"));
+		console.log("post?" , $(e.target).data("postno"));
 		detailFeed($(e.target).data("postno"));
 	});
 	}

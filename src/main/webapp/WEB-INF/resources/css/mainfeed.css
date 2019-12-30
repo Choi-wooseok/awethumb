@@ -159,3 +159,6 @@
     left: 1%;
     color: #6dd5bc;
 }
+.feedImg {
+	cursor: pointer;
+}

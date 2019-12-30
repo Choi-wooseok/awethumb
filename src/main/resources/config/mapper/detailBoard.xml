@@ -15,7 +15,7 @@
 		 where post_no = #{postNo}
 	</select>
 	
-	<insert id="insertBoard" parameterType="Board">
+	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="postNo" parameterType="Board">
 		insert into board_tb (
 			project_no, post_content, x_coord, y_coord, width, hight
 		) values (

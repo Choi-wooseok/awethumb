@@ -61,9 +61,11 @@ public class DetailBoardController {
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
 			List<BoardFile> bf = service.selectImages(bList.get(i).getPostNo());
-			bList.get(i).setUrl(
-				req.getContextPath() + "/image/" + bf.get(0).getBoardFilePath() + bf.get(0).getBoardFileSysName()
-			);
+			if (bf.size() != 0) {
+				bList.get(i).setUrl(
+					req.getContextPath() + "/image/" + bf.get(0).getBoardFilePath() + bf.get(0).getBoardFileSysName()
+				);				
+			}
 		};
 		mav.addObject("shardUsers", shUsers);
 		mav.addObject("project", project);
@@ -75,15 +77,15 @@ public class DetailBoardController {
 	public String insertBoard(Board board, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		int pjtNo = board.getProjectNo();
 		// hash
+		service.insertBoard(board);
 		if (board.getPostContent().contains("#")) {
-			int postNo = service.postNoSelect() +1;
-			HashUtil hUtil = new HashUtil();
-			HashMap<String, Object> hashMap = hUtil.renderHashtag(board.getPostContent());
+//			HashUtil hUtil = new HashUtil();
+			HashMap<String, Object> hashMap = HashUtil.renderHashtag(board.getPostContent());
 			board.setPostContent((String)hashMap.get("content"));
 			List<String> hList = (List<String>)hashMap.get("hashList");
 			for (int i = 0; i < hList.size(); i++) {
 				Hashtag hashtag = new Hashtag();
-				hashtag.setPostNoAndCmtNo(postNo);
+				hashtag.setPostNoAndCmtNo(board.getPostNo());
 				hashtag.setHashtagContent(hList.get(i));
 				hashtag.setHashType(1);
 				service.insertHashTag(hashtag);
@@ -92,11 +94,9 @@ public class DetailBoardController {
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = (List<BoardFile>) session.getAttribute("bfList");
 		board.setListFile(bfList);
-		service.insertBoard(board);
-		int postNo = service.postNoSelect(); 
 		for (int i = 0; i < bfList.size(); i++ ) {
 			BoardFile bfile = bfList.get(i);
-			bfile.setPostNo(postNo);
+			bfile.setPostNo(board.getPostNo());
 			service.insertImage(bfile);
 		}
 		session.removeAttribute("bfList");
@@ -116,10 +116,12 @@ public class DetailBoardController {
 
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
-			BoardFile bf = service.selectImages(bList.get(i).getPostNo()).get(0);
-			bList.get(i).setUrl(
-				req.getContextPath() + "/image/" + bf.getBoardFilePath() + bf.getBoardFileSysName()
-			);
+			List<BoardFile> bf = service.selectImages(bList.get(i).getPostNo());
+			if (bf.size() != 0) {
+				bList.get(i).setUrl(
+					req.getContextPath() + "/image/" + bf.get(0).getBoardFilePath() + bf.get(0).getBoardFileSysName()
+				);
+			}
 		};
 		model.addAttribute("project", project);
 		model.addAttribute("list", bList);

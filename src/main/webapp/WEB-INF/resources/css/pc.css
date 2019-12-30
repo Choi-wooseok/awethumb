@@ -596,6 +596,7 @@ section > div.content {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    line-height: 1.2
 }
 .bg_gray span {
     display: block;

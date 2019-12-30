@@ -13,6 +13,9 @@ public class HashUtil {
 		if (content.contains("&lt;/p&gt;&lt;p&gt;")) {
 			content = content.replaceAll("&lt;/p&gt;&lt;p&gt;", "&lt;/p&gt; &lt;p&gt;");
 		}
+		if (content.contains("#")) {
+			content = content.replaceAll("#", " #");
+		}
 		String[] contents = content.split(" ");
 		String returnContent = "";
 		for (int i = 0; i < contents.length; i++) {

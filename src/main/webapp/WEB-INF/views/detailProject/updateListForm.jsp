@@ -52,22 +52,9 @@
            		<c:forEach var="li" items="${list}">
          			<div class="grid-stack-item" data-gs-x="${li.xCoord}" data-gs-y="${li.yCoord}" data-gs-width="${li.width}" data-gs-height="${li.hight}" data-postno="${li.postNo}" >
 	                    <div class="grid-stack-item-content">
-	                    	
-	                    	<!-- if문으로 이미지가 있는지 없는지 확인해서 없으면 display:none -->
-	                    	<c:choose>
-	                    		<c:when test="${empty li.listFile}">
-	                    			<div class="detailCont">
-				                    	${li.postContent}
-			                    	</div>
-	                    		</c:when>
-	                    		<c:otherwise>
-							        <div class="detailImg"></div>
-						        	<div class="detailCont">
-				                    	${li.postContent}
-			                    	</div>
-						        </c:otherwise>
-	                    	</c:choose>
-
+	                    	<div class="detailImg">
+					        	<img src="${li.url}" alt="#" />
+					        </div>
 	                        <button class="optionModalBtn" type="button">
 	                            <i class="fas fa-ellipsis-h" data-msg="${li.postNo}"></i>
 	                        </button>

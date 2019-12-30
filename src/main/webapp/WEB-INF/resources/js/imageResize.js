@@ -26,11 +26,11 @@ function imgReSize(image, size) {
 	console.log(w, h, size)
     if (w >= maxSize && h >= maxSize) {
     	if (w > h) {
-			image.css({'color':'red', 'width':size, 'height':'auto'})
+			image.css({'width':size, 'height':'auto'})
 		} else if (h > w) {
-			image.css({'color':'red', 'height':size, 'width':'auto'})
+			image.css({'height':size, 'width':'auto'})
 		} else {
-			image.css({'color':'red', 'width':size, 'height':size})
+			image.css({'width':size, 'height':size})
 		}
     } else if (w >= maxSize && h < maxSize) {
         image.css({'width':size})

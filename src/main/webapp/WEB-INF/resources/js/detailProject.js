@@ -2,6 +2,7 @@ $(document).ready(function() {
 	let pjtNo = $("#updateBtn").data("pjtno");
 	let userNo = $("#savedBtn").data("pjtuno");
 	
+	// 맨처음 Project별 대표 이미지 찾아와서 뿌려줌
 	$.ajax({
 		url: pageContextPath + "/api/project/" + pjtNo + "/img",
 		success: (result) => {
@@ -23,6 +24,16 @@ $(document).ready(function() {
         disableDragAndDrop: true,
 	});
 });
+
+// 글 등록 클릭 시 이미지 갯수 확인
+$("#okBtn").click((e) => {
+//	alert($("#insertImg").get(0).files.length)
+	if ($("#insertImg").get(0).files.length != 0) {
+		$("form").submit();
+	} else {
+		alert("1개 이상의 이미지를 등록해 주세요.")
+	}
+})
 
 // 프로젝트 저장하기
 $("#savedBtn").click((e) => {

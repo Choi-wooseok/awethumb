@@ -21,10 +21,12 @@ li > article{
     font-size: 18px;
 }
 .alarm-list > li{
+	position: relative;
 	display: block;
-	padding: 12px;
+	padding: 12px 12px 30px 12px;
 	border-bottom: 1px solid #dbdbdb;
 	cursor:pointer;
+	box-sizing: border-box;
 }
 .alarm-list > li:hover{
 	background-color: #dbdbdb;
@@ -44,8 +46,12 @@ li > article{
 }
 .alarm-dropdown-delbtn{
     position: absolute;
-    top: 67px;
-    left: 290px;
+    right: 12px;
+    bottom: 6px;
+    border: none;
+    font-weight: 900;
+    color: #666;
+    background-color: transparent;
 }
 .dropdown-showmore{
 	display: block;
@@ -53,17 +59,19 @@ li > article{
     cursor: pointer;
 }
 .alarm-dropdown-time{
-	position: absolute;
-    top: -25px;
-    left: 214px;
+    position: absolute;
+    float: left;
+    line-height: 14px;
+    bottom: 8px;
+    left: 12px;
     font-size: 12px;
-    width: 100px;
-    text-align: right;
-    height:0px;
 }
 .user-title{
     margin: 6px 0 0;
 }
-
-
-
+.alarm-list > li > article {
+	height: 35px;
+}
+.alarm-list > li {
+	
+}

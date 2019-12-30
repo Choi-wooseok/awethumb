@@ -1,5 +1,7 @@
 package com.awethumb.detailBoard.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,9 +60,11 @@ public class DetailBoardController {
 		// jsp에 BoardListVO를 넘기기 위함
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
-			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
-			bList.get(i).setListFile(fList);
-		}
+			List<BoardFile> bf = service.selectImages(bList.get(i).getPostNo());
+			bList.get(i).setUrl(
+				req.getContextPath() + "/image/" + bf.get(0).getBoardFilePath() + bf.get(0).getBoardFileSysName()
+			);
+		};
 		mav.addObject("shardUsers", shUsers);
 		mav.addObject("project", project);
 		mav.addObject("list", bList);
@@ -68,7 +72,7 @@ public class DetailBoardController {
 	}
 
 	@RequestMapping("write.do")
-	public String insertBoard(Board board, HttpServletRequest req) {
+	public String insertBoard(Board board, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		int pjtNo = board.getProjectNo();
 		// hash
 		if (board.getPostContent().contains("#")) {
@@ -112,9 +116,11 @@ public class DetailBoardController {
 
 		List<Board> bList = service.selectBoardList(projectNo);
 		for (int i = 0; i < bList.size(); i++) {
-			List<BoardFile> fList = service.selectImgList(bList.get(i).getPostNo());
-			bList.get(i).setListFile(fList);
-		}
+			BoardFile bf = service.selectImages(bList.get(i).getPostNo()).get(0);
+			bList.get(i).setUrl(
+				req.getContextPath() + "/image/" + bf.getBoardFilePath() + bf.getBoardFileSysName()
+			);
+		};
 		model.addAttribute("project", project);
 		model.addAttribute("list", bList);
 	}

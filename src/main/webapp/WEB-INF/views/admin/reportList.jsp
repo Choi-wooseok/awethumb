@@ -11,6 +11,13 @@
 .menu {
 	display: none;
 }
+td {
+	max-height: 35px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
 </style>
 </head>
 <body>
@@ -133,6 +140,13 @@
   function makeReportList(list, pageMaker) {
 	let $tbr = $("<tbody></tbody>");
 	$.each(list, (i, r) => {
+		let gigi = r.reportTitle;
+		let title = "";
+		if(gigi == null) {
+			title = '삭제된 게시물입니다.';
+		} else {
+			title = $(gigi).text();
+		}
 		var date = new Date(r.reportDt);
 		var time = date.getFullYear() + "-" 
 		         + (date.getMonth() + 1) + "-" 
@@ -148,7 +162,7 @@
 			    <td class="col-md-1">\${r.reportStatus}</td>
 			    <td class="col-md-2">\${r.reportReason}</td>
 			    <td class="col-md-2">\${time}</td>
-			    <td class="col-md-3">\${r.reportTitle}</td>
+			    <td class="col-md-3">\${title}</td>
 			    <td class="col-md-1">
           <button type="button" class="w3-btn btn-detail-dc w3-round-medium" id="detail\${r.reportNo}" style="background-color:#6dd5bc; color: white;
         	    font-weight: 500;">내용보기 & 이용정지

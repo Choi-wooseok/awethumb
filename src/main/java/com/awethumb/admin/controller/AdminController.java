@@ -28,10 +28,10 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
-	
+
 	@Autowired
 	private StatsService statsService;
-	
+
 	@RequestMapping("/adminMain.do")
 	public ModelAndView adminMain() {
 		ModelAndView mav = new ModelAndView();
@@ -40,27 +40,27 @@ public class AdminController {
 		mav.addObject("totalUserToday", statsService.totalUserToday());
 		mav.addObject("totalViewCntToday", statsService.totalViewCntToday());
 		mav.addObject("cnpList", statsService.selectCategoryProjectCount());
-		
-		//30일 통계에 필요한 데이터 삽입
+
+		// 30일 통계에 필요한 데이터 삽입
 		mav.addObject("monthlyStats", statsService.selectDailyLogOneMonth());
-		
-		//게시글랭킹에 필요한 데이터 삽입
+
+		// 게시글랭킹에 필요한 데이터 삽입
 		mav.addObject("postDailyRankByViewCnt", statsService.selectPostDailyRankByViewCnt());
 		mav.addObject("postDailyRankByLikeCnt", statsService.selectPostDailyRankByLikeCnt());
 		mav.addObject("postMonthlyRankByViewCnt", statsService.selectPostMonthlyRankByViewCnt());
 		mav.addObject("postMonthlyRankByLikeCnt", statsService.selectPostDailyRankByLikeCnt());
 		mav.addObject("postTotalRankByViewCnt", statsService.selectPostTotalRankByViewCnt());
 		mav.addObject("postTotalRankByLikeCnt", statsService.selectPostTotalRankByLikeCnt());
-		
-		//유저랭킹에 필요한 데이터 삽입
+
+		// 유저랭킹에 필요한 데이터 삽입
 		mav.addObject("userRankBySubscribeCnt", statsService.selectUserRankBySubsribeCnt());
 		mav.addObject("userRankByTotalViewCnt", statsService.selectUserRankByTotalViewCnt());
 		mav.addObject("userRankByTotalLikeCnt", statsService.selectUserRankByTotalLikeCnt());
 		mav.addObject("userRankByTotalPostCnt", statsService.selectUserRankByTotalPostCnt());
-		
-		//1년치 통계에 필요한 데이터 삽입
+
+		// 1년치 통계에 필요한 데이터 삽입
 		mav.addObject("oneYearStats", statsService.selectOneYearStats());
-		
+
 //		System.out.println(statsService.selectDailyLogOneMonth().get("logDtList"));
 		mav.setViewName("admin/adminMain");
 		return mav;
@@ -167,6 +167,7 @@ public class AdminController {
 			if (r.getBlockCode() == 5) {
 				r.setReportReason(r.getReportContent());
 			}
+
 			String reportTitle = service.selectPostContent(r.getPostNo());
 			if (reportTitle != null) {
 				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
@@ -271,12 +272,13 @@ public class AdminController {
 				r.setReportReason(r.getReportContent());
 			}
 			String reportTitle = service.selectPostContent(r.getPostNo());
-			if (reportTitle == null) {
-				reportTitle = "삭제된 게시물 입니다.";
-			} else {
-				reportTitle = (reportTitle.length() > 20) ? reportTitle.substring(0, 19) : reportTitle;
-			}
+			System.out.println("포스트넘버 : " + r.getPostNo());
+			System.out.println("reportTitle :" + reportTitle);
+//			if (reportTitle == null) {
+//				reportTitle = "삭제된 게시물 입니다.";
+//			}
 			r.setReportTitle(reportTitle);
+			
 			Block b = service.selectBlock(r.getUserNo());
 			if (b != null) {
 				r.setBlockEnabled("Y");

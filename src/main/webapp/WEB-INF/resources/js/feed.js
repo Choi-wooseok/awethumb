@@ -371,13 +371,15 @@ function boardFile(no) {
 		url: "boardFileRead.do",
 		data: {postNo : no},
 		success: (list) => {
-			for(let i = 0; i < list.length; i++){
-				$(".feedImgWrap" + no).append(
-						`<img id="feedImg" src="${list[i]}"alt="" />`);
-					if (i == list.length - 1) {
-						$(".feedImgWrap" + no).slick();
-					}; // 이미지 슬라이드
-			}
+			imageAppend(list, $(".feedImgWrap" + no)); // 이미지 
+//			for(let i = 0; i < list.length; i++){
+//				$(".feedImgWrap" + no).append(
+//						`<img id="feedImg" src="${list[i]}"alt="" />`);
+//					if (i == list.length - 1) {
+//						$(".feedImgWrap" + no).slick();
+//					}; // 이미지 슬라이드
+//					
+//			}
 		},
 		error:(error) => {
 			console.log(error);

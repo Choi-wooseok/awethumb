@@ -44,15 +44,15 @@ public class UserServiceImpl implements UserService {
 			} else {
 				user.setUserEmailKey("Y");
 			}
+			if (!user.isOauth()) {
+				mailService.mailSendWithUserKey(user.getUserId(), user.getUserName(), rdmKey);
+			}
 			user.setUserPass(encoder.encode(user.getUserPass()));
 			result += dao.registUser(user);
 			Auth auth = new Auth();
 			auth.setUserId(user.getUserId());
 			auth.setAuthType("ROLE_U");
 			result += dao.registAuth(auth);
-			if (!user.isOauth()) {
-				mailService.mailSendWithUserKey(user.getUserId(), user.getUserName(), rdmKey);
-			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

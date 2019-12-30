@@ -158,16 +158,16 @@ let scrollTop = 0;
 			},
 			dataType: "JSON",
 			success: result => {
-				console.log("result =>", result);
 				makeDetailFeed(result);
 				$('.comment').height(
 						$(".modalContWrap").height()-($(".modalCont").height() + 19)
 				)
-				setTimeout(() => {
-					makemodalattribute({
-						w: $("#image").width(),
-						h: $("#image").height()
-					})
+				setTimeout(function() {
+				      let images = $(".images");
+				      $.each(images, function(i, e) {
+				         let maxSize = $(".slick-slide").width();
+				         imgReSize($(this), maxSize);
+				      })
 					$(".comment").scrollTop($(".comment").prop('scrollHeight'));
 				}, 100);
 			}
@@ -230,12 +230,9 @@ let scrollTop = 0;
 								`)
 						for (let i = 0; i < detail.boardfileList.length; i++) {
 							$(`#boxSize`).append(`
-									<img class="image" src="${detail.boardfileList[i]}" alt="" />
+									<img class="images" src="${detail.boardfileList[i]}" alt="" />
 									`)
-									console.log("3", detail.boardfileList)
-									console.log("2", i)
 							if (i == detail.boardfileList.length-1) {
-//								alert("1")
 								$("#boxSize").slick();
 							}
 						}
@@ -358,28 +355,6 @@ let scrollTop = 0;
 	})
 	
 // --------- detail modal -----------------
-        function makemodalattribute({w, h}) {
-        	let maxSize = 550;
-        	let boxSize = document.getElementById("boxSize");
-        	let rightBox = document.getElementById("rightBox");
-            if (w > maxSize && h > maxSize) {
-                if (w > h) {
-                    boxSize.style.width = maxSize+"px";
-                    boxSize.style.height = "auto";
-                    image.style.width = "100%";
-                } else {
-                    boxSize.style.width = "auto";
-                    boxSize.style.height = maxSize+"px";
-                    image.style.height = "100%";                
-                }
-            } else if (w > maxSize && h < maxSize) {
-                boxSize.style.width = maxSize+"px";
-                image.style.width =  "100%";
-            } else if (w < maxSize && h > maxSize) {
-                box.Size.style.height = maxSize+"px";
-                image.style.height = "100%";
-            }
-            rightBox.style.height = boxSize.style.height;
 //            로그인시
             if (typeof connectedUserNo !== 'undefined'){
             	$(".comment").height(
@@ -509,7 +484,7 @@ let scrollTop = 0;
 	        	$(deleteComment).css("display", "none");
 	        	$(".cmtModal" + cmtNo).css("display", "block")
 	        })
-        }
+        
     
     // 댓글 등록
 //   	----------------------

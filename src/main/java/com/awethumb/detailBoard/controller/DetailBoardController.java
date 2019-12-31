@@ -76,20 +76,22 @@ public class DetailBoardController {
 	@RequestMapping("write.do")
 	public String insertBoard(Board board, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		int pjtNo = board.getProjectNo();
+		List<String> hList = new ArrayList<>();
 		// hash
-		service.insertBoard(board);
 		if (board.getPostContent().contains("#")) {
-//			HashUtil hUtil = new HashUtil();
 			HashMap<String, Object> hashMap = HashUtil.renderHashtag(board.getPostContent());
 			board.setPostContent((String)hashMap.get("content"));
-			List<String> hList = (List<String>)hashMap.get("hashList");
+			hList = (List<String>)hashMap.get("hashList");
+		}
+		service.insertBoard(board);
+		if (hList.size() != 0) {
 			for (int i = 0; i < hList.size(); i++) {
 				Hashtag hashtag = new Hashtag();
 				hashtag.setPostNoAndCmtNo(board.getPostNo());
 				hashtag.setHashtagContent(hList.get(i));
 				hashtag.setHashType(1);
 				service.insertHashTag(hashtag);
-			}
+			}			
 		}
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = (List<BoardFile>) session.getAttribute("bfList");

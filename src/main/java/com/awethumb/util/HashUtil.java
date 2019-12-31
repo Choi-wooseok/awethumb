@@ -100,9 +100,6 @@ public class HashUtil {
 			returnContent += " " + contents[i];
 			
 		}
-		for(int i = 0; i < hList.size(); i++) {
-			System.out.println(hList.get(i));
-		}
 		map.put("content", returnContent);
 		map.put("hashList", hList);
 		return map;

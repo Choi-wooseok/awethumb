@@ -18,7 +18,7 @@ li > article{
 }
 .ac-usernick{
     color: #6dd5bc;
-    font-size: 18px;
+    font-size: 14px;
 }
 .alarm-list > li{
 	position: relative;
@@ -32,7 +32,7 @@ li > article{
 	background-color: #dbdbdb;
 }
 .alarm-content{
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 18px;
 	margin-left: 14px;
 }

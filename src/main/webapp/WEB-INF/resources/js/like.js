@@ -5,6 +5,8 @@ function likeAdmin(no, user, type) {
 	let ck = 0; // 0 -> 좋아요안누름 , 1-> 좋아요 누름
 	let likecount; // 좋아요수 state가 1일때만 값이존재
 	let like = ``; // return할녀석
+	let likeCnt = likeCount(postAndCmtNo);
+	if(!likeCnt) likeCnt = '';
 	$.ajax({ // async , await
 		url: "likeCheck.do",
 		url: pageContextPath + "/api/like",
@@ -46,7 +48,7 @@ function likeAdmin(no, user, type) {
 						${likebtn}
 					</button>
 					<div id="countLike${postAndCmtNo}" style="display: inline;">
-						<span id="countSpan${postAndCmtNo}"></span>
+						<span id="countSpan${postAndCmtNo}">${likeCnt}</span>
 					</div>
 				</div>`;
 	} else {

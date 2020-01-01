@@ -233,6 +233,7 @@
 			SELECT COUNT(*)
 			  FROM like_tb
 			 WHERE post_and_cmt_no = #{postAndCmtNo}
+			   AND code_value = 1
 	</select>
 
 	<select id="boardFile" parameterType="int" resultType="BoardFile">

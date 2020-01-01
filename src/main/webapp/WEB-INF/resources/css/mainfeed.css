@@ -162,3 +162,9 @@
 .feedImg {
 	cursor: pointer;
 }
+.moreImg {
+    position: absolute;
+    z-index: 1;
+    margin: 80% 95%;
+    color: white;
+}

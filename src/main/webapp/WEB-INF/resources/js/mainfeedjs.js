@@ -97,7 +97,7 @@ let scrollTop = 0;
 									<img src="${userImgData}" alt="">
 								</div>
 								<div>
-									<a href="#">${c.userNickname}</a>
+									<a href="${pageContextPath}/profile/${c.userNickname}">${c.userNickname}</a>
 								</div>
 							</div>
 

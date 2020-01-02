@@ -24,7 +24,9 @@ function conn() {
 		if($(".alarm-dropdown-wrap").hasClass("alarmhidden") == false) getLatestAlarm();
 	};
 }
-$(document).ready(() => conn());
+$(document).ready(function() {
+	conn();
+});
 
 // 알림을 보내는 함수
 // 알림 타입  1.구독  2.좋아요  3.댓글  4.공유 수락

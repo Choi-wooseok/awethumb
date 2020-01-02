@@ -31,7 +31,6 @@ $("#chatServer").click(() => {
 	$(".msglist").css("display", "none");
 });
 
-
 let sock = new WebSocket('ws://awethumb.kr/chat.do');
 
 

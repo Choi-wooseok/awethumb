@@ -139,8 +139,9 @@
 		    on b.project_no = p.project_no
 		 inner join user_tb u
 		    on u.user_no = p.user_no
+		 where p.project_public_enabled = 'Y'
 		    <if test="searchWord != null">
-		 WHERE b.post_no in  (select post_no 
+		     and( b.post_no in  (select post_no 
 		 						from comment_tb 
 		 					   where cmt_no in (select post_no_and_cmt_no 			    
 												  from hashtag_tb			   
@@ -149,7 +150,7 @@
 							  from hashtag_tb
 							 where hashtag_content like CONCAT(#{searchWord}, '%')
 							   and hash_type = 1)
-		     or u.user_nickname like CONCAT(#{searchWord}, '%')
+		     or u.user_nickname like CONCAT(#{searchWord}, '%'))
      	   </if>
 		 order by b.post_no DESC
 		 limit #{pageIndex} , #{pageCount} 

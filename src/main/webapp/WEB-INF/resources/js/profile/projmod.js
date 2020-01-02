@@ -108,12 +108,26 @@ function onTokenInput( e ){
 		tagify.dropdown.show.call(tagify, tokenValue);
 	})
 }
+const $projectTitleInput = $("input[name=projectTitle]");
 
+$projectTitleInput.addClass("submit-disabled")
+
+$projectTitleInput.keyup(() => {
+	console.log("in")
+	if($projectTitleInput.val() === "") $projectTitleInput.addClass("submit-disabled").removeClass("submit-abled")
+	else $projectTitleInput.addClass("submit-abled").removeClass("submit-disabled")
+})
 // submit 하기 전에 인풋 태그를 만들어줘서 닉네임을 보내준다
 $(".add_proj_form").submit((e) => {
+	e.preventDefault();
+	if($projectTitleInput.hasClass("submit-disabled")){
+		alert("프로젝트 이름이 공백이면 안됩니다.")
+		return;
+	}
 	if(projType === 2){
 		for (let val of JSON.parse(tokenInput.value)){
 			$(".add_proj_form").prepend(`<input name="sharedUserNoList" hidden="hidden" value="${val.no}">`)
 		}
 	}
+	e.target.submit();
 })

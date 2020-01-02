@@ -160,7 +160,7 @@ let scrollTop = 0;
 			success: result => {
 				makeDetailFeed(result);
 				$('.comment').height(
-						$(".modalContWrap").height()-($(".modalCont").height() + 19)
+						$(".modalContWrap").height()-($(".modalCont").height() + 69)
 				)
 				setTimeout(function() {
 				      let images = $(".images");
@@ -236,6 +236,7 @@ let scrollTop = 0;
 								$("#boxSize").slick();
 							}
 						}
+						
 							$(`.modalContWrap`).append(`
 							</div>
 								<div id="rightBox">
@@ -357,7 +358,7 @@ let scrollTop = 0;
 // --------- detail modal -----------------
 //            로그인시
             if (typeof connectedUserNo !== 'undefined'){
-            	$(".comment").height(
+            	$(".comment").height( 
             			$("#rightBox").height()-$(".modalCont").height()-118)
             } else {
             	$(".comment").height(
@@ -492,6 +493,7 @@ let scrollTop = 0;
    			let cmtContent = $("#cmtContent").val();
 //   			console.log(cmtContent);
    			let postNo = $("#postNo").val();
+   			
    			$.ajax({
    				url: pageContextPath + "/mainfeed/insertComment.do",
    				method:"POST",
@@ -503,7 +505,7 @@ let scrollTop = 0;
    					}),
    				dataType: "JSON",
    			}).done(result => {
-//   				console.log("result", result);
+   				console.log("result", result);
 //   				console.log("hashFn", hashSplitFn(result, cmtContent, 2));
    				$.ajax({
    					url: pageContextPath + "/mainfeed/insertHashtag.do",
@@ -519,6 +521,7 @@ let scrollTop = 0;
    			})
    			$("#cmtContent").val("");
    			$(".hashtag").remove();
+   			
    			return false;
    		});
 //      댓글 수정

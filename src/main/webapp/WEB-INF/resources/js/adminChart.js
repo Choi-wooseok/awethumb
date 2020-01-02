@@ -76,12 +76,16 @@
 	
 	function colorize(opaque, hover, ctxx) {
 		var v = ctxx.dataset.data[ctxx.dataIndex];
-		var c = v < -50 ? '#D60000'
-			: v < 0 ? '#F46300'
-			: v < 50 ? '#0358B6'
+		var c = v < 1 ? '#D6FFFF'
+			: v < 3 ? '#B2EBF4'
+			: v < 5 ? '#368AFF'
+			: v < 8 ? '#1266FF'
+			: v < 12 ? '#0042ED'
+			: v > 12 ? '#050099'
+			: v > 20 ? '#3C1278'
 			: '#44DE28';
 
-		var opacity = hover ? 1 - Math.abs(v / 150) - 0.2 : 1 - Math.abs(v / 150);
+		var opacity = hover ? 1 - Math.abs(v / 2) - 0.2 : 1 - Math.abs(v / 2);
 
 		return opaque ? c : utils.transparentize(c, opacity);
 	}

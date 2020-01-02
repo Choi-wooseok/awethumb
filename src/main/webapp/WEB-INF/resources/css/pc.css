@@ -1548,4 +1548,11 @@ section#feeds {
 .savedProject > div > span > button:hover {
 	background-color: #6dd5bc;
 }
+
+.myprojectWrap .slick-slide > div {
+	height: unset;
+}
+.noBoard {
+	text-align: center;
+	margin: 30px 0;
 }

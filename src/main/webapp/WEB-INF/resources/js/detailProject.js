@@ -124,12 +124,14 @@ $(document).on("click", ".okBtn", () => {
 $("#insertImg").change((e) => {
 	$(".imageViewWrap").html("").removeClass("slick-slider").removeClass("slick-initialized");
 	let images = $(e.target).get(0).files;
-	
+	let flag = "start";
 	// 이미지가 1개이상 선택 되었을 경우
 	if (images.length != 0) {
 		for (let i = 0; i < images.length; i++) {
-			var data = new FormData();
+			let data = new FormData();
 			data.append('file', images[i]);
+			data.append('type', flag);
+			flag = "end";
 			$.ajax({
 				data: data,
 				url: "imageUpload.do",

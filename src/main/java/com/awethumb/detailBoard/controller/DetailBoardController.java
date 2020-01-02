@@ -58,9 +58,12 @@ public class DetailBoardController {
 		session.setAttribute("bfList", bfList);
 		
 		// jsp에 BoardListVO를 넘기기 위함
-		List<Board> bList = service.selectBoardList(projectNo);
+		List<Board> bList = service.selectBoardList(projectNo);		
 		for (int i = 0; i < bList.size(); i++) {
+			System.out.println("현 프로젝트의 글 갯수 : " + bList.size());
+			
 			List<BoardFile> bf = service.selectImages(bList.get(i).getPostNo());
+			System.out.println("해당 글의 이미지 갯수 : " + bf.size());
 			if (bf.size() != 0) {
 				bList.get(i).setUrl(
 					req.getContextPath() + "/image/" + bf.get(0).getBoardFilePath() + bf.get(0).getBoardFileSysName()
@@ -93,10 +96,14 @@ public class DetailBoardController {
 				service.insertHashTag(hashtag);
 			}			
 		}
+		
 		HttpSession session = req.getSession();
 		List<BoardFile> bfList = (List<BoardFile>) session.getAttribute("bfList");
+		System.out.println("세션에서 받은 이미지 리스트 갯수 : " + bfList.size());
 		board.setListFile(bfList);
+		
 		for (int i = 0; i < bfList.size(); i++ ) {
+			System.out.println("bfList[i] : " + i);
 			BoardFile bfile = bfList.get(i);
 			bfile.setPostNo(board.getPostNo());
 			service.insertImage(bfile);
@@ -165,16 +172,27 @@ public class DetailBoardController {
 	@PostMapping("imageUpload.do")
 	@ResponseBody
 	public BoardFile imageUpload (
-			@RequestParam("file") MultipartFile file,
+			@RequestParam("file") MultipartFile file, @RequestParam("type") String type,
 			HttpServletResponse res,
 			HttpServletRequest req) throws Exception {
+		System.out.println("Type : " + type);
+		HttpSession session = req.getSession();
+		List<BoardFile> bfList = (List<BoardFile>)session.getAttribute("bfList");
+		if ("start".equals(type)) {
+			session.removeAttribute("bfList");
+			bfList.clear();
+		}
 		FileUtil fu = new FileUtil();
 		BoardFile bfile = fu.UploadImage(file, res);			
 		bfile.setUrl(req.getContextPath() + "/image/" + bfile.getBoardFilePath() + bfile.getBoardFileSysName());
-		HttpSession session = req.getSession();
-		List<BoardFile> bfList = (List<BoardFile>)session.getAttribute("bfList");
+
 		bfList.add(bfile);
 		session.setAttribute("bfList", bfList);
+		
+		for (int i = 0; i < bfList.size(); i++) {
+			System.out.println("for test " + bfList.get(i));
+		}
+		
 		return bfile;
 	};
 	

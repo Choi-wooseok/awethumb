@@ -110,8 +110,6 @@ function onTokenInput( e ){
 }
 const $projectTitleInput = $("input[name=projectTitle]");
 
-$projectTitleInput.addClass("submit-disabled")
-
 $projectTitleInput.keyup(() => {
 	console.log("in")
 	if($projectTitleInput.val() === "") $projectTitleInput.addClass("submit-disabled").removeClass("submit-abled")
@@ -120,8 +118,13 @@ $projectTitleInput.keyup(() => {
 // submit 하기 전에 인풋 태그를 만들어줘서 닉네임을 보내준다
 $(".add_proj_form").submit((e) => {
 	e.preventDefault();
-	if($projectTitleInput.hasClass("submit-disabled")){
+	
+	if($projectTitleInput.hasClass("submit-abled") === false){
 		alert("프로젝트 이름이 공백이면 안됩니다.")
+		return;
+	}
+	if($("input[name=categoryNo]").val() === ""){
+		alert("카테고리 선택은 필수입니다.")
 		return;
 	}
 	if(projType === 2){

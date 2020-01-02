@@ -23,6 +23,7 @@ $(document).ready(function(){
 	    item.top = $(".feedSide").offset().top;
 	    item.top2 = $(".feedSide2").offset().top;
 	    $("#commentWriter").hashtags(); // 해시태그 js 호출
+	    
 });
 $(document).on('click', '.addBtn', () => {
 	item.sidePageIndex += item.sidePageCount;
@@ -125,7 +126,6 @@ function feedList(list){
 			let postAndCmtNo = bl.postNo;
 			let like = ``;
 			let code = 1;
-			boardFile(bl.postNo);
 			like = feedlikeAdmin(postAndCmtNo, item.loginUserNo, code, bl.likeCheck);
 				$("#feedWrap").append(`
 						<div class="feedList">
@@ -159,6 +159,7 @@ function feedList(list){
 							</div>
 						</div>
 				`) // postAndCmtNo
+				boardFile(bl.postNo);
 				boardCommentListAjax(bl.commentList ,postAndCmtNo)
 				item.likecount = bl.likeCount;
 				if(item.likecount > 0) {

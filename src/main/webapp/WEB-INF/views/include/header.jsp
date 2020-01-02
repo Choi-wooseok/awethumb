@@ -30,7 +30,7 @@
             	<span class="user layout_left">
                 	<img src="" alt="">
             	</span>
-				<a href="${pageContext.request.contextPath}/profile/${su.userNickname}">${su.userNickname}</a>
+				<a href=""></a>
 			</sec:authorize>
             <sec:authorize access="isAnonymous()">
 	            <a href="${pageContext.request.contextPath}/user/login_main.do">로그인하세요</a>
@@ -102,13 +102,32 @@
 	    <script>
 	    	const connectedUserNo= ${su.userNo};
 	    	let profileImgURL = "${pageContext.request.contextPath}/api/user/${su.userNo}/thumb";
-	    	$.ajax({
-	    		url: profileImgURL,
-				method: 'GET',
-				success: function (result) {
-					$(".user.layout_left > img").attr("src", result);
-				}
+	    	$(document).ready(function() {
+	    		profileImgPath();
+	    		profileNickname();
 	    	});
+	    	
+	    	function profileImgPath() {
+			    $.ajax({
+			    		url: profileImgURL,
+						method: 'GET',
+						success: function (result) {
+							$(".user.layout_left > img").attr("src", result);
+						}
+			    });
+	    	}
+	    	
+	    	function profileNickname() {
+	    		$.ajax({
+		    		url: "${pageContext.request.contextPath}/api/user/" + connectedUserNo,
+					method: 'GET',
+					success: function (result) {
+						$(".user.layout_left ~ a").attr("href", "${pageContext.request.contextPath}/profile/" + result.userNickname);
+						$(".user.layout_left ~ a").text(result.userNickname);
+					}
+		    	});
+	    		
+	    	}
 	    	
         </script>
         <script src="${pageContext.request.contextPath}/js/alarm/alarm.js"></script>

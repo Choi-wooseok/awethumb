@@ -127,36 +127,37 @@ function feedList(list){
 			let like = ``;
 			let code = 1;
 			like = feedlikeAdmin(postAndCmtNo, item.loginUserNo, code, bl.likeCheck);
+			if(bl.projectPublicEnabled === 'Y'){
 				$("#feedWrap").append(`
 						<div class="feedList">
-							<div class="feedInfo">
-								<div class="feedUserImg${bl.postNo}">
-									<img class="userCmtImg${bl.userNo}" alt="">
-								</div>
-								<div>
-									<a href="${pageContextPath}/profile/${bl.userNickName}">${bl.userNickName}</a>
-									<button type="button" class="boardModal" data-postNo="${bl.postNo}">
-										<i class="fas fa-ellipsis-h"></i>
-									</button>
-								</div>
-							</div>
-							<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
-							</div>
-							<div class="feedText">
-								${like}
-								<div>
-									${newContent}
-								</div>
-							</div>
-							<div class="feedPlay">
-								<div id="commentList${bl.postNo}">
-									<div id="boardCommentList${bl.postNo}"></div>
-								</div>
-								<div class="insertComment">
-									<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" />
-									<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
-								</div>
-							</div>
+						<div class="feedInfo">
+						<div class="feedUserImg${bl.postNo}">
+						<img class="userCmtImg${bl.userNo}" alt="">
+						</div>
+						<div>
+						<a href="${pageContextPath}/profile/${bl.userNickName}">${bl.userNickName}</a>
+						<button type="button" class="boardModal" data-postNo="${bl.postNo}">
+						<i class="fas fa-ellipsis-h"></i>
+						</button>
+						</div>
+						</div>
+						<div id="feedImgWrap" class="feedImgWrap${bl.postNo}">
+						</div>
+						<div class="feedText">
+						${like}
+						<div>
+						${newContent}
+						</div>
+						</div>
+						<div class="feedPlay">
+						<div id="commentList${bl.postNo}">
+						<div id="boardCommentList${bl.postNo}"></div>
+						</div>
+						<div class="insertComment">
+						<input id="commentWriter" class="commentWriter${bl.postNo}" type="text" />
+						<button type="button" class="commentInsertBtn" data-postNumber="${bl.postNo}">등록</button>
+						</div>
+						</div>
 						</div>
 				`) // postAndCmtNo
 				boardFile(bl.postNo);
@@ -166,8 +167,9 @@ function feedList(list){
 					$("#countLike" + postAndCmtNo).html(`
 					<span id="countSpan${postAndCmtNo}">${item.likecount}</span>`);
 				}
-			let un = bl.userNo;
-			userImg(un);	
+				let un = bl.userNo;
+				userImg(un);	
+			} // if
 		}); // each
 }; // feedList
 // 댓글 등록

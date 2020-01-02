@@ -11,6 +11,7 @@
 		<result column="hashtag_no" property="hashtagNo" /> 
 		<result column="user_nickname" property="userNickName" /> 
 		<result column="sub_user_no" property="subUserNo" /> 
+		<result column="project_public_enabled" property="projectPublicEnabled" /> 
 		<collection property="commentList" select="selectFeedBoardComment" column="{postNo=post_no, subUserNo=sub_user_no}"/>
 	</resultMap>
 	<resultMap id="commentMap" type="Comment">
@@ -39,7 +40,10 @@
 			   and code_value = 1) AS likeCheck,
 		   (SELECT COUNT(*)
 			  FROM like_tb
-			 WHERE post_and_cmt_no = bt.post_no) AS likeCount
+			 WHERE post_and_cmt_no = bt.post_no) AS likeCount,
+		   (SELECT project_public_enabled
+			  FROM project_tb
+			 WHERE project_no = pt.project_no  ) AS project_public_enabled
 		  FROM board_tb bt 
 		 INNER JOIN project_tb pt
 		    ON bt.project_no= pt.project_no 

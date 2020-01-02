@@ -19,7 +19,7 @@ public class FeedBoard {
     private String postContent;
     
     // 글 공개 여부 
-    private String postPublicEnabled;
+    private String projectPublicEnabled;
 
     // 해시태그 번호 
     private String hashtagNo;

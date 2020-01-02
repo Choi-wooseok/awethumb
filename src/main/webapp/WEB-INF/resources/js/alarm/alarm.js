@@ -45,6 +45,6 @@ function makeAlarm(...arr){
 		case 4: map["projectNo"] = arr[1]; break;
 		default : return;
 	}
-	alarmsocket.send(JSON.stringify(map));
+	setTimeout(() => alarmsocket.send(JSON.stringify(map)), 1000);
 	
 }

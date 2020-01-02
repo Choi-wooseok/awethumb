@@ -24,13 +24,13 @@ $(document).ready(function() {
 			if(result == 1) {
 				$("#savedBtn").html(`
 					<i class="fas fa-folder-plus"></i>
-       				<span>Save Project</span>
+       				<span>Cancel Project</span>
 				`)
 			// 저장 안된 프로젝트 일 경우
 			} else {
 				$("#savedBtn").html(`
 					<i class="fas fa-folder-minus"></i>
-       				<span>Cancel Saved</span>
+       				<span>Save Project</span>
 				`)
 			}
 		}

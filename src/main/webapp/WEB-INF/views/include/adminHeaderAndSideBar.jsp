@@ -4,7 +4,6 @@
 <!--header start-->
     <header class="header wht-bg">
       <div class="sidebar-toggle-box">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
       </div>
       <!--logo start-->
       <a href="<c:url value='/admin/adminMain.do'/>" class="logo"><b>Awe<span>Thumb</span></b></a>
@@ -25,7 +24,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="<c:url value='/admin/img/ui-sam.jpg' />" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="<c:url value='/admin/adminMain.do'/>"><img src="<c:url value='/admin/img/ui-sam.jpg' />" class="img-circle" width="80"></a></p>
           <h5 class="centered">관리자</h5>
           <li class="mt">
             <a class="" href="<c:url value='/admin/adminMain.do'/>">

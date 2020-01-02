@@ -69,5 +69,10 @@ public class UserServiceImpl implements UserService {
 		};
 		return 0;
 	}
+
+	@Override
+	public String chkUserNickname(int userNo) {
+		return dao.chkUserNickname(userNo);
+	}
 	
 }

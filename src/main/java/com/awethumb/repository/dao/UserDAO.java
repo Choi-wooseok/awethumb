@@ -12,4 +12,5 @@ public interface UserDAO {
 	int registAuth(Auth auth);
 	int registFinishUser(UserVO user);
 	int selectEmailAuth(String userId);
+	String chkUserNickname(int userNo);
 }

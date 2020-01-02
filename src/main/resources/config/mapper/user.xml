@@ -49,6 +49,11 @@
 	 	</choose>
 	 </where> 
 </select>
+<select id="chkUserNickname" resultType="string" parameterType="int">
+	select user_id
+	  from user_tb
+	 where user_no = #{userNo}
+</select>
 
 <insert id="registUser" parameterType="UserVO">
 	insert into user_tb(user_id, user_pass, user_nickname, user_name, category_list, user_email_key)

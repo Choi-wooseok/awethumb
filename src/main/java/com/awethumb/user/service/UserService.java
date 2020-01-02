@@ -9,4 +9,5 @@ public interface UserService {
 	int chkUser(Map<String, Object> map);
 	int registUser(UserVO user);
 	int registFinishUser(UserVO user);
+	String chkUserNickname(int userNo);
 }

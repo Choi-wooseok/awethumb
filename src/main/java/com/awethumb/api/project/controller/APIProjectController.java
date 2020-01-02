@@ -4,11 +4,14 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.awethumb.api.project.service.APIProjectService;
+import com.awethumb.profile.service.ProfileService;
 import com.awethumb.repository.vo.Project;
 import com.awethumb.repository.vo.ProjectFile;
+import com.awethumb.repository.vo.UserVO;
+import com.awethumb.user.service.UserService;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -34,6 +40,8 @@ import net.coobird.thumbnailator.geometry.Positions;
 public class APIProjectController {
 	@Autowired
 	private APIProjectService service;
+	@Autowired
+	private UserService userService;
 	
 	// 해당 번호의 프로젝트를 가져온다
 	@GetMapping("/{projectNo}")
@@ -129,7 +137,13 @@ public class APIProjectController {
 	
 	// progress project를 전부 가져온다
 	@GetMapping("/progress")
-	public List<Project> getProgressProjects(Project p){
+	public List<Project> getProgressProjects(Project p, Principal pc){
+	
+		String userId = userService.chkUserNickname(p.getUserNo());
+		if (!userId.equals(pc.getName())) {
+			p.setProjectPublicEnabled("N");
+		} else 
+			p.setProjectPublicEnabled(null);
 		return service.selectProgressProjects(p);
 	}
 	

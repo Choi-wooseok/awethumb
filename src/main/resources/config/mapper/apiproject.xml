@@ -12,11 +12,14 @@
 		  from project_file_tb
 		 where project_no = #{projectNo}
 	</select>
-	<select id="selectProgressProjects" parameterType="Project" resultType="Project">
+	<select id="selectProgressProjects" parameterType="Project" resultType="Project" flushCache="true" useCache="true">
 		select *
 		  from project_tb
 		 where user_no = #{userNo}
 		   and project_type = #{projectType}
+		   <if test="projectPublicEnabled != null">
+		   		and project_public_enabled = 'Y'
+		   </if>
 		 order by project_no desc
 		 LIMIT #{currentPageNo}, #{countPerPage}
 	</select>

@@ -183,7 +183,7 @@ public class StatsServiceImpl implements StatsService {
 		List<Integer> monthlyJoinCntList = new ArrayList<Integer>();
 		List<Integer> monthlyPostCntList = new ArrayList<Integer>();
 		for(int i = 0; i < list.size(); i++) {
-			yMList.add(list.get(i).getYM());
+			yMList.add("'"+ list.get(i).getYM() + "'");
 			monthlyVisitCntList.add(list.get(i).getMonthlyVisitCnt());
 			monthlyJoinCntList.add(list.get(i).getMonthlyJoinCnt());
 			monthlyPostCntList.add(list.get(i).getMonthlyPostCnt());

@@ -207,7 +207,7 @@ let scrollTop = 0;
 										<img src="${imgProfileURL}" alt="">
 									</div>
 							        <div class="userName">
-							            <a href="#">${detail.userNickname}</a>
+							            <a href="${pageContextPath}/profile/${detail.userNickname}">${detail.userNickname}</a>
 							            `)
 							   if(typeof connectedUserNo !== 'undefined'){
 							         $(`.userName`).append(`
@@ -236,7 +236,13 @@ let scrollTop = 0;
 								$("#boxSize").slick();
 							}
 						}
-						
+						if (detail.boardfileList.length > 1) {
+							$(`.slick-slide`).append(`
+								<span class="moreImg">
+									<i class="far fa-clone"></i>
+								</span>
+							`)
+						}
 							$(`.modalContWrap`).append(`
 							</div>
 								<div id="rightBox">
@@ -271,7 +277,7 @@ let scrollTop = 0;
 		                					<div class="commentWrap" id="commentWrap${c.cmtNo}">
 		                						<div class="cmtModal${c.cmtNo}">
 		                							<div class="cmtInfo">
-			                							<span>${c.cmtUserNickname}</span>
+			                							<span><a href="${pageContextPath}/profile/${c.cmtUserNickname}">${c.cmtUserNickname}</a></span>
 			                							<span>${c.agoRegDt}</span>
 			                							${like}
 			                							`)
@@ -381,7 +387,7 @@ let scrollTop = 0;
             
 // 		댓글부분 모달창 띄우기 / 끄기
         let cmtModalDetail = document.getElementById('cmtModalDetail')
-        $(".commentModal").click((e) => {
+        $(document).on('click', '.commentModal', (e) => {
         	let cmtNo = $(e.target).parents("button").data("cmtno");
         	let cmtContent = $(e.target).parents("button").data("cmtcontent");
         	cmtModalDetail.style.display = "block";
@@ -405,13 +411,13 @@ let scrollTop = 0;
         var bc = document.getElementsByClassName("boardClose")[0];
 
         // When the user clicks on the button, open the modal
-        $("#myBoard").click((e) => {
+        $(document).on('click', "#myBoard", (e) => {
         	if (connectedUserNo == $(e.target).data("postuserno")){
         		$(LoginModalBoard).css("display", "block");
         	} else {
         		boardModal.style.display = "block";
         	}
-        }) 
+        })
 
         // When the user clicks on <span> (x), close the modal
         $(".boardClose").click(() => {

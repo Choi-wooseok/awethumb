@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	let pjtNo = $("#updateBtn").data("pjtno");
 	let userNo = $("#savedBtn").data("pjtuno");
+	let projectNo = $("#savedBtn").data("pjtno");
 	
 	// 맨처음 Project별 대표 이미지 찾아와서 뿌려줌
 	$.ajax({
@@ -16,17 +17,17 @@ $(document).ready(function() {
 	$.ajax({
 		url: "selectSavedProject.do",
 		data: {
-			projectNo: pjtNo,
-			userNo: userNo
+			projectNo: projectNo,
+			userNo: loginNo
 		},
 		success: (result) => {
-			// 이미 저장 된 프로젝트 일경우 취소 가능토록
+			// 이미 저장 된 프로젝트 일경우 취소 가능토록 // 1
 			if(result == 1) {
 				$("#savedBtn").html(`
 					<i class="fas fa-folder-plus"></i>
        				<span>Cancel Project</span>
 				`)
-			// 저장 안된 프로젝트 일 경우
+			// 저장 안된 프로젝트 일 경우 // 0
 			} else {
 				$("#savedBtn").html(`
 					<i class="fas fa-folder-minus"></i>
@@ -62,12 +63,11 @@ $("#okBtn").click((e) => {
 // 프로젝트 저장하기
 $("#savedBtn").click((e) => {
 	let projectNo = $("#savedBtn").data("pjtno");
-	let userNo = $("#savedBtn").data("pjtuno");
 	$.ajax({
 		url: "selectSavedProject.do",
 		data: {
 			projectNo: projectNo,
-			userNo: userNo
+			userNo: loginNo
 		},
 		success: (result) => {
 			if(result == 1) {
@@ -91,7 +91,7 @@ $("#savedBtn").click((e) => {
 					url: "savedProject.do",
 					data: {
 						projectNo: projectNo,
-						userNo: userNo
+						userNo: loginNo
 					},
 					success: () => {
 						alert("프로젝트가 저장 되었습니다.");
@@ -108,12 +108,11 @@ $("#savedBtn").click((e) => {
 
 $(document).on("click", ".okBtn", () => {
 	let pjtNo = $("#savedBtn").data("pjtno");
-	let userNo = $("#savedBtn").data("pjtuno");
 	$.ajax({
 		url: "deletesavedProject.do",
 		data: {
 			projectNo: pjtNo,
-			userNo: userNo
+			userNo: loginNo
 		},
 		success: () => {
 			$(".savedProject").removeClass("block")
@@ -517,7 +516,6 @@ $(function(){
    }
    ,"mouseup" : function(e) {
 	   let rightClick = (e.button == 2);
-	   console.log(rightClick);
         if(rightClick){
            return failMessage();
         }

@@ -38,7 +38,6 @@
 					<!-- boardModal content -->
 					<div>
 						<div class="report">글 신고</div>
-						<div class="boardShare">퍼가기</div>
 						<div class="boardCancel">취 소</div>
 					</div>
 				</div>

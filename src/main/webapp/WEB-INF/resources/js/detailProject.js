@@ -12,6 +12,30 @@ $(document).ready(function() {
 		}
 	})
 	
+	// 페이지 로딩 시 세이브 된 프로젝트인지 아닌지 구분
+	$.ajax({
+		url: "selectSavedProject.do",
+		data: {
+			projectNo: pjtNo,
+			userNo: userNo
+		},
+		success: (result) => {
+			// 이미 저장 된 프로젝트 일경우 취소 가능토록
+			if(result == 1) {
+				$("#savedBtn").html(`
+					<i class="fas fa-folder-plus"></i>
+       				<span>Cancel Project</span>
+				`)
+			// 저장 안된 프로젝트 일 경우
+			} else {
+				$("#savedBtn").html(`
+					<i class="fas fa-folder-minus"></i>
+       				<span>Save Project</span>
+				`)
+			}
+		}
+	})
+	
 	$('#summernote').summernote({
         minHeight: null,
         maxHeight: null,
@@ -28,7 +52,6 @@ $(document).ready(function() {
 
 // 글 등록 클릭 시 이미지 갯수 확인
 $("#okBtn").click((e) => {
-//	alert($("#insertImg").get(0).files.length)
 	if ($("#insertImg").get(0).files.length != 0) {
 		$("form").submit();
 	} else {
@@ -52,9 +75,17 @@ $("#savedBtn").click((e) => {
 				$(".savedProject > div").html(`
 					<p>해당 프로젝트는 이미 저장 된 프로젝트 입니다.</p>
 					<p>저장 된 프로젝트를 해제하시겠습니까?</p>
-					<button class="okBtn">예</button>
-					<button class="closeBtn">아니오</button>			
+					<span>
+						<button class="okBtn">예</button>
+						<button class="closeBtn">아니오</button>			
+					</span>
 				`)
+				$(".okBtn").click(() => {
+					$("#savedBtn").html(`
+						<i class="fas fa-folder-plus"></i>
+	       				<span>Save Project</span>
+					`)					
+				})
 			} else {
 				$.ajax({
 					url: "savedProject.do",
@@ -64,6 +95,10 @@ $("#savedBtn").click((e) => {
 					},
 					success: () => {
 						alert("프로젝트가 저장 되었습니다.");
+						$("#savedBtn").html(`
+							<i class="fas fa-folder-minus"></i>
+               				<span>Cancel Saved</span>
+						`)
 					}
 				})
 			}
@@ -108,16 +143,24 @@ $("#insertImg").change((e) => {
 				success: (bfile) => {
 					// 가져온 url로 이미지 그리기
 					$(".imageViewWrap").append(`
-						<img class="imgPos" src="${bfile.url}" />
+						<img class="images" src="${bfile.url}" />
 					`)
 					// 이미지가 모두 append된 후에 작업
 					if (i == images.length-1) {
 						$(".imageViewWrap").slick();
 						$("#insertImg").addClass("movePos");
+						
 					}
 				}
 			})
 		}
+		setTimeout(function () {
+			let images = $(".images");
+			$.each(images, function(i, e) {
+				let maxSize = $(".slick-slide").width();
+				imgReSize($(this), maxSize);
+			})
+		}, 200)
 	// 이미지가 0개 선택인 경우
 	} else if (images.length == 0) {
 		$("#insertImg").removeClass("movePos");
@@ -142,19 +185,19 @@ $(function () {
         removeTimeout: 2000,
     });
 });
-
-// 그리드 넓이가 몇 이하일 경우 디자인 변경
-$(".grid-stack-item").resize((e) => {
-    let width = $(e.target).width();
-    let height = $(e.target).height();
-
-    // 3 x 3 이하일 경우
-    if (width <= 320 && height <= 235) {
-        $(e.target).addClass('min_layout');
-    } else {
-        $(e.target).removeClass('min_layout');
-    }
-});
+// 필요하면 주석 풀어서 사용
+//// 그리드 넓이가 몇 이하일 경우 디자인 변경
+//$(".grid-stack-item").resize((e) => {
+//    let width = $(e.target).width();
+//    let height = $(e.target).height();
+//
+//    // 3 x 3 이하일 경우
+//    if (width <= 320 && height <= 235) {
+//        $(e.target).addClass('min_layout');
+//    } else {
+//        $(e.target).removeClass('min_layout');
+//    }
+//});
 
 // 등록 버튼 클릭 시 모달창 생성
 $("#insertBtn").click(() => {
@@ -236,10 +279,6 @@ $(".detailBtn").click((e) => {
 		}
 	})
 	$(".modal").addClass("block");
-})
-
-$(document).on(".detailImage", () => {
-	alert("22")
 })
 
 // 댓글 등록버튼 클릭 시 Ajax로 댓글 등

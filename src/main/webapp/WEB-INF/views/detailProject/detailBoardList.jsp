@@ -65,10 +65,7 @@
                    	</c:when>
                    	<c:otherwise>
                    		<div class="layout_right">
-                   			<button id="savedBtn" data-pjtNo="${projectNo}" data-pjtuNo="${project.userNo}">
-                   				<i class="fas fa-file-download"></i>
-                   				<span>Saved Project</span>
-                   			</button>
+                   			<button id="savedBtn" data-pjtNo="${projectNo}" data-pjtuNo="${project.userNo}"></button>
                    		</div>
                    	</c:otherwise>
                 </c:choose>

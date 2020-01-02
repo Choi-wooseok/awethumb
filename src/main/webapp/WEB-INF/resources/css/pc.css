@@ -353,8 +353,11 @@ section#mypage {
     z-index: -1;
 }
 .bgWrap > img {
-	height: 100%;
+	position: absolute;
     width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .pjtTitle {
 	display: block;
@@ -596,7 +599,8 @@ section > div.content {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    line-height: 1.2
+    line-height: 1.2;
+    z-index: -1;
 }
 .bg_gray span {
     display: block;
@@ -887,6 +891,7 @@ section#feed {
 .feedContWrap {
     position: relative;
     width: 935px;
+    min-height: 100vh;
     margin: 0 auto;
     box-sizing: border-box;
     padding-top: 35px;
@@ -1216,6 +1221,7 @@ section#feeds {
 	position: absolute;
 	right: 0;
 	bottom: 0;
+	left: unset;
 }
 .playInfo > button {
     float: right;
@@ -1269,6 +1275,7 @@ section#feeds {
 	text-align: center;
 	display: table-cell;
 	vertical-align: middle;
+	height: 500px;
 }
 .imgWrap {
 	width: 550px !important;
@@ -1285,6 +1292,7 @@ section#feeds {
 }
 .feedText > div:first-child {
 	float: right;
+	z-index: 1;
 }
 #pjtName {
 	height: 25px;
@@ -1479,7 +1487,8 @@ section#feeds {
 #detailFeed {
 	display: block;
 }
-.categoryListSide > h2 {
+.categoryListSide > h2,
+.feedSideUserList > h2 {
 	width: 300px;
     text-align: center;
     box-sizing: border-box;
@@ -1506,4 +1515,44 @@ section#feeds {
 .ht {
   cursor: pointer;
   color: #6dd5bc;
+}
+.likeBtnDiv {
+	position:absolute;
+	bottom: 5px;
+	left: 5px;
+}
+#countSpan2 {
+	font-size: 12px;
+}
+.savedProject > div > p:first-child {
+	text-align: center;
+	box-sizing: border-box;
+	padding: 15px 5px 5px 5px;
+}
+.savedProject > div > p:nth-child(2) {
+	text-align: center;
+	box-sizing: border-box;
+	padding: 5px;
+}
+.savedProject > div > span {
+	display: block;
+	text-align: center;
+	margin: 10px 0;
+}
+.savedProject > div > span > button {
+    width: 60px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+}
+.savedProject > div > span > button:hover {
+	background-color: #6dd5bc;
+}
+
+.myprojectWrap .slick-slide > div {
+	height: unset;
+}
+.noBoard {
+	text-align: center;
+	margin: 30px 0;
 }

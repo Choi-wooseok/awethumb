@@ -23,7 +23,7 @@ function imgReSize(image, size) {
 	let h = image.height();
 	let maxSize = size;
 	let boxSize = $("#boxSize");
-	console.log(w, h, size)
+	console.log(w, h, maxSize);
     if (w >= maxSize && h >= maxSize) {
     	if (w > h) {
 			image.css({'width':size, 'height':'auto'})

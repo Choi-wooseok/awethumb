@@ -85,7 +85,7 @@
 				<div id="modalBoard" class="board">
 		        	<div class="board-modal">
 			            <div> <button id="report" class="report" type="button">신 고</button></div>
-			            <div> <button id="share">퍼가기</button></div>
+<!-- 			            <div> <button id="share">퍼가기</button></div> -->
 		            	<div class="boardClose">취 소 </div>
 			        </div>
 			    </div>

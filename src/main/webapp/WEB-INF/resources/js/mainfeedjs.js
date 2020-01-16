@@ -45,7 +45,7 @@ let scrollTop = 0;
 // mainfeed 생성 및 페이징 --------------------------------------
 	   function MainfeedMakeAjax(searchWord) {
 		   if (searchWord) searchWord = "#" + searchWord;
-		   console.log("2", searchWord)
+//		   console.log("2", searchWord)
 			$.getJSON({
 				url: pageContextPath + "/mainfeed/mainfeedList.do",
 				data: {
@@ -283,7 +283,7 @@ let scrollTop = 0;
 			                							`)
 			                						if(typeof connectedUserNo !== 'undefined'){	
 	            										$(`#commentWrap${c.cmtNo}`).append(`
-				                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-cmtNo="${c.cmtNo}">
+				                							<button class="commentModal" id="${c.cmtNo}" data-cmtContent="${c.cmtContent}" data-userNo="${c.userNo}" data-cmtNo="${c.cmtNo}">
 				                								<i class="fas fa-ellipsis-h"></i>
 				                							</button>
 	            										</div>`)
@@ -386,18 +386,24 @@ let scrollTop = 0;
         });
             
 // 		댓글부분 모달창 띄우기 / 끄기
-        let cmtModalDetail = document.getElementById('cmtModalDetail')
+        let cmtModalDetail = document.getElementById('cmtModalDetail');
+        let unLoginCmtModal = document.getElementById('unLoginCmtModal');
         $(document).on('click', '.commentModal', (e) => {
         	let cmtNo = $(e.target).parents("button").data("cmtno");
         	let cmtContent = $(e.target).parents("button").data("cmtcontent");
-        	cmtModalDetail.style.display = "block";
+        	
+        	if (connectedUserNo == $(e.target).parents("button").data("userno")){
+        		$(cmtModalDetail).css("display", "block");
+        	} else {
+        		$(unLoginCmtModal).css("display", "block");
+        	}
         	$(".cmtUpdateBtn").data("cmtno", cmtNo);
         	$(".cmtUpdateBtn").data("cmtcontent", cmtContent);
         	$(".cmtDeleteBtn").data("cmtno", cmtNo);
-//        	console.log($(".cmtDeleteBtn").data("cmtno"))
         })
         $(".detailModalClose").click(() => {
         	cmtModalDetail.style.display = "none";
+        	unLoginCmtModal.style.display = "none";
         })
         
         // Get the modal

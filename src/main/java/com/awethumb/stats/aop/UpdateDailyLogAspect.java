@@ -34,28 +34,23 @@ public class UpdateDailyLogAspect{
 //	@Around("@annotation(UpdateDailyLog)")
 	@After("@annotation(UpdateDailyLog)")
 	public int updateDailyLog(JoinPoint joinPoint) throws Throwable {
-		System.out.println("에프터 진입테스트");
 		int result = 0;
 		String targetMethod = joinPoint.getSignature().getName();
-		System.out.println("타겟메서드 : " + targetMethod);
 		
 		switch(targetMethod) {
 			case "insertBoard" :
-				System.out.println("인설트 보드 진입성공");
 				result = service.dailyPostUpdate();
 				if(result != 0) {
 					System.out.println("일일 글작성수 로그 업데이트 성공");
 				}
 				break;
 			case "registUser" :
-				System.out.println("회원가입 완료 진입성공");
 				result = service.dailyJoinUpdate();
 				if(result != 0) {
 					System.out.println("일일 회원가입수 로그 업데이트 성공");
 				}
 				break;
 			case "viewCount" :
-				System.out.println("조회수 추가 진입성공");
 				result = service.dailyViewUpdate();
 				if(result != 0) {
 					System.out.println("일일 조회수 로그 업데이트 성공");

@@ -53,8 +53,8 @@ let scrollTop = 0;
 					searchWord
 				},
 				success: list => {
-					console.log("3", searchWord)
-					console.log("4", list)
+//					console.log("3", searchWord)
+//					console.log("4", list)
 					if(list.length == 0) {
 						$(window).off('scroll');
 						return;
@@ -83,7 +83,7 @@ let scrollTop = 0;
 				}
 				function mainContent (){
 				$.each(list, (i, c) => {
-					console.log("boardFilePath : " , c.boardFile);
+//					console.log("boardFilePath : " , c.boardFile);
 					let like = '';
 					if (typeof(connectedUserNo) !== 'undefined') {
 						like = likeAdmin(c.postNo, connectedUserNo, 1);
@@ -177,14 +177,14 @@ let scrollTop = 0;
 	function detailListAjax() {
 	$(document).on('click', '.feedImg', (e) => {
 		$("#detailFeedModal").css("display", "block")
-		console.log("post?" , $(e.target).data("postno"));
+//		console.log("post?" , $(e.target).data("postno"));
 		detailFeed($(e.target).data("postno"));
 	});
 	}
 	
 	function makeDetailFeed(detail) {
 		let postContent = renderHashtag(`${detail.postContent}`);
-		console.log("dL", detail);
+//		console.log("dL", detail);
 		let imgProfileURL = ""; 
 		$.get( {
 				url:pageContextPath + "/api/user/"+ detail.userNo + "/thumb",
@@ -517,8 +517,7 @@ let scrollTop = 0;
    					}),
    				dataType: "JSON",
    			}).done(result => {
-   				console.log("result", result);
-//   				console.log("hashFn", hashSplitFn(result, cmtContent, 2));
+//   				console.log("result", result);
    				$.ajax({
    					url: pageContextPath + "/mainfeed/insertHashtag.do",
    					method:"POST",
@@ -561,8 +560,8 @@ let scrollTop = 0;
 					dataType:"JSON",
 				})
 			}).done((result) => {
-				console.log('3', result);
-				console.log('4', cmtContent);
+//				console.log('3', result);
+//				console.log('4', cmtContent);
 				$.ajax({
 					url: pageContextPath + "/mainfeed/insertHashtag.do",
 					method:"POST",

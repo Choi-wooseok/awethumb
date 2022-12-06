@@ -308,7 +308,7 @@
 		<dependency>
 		    <groupId>commons-net</groupId>
 		    <artifactId>commons-net</artifactId>
-		    <version>3.6</version>
+		    <version>3.9.0</version>
 		</dependency>
 		
 		<!-- 랜덤 문자열 생성기 -->
